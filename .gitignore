@@ -19,3 +19,4 @@ Thumbs.db
 
 # Claude Code local state (project skills are kept)
 .claude/settings.local.json
+!backend/.env.testing

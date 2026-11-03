@@ -1,0 +1,21 @@
+# Build context is the repository root for all images.
+.git
+.env
+.env.*
+!.env.example
+.superpowers
+.claude
+docs
+backups
+**/node_modules
+frontend/dist
+backend/vendor
+backend/.env
+backend/bootstrap/cache/*.php
+backend/storage/logs/*
+backend/storage/framework/cache/data/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/app/private/*
+backend/storage/app/public/*
+docker/nginx/certs

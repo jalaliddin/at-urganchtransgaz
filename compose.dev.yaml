@@ -1,0 +1,45 @@
+# AT.urtg.uz — development overrides (bind-mounted code, Vite HMR, mailpit, test DB)
+
+x-backend-dev: &backend-dev
+  build:
+    target: dev
+    args:
+      UID: ${UID:-1000}
+      GID: ${GID:-1000}
+  image: aturtg-backend:dev
+  volumes:
+    - ./backend:/var/www/html
+
+services:
+  nginx:
+    ports:
+      - "${APP_PORT:-8095}:80"
+    volumes:
+      - ./docker/nginx/dev.conf.template:/etc/nginx/templates/default.conf.template:ro
+
+  frontend:
+    build:
+      target: dev
+    image: aturtg-frontend:dev
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      VITE_HMR_CLIENT_PORT: ${APP_PORT:-8095}
+      npm_config_cache: /tmp/.npm
+    volumes:
+      - ./frontend:/app
+
+  backend: *backend-dev
+  queue-worker: *backend-dev
+  scheduler: *backend-dev
+
+  mysql:
+    ports:
+      - "127.0.0.1:${DB_FORWARD_PORT:-33095}:3306"
+    volumes:
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${MAILPIT_PORT:-8025}:8025"
