@@ -1,0 +1,42 @@
+{
+  "app": {
+    "name": "AT.urtg.uz",
+    "fullName": "Axborot texnologiyalari xizmatini boshqarish tizimi"
+  },
+  "actions": {
+    "save": "Saqlash",
+    "cancel": "Bekor qilish",
+    "delete": "O'chirish",
+    "edit": "Tahrirlash",
+    "create": "Qo'shish",
+    "close": "Yopish",
+    "retry": "Qayta urinish",
+    "back": "Orqaga",
+    "search": "Qidirish",
+    "logout": "Chiqish",
+    "confirm": "Tasdiqlash",
+    "remove": "Olib tashlash",
+    "copy": "Nusxa olish",
+    "copied": "Nusxa olindi",
+    "open": "Ochish",
+    "reset": "Tozalash"
+  },
+  "states": {
+    "loading": "Yuklanmoqda…",
+    "saved": "Saqlandi",
+    "deleted": "O'chirildi"
+  },
+  "labels": {
+    "yes": "Ha",
+    "no": "Yo'q",
+    "all": "Barchasi",
+    "active": "Faol",
+    "inactive": "Faol emas",
+    "none": "—"
+  },
+  "errors": {
+    "network": "Server bilan aloqa yo'q. Internet ulanishini tekshirib, qayta urinib ko'ring.",
+    "generic": "So'rovni bajarib bo'lmadi.",
+    "requestId": "So'rov ID: {{id}}"
+  }
+}

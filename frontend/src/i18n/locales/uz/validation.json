@@ -1,0 +1,13 @@
+{
+  "required": "To'ldirilishi shart",
+  "passwordMismatch": "Parollar mos kelmadi",
+  "email": "Email manzil noto'g'ri",
+  "phone": "Telefon raqami noto'g'ri",
+  "tin": "STIR 9 ta raqamdan iborat bo'lishi kerak",
+  "username": "Faqat kichik lotin harflari, raqamlar va . _ - belgilari (3–64 ta)",
+  "code": "Faqat lotin harflari, raqamlar va . _ - belgilari",
+  "tooLong": "Juda uzun qiymat",
+  "date": "Sana noto'g'ri",
+  "dismissedAt": "Ishdan bo'shagan sanani kiriting",
+  "number": "Son kiriting"
+}
