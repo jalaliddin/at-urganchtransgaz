@@ -20,7 +20,11 @@ function Harness(props: { records?: Row[]; isLoading?: boolean; error?: unknown;
       storeKey="test-table"
       params={params}
       records={props.records}
-      meta={props.records ? { current_page: 1, per_page: 25, total: props.records.length, last_page: 1, from: 1, to: 1 } : undefined}
+      meta={
+        props.records
+          ? { current_page: 1, per_page: 25, total: props.records.length, last_page: 1, from: 1, to: 1 }
+          : undefined
+      }
       isLoading={props.isLoading ?? false}
       error={props.error}
       onRetry={props.onRetry ?? (() => {})}
@@ -51,7 +55,12 @@ describe('DataTable', () => {
 
   it('shows the error with a working retry button', async () => {
     const onRetry = vi.fn()
-    const error = new ApiError({ status: 500, code: 'server_error', message: 'Tizimda xatolik', requestId: 'abc-123' })
+    const error = new ApiError({
+      status: 500,
+      code: 'server_error',
+      message: 'Tizimda xatolik',
+      requestId: 'abc-123',
+    })
     renderWithProviders(<Harness error={error} onRetry={onRetry} />, { me: makeMe() })
 
     expect(await screen.findByText('Tizimda xatolik')).toBeInTheDocument()

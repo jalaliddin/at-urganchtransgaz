@@ -67,7 +67,11 @@ export function Sidebar({ collapsed, onNavigate }: Props) {
             onClick={toggleSidebar}
             aria-label={collapsed ? t('header.expand') : t('header.collapse')}
           >
-            {collapsed ? <IconLayoutSidebarLeftExpand size={20} /> : <IconLayoutSidebarLeftCollapse size={20} />}
+            {collapsed ? (
+              <IconLayoutSidebarLeftExpand size={20} />
+            ) : (
+              <IconLayoutSidebarLeftCollapse size={20} />
+            )}
           </ActionIcon>
         </Tooltip>
       </AppShell.Section>

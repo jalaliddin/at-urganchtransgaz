@@ -15,7 +15,8 @@ export function OrgContextSwitcher() {
   const orgContextId = useUiStore((s) => s.orgContextId)
   const setOrgContext = useUiStore((s) => s.setOrgContext)
 
-  const seesSeveral = me.is_super_admin || me.access.length > 1 || me.access.some((a) => a.include_descendants)
+  const seesSeveral =
+    me.is_super_admin || me.access.length > 1 || me.access.some((a) => a.include_descendants)
   if (!canView || !seesSeveral) return null
 
   return (

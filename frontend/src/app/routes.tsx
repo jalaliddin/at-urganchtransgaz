@@ -13,6 +13,10 @@ import { EmployeesPage } from '@/features/employees/EmployeesPage'
 import { NotFoundPage } from '@/features/errors/NotFoundPage'
 import { OrganizationDetailPage } from '@/features/organizations/OrganizationDetailPage'
 import { OrganizationsPage } from '@/features/organizations/OrganizationsPage'
+import { RoleEditorPage } from '@/features/roles/RoleEditorPage'
+import { RolesPage } from '@/features/roles/RolesPage'
+import { UserDetailPage } from '@/features/users/UserDetailPage'
+import { UsersPage } from '@/features/users/UsersPage'
 import { AppLayout } from '@/layouts/AppLayout/AppLayout'
 
 export const routes: RouteObject[] = [
@@ -57,6 +61,25 @@ export const routes: RouteObject[] = [
                 children: [
                   { index: true, element: <EmployeesPage /> },
                   { path: ':id', element: <EmployeeDetailPage />, handle: { crumb: 'employees:crumb' } },
+                ],
+              },
+              {
+                path: 'users',
+                element: <RequirePermission permission="users.view" />,
+                handle: { crumb: 'nav:items.users' },
+                children: [
+                  { index: true, element: <UsersPage /> },
+                  { path: ':id', element: <UserDetailPage />, handle: { crumb: 'users:crumb' } },
+                ],
+              },
+              {
+                path: 'roles',
+                element: <RequirePermission permission="roles.view" />,
+                handle: { crumb: 'nav:items.roles' },
+                children: [
+                  { index: true, element: <RolesPage /> },
+                  { path: 'new', element: <RoleEditorPage />, handle: { crumb: 'roles:form.createTitle' } },
+                  { path: ':id', element: <RoleEditorPage />, handle: { crumb: 'roles:crumb' } },
                 ],
               },
               { path: '*', element: <NotFoundPage /> },

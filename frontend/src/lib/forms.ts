@@ -1,5 +1,5 @@
 import type { TFunction } from 'i18next'
-import type { FieldError, FieldValues, Path, UseFormSetError } from 'react-hook-form'
+import type { FieldValues, Path, UseFormSetError } from 'react-hook-form'
 import { ApiError } from '@/api/errors'
 
 /**
@@ -24,7 +24,8 @@ export function applyApiErrors<T extends FieldValues>(error: unknown, setError: 
  * Zod errors carry translation keys (validation namespace); server errors carry
  * ready-to-show text.
  */
-export function fieldError(t: TFunction, error: FieldError | undefined): string | undefined {
-  if (!error?.message) return undefined
-  return error.type === 'server' ? error.message : t(`validation:${error.message}`)
+export function fieldError(t: TFunction, error: { type?: unknown; message?: unknown } | undefined): string | undefined {
+  const message = typeof error?.message === 'string' ? error.message : undefined
+  if (!message) return undefined
+  return error?.type === 'server' ? message : t(`validation:${message}`)
 }

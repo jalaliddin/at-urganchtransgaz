@@ -16,7 +16,10 @@ export function ForgotPasswordPage() {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<ForgotPasswordValues>({ resolver: zodResolver(forgotPasswordSchema), defaultValues: { login: '' } })
+  } = useForm<ForgotPasswordValues>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: { login: '' },
+  })
 
   const onSubmit = handleSubmit(async ({ login }) => {
     try {

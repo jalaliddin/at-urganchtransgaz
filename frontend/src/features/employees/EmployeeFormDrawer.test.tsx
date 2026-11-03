@@ -53,7 +53,9 @@ describe('EmployeeFormDrawer', () => {
     const department = await screen.findByRole('combobox', { name: i18n.t('employees:fields.department') })
     await waitFor(() => expect(department).toHaveValue("AT bo'limi"))
 
-    await userEvent.click(screen.getByRole('combobox', { name: new RegExp(i18n.t('employees:fields.organization')) }))
+    await userEvent.click(
+      screen.getByRole('combobox', { name: new RegExp(i18n.t('employees:fields.organization')) }),
+    )
     await userEvent.click(await screen.findByRole('option', { name: 'Urganch MGQB' }))
 
     await waitFor(() => expect(department).toHaveValue(''))

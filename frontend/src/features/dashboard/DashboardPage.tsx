@@ -16,7 +16,10 @@ export function DashboardPage() {
   const { t } = useTranslation('dashboard')
   const me = useCurrentUser()
   const orgContextId = useUiStore((s) => s.orgContextId)
-  const query = useQuery({ queryKey: ['dashboard', orgContextId], queryFn: () => fetchDashboard(orgContextId) })
+  const query = useQuery({
+    queryKey: ['dashboard', orgContextId],
+    queryFn: () => fetchDashboard(orgContextId),
+  })
 
   const header = (
     <PageHeader

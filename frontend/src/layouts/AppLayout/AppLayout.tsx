@@ -38,7 +38,13 @@ export function AppLayout() {
       <AppShell.Header px="md">
         <Group h="100%" justify="space-between" wrap="nowrap" gap="md">
           <Group gap="md" wrap="nowrap" style={{ minWidth: 0 }}>
-            <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" aria-label={t('nav:header.toggleNavigation')} />
+            <Burger
+              opened={mobileOpened}
+              onClick={toggleMobile}
+              hiddenFrom="sm"
+              size="sm"
+              aria-label={t('nav:header.toggleNavigation')}
+            />
             <Link to="/" className={classes.mark} aria-label={t('common:app.name')}>
               <BrandMark />
               <span>{t('common:app.name')}</span>

@@ -1,4 +1,15 @@
-import { ActionIcon, Anchor, Divider, Group, Indicator, Menu, ScrollArea, Stack, Text, UnstyledButton } from '@mantine/core'
+import {
+  ActionIcon,
+  Anchor,
+  Divider,
+  Group,
+  Indicator,
+  Menu,
+  ScrollArea,
+  Stack,
+  Text,
+  UnstyledButton,
+} from '@mantine/core'
 import { IconBell } from '@tabler/icons-react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router'
@@ -50,7 +61,13 @@ export function NotificationsMenu() {
           {recent.data?.data.length ? (
             <Stack gap={0}>
               {recent.data.data.map((n) => (
-                <UnstyledButton key={n.id} onClick={() => open(n)} px="md" py="sm" style={{ borderBottom: '1px solid var(--mantine-color-default-border)' }}>
+                <UnstyledButton
+                  key={n.id}
+                  onClick={() => open(n)}
+                  px="md"
+                  py="sm"
+                  style={{ borderBottom: '1px solid var(--mantine-color-default-border)' }}
+                >
                   <Text size="sm" fw={n.read_at ? 400 : 600}>
                     {n.title_key ? t(`common:${n.title_key}`, n.params) : n.type}
                   </Text>

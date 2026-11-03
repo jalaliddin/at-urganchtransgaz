@@ -36,7 +36,8 @@ export function GlobalSearch() {
     .filter((item) => !query.trim() || t(item.labelKey).toLowerCase().includes(query.trim().toLowerCase()))
 
   const data = debounced.length >= 2 ? results.data : undefined
-  const hasResults = pages.length > 0 || Boolean(data?.organizations?.length || data?.employees?.length || data?.users?.length)
+  const hasResults =
+    pages.length > 0 || Boolean(data?.organizations?.length || data?.employees?.length || data?.users?.length)
 
   return (
     <>
@@ -53,19 +54,40 @@ export function GlobalSearch() {
       >
         {t('header.search')}
       </Button>
-      <ActionIcon variant="subtle" color="gray" size="lg" onClick={spotlight.open} hiddenFrom="sm" aria-label={t('header.search')}>
+      <ActionIcon
+        variant="subtle"
+        color="gray"
+        size="lg"
+        onClick={spotlight.open}
+        hiddenFrom="sm"
+        aria-label={t('header.search')}
+      >
         <IconSearch size={20} />
       </ActionIcon>
 
-      <Spotlight.Root query={query} onQueryChange={setQuery} shortcut={['mod + K']} scrollable maxHeight={480}>
-        <Spotlight.Search placeholder={t('header.searchPlaceholder')} leftSection={<IconSearch size={18} />} />
+      <Spotlight.Root
+        query={query}
+        onQueryChange={setQuery}
+        shortcut={['mod + K']}
+        scrollable
+        maxHeight={480}
+      >
+        <Spotlight.Search
+          placeholder={t('header.searchPlaceholder')}
+          leftSection={<IconSearch size={18} />}
+        />
         <Spotlight.ActionsList>
           {pages.length > 0 && (
             <Spotlight.ActionsGroup label={t('header.pages')}>
               {pages.map((item) => {
                 const Icon = item.icon
                 return (
-                  <Spotlight.Action key={item.key} onClick={() => go(item.path)} leftSection={<Icon size={18} />} label={t(item.labelKey)} />
+                  <Spotlight.Action
+                    key={item.key}
+                    onClick={() => go(item.path)}
+                    leftSection={<Icon size={18} />}
+                    label={t(item.labelKey)}
+                  />
                 )
               })}
             </Spotlight.ActionsGroup>
@@ -73,21 +95,39 @@ export function GlobalSearch() {
           {data?.organizations?.length ? (
             <Spotlight.ActionsGroup label={t('search.organizations')}>
               {data.organizations.map((o) => (
-                <Spotlight.Action key={`o${o.id}`} onClick={() => go(`/organizations/${o.id}`)} leftSection={<IconBuildingCommunity size={18} />} label={o.name} description={o.code ?? undefined} />
+                <Spotlight.Action
+                  key={`o${o.id}`}
+                  onClick={() => go(`/organizations/${o.id}`)}
+                  leftSection={<IconBuildingCommunity size={18} />}
+                  label={o.name}
+                  description={o.code ?? undefined}
+                />
               ))}
             </Spotlight.ActionsGroup>
           ) : null}
           {data?.employees?.length ? (
             <Spotlight.ActionsGroup label={t('search.employees')}>
               {data.employees.map((e) => (
-                <Spotlight.Action key={`e${e.id}`} onClick={() => go(`/employees/${e.id}`)} leftSection={<IconUsers size={18} />} label={e.full_name} description={[e.position, e.organization?.name].filter(Boolean).join(', ')} />
+                <Spotlight.Action
+                  key={`e${e.id}`}
+                  onClick={() => go(`/employees/${e.id}`)}
+                  leftSection={<IconUsers size={18} />}
+                  label={e.full_name}
+                  description={[e.position, e.organization?.name].filter(Boolean).join(', ')}
+                />
               ))}
             </Spotlight.ActionsGroup>
           ) : null}
           {data?.users?.length ? (
             <Spotlight.ActionsGroup label={t('search.users')}>
               {data.users.map((u) => (
-                <Spotlight.Action key={`u${u.id}`} onClick={() => go(`/users/${u.id}`)} leftSection={<IconUser size={18} />} label={u.name} description={u.username} />
+                <Spotlight.Action
+                  key={`u${u.id}`}
+                  onClick={() => go(`/users/${u.id}`)}
+                  leftSection={<IconUser size={18} />}
+                  label={u.name}
+                  description={u.username}
+                />
               ))}
             </Spotlight.ActionsGroup>
           ) : null}

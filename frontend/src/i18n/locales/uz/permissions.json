@@ -1,0 +1,24 @@
+{
+  "modules": {
+    "dashboard": "Boshqaruv paneli",
+    "organizations": "Tashkilotlar",
+    "departments": "Bo'limlar",
+    "employees": "Xodimlar",
+    "users": "Foydalanuvchilar",
+    "roles": "Rollar",
+    "audit": "Audit jurnali",
+    "settings": "Sozlamalar"
+  },
+  "actions": {
+    "view": "Ko'rish",
+    "create": "Qo'shish",
+    "update": "Tahrirlash",
+    "delete": "O'chirish",
+    "manage_it_staff": "AT mas'ullarini biriktirish",
+    "deactivate": "Faolsizlantirish",
+    "reset_password": "Parolni tiklash",
+    "manage_access": "Rollar va kirish doirasi",
+    "manage": "Boshqarish"
+  },
+  "selectAll": "Barchasi"
+}

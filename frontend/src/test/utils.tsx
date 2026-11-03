@@ -9,7 +9,9 @@ import { meQueryKey } from '@/features/auth/queries'
 import type { Me } from '@/features/auth/types'
 
 export function makeQueryClient(): QueryClient {
-  return new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity }, mutations: { retry: false } } })
+  return new QueryClient({
+    defaultOptions: { queries: { retry: false, gcTime: Infinity }, mutations: { retry: false } },
+  })
 }
 
 interface Options {
@@ -29,10 +31,9 @@ export function renderWithProviders(element: ReactElement, options: Options = {}
   if (options.me !== undefined) {
     queryClient.setQueryData(meQueryKey, options.me)
   }
-  const router = createMemoryRouter(
-    [{ path: options.path ?? '/', element }, ...(options.routes ?? [])],
-    { initialEntries: [options.route ?? options.path ?? '/'] },
-  )
+  const router = createMemoryRouter([{ path: options.path ?? '/', element }, ...(options.routes ?? [])], {
+    initialEntries: [options.route ?? options.path ?? '/'],
+  })
 
   const result = render(
     <MantineProvider theme={theme} env="test">

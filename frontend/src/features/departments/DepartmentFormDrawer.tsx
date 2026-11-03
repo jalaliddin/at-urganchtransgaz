@@ -1,3 +1,4 @@
+import { MONO_INPUT_STYLES } from '@/lib/ui'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Drawer, Group, NumberInput, Stack, Switch, Text, TextInput } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
@@ -102,7 +103,7 @@ export function DepartmentFormDrawer({ opened, onClose, department, organization
           <Group grow align="flex-start">
             <TextInput
               label={t('fields.code')}
-              ff="monospace"
+              styles={MONO_INPUT_STYLES}
               error={fieldError(t, errors.code)}
               {...register('code')}
             />

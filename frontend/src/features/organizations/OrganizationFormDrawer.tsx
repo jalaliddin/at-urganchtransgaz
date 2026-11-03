@@ -1,3 +1,4 @@
+import { MONO_INPUT_STYLES } from '@/lib/ui'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Button,
@@ -135,7 +136,7 @@ export function OrganizationFormDrawer({ opened, onClose, organization, parentId
             <TextInput
               label={t('fields.code')}
               withAsterisk
-              ff="monospace"
+              styles={MONO_INPUT_STYLES}
               autoCapitalize="characters"
               error={fieldError(t, errors.code)}
               {...register('code')}

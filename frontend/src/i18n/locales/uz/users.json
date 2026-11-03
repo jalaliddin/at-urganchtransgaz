@@ -1,0 +1,81 @@
+{
+  "title": "Foydalanuvchilar",
+  "description": "Tizim hisoblari, rollar va tashkilotlar bo'yicha kirish doirasi",
+  "crumb": "Foydalanuvchi",
+  "actions": {
+    "create": "Foydalanuvchi qo'shish",
+    "edit": "Tahrirlash",
+    "resetPassword": "Vaqtinchalik parol berish",
+    "deactivate": "Faolsizlantirish",
+    "activate": "Faollashtirish",
+    "saveRoles": "Rollarni saqlash",
+    "saveAccess": "Kirish doirasini saqlash",
+    "addAccess": "Tashkilot qo'shish"
+  },
+  "fields": {
+    "username": "Login",
+    "name": "Ko'rinadigan ism",
+    "email": "Email",
+    "locale": "Til",
+    "organization": "Asosiy tashkilot",
+    "employee": "Xodim kartasi",
+    "roles": "Rollar",
+    "status": "Holat",
+    "last_login_at": "Oxirgi kirish",
+    "created_at": "Yaratilgan",
+    "access": "Kirish doirasi",
+    "include_descendants": "Quyi tashkilotlar bilan"
+  },
+  "hints": {
+    "username": "Kichik lotin harflari, raqamlar va . _ - belgilari",
+    "employee": "Xodim tanlansa, asosiy tashkilot xodim tashkilotidan olinadi",
+    "organization": "Foydalanuvchining ish joyi; kirish doirasi alohida belgilanadi",
+    "access": "Foydalanuvchi qaysi tashkilotlar ma'lumotlarini ko'rishi mumkin. \"Quyi tashkilotlar bilan\" belgilansa, kelajakda qo'shiladigan quyi tashkilotlar ham kiradi.",
+    "selfManage": "O'z rollaringiz va kirish doirangizni o'zgartira olmaysiz.",
+    "noRolesView": "Rollar ro'yxatini ko'rish uchun ruxsat yo'q."
+  },
+  "status": {
+    "active": "Faol",
+    "inactive": "Faol emas",
+    "mustChange": "Parolni almashtirishi kerak"
+  },
+  "form": {
+    "createTitle": "Yangi foydalanuvchi",
+    "editTitle": "Foydalanuvchini tahrirlash",
+    "created": "Foydalanuvchi yaratildi",
+    "updated": "O'zgarishlar saqlandi",
+    "rolesSaved": "Rollar saqlandi",
+    "accessSaved": "Kirish doirasi saqlandi"
+  },
+  "temporary": {
+    "title": "Vaqtinchalik parol",
+    "intro": "{{username}} uchun vaqtinchalik parol:",
+    "warning": "Parol faqat hozir ko'rsatiladi va tizimda saqlanmaydi. Uni foydalanuvchiga xavfsiz yo'l bilan yetkazing — birinchi kirishda u yangi parol o'rnatadi.",
+    "done": "Parolni yetkazdim"
+  },
+  "confirm": {
+    "deactivate": "{{name}} faolsizlantirilsinmi? Uning barcha sessiyalari darhol yopiladi.",
+    "activate": "{{name}} qayta faollashtirilsinmi?",
+    "resetPassword": "{{name}} uchun yangi vaqtinchalik parol yaratilsinmi? Joriy paroli va sessiyalari bekor qilinadi.",
+    "deactivated": "Foydalanuvchi faolsizlantirildi",
+    "activated": "Foydalanuvchi faollashtirildi"
+  },
+  "filters": {
+    "search": "Login, ism yoki email",
+    "organization": "Tashkilot",
+    "role": "Rol",
+    "allRoles": "Barcha rollar",
+    "status": "Holat",
+    "any": "Barchasi"
+  },
+  "empty": {
+    "title": "Foydalanuvchilar topilmadi",
+    "description": "Qidiruv yoki filtrlarni o'zgartiring."
+  },
+  "tabs": {
+    "info": "Ma'lumotlar",
+    "access": "Rollar va kirish"
+  },
+  "never": "Hali kirmagan",
+  "system": "Tizim hisobi"
+}

@@ -132,7 +132,9 @@ function TableBody<T extends { id: number | string }>(props: DataTableProps<T>) 
     verticalSpacing: 'sm' as const,
     horizontalSpacing: 'md' as const,
     noRecordsText: props.emptyTitle,
-    emptyState: <EmptyState title={props.emptyTitle} description={props.emptyDescription} action={props.emptyAction} />,
+    emptyState: (
+      <EmptyState title={props.emptyTitle} description={props.emptyDescription} action={props.emptyAction} />
+    ),
     sortStatus: params.sortStatus as DataTableSortStatus<T>,
     onSortStatusChange: params.setSortStatus as (status: DataTableSortStatus<T>) => void,
     onRowClick: props.onRowClick ? ({ record }: { record: T }) => props.onRowClick?.(record) : undefined,

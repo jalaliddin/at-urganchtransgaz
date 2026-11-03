@@ -24,7 +24,9 @@ export function AuthLayout({ title, description, children }: Props) {
         <div className={classes.cartouche}>
           <div className={classes.systemName}>{settings?.system_name ?? t('app.name')}</div>
           <div className={classes.tagline}>{t('app.fullName')}</div>
-          {settings?.organization_name && <div className={classes.organization}>{settings.organization_name}</div>}
+          {settings?.organization_name && (
+            <div className={classes.organization}>{settings.organization_name}</div>
+          )}
         </div>
       </aside>
 

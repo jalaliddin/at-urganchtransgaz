@@ -7,7 +7,12 @@ import { makeMe } from '@/test/fixtures'
 import { server } from '@/test/server'
 import { renderWithProviders } from '@/test/utils'
 
-const profile = { name: 'Karimov Aziz', username: 'a.karimov', organization: { id: 5, name: 'Xorazm GTS' }, roles: ['Oddiy xodim'] }
+const profile = {
+  name: 'Karimov Aziz',
+  username: 'a.karimov',
+  organization: { id: 5, name: 'Xorazm GTS' },
+  roles: ['Oddiy xodim'],
+}
 
 describe('DashboardPage', () => {
   it('renders only the widgets returned by the API', async () => {
@@ -43,7 +48,9 @@ describe('DashboardPage', () => {
   it('warns when organizations have no IT responsible', async () => {
     server.use(
       http.get('*/api/v1/dashboard', () =>
-        HttpResponse.json({ data: { profile, it_coverage: { with_responsible: 2, without_responsible: 1 } } }),
+        HttpResponse.json({
+          data: { profile, it_coverage: { with_responsible: 2, without_responsible: 1 } },
+        }),
       ),
     )
     renderWithProviders(<DashboardPage />, { me: makeMe() })

@@ -35,7 +35,11 @@ export function ChangePasswordPage() {
     }
   })
 
-  const reason = me?.must_change_password ? t('change.forced') : me?.password_expired ? t('change.expired') : undefined
+  const reason = me?.must_change_password
+    ? t('change.forced')
+    : me?.password_expired
+      ? t('change.expired')
+      : undefined
 
   return (
     <AuthLayout title={t('change.title')} description={reason}>

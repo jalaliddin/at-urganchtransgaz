@@ -1,0 +1,36 @@
+{
+  "title": "Rollar va ruxsatlar",
+  "description": "Rollar ruxsatlar to'plamidir; ma'lumot doirasi foydalanuvchining kirish doirasi bilan belgilanadi",
+  "crumb": "Rol",
+  "actions": {
+    "create": "Rol qo'shish",
+    "delete": "Rolni o'chirish",
+    "save": "Saqlash"
+  },
+  "fields": {
+    "name": "Tizim nomi",
+    "display_name": "Nomi",
+    "description": "Tavsif",
+    "permissions": "Ruxsatlar",
+    "users": "Foydalanuvchilar",
+    "type": "Turi"
+  },
+  "hints": {
+    "name": "Kichik lotin harflari, raqamlar va chiziqcha; keyin o'zgartirib bo'lmaydi",
+    "superAdmin": "Super Admin barcha tekshiruvlardan o'tadi — uning ruxsatlarini tahrirlash kerak emas."
+  },
+  "system": "Tizim roli",
+  "custom": "Qo'shimcha rol",
+  "form": {
+    "createTitle": "Yangi rol",
+    "created": "Rol yaratildi",
+    "updated": "Rol saqlandi"
+  },
+  "delete": {
+    "message": "\"{{name}}\" roli o'chirilsinmi?",
+    "done": "Rol o'chirildi"
+  },
+  "empty": {
+    "title": "Rollar topilmadi"
+  }
+}

@@ -1,3 +1,4 @@
+import { MONO_INPUT_STYLES } from '@/lib/ui'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Button,
@@ -144,7 +145,7 @@ export function EmployeeFormDrawer({ opened, onClose, employee, organizationId }
             />
             <TextInput
               label={t('fields.personnel_number')}
-              ff="monospace"
+              styles={MONO_INPUT_STYLES}
               error={fieldError(t, errors.personnel_number)}
               {...register('personnel_number')}
             />

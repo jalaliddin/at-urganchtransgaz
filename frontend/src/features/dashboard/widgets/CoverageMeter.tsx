@@ -25,7 +25,9 @@ export function CoverageMeter({ data }: { data: NonNullable<DashboardData['it_co
           ) : (
             <IconCircleCheck size={16} color="var(--mantine-color-green-7)" aria-hidden />
           )}
-          <Text size="sm">{missing > 0 ? t('coverage.missing', { count: missing }) : t('coverage.complete')}</Text>
+          <Text size="sm">
+            {missing > 0 ? t('coverage.missing', { count: missing }) : t('coverage.complete')}
+          </Text>
         </Group>
         {missing > 0 && (
           <Anchor component={Link} to="/organizations?view=list&filter[is_active]=1" size="sm">

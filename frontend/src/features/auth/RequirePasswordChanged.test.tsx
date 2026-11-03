@@ -4,9 +4,7 @@ import { RequirePasswordChanged } from '@/features/auth/RequirePasswordChanged'
 import { makeMe } from '@/test/fixtures'
 import { renderWithProviders } from '@/test/utils'
 
-const routes = [
-  { path: '/change-password', element: <div>Parolni almashtirish</div> },
-]
+const routes = [{ path: '/change-password', element: <div>Parolni almashtirish</div> }]
 
 describe('RequirePasswordChanged', () => {
   it('redirects to /change-password when a change is required', async () => {
