@@ -61,11 +61,13 @@ Integratsiyalar (keyingi bosqichlar) uchun `Authorization: Bearer <token>`.
 | 403 | `forbidden` | Ruxsat yo'q |
 | 403 | `password_change_required` | Avval parolni almashtirish kerak |
 | 404 | `not_found` | Obyekt yo'q **yoki doiradan tashqarida** |
+| 405 | `method_not_allowed` | Yo'l uchun bu HTTP metod qo'llab-quvvatlanmaydi |
 | 409 | `conflict` | Biznes qoidasi buzildi (masalan, bolalari bor tashkilotni o'chirish) |
 | 419 | `csrf_token_mismatch` | CSRF token eskirgan |
 | 422 | `validation_error` | Validatsiya |
 | 429 | `too_many_requests` | Rate limit (`Retry-After` header) |
-| 500 | `server_error` | Ichki xato — tafsilotlarsiz, `request_id` bilan |
+| 500 | `server_error` | Ichki xato — tafsilotlarsiz, `request_id` bilan (`APP_DEBUG=true` bo'lsa `debug` bloki qo'shiladi) |
+| boshqa | `http_error` | Yuqoridagilarga kirmaydigan HTTP xatolar |
 
 Har bir javobda `X-Request-Id` header bo'ladi — loglar va audit bilan bog'lash uchun.
 

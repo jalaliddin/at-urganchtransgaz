@@ -68,6 +68,12 @@ return [
     'timezone' => 'UTC',
 
     /*
+    | Comma-separated IPs/CIDRs of reverse proxies in front of nginx (or "*").
+    | Applied in AppServiceProvider via TrustProxies::at().
+    */
+    'trusted_proxies' => env('TRUSTED_PROXIES'),
+
+    /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------
