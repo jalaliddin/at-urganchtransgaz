@@ -12,6 +12,7 @@ use App\Models\SystemSetting;
 use App\Models\User;
 use App\Models\UserOrganizationAccess;
 use App\Support\Access\OrganizationAccessResolver;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -34,6 +35,9 @@ class AppServiceProvider extends ServiceProvider
         $this->configureAuthorization();
         $this->configureRateLimiting();
         $this->configureTrustedProxies();
+
+        ResetPassword::createUrlUsing(fn ($user, string $token): string => rtrim((string) config('app.url'), '/')
+            .'/reset-password?token='.urlencode($token).'&email='.urlencode((string) $user->email));
     }
 
     private function configureModels(): void

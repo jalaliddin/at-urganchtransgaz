@@ -33,7 +33,9 @@ trait InteractsWithAccess
             $this->grantAccess($user, $organization, $descendants);
         }
 
-        return $user;
+        // Reload so DB defaults are present: actingAs() marks the model as not
+        // recently created, which makes strict mode reject missing attributes.
+        return $user->fresh();
     }
 
     protected function grantAccess(User $user, Organization $organization, bool $descendants = false): void

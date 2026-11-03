@@ -74,6 +74,17 @@ return [
     'trusted_proxies' => env('TRUSTED_PROXIES'),
 
     /*
+    | First Super Admin for `php artisan app:create-super-admin --from-env`.
+    | Leave empty in .env after the account exists.
+    */
+    'super_admin' => [
+        'username' => env('SUPER_ADMIN_USERNAME'),
+        'password' => env('SUPER_ADMIN_PASSWORD'),
+        'name' => env('SUPER_ADMIN_NAME'),
+        'email' => env('SUPER_ADMIN_EMAIL'),
+    ],
+
+    /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------

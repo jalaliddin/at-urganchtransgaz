@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Models\Concerns\Auditable;
 use App\Models\Concerns\BelongsToOrganization;
 use App\Models\Concerns\HasUserStamps;
+use App\Notifications\ResetPasswordLink;
+use App\Services\Settings\SettingsService;
 use App\Support\Access\AccessScope;
 use App\Support\Access\OrganizationAccessResolver;
 use App\Support\Permissions\Roles;
@@ -87,6 +89,20 @@ class User extends Authenticatable
     public function canAccessOrganization(?int $organizationId): bool
     {
         return $this->accessScope()->allows($organizationId);
+    }
+
+    /** Password older than security.password_expires_days (0 = never expires). */
+    public function passwordExpired(): bool
+    {
+        $days = (int) app(SettingsService::class)->get('security.password_expires_days');
+
+        return $days > 0
+            && ($this->password_changed_at === null || $this->password_changed_at->lt(now()->subDays($days)));
+    }
+
+    public function sendPasswordResetNotification(#[\SensitiveParameter] $token): void
+    {
+        $this->notify(new ResetPasswordLink($token));
     }
 
     public function isSuperAdmin(): bool
