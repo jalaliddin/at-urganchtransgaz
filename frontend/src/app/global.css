@@ -1,0 +1,11 @@
+/*
+ * Uzbek Latin uses the modifier letters ʻ (U+02BB) and ʼ (U+02BC) inside words (Oʻzbekiston,
+ * Gʻulomov). IBM Plex draws them with wide side bearings, which reads as "O ʻ zbekiston".
+ * This face takes only those two code points from common system fonts with tight glyphs;
+ * when none is installed the browser falls back to IBM Plex.
+ */
+@font-face {
+  font-family: 'Uz Apostrophe';
+  src: local('Arial'), local('Segoe UI'), local('Roboto'), local('Liberation Sans'), local('DejaVu Sans');
+  unicode-range: U+02BB-02BC;
+}

@@ -15,7 +15,10 @@ interface Props extends Omit<SelectProps, 'data' | 'value' | 'onChange' | 'searc
 export function EmployeeSelect({ value, onChange, organizationId, ...props }: Props) {
   const [search, setSearch] = useState('')
   const [debounced] = useDebouncedValue(search, 300)
-  const params: Record<string, string | number> = { per_page: 30, 'filter[status]': 'active,on_leave,business_trip' }
+  const params: Record<string, string | number> = {
+    per_page: 30,
+    'filter[status]': 'active,on_leave,business_trip',
+  }
   if (debounced.trim()) params.search = debounced.trim()
   if (organizationId) params['filter[organization]'] = organizationId
 

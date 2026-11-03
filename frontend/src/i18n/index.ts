@@ -3,6 +3,8 @@ import { initReactI18next } from 'react-i18next'
 import ruAuth from './locales/ru/auth.json'
 import ruCommon from './locales/ru/common.json'
 import ruDashboard from './locales/ru/dashboard.json'
+import ruDepartments from './locales/ru/departments.json'
+import ruEmployees from './locales/ru/employees.json'
 import ruNav from './locales/ru/nav.json'
 import ruOrganizations from './locales/ru/organizations.json'
 import ruTable from './locales/ru/table.json'
@@ -10,6 +12,8 @@ import ruValidation from './locales/ru/validation.json'
 import uzAuth from './locales/uz/auth.json'
 import uzCommon from './locales/uz/common.json'
 import uzDashboard from './locales/uz/dashboard.json'
+import uzDepartments from './locales/uz/departments.json'
+import uzEmployees from './locales/uz/employees.json'
 import uzNav from './locales/uz/nav.json'
 import uzOrganizations from './locales/uz/organizations.json'
 import uzTable from './locales/uz/table.json'
@@ -21,8 +25,8 @@ export type Language = (typeof SUPPORTED_LANGUAGES)[number]
 const STORAGE_KEY = 'at.locale'
 
 export const resources = {
-  uz: { common: uzCommon, auth: uzAuth, validation: uzValidation, nav: uzNav, table: uzTable, dashboard: uzDashboard, organizations: uzOrganizations },
-  ru: { common: ruCommon, auth: ruAuth, validation: ruValidation, nav: ruNav, table: ruTable, dashboard: ruDashboard, organizations: ruOrganizations },
+  uz: { common: uzCommon, auth: uzAuth, validation: uzValidation, nav: uzNav, table: uzTable, dashboard: uzDashboard, organizations: uzOrganizations, departments: uzDepartments, employees: uzEmployees },
+  ru: { common: ruCommon, auth: ruAuth, validation: ruValidation, nav: ruNav, table: ruTable, dashboard: ruDashboard, organizations: ruOrganizations, departments: ruDepartments, employees: ruEmployees },
 } as const
 
 export function isLanguage(value: unknown): value is Language {

@@ -1,0 +1,62 @@
+{
+  "title": "Xodimlar",
+  "description": "Tashkilotlar xodimlari va ularning holati",
+  "crumb": "Xodim",
+  "actions": {
+    "create": "Xodim qo'shish",
+    "edit": "Tahrirlash",
+    "delete": "O'chirish"
+  },
+  "fields": {
+    "organization": "Tashkilot",
+    "department": "Bo'lim",
+    "last_name": "Familiya",
+    "first_name": "Ism",
+    "middle_name": "Otasining ismi",
+    "full_name": "F.I.Sh.",
+    "position": "Lavozim",
+    "personnel_number": "Tabel raqami",
+    "phone": "Telefon",
+    "internal_phone": "Ichki telefon",
+    "email": "Email",
+    "status": "Holat",
+    "hired_at": "Ishga qabul qilingan",
+    "dismissed_at": "Ishdan bo'shagan sana",
+    "notes": "Izoh",
+    "user": "Tizim foydalanuvchisi",
+    "created_at": "Yaratilgan",
+    "updated_at": "O'zgartirilgan"
+  },
+  "sections": {
+    "work": "Ish joyi",
+    "person": "Shaxsiy ma'lumotlar",
+    "contacts": "Aloqa",
+    "status": "Holat"
+  },
+  "form": {
+    "createTitle": "Yangi xodim",
+    "editTitle": "Xodimni tahrirlash",
+    "created": "Xodim qo'shildi",
+    "updated": "O'zgarishlar saqlandi",
+    "dismissTitle": "Xodimni ishdan bo'shatish",
+    "dismissMessage": "Xodim ishdan bo'shagan deb belgilanadi. Unga bog'langan tizim foydalanuvchisi darhol faolsizlantiriladi va sessiyalari yopiladi.",
+    "dismissConfirm": "Ishdan bo'shatish",
+    "departmentHint": "Avval tashkilotni tanlang"
+  },
+  "delete": {
+    "message": "\"{{name}}\" o'chirilsinmi? Ishdan ketgan xodimni o'chirish o'rniga \"Ishdan bo'shagan\" holatini tanlang — tarix saqlanadi.",
+    "done": "Xodim o'chirildi"
+  },
+  "filters": {
+    "search": "F.I.Sh., tabel raqami yoki telefon",
+    "organization": "Tashkilot",
+    "department": "Bo'lim",
+    "status": "Holat",
+    "allStatuses": "Barcha holatlar"
+  },
+  "empty": {
+    "title": "Xodimlar topilmadi",
+    "description": "Qidiruv yoki filtrlarni o'zgartiring."
+  },
+  "noUser": "Bog'lanmagan"
+}

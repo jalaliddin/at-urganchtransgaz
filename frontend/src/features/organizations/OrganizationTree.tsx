@@ -5,7 +5,12 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import type { OrganizationTreeNode } from './types'
 
-function Node({ node, level, expanded, toggle }: {
+function Node({
+  node,
+  level,
+  expanded,
+  toggle,
+}: {
   node: OrganizationTreeNode
   level: number
   expanded: Set<number>
@@ -16,8 +21,20 @@ function Node({ node, level, expanded, toggle }: {
   const hasChildren = node.children.length > 0
 
   return (
-    <li role="treeitem" aria-expanded={hasChildren ? open : undefined} aria-level={level + 1} aria-selected={false}>
-      <Group gap={6} wrap="nowrap" py={6} pl={level * 24} pr="sm" style={{ borderBottom: '1px solid var(--mantine-color-default-border)' }}>
+    <li
+      role="treeitem"
+      aria-expanded={hasChildren ? open : undefined}
+      aria-level={level + 1}
+      aria-selected={false}
+    >
+      <Group
+        gap={6}
+        wrap="nowrap"
+        py={6}
+        pl={level * 24}
+        pr="sm"
+        style={{ borderBottom: '1px solid var(--mantine-color-default-border)' }}
+      >
         {hasChildren ? (
           <ActionIcon
             variant="subtle"
@@ -31,7 +48,13 @@ function Node({ node, level, expanded, toggle }: {
         ) : (
           <Box w={22} />
         )}
-        <Anchor component={Link} to={`/organizations/${node.id}`} fw={level === 0 ? 600 : 500} size="sm" truncate>
+        <Anchor
+          component={Link}
+          to={`/organizations/${node.id}`}
+          fw={level === 0 ? 600 : 500}
+          size="sm"
+          truncate
+        >
           {node.name}
         </Anchor>
         <Text size="xs" c="dimmed" style={{ whiteSpace: 'nowrap' }}>

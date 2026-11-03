@@ -1,5 +1,18 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, Divider, Drawer, Group, NumberInput, Select, SimpleGrid, Stack, Switch, Text, Textarea, TextInput } from '@mantine/core'
+import {
+  Button,
+  Divider,
+  Drawer,
+  Group,
+  NumberInput,
+  Select,
+  SimpleGrid,
+  Stack,
+  Switch,
+  Text,
+  Textarea,
+  TextInput,
+} from '@mantine/core'
 import { notifications } from '@mantine/notifications'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -107,9 +120,18 @@ export function OrganizationFormDrawer({ opened, onClose, organization, parentId
               />
             )}
           />
-          <TextInput label={t('fields.name')} withAsterisk error={fieldError(t, errors.name)} {...register('name')} />
+          <TextInput
+            label={t('fields.name')}
+            withAsterisk
+            error={fieldError(t, errors.name)}
+            {...register('name')}
+          />
           <SimpleGrid cols={{ base: 1, sm: 2 }}>
-            <TextInput label={t('fields.short_name')} error={fieldError(t, errors.short_name)} {...register('short_name')} />
+            <TextInput
+              label={t('fields.short_name')}
+              error={fieldError(t, errors.short_name)}
+              {...register('short_name')}
+            />
             <TextInput
               label={t('fields.code')}
               withAsterisk
@@ -119,18 +141,44 @@ export function OrganizationFormDrawer({ opened, onClose, organization, parentId
               {...register('code')}
             />
           </SimpleGrid>
-          <TextInput label={t('fields.tin')} inputMode="numeric" maxLength={9} error={fieldError(t, errors.tin)} {...register('tin')} />
+          <TextInput
+            label={t('fields.tin')}
+            inputMode="numeric"
+            maxLength={9}
+            error={fieldError(t, errors.tin)}
+            {...register('tin')}
+          />
 
           <Divider />
           <Text fw={600} size="sm">
             {t('sections.contacts')}
           </Text>
-          <Textarea label={t('fields.address')} autosize minRows={2} error={fieldError(t, errors.address)} {...register('address')} />
+          <Textarea
+            label={t('fields.address')}
+            autosize
+            minRows={2}
+            error={fieldError(t, errors.address)}
+            {...register('address')}
+          />
           <SimpleGrid cols={{ base: 1, sm: 2 }}>
-            <TextInput label={t('fields.phone')} type="tel" error={fieldError(t, errors.phone)} {...register('phone')} />
-            <TextInput label={t('fields.email')} type="email" error={fieldError(t, errors.email)} {...register('email')} />
+            <TextInput
+              label={t('fields.phone')}
+              type="tel"
+              error={fieldError(t, errors.phone)}
+              {...register('phone')}
+            />
+            <TextInput
+              label={t('fields.email')}
+              type="email"
+              error={fieldError(t, errors.email)}
+              {...register('email')}
+            />
           </SimpleGrid>
-          <TextInput label={t('fields.head_name')} error={fieldError(t, errors.head_name)} {...register('head_name')} />
+          <TextInput
+            label={t('fields.head_name')}
+            error={fieldError(t, errors.head_name)}
+            {...register('head_name')}
+          />
 
           <Divider />
           <Text fw={600} size="sm">

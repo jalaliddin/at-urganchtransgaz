@@ -10,7 +10,12 @@ interface ConfirmOptions {
 }
 
 /** Explicit confirmation for destructive or state-changing actions. Resolves true on confirm. */
-export function confirmAction({ title, message, confirmLabel, danger = false }: ConfirmOptions): Promise<boolean> {
+export function confirmAction({
+  title,
+  message,
+  confirmLabel,
+  danger = false,
+}: ConfirmOptions): Promise<boolean> {
   return new Promise((resolve) => {
     let settled = false
     const settle = (value: boolean) => {

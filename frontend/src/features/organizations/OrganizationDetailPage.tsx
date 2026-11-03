@@ -8,6 +8,8 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router'
 import { confirmAction } from '@/components/confirm'
 import { ErrorState } from '@/components/ErrorState'
 import { PageHeader } from '@/components/PageHeader'
+import { DepartmentsTable } from '@/features/departments/DepartmentsTable'
+import { EmployeesTable } from '@/features/employees/EmployeesTable'
 import { NotFoundPage } from '@/features/errors/NotFoundPage'
 import { ApiError } from '@/api/errors'
 import { useCan } from '@/hooks/usePermissions'
@@ -68,6 +70,8 @@ export function OrganizationDetailPage() {
   const query = useOrganization(id)
   const remove = useDeleteOrganization()
   const canCreate = useCan('organizations.create')
+  const canViewDepartments = useCan('departments.view')
+  const canViewEmployees = useCan('employees.view')
   const [editing, setEditing] = useState(false)
   const [addingChild, setAddingChild] = useState(false)
 
@@ -115,7 +119,11 @@ export function OrganizationDetailPage() {
         actions={
           <>
             {canCreate && organization.is_active && (
-              <Button variant="default" leftSection={<IconPlus size={16} />} onClick={() => setAddingChild(true)}>
+              <Button
+                variant="default"
+                leftSection={<IconPlus size={16} />}
+                onClick={() => setAddingChild(true)}
+              >
                 {t('actions.addChild')}
               </Button>
             )}
@@ -125,7 +133,13 @@ export function OrganizationDetailPage() {
               </Button>
             )}
             {organization.can.delete && (
-              <Button variant="light" color="red" leftSection={<IconTrash size={16} />} onClick={() => void onDelete()} loading={remove.isPending}>
+              <Button
+                variant="light"
+                color="red"
+                leftSection={<IconTrash size={16} />}
+                onClick={() => void onDelete()}
+                loading={remove.isPending}
+              >
                 {t('actions.delete')}
               </Button>
             )}
@@ -136,28 +150,47 @@ export function OrganizationDetailPage() {
       <Tabs
         value={tab}
         onChange={(value) =>
-          setParams((prev) => {
-            const next = new URLSearchParams(prev)
-            if (value && value !== 'info') next.set('tab', value)
-            else next.delete('tab')
-            return next
-          }, { replace: true })
+          setParams(
+            (prev) => {
+              const next = new URLSearchParams(prev)
+              if (value && value !== 'info') next.set('tab', value)
+              else next.delete('tab')
+              return next
+            },
+            { replace: true },
+          )
         }
         keepMounted={false}
       >
         <Tabs.List mb="md">
           <Tabs.Tab value="info">{t('tabs.info')}</Tabs.Tab>
+          {canViewDepartments && <Tabs.Tab value="departments">{t('tabs.departments')}</Tabs.Tab>}
+          {canViewEmployees && <Tabs.Tab value="employees">{t('tabs.employees')}</Tabs.Tab>}
           <Tabs.Tab value="it">{t('tabs.it')}</Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="info">
           <InfoTab organization={organization} />
         </Tabs.Panel>
+        {canViewDepartments && (
+          <Tabs.Panel value="departments">
+            <DepartmentsTable storeKey="organization-departments-table" organizationId={organization.id} />
+          </Tabs.Panel>
+        )}
+        {canViewEmployees && (
+          <Tabs.Panel value="employees">
+            <EmployeesTable storeKey="organization-employees-table" organizationId={organization.id} />
+          </Tabs.Panel>
+        )}
         <Tabs.Panel value="it">
           <ItResponsiblesPanel organization={organization} />
         </Tabs.Panel>
       </Tabs>
 
-      <OrganizationFormDrawer opened={editing} organization={organization} onClose={() => setEditing(false)} />
+      <OrganizationFormDrawer
+        opened={editing}
+        organization={organization}
+        onClose={() => setEditing(false)}
+      />
       <OrganizationFormDrawer
         opened={addingChild}
         parentId={organization.id}

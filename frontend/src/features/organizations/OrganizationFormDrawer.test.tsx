@@ -12,7 +12,10 @@ describe('OrganizationFormDrawer', () => {
   it('maps a 422 code error onto the code field', async () => {
     server.use(
       http.get('*/api/v1/organizations', () =>
-        HttpResponse.json({ data: [], meta: { current_page: 1, per_page: 50, total: 0, last_page: 1, from: null, to: null } }),
+        HttpResponse.json({
+          data: [],
+          meta: { current_page: 1, per_page: 50, total: 0, last_page: 1, from: null, to: null },
+        }),
       ),
       http.post('*/api/v1/organizations', () =>
         HttpResponse.json(
@@ -22,9 +25,14 @@ describe('OrganizationFormDrawer', () => {
       ),
     )
     const onClose = vi.fn()
-    renderWithProviders(<OrganizationFormDrawer opened onClose={onClose} />, { me: makeMe({ is_super_admin: true }) })
+    renderWithProviders(<OrganizationFormDrawer opened onClose={onClose} />, {
+      me: makeMe({ is_super_admin: true }),
+    })
 
-    await userEvent.type(await screen.findByLabelText(new RegExp(i18n.t('organizations:fields.name'))), 'Xiva filiali')
+    await userEvent.type(
+      await screen.findByLabelText(new RegExp(i18n.t('organizations:fields.name'))),
+      'Xiva filiali',
+    )
     await userEvent.type(screen.getByLabelText(new RegExp(i18n.t('organizations:fields.code'))), 'XIVA-1')
     await userEvent.click(screen.getByRole('button', { name: i18n.t('common:actions.save') }))
 

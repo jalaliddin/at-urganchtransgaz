@@ -14,7 +14,13 @@ interface Props extends Omit<SelectProps, 'data' | 'value' | 'onChange' | 'searc
 }
 
 /** Server-searched organization picker; only organizations in the user's scope are offered. */
-export function OrganizationSelect({ value, onChange, onlyActive = false, excludeIds = [], ...props }: Props) {
+export function OrganizationSelect({
+  value,
+  onChange,
+  onlyActive = false,
+  excludeIds = [],
+  ...props
+}: Props) {
   const [search, setSearch] = useState('')
   const [debounced] = useDebouncedValue(search, 300)
 
@@ -28,7 +34,8 @@ export function OrganizationSelect({ value, onChange, onlyActive = false, exclud
     placeholderData: keepPreviousData,
     staleTime: 60_000,
   })
-  const missingSelected = value !== null && !list.data?.data.some((o) => o.id === value)
+  // Fetch the selected organization only when the loaded options do not contain it.
+  const missingSelected = value !== null && list.isSuccess && !list.data.data.some((o) => o.id === value)
   const selected = useQuery({
     queryKey: ['organizations', 'detail', value],
     queryFn: () => getOrganization(value as number),

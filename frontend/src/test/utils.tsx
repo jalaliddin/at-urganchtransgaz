@@ -35,7 +35,7 @@ export function renderWithProviders(element: ReactElement, options: Options = {}
   )
 
   const result = render(
-    <MantineProvider theme={theme}>
+    <MantineProvider theme={theme} env="test">
       <ModalsProvider>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />

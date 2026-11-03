@@ -1,13 +1,4 @@
-import {
-  Anchor,
-  Badge,
-  Button,
-  SegmentedControl,
-  Select,
-  Skeleton,
-  Text,
-  TextInput,
-} from '@mantine/core'
+import { Anchor, Badge, Button, SegmentedControl, Select, Skeleton, Text, TextInput } from '@mantine/core'
 import { useDebouncedCallback } from '@mantine/hooks'
 import { IconPlus, IconSearch } from '@tabler/icons-react'
 import { useState } from 'react'

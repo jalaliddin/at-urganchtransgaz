@@ -45,10 +45,10 @@ export const theme = createTheme({
   primaryShade: { light: 8, dark: 5 },
   colors: { cobalt, turquoise, gray: slate, dark },
   black: '#1a2433',
-  fontFamily: '"IBM Plex Sans", "Segoe UI", system-ui, sans-serif',
+  fontFamily: '"Uz Apostrophe", "IBM Plex Sans", "Segoe UI", system-ui, sans-serif',
   fontFamilyMonospace: '"IBM Plex Mono", ui-monospace, monospace',
   headings: {
-    fontFamily: '"IBM Plex Sans", "Segoe UI", system-ui, sans-serif',
+    fontFamily: '"Uz Apostrophe", "IBM Plex Sans", "Segoe UI", system-ui, sans-serif',
     fontWeight: '600',
     sizes: {
       h1: { fontSize: '1.75rem', lineHeight: '1.25' },

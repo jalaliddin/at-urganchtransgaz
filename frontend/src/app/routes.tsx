@@ -7,6 +7,9 @@ import { RequirePasswordChanged } from '@/features/auth/RequirePasswordChanged'
 import { RequirePermission } from '@/features/auth/RequirePermission'
 import { ResetPasswordPage } from '@/features/auth/ResetPasswordPage'
 import { DashboardPage } from '@/features/dashboard/DashboardPage'
+import { DepartmentsPage } from '@/features/departments/DepartmentsPage'
+import { EmployeeDetailPage } from '@/features/employees/EmployeeDetailPage'
+import { EmployeesPage } from '@/features/employees/EmployeesPage'
 import { NotFoundPage } from '@/features/errors/NotFoundPage'
 import { OrganizationDetailPage } from '@/features/organizations/OrganizationDetailPage'
 import { OrganizationsPage } from '@/features/organizations/OrganizationsPage'
@@ -34,7 +37,26 @@ export const routes: RouteObject[] = [
                 handle: { crumb: 'nav:items.organizations' },
                 children: [
                   { index: true, element: <OrganizationsPage /> },
-                  { path: ':id', element: <OrganizationDetailPage />, handle: { crumb: 'organizations:crumb' } },
+                  {
+                    path: ':id',
+                    element: <OrganizationDetailPage />,
+                    handle: { crumb: 'organizations:crumb' },
+                  },
+                ],
+              },
+              {
+                path: 'departments',
+                element: <RequirePermission permission="departments.view" />,
+                handle: { crumb: 'nav:items.departments' },
+                children: [{ index: true, element: <DepartmentsPage /> }],
+              },
+              {
+                path: 'employees',
+                element: <RequirePermission permission="employees.view" />,
+                handle: { crumb: 'nav:items.employees' },
+                children: [
+                  { index: true, element: <EmployeesPage /> },
+                  { path: ':id', element: <EmployeeDetailPage />, handle: { crumb: 'employees:crumb' } },
                 ],
               },
               { path: '*', element: <NotFoundPage /> },

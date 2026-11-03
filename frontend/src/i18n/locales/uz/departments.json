@@ -1,0 +1,40 @@
+{
+  "title": "Bo'limlar",
+  "description": "Tashkilotlardagi bo'lim va xizmatlar",
+  "crumb": "Bo'lim",
+  "actions": {
+    "create": "Bo'lim qo'shish",
+    "edit": "Tahrirlash",
+    "delete": "O'chirish"
+  },
+  "fields": {
+    "organization": "Tashkilot",
+    "parent": "Yuqori bo'lim",
+    "name": "Nomi",
+    "code": "Kodi",
+    "phone": "Telefon",
+    "is_active": "Faol",
+    "sort_order": "Tartib raqami",
+    "employees": "Xodimlar soni"
+  },
+  "form": {
+    "createTitle": "Yangi bo'lim",
+    "editTitle": "Bo'limni tahrirlash",
+    "organizationLocked": "Bo'limni boshqa tashkilotga o'tkazib bo'lmaydi",
+    "created": "Bo'lim qo'shildi",
+    "updated": "O'zgarishlar saqlandi"
+  },
+  "delete": {
+    "message": "\"{{name}}\" bo'limi o'chirilsinmi? Xodimlari yoki ichki bo'limlari bo'lsa, tizim o'chirishga ruxsat bermaydi.",
+    "done": "Bo'lim o'chirildi"
+  },
+  "filters": {
+    "search": "Nomi yoki kodi",
+    "organization": "Tashkilot",
+    "allOrganizations": "Barcha tashkilotlar"
+  },
+  "empty": {
+    "title": "Bo'limlar topilmadi",
+    "description": "Filtrlarni o'zgartiring yoki yangi bo'lim qo'shing."
+  }
+}

@@ -1,4 +1,18 @@
-import { ActionIcon, Anchor, Badge, Button, Checkbox, Group, Modal, Paper, Stack, Table, Text, Textarea, Tooltip } from '@mantine/core'
+import {
+  ActionIcon,
+  Anchor,
+  Badge,
+  Button,
+  Checkbox,
+  Group,
+  Modal,
+  Paper,
+  Stack,
+  Table,
+  Text,
+  Textarea,
+  Tooltip,
+} from '@mantine/core'
 import { DateInput } from '@mantine/dates'
 import { notifications } from '@mantine/notifications'
 import { IconTrash, IconUserPlus } from '@tabler/icons-react'
@@ -15,7 +29,15 @@ import { formatDate } from '@/lib/format'
 import { useAssignItResponsible, useItResponsibles, useRemoveItResponsible } from './queries'
 import type { Organization } from './types'
 
-function AssignModal({ organization, opened, onClose }: { organization: Organization; opened: boolean; onClose: () => void }) {
+function AssignModal({
+  organization,
+  opened,
+  onClose,
+}: {
+  organization: Organization
+  opened: boolean
+  onClose: () => void
+}) {
   const { t } = useTranslation(['organizations', 'common'])
   const assign = useAssignItResponsible(organization.id)
   const [employeeId, setEmployeeId] = useState<number | null>(null)
@@ -27,28 +49,62 @@ function AssignModal({ organization, opened, onClose }: { organization: Organiza
   const submit = async () => {
     if (!employeeId || !assignedAt) return
     try {
-      await assign.mutateAsync({ employee_id: employeeId, is_primary: isPrimary, assigned_at: assignedAt, notes: notes || null })
+      await assign.mutateAsync({
+        employee_id: employeeId,
+        is_primary: isPrimary,
+        assigned_at: assignedAt,
+        notes: notes || null,
+      })
       notifications.show({ color: 'teal', message: t('it.assigned') })
       setEmployeeId(null)
       setNotes('')
       onClose()
     } catch (error) {
-      if (!(error instanceof ApiError && error.status === 422)) notifications.show({ color: 'red', message: (error as Error).message })
+      if (!(error instanceof ApiError && error.status === 422))
+        notifications.show({ color: 'red', message: (error as Error).message })
     }
   }
 
   return (
     <Modal opened={opened} onClose={onClose} title={<Text fw={600}>{t('it.assign')}</Text>}>
       <Stack gap="md">
-        <EmployeeSelect label={t('it.employee')} value={employeeId} onChange={setEmployeeId} withAsterisk error={fieldErrors.employee_id?.[0]} />
-        <DateInput label={t('it.assigned_at')} value={assignedAt} onChange={setAssignedAt} valueFormat="DD.MM.YYYY" withAsterisk error={fieldErrors.assigned_at?.[0]} />
-        <Checkbox label={t('it.primary')} checked={isPrimary} onChange={(e) => setIsPrimary(e.currentTarget.checked)} />
-        <Textarea label={t('it.notes')} value={notes} onChange={(e) => setNotes(e.currentTarget.value)} maxLength={500} autosize minRows={2} />
+        <EmployeeSelect
+          label={t('it.employee')}
+          value={employeeId}
+          onChange={setEmployeeId}
+          withAsterisk
+          error={fieldErrors.employee_id?.[0]}
+        />
+        <DateInput
+          label={t('it.assigned_at')}
+          value={assignedAt}
+          onChange={setAssignedAt}
+          valueFormat="DD.MM.YYYY"
+          withAsterisk
+          error={fieldErrors.assigned_at?.[0]}
+        />
+        <Checkbox
+          label={t('it.primary')}
+          checked={isPrimary}
+          onChange={(e) => setIsPrimary(e.currentTarget.checked)}
+        />
+        <Textarea
+          label={t('it.notes')}
+          value={notes}
+          onChange={(e) => setNotes(e.currentTarget.value)}
+          maxLength={500}
+          autosize
+          minRows={2}
+        />
         <Group justify="flex-end">
           <Button variant="default" onClick={onClose}>
             {t('common:actions.cancel')}
           </Button>
-          <Button onClick={() => void submit()} loading={assign.isPending} disabled={!employeeId || !assignedAt}>
+          <Button
+            onClick={() => void submit()}
+            loading={assign.isPending}
+            disabled={!employeeId || !assignedAt}
+          >
             {t('it.assign')}
           </Button>
         </Group>
@@ -65,7 +121,11 @@ export function ItResponsiblesPanel({ organization }: { organization: Organizati
   const canManage = organization.can.manage_it_staff
 
   const onRemove = async (employeeId: number, name: string) => {
-    const ok = await confirmAction({ message: t('it.removeConfirm', { name }), confirmLabel: t('it.remove'), danger: true })
+    const ok = await confirmAction({
+      message: t('it.removeConfirm', { name }),
+      confirmLabel: t('it.remove'),
+      danger: true,
+    })
     if (!ok) return
     try {
       notifications.show({ color: 'teal', message: await remove.mutateAsync(employeeId) })
@@ -92,7 +152,11 @@ export function ItResponsiblesPanel({ organization }: { organization: Organizati
             {t('common:states.loading')}
           </Text>
         ) : rows.length === 0 ? (
-          <EmptyState title={t('it.empty')} description={canManage ? t('it.emptyHint') : undefined} action={assignButton || undefined} />
+          <EmptyState
+            title={t('it.empty')}
+            description={canManage ? t('it.emptyHint') : undefined}
+            action={assignButton || undefined}
+          />
         ) : (
           <Table.ScrollContainer minWidth={640}>
             <Table verticalSpacing="sm" horizontalSpacing="md">
@@ -109,7 +173,12 @@ export function ItResponsiblesPanel({ organization }: { organization: Organizati
                   <Table.Tr key={row.id}>
                     <Table.Td>
                       <Group gap="xs" wrap="nowrap">
-                        <Anchor component={Link} to={`/employees/${row.employee?.id ?? ''}`} size="sm" fw={500}>
+                        <Anchor
+                          component={Link}
+                          to={`/employees/${row.employee?.id ?? ''}`}
+                          size="sm"
+                          fw={500}
+                        >
                           {row.employee?.full_name}
                         </Anchor>
                         {row.is_primary && (
@@ -119,7 +188,9 @@ export function ItResponsiblesPanel({ organization }: { organization: Organizati
                         )}
                       </Group>
                       <Text size="xs" c="dimmed">
-                        {[row.employee?.position, row.employee?.organization?.name].filter(Boolean).join(', ')}
+                        {[row.employee?.position, row.employee?.organization?.name]
+                          .filter(Boolean)
+                          .join(', ')}
                       </Text>
                     </Table.Td>
                     <Table.Td>
@@ -135,7 +206,9 @@ export function ItResponsiblesPanel({ organization }: { organization: Organizati
                             variant="subtle"
                             color="red"
                             aria-label={t('it.remove')}
-                            onClick={() => void onRemove(row.employee?.id ?? 0, row.employee?.full_name ?? '')}
+                            onClick={() =>
+                              void onRemove(row.employee?.id ?? 0, row.employee?.full_name ?? '')
+                            }
                           >
                             <IconTrash size={16} />
                           </ActionIcon>
