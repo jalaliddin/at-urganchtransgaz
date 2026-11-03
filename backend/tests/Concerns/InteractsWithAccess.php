@@ -6,7 +6,7 @@ use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserOrganizationAccess;
-use App\Support\Permissions\Roles;
+use Database\Seeders\RbacSeeder;
 
 /**
  * Helpers for creating users with roles and organization access in tests.
@@ -15,9 +15,7 @@ trait InteractsWithAccess
 {
     protected function seedRbac(): void
     {
-        foreach (Roles::ALL as $role) {
-            Role::findOrCreate($role, 'web');
-        }
+        $this->seed(RbacSeeder::class);
     }
 
     /**

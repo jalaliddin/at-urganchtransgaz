@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureModels();
+        $this->configureAuthorization();
         $this->configureRateLimiting();
         $this->configureTrustedProxies();
     }
@@ -57,6 +59,12 @@ class AppServiceProvider extends ServiceProvider
         if (is_string($proxies) && $proxies !== '') {
             TrustProxies::at($proxies === '*' ? '*' : array_map('trim', explode(',', $proxies)));
         }
+    }
+
+    private function configureAuthorization(): void
+    {
+        // Super Admin passes every ability check; everyone else goes through permissions/policies.
+        Gate::before(fn ($user) => $user instanceof User && $user->isSuperAdmin() ? true : null);
     }
 
     private function configureRateLimiting(): void
