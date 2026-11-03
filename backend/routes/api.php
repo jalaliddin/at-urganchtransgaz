@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Audit\AuditLogController;
 use App\Http\Controllers\Api\V1\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\MeController;
 use App\Http\Controllers\Api\V1\Auth\PasswordController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
+use App\Http\Controllers\Api\V1\Dashboard\DashboardController;
 use App\Http\Controllers\Api\V1\Departments\DepartmentController;
 use App\Http\Controllers\Api\V1\Employees\EmployeeController;
 use App\Http\Controllers\Api\V1\Health\HealthController;
@@ -14,6 +16,7 @@ use App\Http\Controllers\Api\V1\Organizations\OrganizationController;
 use App\Http\Controllers\Api\V1\Organizations\OrganizationTreeController;
 use App\Http\Controllers\Api\V1\Roles\PermissionController;
 use App\Http\Controllers\Api\V1\Roles\RoleController;
+use App\Http\Controllers\Api\V1\Search\SearchController;
 use App\Http\Controllers\Api\V1\Settings\PublicSettingsController;
 use App\Http\Controllers\Api\V1\Settings\SettingsController;
 use App\Http\Controllers\Api\V1\Users\UserController;
@@ -42,6 +45,11 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::get('auth/me', [MeController::class, 'show'])->name('auth.me');
     Route::patch('auth/me', [MeController::class, 'update'])->name('auth.me.update');
     Route::put('auth/password', [PasswordController::class, 'update'])->name('auth.password.update');
+
+    Route::get('dashboard', DashboardController::class)->name('dashboard');
+    Route::get('search', SearchController::class)->name('search');
+    Route::get('audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
+    Route::get('audit-logs/{auditLog}', [AuditLogController::class, 'show'])->whereNumber('auditLog')->name('audit-logs.show');
 
     Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');

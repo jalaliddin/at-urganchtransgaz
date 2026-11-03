@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AuditEvent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -51,6 +52,29 @@ class AuditLog extends Model
     {
         static::updating(fn () => throw new LogicException('Audit log entries are immutable.'));
         static::deleting(fn () => throw new LogicException('Audit log entries cannot be deleted.'));
+    }
+
+    /**
+     * Rows the user may read: everything for unrestricted users, otherwise rows of
+     * accessible organizations (rows without an organization stay hidden).
+     *
+     * @param  Builder<AuditLog>  $query
+     */
+    public function scopeVisibleTo(Builder $query, User $user): void
+    {
+        $scope = $user->accessScope();
+        if ($scope->isUnrestricted()) {
+            return;
+        }
+
+        $ids = $scope->organizationIds();
+        $ids === [] ? $query->whereRaw('1 = 0') : $query->whereIn('organization_id', $ids);
+    }
+
+    /** @return BelongsTo<Organization, $this> */
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class)->withoutGlobalScopes();
     }
 
     /** @return BelongsTo<User, $this> */

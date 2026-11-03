@@ -68,6 +68,16 @@ return [
     'timezone' => 'UTC',
 
     /*
+    | Timezone in which users read and enter dates (date filters are Tashkent days).
+    */
+    'display_timezone' => 'Asia/Tashkent',
+
+    /*
+    | Password for DemoSeeder accounts (development only; never used in production).
+    */
+    'demo_password' => env('DEMO_PASSWORD'),
+
+    /*
     | Comma-separated IPs/CIDRs of reverse proxies in front of nginx (or "*").
     | Applied in AppServiceProvider via TrustProxies::at().
     */

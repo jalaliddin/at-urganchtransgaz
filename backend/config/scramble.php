@@ -19,7 +19,7 @@ return [
      * Multiple includes or wildcards → server defaults to / and paths stay full (/api/users).
      * Override with `servers`, or use Scramble::registerApi() for separate bases.
      */
-    'api_path' => 'api',
+    'api_path' => 'api/v1',
 
     /*
      * Your API domain. By default, app domain is used. This is also a part of the default API routes
@@ -56,11 +56,11 @@ return [
         /*
          * Description rendered on the home page of the API documentation (`/docs/api`).
          */
-        'description' => '',
+        'description' => 'AT.urtg.uz — Axborot texnologiyalari xizmatini boshqarish tizimi. REST API v1 (Sanctum SPA cookie sessiyasi).',
     ],
 
     'ui' => [
-        'title' => null,
+        'title' => 'AT.urtg.uz API',
     ],
 
     /*

@@ -79,6 +79,9 @@ class AppServiceProvider extends ServiceProvider
     {
         // Super Admin passes every ability check; everyone else goes through permissions/policies.
         Gate::before(fn ($user) => $user instanceof User && $user->isSuperAdmin() ? true : null);
+
+        // OpenAPI docs (/docs/api): always open locally, otherwise Super Admin only.
+        Gate::define('viewApiDocs', fn (?User $user): bool => $user?->isSuperAdmin() ?? false);
     }
 
     private function configureRateLimiting(): void
