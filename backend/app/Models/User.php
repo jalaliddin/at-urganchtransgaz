@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToOrganization;
 use App\Models\Concerns\HasUserStamps;
+use App\Support\Access\AccessScope;
+use App\Support\Access\OrganizationAccessResolver;
 use App\Support\Permissions\Roles;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,7 +34,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, HasRoles, HasUserStamps, Notifiable, SoftDeletes;
+    use BelongsToOrganization, HasApiTokens, HasFactory, HasRoles, HasUserStamps, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'username', 'name', 'email', 'organization_id', 'employee_id', 'password', 'locale',
@@ -73,6 +76,16 @@ class User extends Authenticatable
     public function organizationAccess(): HasMany
     {
         return $this->hasMany(UserOrganizationAccess::class);
+    }
+
+    public function accessScope(): AccessScope
+    {
+        return app(OrganizationAccessResolver::class)->resolve($this);
+    }
+
+    public function canAccessOrganization(?int $organizationId): bool
+    {
+        return $this->accessScope()->allows($organizationId);
     }
 
     public function isSuperAdmin(): bool

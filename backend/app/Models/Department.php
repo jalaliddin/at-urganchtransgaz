@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToOrganization;
 use App\Models\Concerns\HasUserStamps;
 use Database\Factories\DepartmentFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Department extends Model
 {
     /** @use HasFactory<DepartmentFactory> */
-    use HasFactory, HasUserStamps, SoftDeletes;
+    use BelongsToOrganization, HasFactory, HasUserStamps, SoftDeletes;
 
     protected $fillable = ['organization_id', 'parent_id', 'name', 'code', 'phone', 'is_active', 'sort_order'];
 

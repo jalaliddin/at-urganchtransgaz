@@ -10,6 +10,7 @@ use App\Models\Role;
 use App\Models\SystemSetting;
 use App\Models\User;
 use App\Models\UserOrganizationAccess;
+use App\Support\Access\OrganizationAccessResolver;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -22,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $this->app->scoped(OrganizationAccessResolver::class);
     }
 
     public function boot(): void

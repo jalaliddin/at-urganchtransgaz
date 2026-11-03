@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrganizationType;
+use App\Models\Concerns\BelongsToOrganization;
 use App\Models\Concerns\HasUserStamps;
 use Database\Factories\OrganizationFactory;
 use Illuminate\Database\Eloquent\Builder;
@@ -27,7 +28,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Organization extends Model
 {
     /** @use HasFactory<OrganizationFactory> */
-    use HasFactory, HasUserStamps, SoftDeletes;
+    use BelongsToOrganization, HasFactory, HasUserStamps, SoftDeletes;
 
     protected $fillable = [
         'parent_id', 'type', 'name', 'short_name', 'code', 'tin', 'address',
@@ -42,6 +43,12 @@ class Organization extends Model
             'sort_order' => 'integer',
             'depth' => 'integer',
         ];
+    }
+
+    /** An organization is scoped by its own id. */
+    public static function organizationColumn(): string
+    {
+        return 'id';
     }
 
     protected static function booted(): void
