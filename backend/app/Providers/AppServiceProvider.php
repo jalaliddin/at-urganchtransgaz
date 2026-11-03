@@ -2,7 +2,17 @@
 
 namespace App\Providers;
 
+use App\Models\Department;
+use App\Models\Employee;
+use App\Models\Organization;
+use App\Models\OrganizationItResponsible;
+use App\Models\Role;
+use App\Models\SystemSetting;
+use App\Models\User;
+use App\Models\UserOrganizationAccess;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -17,8 +27,25 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->configureModels();
         $this->configureRateLimiting();
         $this->configureTrustedProxies();
+    }
+
+    private function configureModels(): void
+    {
+        Model::shouldBeStrict(! $this->app->isProduction());
+
+        Relation::enforceMorphMap([
+            'organization' => Organization::class,
+            'department' => Department::class,
+            'employee' => Employee::class,
+            'organization_it_responsible' => OrganizationItResponsible::class,
+            'user' => User::class,
+            'user_organization_access' => UserOrganizationAccess::class,
+            'system_setting' => SystemSetting::class,
+            'role' => Role::class,
+        ]);
     }
 
     private function configureTrustedProxies(): void

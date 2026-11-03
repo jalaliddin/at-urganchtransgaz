@@ -2,31 +2,81 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Concerns\HasUserStamps;
+use App\Support\Permissions\Roles;
 use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
-#[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
+/**
+ * @property int $id
+ * @property string $username
+ * @property string $name
+ * @property string|null $email
+ * @property int|null $organization_id
+ * @property int|null $employee_id
+ * @property string $locale
+ * @property bool $is_active
+ * @property bool $must_change_password
+ * @property Carbon|null $password_changed_at
+ * @property Carbon|null $last_login_at
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, HasRoles, HasUserStamps, Notifiable, SoftDeletes;
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    protected $fillable = [
+        'username', 'name', 'email', 'organization_id', 'employee_id', 'password', 'locale',
+        'is_active', 'must_change_password', 'password_changed_at',
+    ];
+
+    protected $hidden = [
+        'password', 'remember_token', 'two_factor_secret', 'two_factor_recovery_codes',
+    ];
+
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
+            'must_change_password' => 'boolean',
+            'password_changed_at' => 'datetime',
+            'last_login_at' => 'datetime',
+            'two_factor_secret' => 'encrypted',
+            'two_factor_recovery_codes' => 'encrypted',
+            'two_factor_confirmed_at' => 'datetime',
         ];
+    }
+
+    /** @return BelongsTo<Organization, $this> */
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
+    /** @return BelongsTo<Employee, $this> */
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    /** @return HasMany<UserOrganizationAccess, $this> */
+    public function organizationAccess(): HasMany
+    {
+        return $this->hasMany(UserOrganizationAccess::class);
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->hasRole(Roles::SUPER_ADMIN);
     }
 }
