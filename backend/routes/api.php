@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\V1\Dashboard\DashboardController;
 use App\Http\Controllers\Api\V1\Departments\DepartmentController;
 use App\Http\Controllers\Api\V1\Employees\EmployeeController;
+use App\Http\Controllers\Api\V1\Files\FileDownloadController;
 use App\Http\Controllers\Api\V1\Health\HealthController;
 use App\Http\Controllers\Api\V1\Notifications\NotificationController;
 use App\Http\Controllers\Api\V1\Organizations\ItResponsibleController;
@@ -47,6 +48,7 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::put('auth/password', [PasswordController::class, 'update'])->name('auth.password.update');
 
     Route::get('dashboard', DashboardController::class)->name('dashboard');
+    Route::get('files/{uuid}', FileDownloadController::class)->whereUuid('uuid')->name('files.download');
     Route::get('search', SearchController::class)->name('search');
     Route::get('audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
     Route::get('audit-logs/{auditLog}', [AuditLogController::class, 'show'])->whereNumber('auditLog')->name('audit-logs.show');

@@ -13,6 +13,7 @@ return [
     'too_many_requests' => "Juda ko'p so'rov yuborildi. Birozdan so'ng qayta urinib ko'ring.",
     'http_error' => "So'rovni bajarib bo'lmadi.",
     'deleted' => "Ma'lumot o'chirildi.",
+    'file_type_not_allowed' => "Fayl turi ruxsat etilmagan yoki fayl mazmuni kengaytmasiga mos emas. Ruxsat etilgan turlar: :types.",
     'organization_not_empty' => "Tashkilotni o'chirib bo'lmaydi: unda quyi tashkilotlar, bo'limlar yoki xodimlar mavjud. Uning o'rniga faolsizlantiring.",
     'organization_cycle' => "Tashkilotni o'zining quyi tashkilotiga ko'chirib bo'lmaydi.",
     'it_responsible_exists' => "Bu xodim ushbu tashkilotga AT mas'uli sifatida allaqachon biriktirilgan.",
