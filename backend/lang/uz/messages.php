@@ -36,4 +36,8 @@ return [
     'notifications_marked_read' => "Bildirishnomalar o'qilgan deb belgilandi.",
     'target_more_privileged' => 'Bu foydalanuvchining ruxsatlari yoki kirish doirasi sizdan kengroq — uni boshqara olmaysiz.',
     'organization_has_users' => "Tashkilotni o'chirib bo'lmaydi: unga biriktirilgan tizim foydalanuvchilari bor. Avval ularni boshqa tashkilotga o'tkazing.",
+    'sla_policy_exists' => 'Bu ustuvorlik va kategoriya uchun SLA qoidasi allaqachon mavjud.',
+    'calendar_end_before_start' => "Ish kuni tugash vaqti boshlanish vaqtidan keyin bo'lishi kerak.",
+    'calendar_lunch_outside' => "Tushlik vaqti ish kuni ichida bo'lishi va tugashi boshlanishidan keyin bo'lishi kerak.",
+    'category_in_use' => "Bu kategoriyada arizalar bor. Uni o'chirish o'rniga faolsizlantiring.",
 ];

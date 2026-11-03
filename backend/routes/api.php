@@ -11,6 +11,9 @@ use App\Http\Controllers\Api\V1\Departments\DepartmentController;
 use App\Http\Controllers\Api\V1\Employees\EmployeeController;
 use App\Http\Controllers\Api\V1\Files\FileDownloadController;
 use App\Http\Controllers\Api\V1\Health\HealthController;
+use App\Http\Controllers\Api\V1\Helpdesk\CalendarSettingsController;
+use App\Http\Controllers\Api\V1\Helpdesk\SlaPolicyController;
+use App\Http\Controllers\Api\V1\Helpdesk\TicketCategoryController;
 use App\Http\Controllers\Api\V1\Notifications\NotificationController;
 use App\Http\Controllers\Api\V1\Organizations\ItResponsibleController;
 use App\Http\Controllers\Api\V1\Organizations\OrganizationController;
@@ -77,6 +80,11 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
 
     Route::get('permissions', PermissionController::class)->name('permissions.index');
     Route::apiResource('roles', RoleController::class);
+
+    Route::apiResource('ticket-categories', TicketCategoryController::class)->except(['show']);
+    Route::apiResource('ticket-sla-policies', SlaPolicyController::class)->except(['show']);
+    Route::get('helpdesk/calendar', [CalendarSettingsController::class, 'show'])->name('helpdesk.calendar.show');
+    Route::put('helpdesk/calendar', [CalendarSettingsController::class, 'update'])->name('helpdesk.calendar.update');
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('notifications/unread-count', [NotificationController::class, 'unreadCount'])->name('notifications.unread-count');
