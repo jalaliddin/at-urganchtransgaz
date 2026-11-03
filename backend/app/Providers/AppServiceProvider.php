@@ -16,8 +16,10 @@ use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Foundation\Http\Events\RequestHandled;
 use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
@@ -32,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureModels();
+        $this->configureAccessCache();
         $this->configureAuthorization();
         $this->configureRateLimiting();
         $this->configureTrustedProxies();
@@ -63,6 +66,13 @@ class AppServiceProvider extends ServiceProvider
         if (is_string($proxies) && $proxies !== '') {
             TrustProxies::at($proxies === '*' ? '*' : array_map('trim', explode(',', $proxies)));
         }
+    }
+
+    private function configureAccessCache(): void
+    {
+        // Access scopes are memoised per request; never let them leak into the next
+        // request handled by the same application instance (tests, Octane).
+        Event::listen(RequestHandled::class, fn () => $this->app->make(OrganizationAccessResolver::class)->flush());
     }
 
     private function configureAuthorization(): void

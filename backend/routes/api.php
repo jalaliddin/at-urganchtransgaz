@@ -6,6 +6,9 @@ use App\Http\Controllers\Api\V1\Auth\MeController;
 use App\Http\Controllers\Api\V1\Auth\PasswordController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\V1\Health\HealthController;
+use App\Http\Controllers\Api\V1\Organizations\ItResponsibleController;
+use App\Http\Controllers\Api\V1\Organizations\OrganizationController;
+use App\Http\Controllers\Api\V1\Organizations\OrganizationTreeController;
 use App\Http\Controllers\Api\V1\Settings\PublicSettingsController;
 use App\Http\Controllers\Api\V1\Settings\SettingsController;
 use Illuminate\Support\Facades\Route;
@@ -32,4 +35,13 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
 
     Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
+
+    Route::get('organizations/tree', OrganizationTreeController::class)->name('organizations.tree');
+    Route::apiResource('organizations', OrganizationController::class);
+    Route::get('organizations/{organization}/it-responsibles', [ItResponsibleController::class, 'index'])
+        ->name('organizations.it-responsibles.index');
+    Route::post('organizations/{organization}/it-responsibles', [ItResponsibleController::class, 'store'])
+        ->name('organizations.it-responsibles.store');
+    Route::delete('organizations/{organization}/it-responsibles/{employee}', [ItResponsibleController::class, 'destroy'])
+        ->whereNumber('employee')->name('organizations.it-responsibles.destroy');
 });

@@ -31,6 +31,9 @@ class Organization extends Model
     /** @use HasFactory<OrganizationFactory> */
     use Auditable, BelongsToOrganization, HasFactory, HasUserStamps, SoftDeletes;
 
+    /** @var list<string> path/depth are derived from parent_id */
+    protected array $auditExclude = ['path', 'depth'];
+
     protected $fillable = [
         'parent_id', 'type', 'name', 'short_name', 'code', 'tin', 'address',
         'phone', 'email', 'head_name', 'is_active', 'sort_order',

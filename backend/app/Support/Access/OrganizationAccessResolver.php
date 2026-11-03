@@ -25,6 +25,12 @@ class OrganizationAccessResolver
         unset($this->cache[$user->id]);
     }
 
+    /** Drop every cached scope (e.g. after the organization tree changed). */
+    public function flush(): void
+    {
+        $this->cache = [];
+    }
+
     private function compute(User $user): AccessScope
     {
         if ($user->isSuperAdmin()) {
