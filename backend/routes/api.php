@@ -15,10 +15,12 @@ use App\Http\Controllers\Api\V1\Helpdesk\AssigneeController;
 use App\Http\Controllers\Api\V1\Helpdesk\CalendarSettingsController;
 use App\Http\Controllers\Api\V1\Helpdesk\SlaPolicyController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketActionController;
+use App\Http\Controllers\Api\V1\Helpdesk\TicketAttachmentController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketCategoryController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketCommentController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketHistoryController;
+use App\Http\Controllers\Api\V1\Helpdesk\TicketLinkController;
 use App\Http\Controllers\Api\V1\Notifications\NotificationController;
 use App\Http\Controllers\Api\V1\Organizations\ItResponsibleController;
 use App\Http\Controllers\Api\V1\Organizations\OrganizationController;
@@ -99,6 +101,14 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
         Route::get('tickets/{ticket}/comments', [TicketCommentController::class, 'index'])->name('tickets.comments.index');
         Route::post('tickets/{ticket}/comments', [TicketCommentController::class, 'store'])->name('tickets.comments.store');
         Route::get('tickets/{ticket}/history', TicketHistoryController::class)->name('tickets.history');
+        Route::get('tickets/{ticket}/attachments', [TicketAttachmentController::class, 'index'])->name('tickets.attachments.index');
+        Route::post('tickets/{ticket}/attachments', [TicketAttachmentController::class, 'store'])->name('tickets.attachments.store');
+        Route::delete('tickets/{ticket}/attachments/{attachment}', [TicketAttachmentController::class, 'destroy'])
+            ->whereNumber('attachment')->name('tickets.attachments.destroy');
+        Route::get('tickets/{ticket}/links', [TicketLinkController::class, 'index'])->name('tickets.links.index');
+        Route::post('tickets/{ticket}/links', [TicketLinkController::class, 'store'])->name('tickets.links.store');
+        Route::delete('tickets/{ticket}/links/{link}', [TicketLinkController::class, 'destroy'])
+            ->whereNumber('link')->name('tickets.links.destroy');
     });
     Route::get('helpdesk/calendar', [CalendarSettingsController::class, 'show'])->name('helpdesk.calendar.show');
     Route::put('helpdesk/calendar', [CalendarSettingsController::class, 'update'])->name('helpdesk.calendar.update');

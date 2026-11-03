@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Rules\AccessibleOrganization;
+use App\Rules\SafeUpload;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
@@ -27,6 +28,8 @@ class StoreTicketRequest extends FormRequest
                 ->where('organization_id', $this->organizationId() ?? 0)->whereNull('deleted_at')],
             'requester_employee_id' => ['nullable', 'integer'],
             ...TicketRules::content(required: true),
+            'files' => ['sometimes', 'array', 'max:5'],
+            'files.*' => [new SafeUpload],
         ];
     }
 
@@ -63,6 +66,12 @@ class StoreTicketRequest extends FormRequest
         }];
     }
 
+    /** @return list<\Illuminate\Http\UploadedFile> */
+    public function uploads(): array
+    {
+        return array_values((array) $this->file('files', []));
+    }
+
     public function organizationId(): ?int
     {
         $value = $this->has('organization_id') ? $this->input('organization_id') : $this->user()?->organization_id;
@@ -74,6 +83,9 @@ class StoreTicketRequest extends FormRequest
     /** @return array<string, mixed> */
     public function ticketData(): array
     {
-        return [...$this->validated(), 'organization_id' => $this->organizationId()];
+        $data = $this->validated();
+        unset($data['files']);
+
+        return [...$data, 'organization_id' => $this->organizationId()];
     }
 }

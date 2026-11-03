@@ -91,6 +91,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(fn ($user) => $user instanceof User && $user->isSuperAdmin() ? true : null);
 
         // OpenAPI docs (/docs/api): always open locally, otherwise Super Admin only.
+        $files = $this->app->make(\App\Services\Files\FileAccess::class);
+        $files->register(fn (User $user, \App\Models\StoredFile $file): ?bool => $this->app
+            ->make(\App\Services\Helpdesk\TicketAttachments::class)->canDownload($user, $file));
+
         Gate::define('helpdesk.use', fn (User $user): bool => $user->canAny(['helpdesk.view', 'helpdesk.create', 'helpdesk.manage']));
         Gate::define('viewApiDocs', fn (?User $user): bool => $user?->isSuperAdmin() ?? false);
     }

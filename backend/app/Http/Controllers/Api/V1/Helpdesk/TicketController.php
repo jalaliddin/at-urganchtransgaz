@@ -50,7 +50,7 @@ class TicketController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
-        $ticket = $this->tickets->create($request->ticketData(), $user);
+        $ticket = $this->tickets->create($request->ticketData(), $user, $request->uploads());
 
         return ApiResponse::data(new TicketResource($ticket->load(self::RELATIONS)), 201);
     }

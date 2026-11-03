@@ -47,4 +47,6 @@ return [
     'reopen_window_passed' => "Arizani qayta ochish muddati o'tib ketgan. Yangi ariza yuboring.",
     'assignee_invalid' => "Tanlangan xodim bu tashkilot arizalarini bajara olmaydi.",
     'rating_not_allowed' => "Arizani faqat hal qilingandan keyin baholash mumkin.",
+    'ticket_link_invalid' => "Bog'lanadigan ariza topilmadi yoki uni bog'lab bo'lmaydi.",
+    'ticket_link_exists' => "Bu arizalar allaqachon bog'langan.",
 ];

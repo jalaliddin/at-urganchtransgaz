@@ -11,6 +11,7 @@ use App\Models\Ticket;
 use App\Models\TicketHistory;
 use App\Models\User;
 use Carbon\CarbonImmutable;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -33,10 +34,11 @@ class TicketService
 
     /**
      * @param  array<string, mixed>  $data  validated; organization_id resolved
+     * @param  list<UploadedFile>  $files  already validated (SafeUpload)
      */
-    public function create(array $data, User $by): Ticket
+    public function create(array $data, User $by, array $files = []): Ticket
     {
-        return DB::transaction(function () use ($data, $by): Ticket {
+        return DB::transaction(function () use ($data, $by, $files): Ticket {
             $now = CarbonImmutable::now();
             $organizationId = (int) ($data['organization_id'] ?? $by->organization_id);
             [$employee, $requesterUserId] = $this->resolveRequester($data, $by, $organizationId);
@@ -66,6 +68,10 @@ class TicketService
             $this->history($ticket, $by, TicketHistoryAction::Created, new: [
                 'status' => TicketStatus::New->value, 'priority' => $ticket->priority->value,
             ]);
+
+            if ($files !== []) {
+                app(TicketAttachments::class)->attach($ticket, $files, $by);
+            }
 
             TicketCreated::dispatch($ticket, $by);
 
