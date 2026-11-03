@@ -43,6 +43,9 @@ final class ApiExceptionRenderer
             $e instanceof AuthenticationException => ApiResponse::error(
                 __('messages.unauthenticated'), 'unauthenticated', 401,
             ),
+            $e instanceof InvalidTransitionException => ApiResponse::error(
+                $e->getMessage() !== '' ? $e->getMessage() : __('messages.invalid_transition'), 'invalid_transition', 422,
+            ),
             $e instanceof DomainConflictException => ApiResponse::error(
                 $e->getMessage() !== '' ? $e->getMessage() : __('messages.conflict'), 'conflict', 409,
             ),

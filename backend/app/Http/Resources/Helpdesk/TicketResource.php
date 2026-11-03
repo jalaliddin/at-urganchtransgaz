@@ -41,6 +41,7 @@ class TicketResource extends TicketListResource
             'time_spent_minutes' => $ticket->time_spent_minutes,
             'is_requester' => $ticket->isRequester($user),
             'allowed_actions' => app(TicketAbilities::class)->for($ticket, $user),
+            'allowed_transitions' => app(TicketAbilities::class)->transitions($ticket, $user),
         ];
     }
 }

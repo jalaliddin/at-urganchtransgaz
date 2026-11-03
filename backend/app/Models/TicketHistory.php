@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\TicketHistoryAction;
+use App\Models\Scopes\OrganizationScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -38,6 +39,6 @@ class TicketHistory extends Model
     /** @return BelongsTo<User, $this> */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withoutGlobalScope(OrganizationScope::class);
     }
 }

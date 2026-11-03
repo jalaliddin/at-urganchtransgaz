@@ -175,6 +175,18 @@ return [
     | Maydon nomlari
     */
     'attributes' => [
+        'note' => "izoh",
+        'title' => "sarlavha",
+        'category_id' => "kategoriya",
+        'priority' => "ustuvorlik",
+        'contact_phone' => "aloqa telefoni",
+        'contact_email' => "aloqa emaili",
+        'requester_employee_id' => "murojaatchi",
+        'assignee_id' => "mas'ul xodim",
+        'rating' => "baho",
+        'minutes' => "daqiqa",
+        'body' => "izoh matni",
+        'files' => "fayllar",
         'name' => 'nomi',
         'short_name' => 'qisqa nomi',
         'code' => 'kodi',

@@ -42,4 +42,9 @@ return [
     'category_in_use' => "Bu kategoriyada arizalar bor. Uni o'chirish o'rniga faolsizlantiring.",
     'ticket_requester_forbidden' => "Boshqa xodim nomidan ariza yuborish uchun ruxsat yo'q.",
     'ticket_requester_invalid' => "Murojaatchi tanlangan tashkilotning faol xodimi bo'lishi kerak.",
+    'invalid_transition' => "Bu amalni arizaning joriy holatida bajarib bo'lmaydi.",
+    'ticket_closed' => "Ariza yopilgan yoki rad etilgan. Davom ettirish uchun uni qayta oching.",
+    'reopen_window_passed' => "Arizani qayta ochish muddati o'tib ketgan. Yangi ariza yuboring.",
+    'assignee_invalid' => "Tanlangan xodim bu tashkilot arizalarini bajara olmaydi.",
+    'rating_not_allowed' => "Arizani faqat hal qilingandan keyin baholash mumkin.",
 ];

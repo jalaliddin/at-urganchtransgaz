@@ -147,13 +147,13 @@ class Ticket extends Model
     /** @return BelongsTo<Organization, $this> */
     public function organization(): BelongsTo
     {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(Organization::class)->withoutGlobalScope(OrganizationScope::class);
     }
 
     /** @return BelongsTo<Department, $this> */
     public function department(): BelongsTo
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Department::class)->withoutGlobalScope(OrganizationScope::class);
     }
 
     /** @return BelongsTo<Employee, $this> */
@@ -165,19 +165,19 @@ class Ticket extends Model
     /** @return BelongsTo<User, $this> */
     public function requesterUser(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'requester_user_id');
+        return $this->belongsTo(User::class, 'requester_user_id')->withoutGlobalScope(OrganizationScope::class);
     }
 
     /** @return BelongsTo<User, $this> */
     public function assignee(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'assignee_id');
+        return $this->belongsTo(User::class, 'assignee_id')->withoutGlobalScope(OrganizationScope::class);
     }
 
     /** @return BelongsTo<User, $this> */
     public function creator(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class, 'created_by')->withoutGlobalScope(OrganizationScope::class);
     }
 
     /** @return BelongsTo<TicketCategory, $this> */
