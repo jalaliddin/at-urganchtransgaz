@@ -1,0 +1,54 @@
+{
+  "title": "Журнал аудита",
+  "description": "Кто, когда и что изменил. Записи нельзя изменить или удалить.",
+  "fields": {
+    "created_at": "Время",
+    "event": "Событие",
+    "entity": "Объект",
+    "user": "Пользователь",
+    "organization": "Организация",
+    "ip": "IP-адрес",
+    "userAgent": "Браузер",
+    "url": "Запрос",
+    "requestId": "ID запроса"
+  },
+  "filters": {
+    "event": "Событие",
+    "allEvents": "Все события",
+    "entity": "Тип объекта",
+    "allEntities": "Все объекты",
+    "period": "Период",
+    "organization": "Организация"
+  },
+  "diff": {
+    "field": "Поле",
+    "old": "Было",
+    "new": "Стало",
+    "empty": "Изменения полей не зафиксированы"
+  },
+  "detail": {
+    "title": "Запись аудита",
+    "changes": "Изменения",
+    "context": "Данные запроса"
+  },
+  "empty": {
+    "title": "Записи не найдены",
+    "description": "Измените период или фильтры."
+  },
+  "system": "Система",
+  "events": {
+    "created": "Создано",
+    "updated": "Изменено",
+    "deleted": "Удалено",
+    "restored": "Восстановлено",
+    "login": "Вход в систему",
+    "logout": "Выход из системы",
+    "login_failed": "Неудачная попытка входа",
+    "password_changed": "Пароль изменён",
+    "password_reset": "Пароль сброшен",
+    "roles_changed": "Роли изменены",
+    "access_changed": "Доступ изменён",
+    "settings_updated": "Настройки изменены",
+    "role_permissions_changed": "Права роли изменены"
+  }
+}

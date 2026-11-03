@@ -17,6 +17,10 @@ import { RoleEditorPage } from '@/features/roles/RoleEditorPage'
 import { RolesPage } from '@/features/roles/RolesPage'
 import { UserDetailPage } from '@/features/users/UserDetailPage'
 import { UsersPage } from '@/features/users/UsersPage'
+import { AuditLogPage } from '@/features/audit/AuditLogPage'
+import { NotificationsPage } from '@/features/notifications/NotificationsPage'
+import { ProfilePage } from '@/features/profile/ProfilePage'
+import { SettingsPage } from '@/features/settings/SettingsPage'
 import { AppLayout } from '@/layouts/AppLayout/AppLayout'
 
 export const routes: RouteObject[] = [
@@ -81,6 +85,24 @@ export const routes: RouteObject[] = [
                   { path: 'new', element: <RoleEditorPage />, handle: { crumb: 'roles:form.createTitle' } },
                   { path: ':id', element: <RoleEditorPage />, handle: { crumb: 'roles:crumb' } },
                 ],
+              },
+              {
+                path: 'audit',
+                element: <RequirePermission permission="audit.view" />,
+                handle: { crumb: 'nav:items.audit' },
+                children: [{ index: true, element: <AuditLogPage /> }],
+              },
+              {
+                path: 'settings',
+                element: <RequirePermission permission="settings.view" />,
+                handle: { crumb: 'nav:items.settings' },
+                children: [{ index: true, element: <SettingsPage /> }],
+              },
+              { path: 'profile', element: <ProfilePage />, handle: { crumb: 'nav:items.profile' } },
+              {
+                path: 'notifications',
+                element: <NotificationsPage />,
+                handle: { crumb: 'nav:items.notifications' },
               },
               { path: '*', element: <NotFoundPage /> },
             ],

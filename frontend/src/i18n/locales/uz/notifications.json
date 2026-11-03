@@ -1,0 +1,15 @@
+{
+  "title": "Bildirishnomalar",
+  "description": "Tizimdagi o'zgarishlar haqida xabarlar",
+  "filters": {
+    "all": "Barchasi",
+    "unread": "O'qilmaganlar"
+  },
+  "unread": "O'qilmagan",
+  "markRead": "O'qilgan deb belgilash",
+  "open": "Ochish",
+  "empty": {
+    "title": "Bildirishnoma yo'q",
+    "description": "Rollaringiz, kirish doirangiz yoki parolingiz o'zgarsa, shu yerda ko'rasiz."
+  }
+}

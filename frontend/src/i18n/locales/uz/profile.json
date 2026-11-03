@@ -1,0 +1,26 @@
+{
+  "title": "Profil",
+  "description": "Hisobingiz ma'lumotlari va shaxsiy sozlamalar",
+  "fields": {
+    "username": "Login",
+    "email": "Email",
+    "organization": "Asosiy tashkilot",
+    "employee": "Xodim kartasi",
+    "roles": "Rollar",
+    "access": "Kirish doirasi",
+    "withDescendants": "quyi tashkilotlari bilan"
+  },
+  "preferences": {
+    "title": "Shaxsiy sozlamalar",
+    "language": "Interfeys tili",
+    "theme": "Mavzu",
+    "light": "Yorug'",
+    "dark": "Qorong'i",
+    "saved": "Til o'zgartirildi"
+  },
+  "security": {
+    "title": "Xavfsizlik",
+    "changePassword": "Parolni almashtirish",
+    "hint": "Parol almashtirilganda boshqa qurilmalardagi sessiyalar yopiladi."
+  }
+}

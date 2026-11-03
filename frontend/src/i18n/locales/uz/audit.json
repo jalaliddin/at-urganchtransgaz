@@ -1,0 +1,54 @@
+{
+  "title": "Audit jurnali",
+  "description": "Kim, qachon va nimani o'zgartirgani. Yozuvlarni o'zgartirib yoki o'chirib bo'lmaydi.",
+  "fields": {
+    "created_at": "Vaqt",
+    "event": "Hodisa",
+    "entity": "Obyekt",
+    "user": "Foydalanuvchi",
+    "organization": "Tashkilot",
+    "ip": "IP manzil",
+    "userAgent": "Brauzer",
+    "url": "So'rov",
+    "requestId": "So'rov ID"
+  },
+  "filters": {
+    "event": "Hodisa",
+    "allEvents": "Barcha hodisalar",
+    "entity": "Obyekt turi",
+    "allEntities": "Barcha obyektlar",
+    "period": "Davr",
+    "organization": "Tashkilot"
+  },
+  "diff": {
+    "field": "Maydon",
+    "old": "Oldingi qiymat",
+    "new": "Yangi qiymat",
+    "empty": "Maydon o'zgarishlari qayd etilmagan"
+  },
+  "detail": {
+    "title": "Audit yozuvi",
+    "changes": "O'zgarishlar",
+    "context": "So'rov ma'lumotlari"
+  },
+  "empty": {
+    "title": "Yozuvlar topilmadi",
+    "description": "Davr yoki filtrlarni o'zgartiring."
+  },
+  "system": "Tizim",
+  "events": {
+    "created": "Yaratildi",
+    "updated": "O'zgartirildi",
+    "deleted": "O'chirildi",
+    "restored": "Tiklandi",
+    "login": "Tizimga kirdi",
+    "logout": "Tizimdan chiqdi",
+    "login_failed": "Muvaffaqiyatsiz kirish urinishi",
+    "password_changed": "Parol o'zgartirildi",
+    "password_reset": "Parol tiklandi",
+    "roles_changed": "Rollar o'zgartirildi",
+    "access_changed": "Kirish doirasi o'zgartirildi",
+    "settings_updated": "Sozlamalar o'zgartirildi",
+    "role_permissions_changed": "Rol ruxsatlari o'zgartirildi"
+  }
+}

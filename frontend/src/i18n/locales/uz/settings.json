@@ -1,0 +1,43 @@
+{
+  "title": "Sozlamalar",
+  "description": "Tizimning umumiy va xavfsizlik sozlamalari",
+  "groups": {
+    "general": "Umumiy",
+    "security": "Xavfsizlik"
+  },
+  "keys": {
+    "general": {
+      "system_name": {
+        "label": "Tizim nomi",
+        "hint": "Kirish sahifasida va sarlavhada ko'rsatiladi"
+      },
+      "organization_name": {
+        "label": "Tashkilot nomi",
+        "hint": "Kirish sahifasida ko'rsatiladi"
+      },
+      "support_phone": {
+        "label": "Yordam telefoni",
+        "hint": "Kirish sahifasida foydalanuvchilarga ko'rsatiladi"
+      },
+      "support_email": {
+        "label": "Yordam emaili",
+        "hint": "Kirish sahifasida foydalanuvchilarga ko'rsatiladi"
+      }
+    },
+    "security": {
+      "password_min_length": {
+        "label": "Parolning minimal uzunligi",
+        "hint": "8 dan 64 gacha belgi"
+      },
+      "password_expires_days": {
+        "label": "Parol amal qilish muddati (kun)",
+        "hint": "0 — muddat cheklanmagan"
+      }
+    }
+  },
+  "public": "Ommaviy",
+  "default": "Standart: {{value}}",
+  "saved": "Sozlamalar saqlandi",
+  "nothingChanged": "O'zgarish yo'q",
+  "readOnly": "Sozlamalarni faqat Super Admin o'zgartira oladi."
+}
