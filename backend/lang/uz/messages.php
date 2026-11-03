@@ -40,4 +40,6 @@ return [
     'calendar_end_before_start' => "Ish kuni tugash vaqti boshlanish vaqtidan keyin bo'lishi kerak.",
     'calendar_lunch_outside' => "Tushlik vaqti ish kuni ichida bo'lishi va tugashi boshlanishidan keyin bo'lishi kerak.",
     'category_in_use' => "Bu kategoriyada arizalar bor. Uni o'chirish o'rniga faolsizlantiring.",
+    'ticket_requester_forbidden' => "Boshqa xodim nomidan ariza yuborish uchun ruxsat yo'q.",
+    'ticket_requester_invalid' => "Murojaatchi tanlangan tashkilotning faol xodimi bo'lishi kerak.",
 ];
