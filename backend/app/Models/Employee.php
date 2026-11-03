@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\EmployeeStatus;
+use App\Models\Concerns\Auditable;
 use App\Models\Concerns\BelongsToOrganization;
 use App\Models\Concerns\HasUserStamps;
 use Database\Factories\EmployeeFactory;
@@ -26,7 +27,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Employee extends Model
 {
     /** @use HasFactory<EmployeeFactory> */
-    use BelongsToOrganization, HasFactory, HasUserStamps, SoftDeletes;
+    use Auditable, BelongsToOrganization, HasFactory, HasUserStamps, SoftDeletes;
 
     protected $fillable = [
         'organization_id', 'department_id', 'last_name', 'first_name', 'middle_name', 'position',

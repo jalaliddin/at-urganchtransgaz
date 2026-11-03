@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\Auditable;
 use App\Models\Concerns\BelongsToOrganization;
 use Database\Factories\OrganizationItResponsibleFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 class OrganizationItResponsible extends Model
 {
     /** @use HasFactory<OrganizationItResponsibleFactory> */
-    use BelongsToOrganization, HasFactory;
+    use Auditable, BelongsToOrganization, HasFactory;
 
     protected $fillable = ['organization_id', 'employee_id', 'is_primary', 'assigned_at', 'notes'];
 

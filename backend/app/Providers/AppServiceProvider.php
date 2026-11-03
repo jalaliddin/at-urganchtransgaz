@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\AuditLog;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Organization;
@@ -46,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
             'user_organization_access' => UserOrganizationAccess::class,
             'system_setting' => SystemSetting::class,
             'role' => Role::class,
+            'audit_log' => AuditLog::class,
         ]);
     }
 

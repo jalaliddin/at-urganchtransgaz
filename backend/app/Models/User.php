@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\Auditable;
 use App\Models\Concerns\BelongsToOrganization;
 use App\Models\Concerns\HasUserStamps;
 use App\Support\Access\AccessScope;
@@ -34,7 +35,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use BelongsToOrganization, HasApiTokens, HasFactory, HasRoles, HasUserStamps, Notifiable, SoftDeletes;
+    use Auditable, BelongsToOrganization, HasApiTokens, HasFactory, HasRoles, HasUserStamps, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'username', 'name', 'email', 'organization_id', 'employee_id', 'password', 'locale',

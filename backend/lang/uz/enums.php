@@ -13,4 +13,18 @@ return [
         'business_trip' => 'Xizmat safarida',
         'dismissed' => 'Ishdan bo\'shagan',
     ],
+    'audit_event' => [
+        'created' => 'Yaratildi',
+        'updated' => "O'zgartirildi",
+        'deleted' => "O'chirildi",
+        'restored' => 'Tiklandi',
+        'login' => 'Tizimga kirdi',
+        'logout' => 'Tizimdan chiqdi',
+        'login_failed' => 'Muvaffaqiyatsiz kirish urinishi',
+        'password_changed' => "Parol o'zgartirildi",
+        'password_reset' => 'Parol tiklandi',
+        'roles_changed' => "Rollar o'zgartirildi",
+        'access_changed' => "Kirish doirasi o'zgartirildi",
+        'settings_updated' => "Sozlamalar o'zgartirildi",
+    ],
 ];
