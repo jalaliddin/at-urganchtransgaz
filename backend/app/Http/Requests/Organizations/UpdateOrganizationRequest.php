@@ -34,18 +34,21 @@ class UpdateOrganizationRequest extends FormRequest
         $user = $this->user();
         $organization = $this->organization();
 
+        // An unchanged parent is not re-validated: editing must work even when the
+        // parent is outside the editor's scope (a scope's top node) or inactive.
+        $parentRules = $this->isMove() ? [
+            Rule::requiredIf(fn (): bool => ! $user->accessScope()->isUnrestricted()),
+            'nullable', 'integer', new AccessibleOrganization,
+            function (string $attribute, mixed $value, Closure $fail) use ($organization): void {
+                $targetPath = DB::table('organizations')->where('id', $value)->value('path');
+                if (is_string($targetPath) && str_starts_with($targetPath, $organization->path)) {
+                    $fail(__('messages.organization_cycle'));
+                }
+            },
+        ] : ['nullable', 'integer'];
+
         return [
-            'parent_id' => [
-                'sometimes',
-                Rule::requiredIf(fn (): bool => ! $user->accessScope()->isUnrestricted()),
-                'nullable', 'integer', new AccessibleOrganization,
-                function (string $attribute, mixed $value, Closure $fail) use ($organization): void {
-                    $targetPath = DB::table('organizations')->where('id', $value)->value('path');
-                    if (is_string($targetPath) && str_starts_with($targetPath, $organization->path)) {
-                        $fail(__('messages.organization_cycle'));
-                    }
-                },
-            ],
+            'parent_id' => ['sometimes', ...$parentRules],
             ...StoreOrganizationRequest::attributeRules(),
             'type' => ['sometimes', Rule::enum(OrganizationType::class)],
             'name' => ['sometimes', 'string', 'max:255'],
@@ -62,6 +65,12 @@ class UpdateOrganizationRequest extends FormRequest
 
     private function isMove(): bool
     {
-        return $this->has('parent_id') && $this->input('parent_id') != $this->organization()->parent_id;
+        if (! $this->has('parent_id')) {
+            return false;
+        }
+        $requested = $this->input('parent_id');
+        $current = $this->organization()->parent_id;
+
+        return $requested === null ? $current !== null : (string) $requested !== (string) $current;
     }
 }

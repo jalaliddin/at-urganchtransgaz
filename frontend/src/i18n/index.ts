@@ -39,8 +39,42 @@ export type Language = (typeof SUPPORTED_LANGUAGES)[number]
 const STORAGE_KEY = 'at.locale'
 
 export const resources = {
-  uz: { common: uzCommon, auth: uzAuth, validation: uzValidation, nav: uzNav, table: uzTable, dashboard: uzDashboard, organizations: uzOrganizations, departments: uzDepartments, employees: uzEmployees, users: uzUsers, roles: uzRoles, permissions: uzPermissions, audit: uzAudit, settings: uzSettings, profile: uzProfile, notifications: uzNotifications },
-  ru: { common: ruCommon, auth: ruAuth, validation: ruValidation, nav: ruNav, table: ruTable, dashboard: ruDashboard, organizations: ruOrganizations, departments: ruDepartments, employees: ruEmployees, users: ruUsers, roles: ruRoles, permissions: ruPermissions, audit: ruAudit, settings: ruSettings, profile: ruProfile, notifications: ruNotifications },
+  uz: {
+    common: uzCommon,
+    auth: uzAuth,
+    validation: uzValidation,
+    nav: uzNav,
+    table: uzTable,
+    dashboard: uzDashboard,
+    organizations: uzOrganizations,
+    departments: uzDepartments,
+    employees: uzEmployees,
+    users: uzUsers,
+    roles: uzRoles,
+    permissions: uzPermissions,
+    audit: uzAudit,
+    settings: uzSettings,
+    profile: uzProfile,
+    notifications: uzNotifications,
+  },
+  ru: {
+    common: ruCommon,
+    auth: ruAuth,
+    validation: ruValidation,
+    nav: ruNav,
+    table: ruTable,
+    dashboard: ruDashboard,
+    organizations: ruOrganizations,
+    departments: ruDepartments,
+    employees: ruEmployees,
+    users: ruUsers,
+    roles: ruRoles,
+    permissions: ruPermissions,
+    audit: ruAudit,
+    settings: ruSettings,
+    profile: ruProfile,
+    notifications: ruNotifications,
+  },
 } as const
 
 export function isLanguage(value: unknown): value is Language {

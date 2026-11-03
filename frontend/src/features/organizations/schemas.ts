@@ -4,7 +4,8 @@ import type { OrganizationInput } from './api'
 const optional = (max: number) => z.string().trim().max(max, { error: 'tooLong' })
 
 /** Messages are keys of the "validation" namespace. */
-export function organizationSchema(isSuperAdmin: boolean) {
+/** `isCreate`: a new organization needs a parent unless a Super Admin creates a root. */
+export function organizationSchema(isSuperAdmin: boolean, isCreate = true) {
   return z
     .object({
       parent_id: z.number().nullable(),
@@ -17,9 +18,15 @@ export function organizationSchema(isSuperAdmin: boolean) {
         .min(1, { error: 'required' })
         .max(50, { error: 'tooLong' })
         .regex(/^[A-Za-z0-9._-]+$/, { error: 'code' }),
-      tin: z.string().trim().regex(/^(\d{9})?$/, { error: 'tin' }),
+      tin: z
+        .string()
+        .trim()
+        .regex(/^(\d{9})?$/, { error: 'tin' }),
       address: optional(500),
-      phone: z.string().trim().regex(/^(\+?[0-9\s\-()]{5,50})?$/, { error: 'phone' }),
+      phone: z
+        .string()
+        .trim()
+        .regex(/^(\+?[0-9\s\-()]{5,50})?$/, { error: 'phone' }),
       email: z.union([z.literal(''), z.email({ error: 'email' })]),
       head_name: optional(255),
       is_active: z.boolean(),
@@ -27,7 +34,7 @@ export function organizationSchema(isSuperAdmin: boolean) {
     })
     .superRefine((value, ctx) => {
       // Only unrestricted users may create a new root (the API enforces the same rule).
-      if (!isSuperAdmin && value.parent_id === null) {
+      if (isCreate && !isSuperAdmin && value.parent_id === null) {
         ctx.addIssue({ code: 'custom', path: ['parent_id'], message: 'required' })
       }
     })

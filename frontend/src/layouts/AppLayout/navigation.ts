@@ -32,25 +32,75 @@ export const navigation: NavGroup[] = [
   {
     key: 'main',
     labelKey: 'groups.main',
-    items: [{ key: 'dashboard', labelKey: 'items.dashboard', path: '/', icon: IconLayoutDashboard, permission: 'dashboard.view' }],
+    items: [
+      {
+        key: 'dashboard',
+        labelKey: 'items.dashboard',
+        path: '/',
+        icon: IconLayoutDashboard,
+        permission: 'dashboard.view',
+      },
+    ],
   },
   {
     key: 'structure',
     labelKey: 'groups.structure',
     items: [
-      { key: 'organizations', labelKey: 'items.organizations', path: '/organizations', icon: IconBuildingCommunity, permission: 'organizations.view' },
-      { key: 'departments', labelKey: 'items.departments', path: '/departments', icon: IconHierarchy2, permission: 'departments.view' },
-      { key: 'employees', labelKey: 'items.employees', path: '/employees', icon: IconUsers, permission: 'employees.view' },
+      {
+        key: 'organizations',
+        labelKey: 'items.organizations',
+        path: '/organizations',
+        icon: IconBuildingCommunity,
+        permission: 'organizations.view',
+      },
+      {
+        key: 'departments',
+        labelKey: 'items.departments',
+        path: '/departments',
+        icon: IconHierarchy2,
+        permission: 'departments.view',
+      },
+      {
+        key: 'employees',
+        labelKey: 'items.employees',
+        path: '/employees',
+        icon: IconUsers,
+        permission: 'employees.view',
+      },
     ],
   },
   {
     key: 'administration',
     labelKey: 'groups.administration',
     items: [
-      { key: 'users', labelKey: 'items.users', path: '/users', icon: IconUserCircle, permission: 'users.view' },
-      { key: 'roles', labelKey: 'items.roles', path: '/roles', icon: IconShieldLock, permission: 'roles.view' },
-      { key: 'audit', labelKey: 'items.audit', path: '/audit', icon: IconClipboardList, permission: 'audit.view' },
-      { key: 'settings', labelKey: 'items.settings', path: '/settings', icon: IconSettings, permission: 'settings.view' },
+      {
+        key: 'users',
+        labelKey: 'items.users',
+        path: '/users',
+        icon: IconUserCircle,
+        permission: 'users.view',
+      },
+      {
+        key: 'roles',
+        labelKey: 'items.roles',
+        path: '/roles',
+        icon: IconShieldLock,
+        permission: 'roles.view',
+      },
+      {
+        key: 'audit',
+        labelKey: 'items.audit',
+        path: '/audit',
+        icon: IconClipboardList,
+        permission: 'audit.view',
+      },
+      {
+        key: 'settings',
+        labelKey: 'items.settings',
+        path: '/settings',
+        icon: IconSettings,
+        permission: 'settings.view',
+      },
     ],
   },
 ]
@@ -58,7 +108,10 @@ export const navigation: NavGroup[] = [
 /** Groups and items the user may open; empty groups are dropped. */
 export function visibleNav(me: Me): NavGroup[] {
   return navigation
-    .map((group) => ({ ...group, items: group.items.filter((item) => !item.permission || hasPermission(me, item.permission)) }))
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => !item.permission || hasPermission(me, item.permission)),
+    }))
     .filter((group) => group.items.length > 0)
 }
 

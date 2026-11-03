@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { useCurrentUser, useLogout, useUpdateMyLocale } from '@/features/auth/queries'
 import { SUPPORTED_LANGUAGES } from '@/i18n'
-import { useUiStore } from '@/stores/ui'
 
 function initials(name: string): string {
   return name
@@ -28,14 +27,10 @@ export function UserMenu() {
   const me = useCurrentUser()
   const logout = useLogout()
   const updateLocale = useUpdateMyLocale()
-  const setOrgContext = useUiStore((s) => s.setOrgContext)
   const { setColorScheme } = useMantineColorScheme()
   const scheme = useComputedColorScheme('light')
 
-  const signOut = () => {
-    setOrgContext(null)
-    logout.mutate()
-  }
+  const signOut = () => logout.mutate()
 
   return (
     <Menu width={260} position="bottom-end" shadow="md">

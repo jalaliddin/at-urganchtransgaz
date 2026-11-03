@@ -32,7 +32,7 @@ class EmployeeController extends Controller
         SearchTerm::whereContains(
             $base,
             ['last_name', 'first_name', 'middle_name', 'personnel_number', 'phone'],
-            (string) $request->query('search', ''),
+            SearchTerm::fromRequest($request),
         );
 
         $page = QueryBuilder::for($base)
@@ -65,7 +65,7 @@ class EmployeeController extends Controller
 
     public function update(UpdateEmployeeRequest $request, Employee $employee): JsonResponse
     {
-        $employee = $this->employees->update($employee, $request->validated());
+        $employee = $this->employees->update($employee, $request->validated(), $request->user());
 
         return ApiResponse::data(new EmployeeResource($employee->load(self::RELATIONS)));
     }

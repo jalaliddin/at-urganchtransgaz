@@ -9,7 +9,11 @@ export const userKeys = {
 }
 
 export function useUsers(params: Record<string, string | number>) {
-  return useQuery({ queryKey: userKeys.list(params), queryFn: () => usersApi.listUsers(params), placeholderData: keepPreviousData })
+  return useQuery({
+    queryKey: userKeys.list(params),
+    queryFn: () => usersApi.listUsers(params),
+    placeholderData: keepPreviousData,
+  })
 }
 
 export function useUser(id: number) {
@@ -20,7 +24,9 @@ function useInvalidate() {
   const queryClient = useQueryClient()
   return () =>
     Promise.all(
-      [userKeys.all, ['employees'], ['roles'], ['dashboard']].map((queryKey) => queryClient.invalidateQueries({ queryKey })),
+      [userKeys.all, ['employees'], ['roles'], ['dashboard']].map((queryKey) =>
+        queryClient.invalidateQueries({ queryKey }),
+      ),
     )
 }
 
@@ -31,12 +37,18 @@ export function useCreateUser() {
 
 export function useUpdateUser(id: number) {
   const invalidate = useInvalidate()
-  return useMutation({ mutationFn: (input: usersApi.UpdateUserInput) => usersApi.updateUser(id, input), onSuccess: invalidate })
+  return useMutation({
+    mutationFn: (input: usersApi.UpdateUserInput) => usersApi.updateUser(id, input),
+    onSuccess: invalidate,
+  })
 }
 
 export function useSetUserActive(id: number) {
   const invalidate = useInvalidate()
-  return useMutation({ mutationFn: (active: boolean) => usersApi.setUserActive(id, active), onSuccess: invalidate })
+  return useMutation({
+    mutationFn: (active: boolean) => usersApi.setUserActive(id, active),
+    onSuccess: invalidate,
+  })
 }
 
 export function useResetUserPassword(id: number) {
@@ -46,10 +58,16 @@ export function useResetUserPassword(id: number) {
 
 export function useSyncUserRoles(id: number) {
   const invalidate = useInvalidate()
-  return useMutation({ mutationFn: (roles: string[]) => usersApi.syncUserRoles(id, roles), onSuccess: invalidate })
+  return useMutation({
+    mutationFn: (roles: string[]) => usersApi.syncUserRoles(id, roles),
+    onSuccess: invalidate,
+  })
 }
 
 export function useSyncUserAccess(id: number) {
   const invalidate = useInvalidate()
-  return useMutation({ mutationFn: (access: AccessRow[]) => usersApi.syncUserAccess(id, access), onSuccess: invalidate })
+  return useMutation({
+    mutationFn: (access: AccessRow[]) => usersApi.syncUserAccess(id, access),
+    onSuccess: invalidate,
+  })
 }

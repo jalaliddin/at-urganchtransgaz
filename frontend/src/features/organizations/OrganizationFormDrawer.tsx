@@ -63,13 +63,16 @@ export function OrganizationFormDrawer({ opened, onClose, organization, parentId
     setError,
     formState: { errors },
   } = useForm<OrganizationFormValues>({
-    resolver: zodResolver(organizationSchema(me.is_super_admin)),
+    resolver: zodResolver(organizationSchema(me.is_super_admin, !organization)),
     values: defaults(organization, parentId),
   })
 
   const onSubmit = handleSubmit(async (values) => {
     try {
-      const saved = await save.mutateAsync({ id: organization?.id, input: toOrganizationInput(values) })
+      const input = toOrganizationInput(values)
+      // An unchanged parent is not sent: re-validating it could block the edit (scope top, inactive parent).
+      if (organization && input.parent_id === organization.parent_id) delete input.parent_id
+      const saved = await save.mutateAsync({ id: organization?.id, input })
       notifications.show({ color: 'teal', message: organization ? t('form.updated') : t('form.created') })
       onClose(saved)
     } catch (error) {

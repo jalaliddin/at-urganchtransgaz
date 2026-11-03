@@ -20,10 +20,16 @@ const newPassword = {
 
 export const resetPasswordSchema = z
   .object(newPassword)
-  .refine((v) => v.password === v.password_confirmation, { error: 'passwordMismatch', path: ['password_confirmation'] })
+  .refine((v) => v.password === v.password_confirmation, {
+    error: 'passwordMismatch',
+    path: ['password_confirmation'],
+  })
 export type ResetPasswordValues = z.infer<typeof resetPasswordSchema>
 
 export const changePasswordSchema = z
   .object({ current_password: z.string().min(1, { error: 'required' }), ...newPassword })
-  .refine((v) => v.password === v.password_confirmation, { error: 'passwordMismatch', path: ['password_confirmation'] })
+  .refine((v) => v.password === v.password_confirmation, {
+    error: 'passwordMismatch',
+    path: ['password_confirmation'],
+  })
 export type ChangePasswordValues = z.infer<typeof changePasswordSchema>

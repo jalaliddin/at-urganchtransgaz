@@ -28,7 +28,7 @@ class UserController extends Controller
         Gate::authorize('viewAny', User::class);
 
         $base = User::query()->with(UserResource::RELATIONS);
-        SearchTerm::whereContains($base, ['username', 'name', 'email'], (string) $request->query('search', ''));
+        SearchTerm::whereContains($base, ['username', 'name', 'email'], SearchTerm::fromRequest($request));
 
         $page = QueryBuilder::for($base)
             ->allowedFilters([
@@ -66,7 +66,7 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user): JsonResponse
     {
-        $user = $this->users->update($user, $request->validated());
+        $user = $this->users->update($user, $request->validated(), $request->user());
 
         return ApiResponse::data(new UserResource($user->load(UserResource::RELATIONS)));
     }

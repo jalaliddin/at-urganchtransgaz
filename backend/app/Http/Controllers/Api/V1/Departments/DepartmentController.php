@@ -29,7 +29,7 @@ class DepartmentController extends Controller
         Gate::authorize('viewAny', Department::class);
 
         $base = Department::query()->with(self::RELATIONS)->withCount('employees');
-        SearchTerm::whereContains($base, ['name', 'code'], (string) $request->query('search', ''));
+        SearchTerm::whereContains($base, ['name', 'code'], SearchTerm::fromRequest($request));
 
         $page = QueryBuilder::for($base)
             ->allowedFilters([

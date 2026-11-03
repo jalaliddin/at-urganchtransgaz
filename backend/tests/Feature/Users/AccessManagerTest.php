@@ -122,18 +122,27 @@ class AccessManagerTest extends TestCase
         $this->roles($super, [Roles::EMPLOYEE])->assertForbidden();
     }
 
-    public function test_access_change_takes_effect_and_keeps_rows_outside_actor_scope(): void
+    public function test_access_change_takes_effect_and_is_audited(): void
     {
-        $outside = Organization::factory()->create(); // another tree the head cannot see
-        $this->grantAccess($this->target, $outside);
         $this->actingAs($this->head);
 
         $this->access($this->target, [['organization_id' => $this->b->id, 'include_descendants' => true]])->assertOk();
 
         $this->assertTrue($this->target->fresh()->canAccessOrganization($this->b->id));
         $this->assertFalse($this->target->fresh()->canAccessOrganization($this->a->id));
-        $this->assertTrue($this->target->fresh()->canAccessOrganization($outside->id));
         $this->assertSame(1, AuditLog::where('event', 'access_changed')->where('auditable_id', $this->target->id)->count());
+    }
+
+    public function test_user_with_access_beyond_the_actors_scope_cannot_be_managed(): void
+    {
+        $outside = Organization::factory()->create(); // another tree the head cannot see
+        $this->grantAccess($this->target, $outside);
+        $this->actingAs($this->head);
+
+        $this->access($this->target, [['organization_id' => $this->b->id, 'include_descendants' => true]])->assertForbidden();
+
+        $this->assertTrue($this->target->fresh()->canAccessOrganization($outside->id));
+        $this->assertTrue($this->target->fresh()->canAccessOrganization($this->a->id));
     }
 
     public function test_last_active_super_admin_is_protected_for_system_callers(): void

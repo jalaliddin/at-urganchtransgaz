@@ -18,7 +18,7 @@ describe('format', () => {
     expect(formatDateTime(undefined)).toBe('—')
   })
 
-  it("formats money in UZS with grouped thousands and decimal comma", () => {
+  it('formats money in UZS with grouped thousands and decimal comma', () => {
     expect(plain(formatMoney('1250000.00'))).toBe("1 250 000,00 so'm")
     expect(plain(formatMoney(-5000))).toBe("-5 000,00 so'm")
   })

@@ -26,18 +26,84 @@ class AccessManager
         private readonly OrganizationAccessResolver $resolver,
     ) {}
 
-    /** Nobody manages their own account; only a Super Admin manages a Super Admin. */
+    /** Roles, access, status and passwords: never on your own account. */
     public function assertCanManage(User $target, ?User $actor): void
+    {
+        $this->assertCanAdminister($target, $actor, allowSelf: false);
+    }
+
+    /**
+     * The one rule for acting on another account (or on its employee record):
+     *  - only a Super Admin administers a Super Admin;
+     *  - otherwise the target's permissions and organization scope must both be
+     *    subsets of the actor's, so no one can take over a more powerful account.
+     * $actor = null is a trusted system caller.
+     */
+    public function assertCanAdminister(User $target, ?User $actor, bool $allowSelf = false): void
     {
         if ($actor === null) {
             return;
         }
         if ($target->is($actor)) {
+            if ($allowSelf) {
+                return;
+            }
             throw new AuthorizationException(__('messages.cannot_manage_self'));
         }
-        if ($target->isSuperAdmin() && ! $actor->isSuperAdmin()) {
-            throw new AuthorizationException;
+        if ($actor->isSuperAdmin()) {
+            return;
         }
+        if ($target->isSuperAdmin()) {
+            throw new AuthorizationException(__('messages.target_more_privileged'));
+        }
+
+        $actorPermissions = $actor->getAllPermissions()->pluck('name');
+        if ($target->getAllPermissions()->pluck('name')->diff($actorPermissions)->isNotEmpty()) {
+            throw new AuthorizationException(__('messages.target_more_privileged'));
+        }
+
+        $actorScope = $actor->accessScope();
+        foreach ($target->accessScope()->organizationIds() as $organizationId) {
+            if (! $actorScope->allows($organizationId)) {
+                throw new AuthorizationException(__('messages.target_more_privileged'));
+            }
+        }
+    }
+
+    /**
+     * Moves a user's home organization: the plain (non-descendant) access row of the
+     * old home is replaced by one for the new home; deliberately granted subtree
+     * rows stay. Audited as access_changed.
+     */
+    public function moveHomeOrganization(User $user, ?int $fromOrganizationId, ?int $toOrganizationId, ?User $actor): void
+    {
+        if ($fromOrganizationId === $toOrganizationId) {
+            return;
+        }
+
+        $before = $this->snapshot(UserOrganizationAccess::where('user_id', $user->id)->get()->all());
+
+        DB::transaction(function () use ($user, $fromOrganizationId, $toOrganizationId): void {
+            if ($fromOrganizationId !== null) {
+                UserOrganizationAccess::where('user_id', $user->id)
+                    ->where('organization_id', $fromOrganizationId)
+                    ->where('include_descendants', false)
+                    ->delete();
+            }
+            if ($toOrganizationId !== null) {
+                UserOrganizationAccess::firstOrCreate(
+                    ['user_id' => $user->id, 'organization_id' => $toOrganizationId],
+                    ['include_descendants' => false],
+                );
+            }
+            $user->update(['organization_id' => $toOrganizationId]);
+        });
+
+        $after = $this->snapshot(UserOrganizationAccess::where('user_id', $user->id)->get()->all());
+        if ($before !== $after) {
+            $this->audit->record(AuditEvent::AccessChanged, $user, ['access' => $before], ['access' => $after], $actor);
+        }
+        $this->resolver->forget($user);
     }
 
     /** A role may be granted (or removed) only if its permissions are a subset of the actor's. */

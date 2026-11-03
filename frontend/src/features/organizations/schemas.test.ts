@@ -46,6 +46,9 @@ describe('organizationSchema', () => {
   })
 
   it('validates optional email and phone', () => {
-    expect(messages(false, { ...valid, email: 'not-mail', phone: 'call' })).toEqual({ email: 'email', phone: 'phone' })
+    expect(messages(false, { ...valid, email: 'not-mail', phone: 'call' })).toEqual({
+      email: 'email',
+      phone: 'phone',
+    })
   })
 })

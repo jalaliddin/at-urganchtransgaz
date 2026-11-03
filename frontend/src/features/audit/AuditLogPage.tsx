@@ -102,10 +102,7 @@ export function AuditLogPage() {
         clearable
         allowSingleDateInRange
         value={[params.filters.created_from ?? null, params.filters.created_to ?? null]}
-        onChange={([from, to]) => {
-          params.setFilter('created_from', from)
-          params.setFilter('created_to', to)
-        }}
+        onChange={([from, to]) => params.setFilters({ created_from: from, created_to: to })}
         w={{ base: '100%', sm: 240 }}
       />
     </>

@@ -22,9 +22,17 @@ export interface AuditEntry {
 
 /** Every key except profile is present only when the user holds its permission. */
 export interface DashboardData {
-  profile: { name: string; username: string; organization: { id: number; name: string } | null; roles: string[] }
+  profile: {
+    name: string
+    username: string
+    organization: { id: number; name: string } | null
+    roles: string[]
+  }
   organizations?: { total: number; active: number }
-  employees?: { total: number; by_status: Record<'active' | 'on_leave' | 'business_trip' | 'dismissed', number> }
+  employees?: {
+    total: number
+    by_status: Record<'active' | 'on_leave' | 'business_trip' | 'dismissed', number>
+  }
   it_coverage?: { with_responsible: number; without_responsible: number }
   users?: { total: number; active: number; pending_password_change: number }
   recent_audit?: AuditEntry[]

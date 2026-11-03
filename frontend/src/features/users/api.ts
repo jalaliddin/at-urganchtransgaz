@@ -55,7 +55,10 @@ export async function syncUserRoles(id: number, roles: string[]): Promise<User> 
 }
 
 export async function syncUserAccess(id: number, access: AccessRow[]): Promise<User> {
-  const payload = access.map(({ organization_id, include_descendants }) => ({ organization_id, include_descendants }))
+  const payload = access.map(({ organization_id, include_descendants }) => ({
+    organization_id,
+    include_descendants,
+  }))
   const { data } = await api.put<Resource<User>>(`/users/${id}/organization-access`, { access: payload })
   return data.data
 }

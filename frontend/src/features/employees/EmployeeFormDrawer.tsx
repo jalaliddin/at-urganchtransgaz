@@ -89,7 +89,10 @@ export function EmployeeFormDrawer({ opened, onClose, employee, organizationId }
       if (!ok) return
     }
     try {
-      const saved = await save.mutateAsync({ id: employee?.id, input: toEmployeeInput(values) })
+      const input = toEmployeeInput(values)
+      // Only a real transfer sends the organization (it is then validated as a transfer).
+      if (employee && input.organization_id === employee.organization?.id) delete input.organization_id
+      const saved = await save.mutateAsync({ id: employee?.id, input })
       notifications.show({ color: 'teal', message: employee ? t('form.updated') : t('form.created') })
       onClose(saved)
     } catch (error) {

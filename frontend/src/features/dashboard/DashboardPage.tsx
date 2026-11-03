@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ErrorState } from '@/components/ErrorState'
 import { PageHeader } from '@/components/PageHeader'
 import { useCurrentUser } from '@/features/auth/queries'
-import { useUiStore } from '@/stores/ui'
+import { useOrgContext } from '@/hooks/useOrgContext'
 import { fetchDashboard } from './api'
 import { CoverageMeter } from './widgets/CoverageMeter'
 import { EmployeesByStatus } from './widgets/EmployeesByStatus'
@@ -15,7 +15,7 @@ import { StatTile } from './widgets/StatTile'
 export function DashboardPage() {
   const { t } = useTranslation('dashboard')
   const me = useCurrentUser()
-  const orgContextId = useUiStore((s) => s.orgContextId)
+  const { organizationId: orgContextId } = useOrgContext()
   const query = useQuery({
     queryKey: ['dashboard', orgContextId],
     queryFn: () => fetchDashboard(orgContextId),

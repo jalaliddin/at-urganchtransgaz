@@ -58,10 +58,9 @@ export function EmployeesTable({ storeKey, organizationId }: Props) {
           aria-label={t('filters.organization')}
           placeholder={t('filters.organization')}
           value={filterOrganization}
-          onChange={(value) => {
-            params.setFilter('organization', value === null ? null : String(value))
-            params.setFilter('department', null)
-          }}
+          onChange={(value) =>
+            params.setFilters({ organization: value === null ? null : String(value), department: null })
+          }
           w={{ base: '100%', sm: 240 }}
         />
       )}

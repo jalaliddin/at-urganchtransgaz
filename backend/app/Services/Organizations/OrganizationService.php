@@ -7,6 +7,8 @@ use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Organization;
 use App\Models\OrganizationItResponsible;
+use App\Models\Scopes\OrganizationScope;
+use App\Models\User;
 use App\Support\Access\OrganizationAccessResolver;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -68,12 +70,18 @@ class OrganizationService
     /** @throws DomainConflictException when the organization still has children, departments or employees */
     public function delete(Organization $organization): void
     {
-        $busy = Organization::withoutGlobalScopes()->where('parent_id', $organization->id)->exists()
-            || Department::withoutGlobalScopes()->where('organization_id', $organization->id)->exists()
-            || Employee::withoutGlobalScopes()->where('organization_id', $organization->id)->exists();
+        // Only live rows count (soft-deleted ones keep history, not the organization).
+        $live = fn (string $model) => $model::query()->withoutGlobalScope(OrganizationScope::class);
+        $busy = $live(Organization::class)->where('parent_id', $organization->id)->exists()
+            || $live(Department::class)->where('organization_id', $organization->id)->exists()
+            || $live(Employee::class)->where('organization_id', $organization->id)->exists();
 
         if ($busy) {
             throw new DomainConflictException(__('messages.organization_not_empty'));
+        }
+        // Users homed here would become invisible to every scoped administrator.
+        if ($live(User::class)->where('organization_id', $organization->id)->exists()) {
+            throw new DomainConflictException(__('messages.organization_has_users'));
         }
 
         DB::transaction(fn () => $organization->delete());

@@ -14,7 +14,10 @@ export const employeeSchema = z
     middle_name: optional(100),
     position: optional(255),
     personnel_number: optional(50),
-    phone: z.string().trim().regex(/^(\+?[0-9\s\-()]{5,20})?$/, { error: 'phone' }),
+    phone: z
+      .string()
+      .trim()
+      .regex(/^(\+?[0-9\s\-()]{5,20})?$/, { error: 'phone' }),
     internal_phone: optional(20),
     email: z.union([z.literal(''), z.email({ error: 'email' })]),
     status: z.enum(EMPLOYEE_STATUSES),
@@ -23,7 +26,8 @@ export const employeeSchema = z
     notes: optional(2000),
   })
   .superRefine((value, ctx) => {
-    if (value.organization_id === null) ctx.addIssue({ code: 'custom', path: ['organization_id'], message: 'required' })
+    if (value.organization_id === null)
+      ctx.addIssue({ code: 'custom', path: ['organization_id'], message: 'required' })
     if (value.status === 'dismissed' && !value.dismissed_at) {
       ctx.addIssue({ code: 'custom', path: ['dismissed_at'], message: 'dismissedAt' })
     }

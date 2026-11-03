@@ -73,14 +73,26 @@ class UserService
         return ['user' => $user->refresh(), 'temporary_password' => $temporary];
     }
 
-    /** @param array<string, mixed> $data validated */
-    public function update(User $target, array $data): User
+    /**
+     * @param  array<string, mixed>  $data  validated
+     *
+     * @throws AuthorizationException when the target is more privileged than the actor
+     */
+    public function update(User $target, array $data, User $actor): User
     {
-        return DB::transaction(function () use ($target, $data): User {
+        $this->access->assertCanAdminister($target, $actor, allowSelf: true);
+
+        return DB::transaction(function () use ($target, $data, $actor): User {
             if (! empty($data['employee_id'])) {
                 $data['organization_id'] = Employee::withoutGlobalScopes()->findOrFail($data['employee_id'])->organization_id;
             }
-            $target->update(Arr::only($data, ['name', 'email', 'locale', 'organization_id', 'employee_id']));
+            $fromOrganizationId = $target->organization_id;
+            $target->update(Arr::only($data, ['name', 'email', 'locale', 'employee_id']));
+
+            if (array_key_exists('organization_id', $data)) {
+                $to = $data['organization_id'] === null ? null : (int) $data['organization_id'];
+                $this->access->moveHomeOrganization($target, $fromOrganizationId, $to, $actor);
+            }
 
             return $target->refresh();
         });

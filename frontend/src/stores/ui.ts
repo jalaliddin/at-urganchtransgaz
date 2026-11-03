@@ -27,12 +27,18 @@ const safeStorage: StateStorage = {
   },
 }
 
+export interface OrgContext {
+  /** The user who chose it: another account signing in on this device ignores it. */
+  userId: number
+  organizationId: number
+}
+
 interface UiState {
   sidebarCollapsed: boolean
   toggleSidebar: () => void
   /** Organization chosen in the header; lists and the dashboard default to its subtree. */
-  orgContextId: number | null
-  setOrgContext: (id: number | null) => void
+  orgContext: OrgContext | null
+  setOrgContext: (context: OrgContext | null) => void
 }
 
 export const useUiStore = create<UiState>()(
@@ -40,9 +46,18 @@ export const useUiStore = create<UiState>()(
     (set) => ({
       sidebarCollapsed: false,
       toggleSidebar: () => set((s) => ({ sidebarCollapsed: !s.sidebarCollapsed })),
-      orgContextId: null,
-      setOrgContext: (id) => set({ orgContextId: id }),
+      orgContext: null,
+      setOrgContext: (orgContext) => set({ orgContext }),
     }),
-    { name: 'at.ui', storage: createJSONStorage(() => safeStorage) },
+    {
+      name: 'at.ui',
+      version: 2,
+      // v1 stored a bare organization id that was not tied to a user: drop it.
+      migrate: (persisted) => ({
+        sidebarCollapsed: Boolean((persisted as { sidebarCollapsed?: boolean } | null)?.sidebarCollapsed),
+        orgContext: null,
+      }),
+      storage: createJSONStorage(() => safeStorage),
+    },
   ),
 )

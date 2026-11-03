@@ -5,7 +5,10 @@ const email = z.union([z.literal(''), z.email({ error: 'email' })])
 export function createUserSchema(isSuperAdmin: boolean) {
   return z
     .object({
-      username: z.string().trim().regex(/^[a-z0-9._-]{3,64}$/, { error: 'username' }),
+      username: z
+        .string()
+        .trim()
+        .regex(/^[a-z0-9._-]{3,64}$/, { error: 'username' }),
       name: z.string().trim().min(1, { error: 'required' }).max(255, { error: 'tooLong' }),
       email,
       employee_id: z.number().nullable(),

@@ -27,7 +27,7 @@ class OrganizationController extends Controller
         Gate::authorize('viewAny', Organization::class);
 
         $base = Organization::query()->with('parent')->withCount('children');
-        SearchTerm::whereContains($base, ['name', 'short_name', 'code', 'tin'], (string) $request->query('search', ''));
+        SearchTerm::whereContains($base, ['name', 'short_name', 'code', 'tin'], SearchTerm::fromRequest($request));
 
         $page = QueryBuilder::for($base)
             ->allowedFilters([

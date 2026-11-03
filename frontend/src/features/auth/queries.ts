@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { setLanguage, type Language } from '@/i18n'
 import * as authApi from './api'
+import { resetClientSession } from './session'
 import type { Me } from './types'
 
 export const meQueryKey = ['auth', 'me'] as const
@@ -17,7 +18,11 @@ export function useCurrentUser(): Me {
 }
 
 export function usePublicSettings() {
-  return useQuery({ queryKey: ['settings', 'public'], queryFn: authApi.fetchPublicSettings, staleTime: 30 * 60_000 })
+  return useQuery({
+    queryKey: ['settings', 'public'],
+    queryFn: authApi.fetchPublicSettings,
+    staleTime: 30 * 60_000,
+  })
 }
 
 export function useLogin() {
@@ -25,6 +30,8 @@ export function useLogin() {
   return useMutation({
     mutationFn: authApi.login,
     onSuccess: async (me) => {
+      // Nothing cached by a previous session on this device may leak into this one.
+      queryClient.clear()
       queryClient.setQueryData(meQueryKey, me)
       await setLanguage(me.locale)
     },
@@ -35,10 +42,7 @@ export function useLogout() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: authApi.logout,
-    onSettled: () => {
-      queryClient.clear()
-      queryClient.setQueryData(meQueryKey, null)
-    },
+    onSettled: () => resetClientSession(queryClient),
   })
 }
 

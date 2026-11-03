@@ -48,7 +48,11 @@ describe('api client', () => {
     server.use(
       http.post('*/api/v1/users', () =>
         HttpResponse.json(
-          { message: "Kiritilgan ma'lumotlar noto'g'ri.", code: 'validation_error', errors: { username: ['Bu login band.'] } },
+          {
+            message: "Kiritilgan ma'lumotlar noto'g'ri.",
+            code: 'validation_error',
+            errors: { username: ['Bu login band.'] },
+          },
           { status: 422 },
         ),
       ),
@@ -65,7 +69,9 @@ describe('api client', () => {
     const onPasswordChangeRequired = vi.fn()
     configureApiHandlers({ onUnauthenticated, onPasswordChangeRequired })
     server.use(
-      http.get('*/api/v1/private', () => HttpResponse.json({ message: 'x', code: 'unauthenticated' }, { status: 401 })),
+      http.get('*/api/v1/private', () =>
+        HttpResponse.json({ message: 'x', code: 'unauthenticated' }, { status: 401 }),
+      ),
       http.get('*/api/v1/gated', () =>
         HttpResponse.json({ message: 'x', code: 'password_change_required' }, { status: 403 }),
       ),

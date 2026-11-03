@@ -24,8 +24,11 @@ class UpdateEmployeeRequest extends FormRequest
 
         return [
             ...EmployeeRules::attributes(),
-            // A transfer needs access to the target too (the source is guaranteed by the scope).
-            'organization_id' => ['sometimes', 'integer', new AccessibleOrganization],
+            // A transfer needs access to the (active) target; an unchanged organization is
+            // not re-validated, so staff of a deactivated organization stay editable.
+            'organization_id' => $this->isTransfer()
+                ? ['sometimes', 'integer', new AccessibleOrganization]
+                : ['sometimes', 'integer'],
             'department_id' => ['nullable', 'integer', EmployeeRules::departmentIn($organizationId)],
             'last_name' => ['sometimes', 'string', 'max:100'],
             'first_name' => ['sometimes', 'string', 'max:100'],
@@ -50,6 +53,11 @@ class UpdateEmployeeRequest extends FormRequest
                 ]));
             }
         }];
+    }
+
+    private function isTransfer(): bool
+    {
+        return $this->has('organization_id') && (string) $this->input('organization_id') !== (string) $this->employee()->organization_id;
     }
 
     private function employee(): Employee

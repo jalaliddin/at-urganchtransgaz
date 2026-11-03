@@ -14,7 +14,11 @@ export function useRoles(enabled = true) {
 }
 
 export function useRole(id: number | null) {
-  return useQuery({ queryKey: roleKeys.detail(id ?? 0), queryFn: () => rolesApi.getRole(id as number), enabled: id !== null })
+  return useQuery({
+    queryKey: roleKeys.detail(id ?? 0),
+    queryFn: () => rolesApi.getRole(id as number),
+    enabled: id !== null,
+  })
 }
 
 export function usePermissionModules() {

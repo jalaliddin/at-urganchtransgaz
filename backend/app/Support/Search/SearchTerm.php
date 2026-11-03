@@ -3,6 +3,7 @@
 namespace App\Support\Search;
 
 use Illuminate\Contracts\Database\Query\Builder as BuilderContract;
+use Illuminate\Http\Request;
 
 /**
  * Case-insensitive "contains" search: every word of the term must appear in one of
@@ -41,6 +42,14 @@ final class SearchTerm
         }
 
         return $query;
+    }
+
+    /** The ?search query value; anything but a string (e.g. search[]=x) counts as empty. */
+    public static function fromRequest(Request $request, string $key = 'search'): string
+    {
+        $value = $request->query($key);
+
+        return is_string($value) ? $value : '';
     }
 
     public static function normalize(string $value): string

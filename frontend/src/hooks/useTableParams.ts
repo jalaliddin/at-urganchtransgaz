@@ -1,7 +1,7 @@
 import type { DataTableSortStatus } from 'mantine-datatable'
 import { useCallback, useMemo } from 'react'
 import { useSearchParams } from 'react-router'
-import { useUiStore } from '@/stores/ui'
+import { useOrgContext } from '@/hooks/useOrgContext'
 
 export interface TableParams {
   page: number
@@ -16,6 +16,8 @@ export interface TableParams {
   setSortStatus: (status: DataTableSortStatus<never>) => void
   setSearch: (search: string) => void
   setFilter: (key: string, value: string | null) => void
+  /** Several filters at once (one URL update — consecutive setFilter calls would race). */
+  setFilters: (patch: Record<string, string | null>) => void
   resetFilters: () => void
   /** Query parameters for the list endpoint (docs/API.md §3). */
   apiParams: Record<string, string | number>
@@ -32,13 +34,23 @@ interface Options {
 
 const FILTER = /^filter\[(.+)\]$/
 
+function applyFilter(params: URLSearchParams, key: string, value: string | null): void {
+  if (value === null || value === '') params.delete(`filter[${key}]`)
+  else params.set(`filter[${key}]`, value)
+}
+
 /**
  * Table state (page, size, sort, search, filters) lives in the URL so a filtered
  * list can be bookmarked or shared. Any change except paging returns to page 1.
  */
-export function useTableParams({ defaultSort, defaultPerPage = 25, filterKeys, organizationContext = false }: Options): TableParams {
+export function useTableParams({
+  defaultSort,
+  defaultPerPage = 25,
+  filterKeys,
+  organizationContext = false,
+}: Options): TableParams {
   const [params, setParams] = useSearchParams()
-  const orgContextId = useUiStore((s) => s.orgContextId)
+  const { organizationId: orgContextId } = useOrgContext()
 
   const page = Math.max(1, Number.parseInt(params.get('page') ?? '', 10) || 1)
   const perPage = Number.parseInt(params.get('per_page') ?? '', 10) || defaultPerPage
@@ -88,13 +100,19 @@ export function useTableParams({ defaultSort, defaultPerPage = 25, filterKeys, o
     search,
     filters,
     sortStatus: { columnAccessor: sort.replace(/^-/, ''), direction },
-    setPage: (value) => update((next) => (value > 1 ? next.set('page', String(value)) : next.delete('page')), false),
+    setPage: (value) =>
+      update((next) => (value > 1 ? next.set('page', String(value)) : next.delete('page')), false),
     setPerPage: (value) => update((next) => next.set('per_page', String(value))),
     setSortStatus: (status) =>
-      update((next) => next.set('sort', `${status.direction === 'desc' ? '-' : ''}${String(status.columnAccessor)}`)),
+      update((next) =>
+        next.set('sort', `${status.direction === 'desc' ? '-' : ''}${String(status.columnAccessor)}`),
+      ),
     setSearch: (value) => update((next) => (value ? next.set('search', value) : next.delete('search'))),
-    setFilter: (key, value) =>
-      update((next) => (value === null || value === '' ? next.delete(`filter[${key}]`) : next.set(`filter[${key}]`, value))),
+    setFilter: (key, value) => update((next) => applyFilter(next, key, value)),
+    setFilters: (patch) =>
+      update((next) => {
+        for (const [key, value] of Object.entries(patch)) applyFilter(next, key, value)
+      }),
     resetFilters: () =>
       update((next) => {
         for (const key of [...next.keys()]) if (FILTER.test(key) || key === 'search') next.delete(key)

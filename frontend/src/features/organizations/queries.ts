@@ -10,7 +10,11 @@ export const organizationKeys = {
 }
 
 export function useOrganizations(params: Record<string, string | number>) {
-  return useQuery({ queryKey: organizationKeys.list(params), queryFn: () => orgApi.listOrganizations(params), placeholderData: keepPreviousData })
+  return useQuery({
+    queryKey: organizationKeys.list(params),
+    queryFn: () => orgApi.listOrganizations(params),
+    placeholderData: keepPreviousData,
+  })
 }
 
 export function useOrganizationTree() {
@@ -45,13 +49,17 @@ export function useDeleteOrganization() {
 }
 
 export function useItResponsibles(organizationId: number) {
-  return useQuery({ queryKey: organizationKeys.it(organizationId), queryFn: () => orgApi.listItResponsibles(organizationId) })
+  return useQuery({
+    queryKey: organizationKeys.it(organizationId),
+    queryFn: () => orgApi.listItResponsibles(organizationId),
+  })
 }
 
 export function useAssignItResponsible(organizationId: number) {
   const invalidate = useInvalidateOrganizations()
   return useMutation({
-    mutationFn: (input: Parameters<typeof orgApi.assignItResponsible>[1]) => orgApi.assignItResponsible(organizationId, input),
+    mutationFn: (input: Parameters<typeof orgApi.assignItResponsible>[1]) =>
+      orgApi.assignItResponsible(organizationId, input),
     onSuccess: invalidate,
   })
 }

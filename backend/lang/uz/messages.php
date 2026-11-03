@@ -33,4 +33,6 @@ return [
     'user_deactivated' => 'Foydalanuvchi faolsizlantirildi.',
     'user_activated' => 'Foydalanuvchi faollashtirildi.',
     'notifications_marked_read' => "Bildirishnomalar o'qilgan deb belgilandi.",
+    'target_more_privileged' => 'Bu foydalanuvchining ruxsatlari yoki kirish doirasi sizdan kengroq — uni boshqara olmaysiz.',
+    'organization_has_users' => "Tashkilotni o'chirib bo'lmaydi: unga biriktirilgan tizim foydalanuvchilari bor. Avval ularni boshqa tashkilotga o'tkazing.",
 ];

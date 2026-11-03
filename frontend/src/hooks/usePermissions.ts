@@ -3,7 +3,11 @@ import type { Me } from '@/features/auth/types'
 
 export type PermissionMode = 'all' | 'any'
 
-export function hasPermission(me: Me | null | undefined, permission: string | string[], mode: PermissionMode = 'all'): boolean {
+export function hasPermission(
+  me: Me | null | undefined,
+  permission: string | string[],
+  mode: PermissionMode = 'all',
+): boolean {
   if (!me) return false
   if (me.is_super_admin) return true
   const required = Array.isArray(permission) ? permission : [permission]

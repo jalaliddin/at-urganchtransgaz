@@ -3,7 +3,12 @@ import type { Resource } from '@/api/types'
 
 export interface SearchResults {
   organizations?: { id: number; name: string; code: string | null }[]
-  employees?: { id: number; full_name: string; position: string | null; organization: { id: number; name: string } | null }[]
+  employees?: {
+    id: number
+    full_name: string
+    position: string | null
+    organization: { id: number; name: string } | null
+  }[]
   users?: { id: number; username: string; name: string }[]
 }
 

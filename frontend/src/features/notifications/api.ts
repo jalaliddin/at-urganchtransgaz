@@ -2,7 +2,9 @@ import { api } from '@/api/client'
 import type { Paginated, Resource } from '@/api/types'
 import type { AppNotification } from './types'
 
-export async function fetchNotifications(params: Record<string, string | number> = {}): Promise<Paginated<AppNotification>> {
+export async function fetchNotifications(
+  params: Record<string, string | number> = {},
+): Promise<Paginated<AppNotification>> {
   const { data } = await api.get<Paginated<AppNotification>>('/notifications', { params })
   return data
 }

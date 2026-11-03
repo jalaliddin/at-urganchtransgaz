@@ -8,7 +8,11 @@ export const employeeKeys = {
 }
 
 export function useEmployees(params: Record<string, string | number>) {
-  return useQuery({ queryKey: employeeKeys.list(params), queryFn: () => empApi.listEmployees(params), placeholderData: keepPreviousData })
+  return useQuery({
+    queryKey: employeeKeys.list(params),
+    queryFn: () => empApi.listEmployees(params),
+    placeholderData: keepPreviousData,
+  })
 }
 
 export function useEmployee(id: number) {

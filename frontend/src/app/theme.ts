@@ -21,23 +21,55 @@
 import { createTheme, type MantineColorsTuple } from '@mantine/core'
 
 const cobalt: MantineColorsTuple = [
-  '#eef3fa', '#d9e3f2', '#b0c6e4', '#84a6d5', '#5f8bc8',
-  '#4679bf', '#386fbc', '#2a5ea6', '#1d4e89', '#103f72',
+  '#eef3fa',
+  '#d9e3f2',
+  '#b0c6e4',
+  '#84a6d5',
+  '#5f8bc8',
+  '#4679bf',
+  '#386fbc',
+  '#2a5ea6',
+  '#1d4e89',
+  '#103f72',
 ]
 
 const turquoise: MantineColorsTuple = [
-  '#e4f8fa', '#d2eff2', '#a5dde3', '#74cbd4', '#4cbcc7',
-  '#33b2bf', '#22adbb', '#0f98a5', '#0e8c99', '#00727d',
+  '#e4f8fa',
+  '#d2eff2',
+  '#a5dde3',
+  '#74cbd4',
+  '#4cbcc7',
+  '#33b2bf',
+  '#22adbb',
+  '#0f98a5',
+  '#0e8c99',
+  '#00727d',
 ]
 
 const slate: MantineColorsTuple = [
-  '#f4f6f9', '#e9edf2', '#d9e1eb', '#c3cdd9', '#9aa8b8',
-  '#7a8899', '#5c6a7b', '#465365', '#2f3a4a', '#1a2433',
+  '#f4f6f9',
+  '#e9edf2',
+  '#d9e1eb',
+  '#c3cdd9',
+  '#9aa8b8',
+  '#7a8899',
+  '#5c6a7b',
+  '#465365',
+  '#2f3a4a',
+  '#1a2433',
 ]
 
 const dark: MantineColorsTuple = [
-  '#c9d1dc', '#a7b2c1', '#7d8898', '#556173', '#3a4556',
-  '#2a3442', '#1f2834', '#18202a', '#121820', '#0c1117',
+  '#c9d1dc',
+  '#a7b2c1',
+  '#7d8898',
+  '#556173',
+  '#3a4556',
+  '#2a3442',
+  '#1f2834',
+  '#18202a',
+  '#121820',
+  '#0c1117',
 ]
 
 export const theme = createTheme({

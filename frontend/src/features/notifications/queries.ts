@@ -8,7 +8,11 @@ export const notificationKeys = {
 }
 
 export function useUnreadCount() {
-  return useQuery({ queryKey: notificationKeys.unread, queryFn: notificationsApi.fetchUnreadCount, refetchInterval: 60_000 })
+  return useQuery({
+    queryKey: notificationKeys.unread,
+    queryFn: notificationsApi.fetchUnreadCount,
+    refetchInterval: 60_000,
+  })
 }
 
 export function useNotifications(params: Record<string, string | number>) {

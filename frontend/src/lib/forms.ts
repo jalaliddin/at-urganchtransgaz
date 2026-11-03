@@ -24,7 +24,10 @@ export function applyApiErrors<T extends FieldValues>(error: unknown, setError: 
  * Zod errors carry translation keys (validation namespace); server errors carry
  * ready-to-show text.
  */
-export function fieldError(t: TFunction, error: { type?: unknown; message?: unknown } | undefined): string | undefined {
+export function fieldError(
+  t: TFunction,
+  error: { type?: unknown; message?: unknown } | undefined,
+): string | undefined {
   const message = typeof error?.message === 'string' ? error.message : undefined
   if (!message) return undefined
   return error?.type === 'server' ? message : t(`validation:${message}`)

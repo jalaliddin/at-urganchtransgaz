@@ -5,8 +5,18 @@ import type { Employee } from './types'
 export type EmployeeInput = Partial<
   Pick<
     Employee,
-    | 'last_name' | 'first_name' | 'middle_name' | 'position' | 'personnel_number' | 'phone'
-    | 'internal_phone' | 'email' | 'status' | 'hired_at' | 'dismissed_at' | 'notes'
+    | 'last_name'
+    | 'first_name'
+    | 'middle_name'
+    | 'position'
+    | 'personnel_number'
+    | 'phone'
+    | 'internal_phone'
+    | 'email'
+    | 'status'
+    | 'hired_at'
+    | 'dismissed_at'
+    | 'notes'
   > & { organization_id: number; department_id: number | null }
 >
 

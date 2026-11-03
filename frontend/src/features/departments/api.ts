@@ -12,7 +12,9 @@ export interface DepartmentInput {
   sort_order: number
 }
 
-export async function listDepartments(params: Record<string, string | number>): Promise<Paginated<Department>> {
+export async function listDepartments(
+  params: Record<string, string | number>,
+): Promise<Paginated<Department>> {
   const { data } = await api.get<Paginated<Department>>('/departments', { params })
   return data
 }
