@@ -183,7 +183,7 @@ UNIQUE `(user_id, organization_id)`.
 | Ustun | Tur | Izoh |
 |---|---|---|
 | id | bigint PK | |
-| event | varchar(50) | `created`, `updated`, `deleted`, `restored`, `login`, `logout`, `login_failed`, `password_changed`, `password_reset`, `roles_changed`, `access_changed`, `settings_updated`, ... |
+| event | varchar(50) | `created`, `updated`, `deleted`, `restored`, `login`, `logout`, `login_failed`, `password_changed`, `password_reset`, `roles_changed`, `access_changed`, `settings_updated`, `role_permissions_changed` |
 | auditable_type | varchar(100) NULL | Morph alias (`organization`, `employee`, ...) |
 | auditable_id | bigint NULL | |
 | user_id | bigint NULL (FK yo'q) | Kim |

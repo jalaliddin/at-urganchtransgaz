@@ -20,15 +20,15 @@ service + API + frontend sahifalar + testlar (shu jumladan tashkilotlararo kiris
 
 ---
 
-## 0-bosqich — Tahlil va arxitektura 🔄
+## 0-bosqich — Tahlil va arxitektura ✅
 
-- Repozitoriya tahlili (bo'sh loyiha, faqat topshiriq fayli bor edi)
+- Repozitoriya tahlili (bo'sh loyiha, faqat topshiriq fayli bor edi) — 03.11.2026
 - `README.md`, `docs/ARCHITECTURE.md`, `docs/ROADMAP.md`, `docs/DATABASE.md`,
   `docs/API.md`, `docs/OPEN_QUESTIONS.md`
 - Papkalar tuzilmasi, Docker Compose va nginx konfiguratsiyasi
 - ERD va migratsiyalar rejasi, RBAC va tashkilot doirasi strategiyasi
 
-## 1-bosqich — Foundation 🔄
+## 1-bosqich — Foundation ✅
 
 **Backend**
 - Laravel 13 loyihasi, `/api/v1`, yagona JSON javob va xatolar formati, request ID
@@ -59,6 +59,10 @@ service + API + frontend sahifalar + testlar (shu jumladan tashkilotlararo kiris
 - Docker Compose: nginx, frontend, backend, queue-worker, scheduler, mysql, redis,
   mailpit (dev); healthcheck, restart, log rotation; dev/prod ajratish
 - `.env.example`, `scripts/init-env.sh`, backup/restore skriptlari, TLS yo'riqnomasi
+
+**Natija (03.11.2026):** backend 218 ta test, frontend 56 ta test, Pint/Larastan/ESLint/tsc
+toza; production rejimi (TLS, `APP_DEBUG=false`, dev dependency'siz image) va backup/restore
+amalda sinab ko'rilgan. Excel/PDF eksport 2-bosqichga o'tkazilgan (eksport navbati bilan birga).
 
 ## 2-bosqich — Helpdesk ⏳
 

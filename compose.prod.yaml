@@ -9,12 +9,14 @@ x-backend-prod: &backend-prod
 
 services:
   nginx:
+    environment:
+      HTTPS_PORT_SUFFIX: ${HTTPS_PORT_SUFFIX:-}
     ports:
       - "${HTTP_PORT:-80}:80"
       - "${HTTPS_PORT:-443}:443"
     volumes:
       - ./docker/nginx/prod.conf.template:/etc/nginx/templates/default.conf.template:ro
-      - ./docker/nginx/certs:/etc/nginx/certs:ro
+      - ${TLS_CERT_DIR:-./docker/nginx/certs}:/etc/nginx/certs:ro
       - acme-webroot:/var/www/acme:ro
 
   frontend:

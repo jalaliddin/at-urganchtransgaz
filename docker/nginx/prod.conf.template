@@ -17,8 +17,9 @@ server {
         return 200 "ok\n";
     }
 
+    # HTTPS_PORT_SUFFIX is empty for the standard port 443, e.g. ":8443" otherwise.
     location / {
-        return 301 https://$host$request_uri;
+        return 301 https://$host${HTTPS_PORT_SUFFIX}$request_uri;
     }
 }
 
