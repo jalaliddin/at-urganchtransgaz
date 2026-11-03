@@ -1,0 +1,21 @@
+# Secrets & environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+docker/nginx/certs/*
+!docker/nginx/certs/.gitkeep
+
+# Backups produced by scripts/backup.sh
+backups/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Claude Code local state (project skills are kept)
+.claude/settings.local.json
