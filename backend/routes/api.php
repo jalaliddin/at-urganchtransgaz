@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\MeController;
 use App\Http\Controllers\Api\V1\Auth\PasswordController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
+use App\Http\Controllers\Api\V1\Departments\DepartmentController;
+use App\Http\Controllers\Api\V1\Employees\EmployeeController;
 use App\Http\Controllers\Api\V1\Health\HealthController;
 use App\Http\Controllers\Api\V1\Organizations\ItResponsibleController;
 use App\Http\Controllers\Api\V1\Organizations\OrganizationController;
@@ -44,4 +46,7 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
         ->name('organizations.it-responsibles.store');
     Route::delete('organizations/{organization}/it-responsibles/{employee}', [ItResponsibleController::class, 'destroy'])
         ->whereNumber('employee')->name('organizations.it-responsibles.destroy');
+
+    Route::apiResource('departments', DepartmentController::class);
+    Route::apiResource('employees', EmployeeController::class);
 });

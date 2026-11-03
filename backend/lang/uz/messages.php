@@ -17,4 +17,8 @@ return [
     'organization_cycle' => "Tashkilotni o'zining quyi tashkilotiga ko'chirib bo'lmaydi.",
     'it_responsible_exists' => "Bu xodim ushbu tashkilotga AT mas'uli sifatida allaqachon biriktirilgan.",
     'it_responsible_removed' => "AT mas'uli biriktiruvi bekor qilindi.",
+    'department_not_empty' => "Bo'limni o'chirib bo'lmaydi: unda xodimlar yoki ichki bo'limlar mavjud.",
+    'department_cycle' => "Bo'limni o'zining ichki bo'limiga joylashtirib bo'lmaydi.",
+    'department_wrong_organization' => "Tanlangan bo'lim ushbu tashkilotga tegishli emas.",
+    'employee_has_user' => "Xodimni o'chirib bo'lmaydi: unga tizim foydalanuvchisi bog'langan. Avval foydalanuvchini ajrating yoki xodimni ishdan bo'shatilgan deb belgilang.",
 ];

@@ -50,4 +50,15 @@ class SearchTermTest extends TestCase
 
         $this->assertSame(['Aziz', 'Boss Ali'], $names);
     }
+
+    public function test_every_word_must_match_some_column_in_any_order(): void
+    {
+        User::factory()->create(['name' => 'Karimov Aziz', 'email' => 'aziz@urtg.uz']);
+        User::factory()->create(['name' => 'Karimov Bekzod', 'email' => 'bek@urtg.uz']);
+
+        $names = SearchTerm::whereContains(User::query(), ['name', 'email'], '  aziz   karimov ')
+            ->pluck('name')->all();
+
+        $this->assertSame(['Karimov Aziz'], $names);
+    }
 }

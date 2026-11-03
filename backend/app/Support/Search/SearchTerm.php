@@ -5,13 +5,16 @@ namespace App\Support\Search;
 use Illuminate\Contracts\Database\Query\Builder as BuilderContract;
 
 /**
- * Case-insensitive "contains" search that treats LIKE wildcards literally and
- * matches Uzbek apostrophe variants (ʻ ʼ ‘ ’ `) interchangeably with '.
+ * Case-insensitive "contains" search: every word of the term must appear in one of
+ * the columns. LIKE wildcards are literal and Uzbek apostrophe variants (ʻ ʼ ‘ ’ `)
+ * match ' interchangeably.
  */
 final class SearchTerm
 {
     /** Apostrophe look-alikes used in Uzbek Latin text (oʻ, gʻ, ʼ). */
     public const APOSTROPHES = ['ʻ', 'ʼ', '‘', '’', '`'];
+
+    private const MAX_WORDS = 5;
 
     /**
      * @template TBuilder of BuilderContract
@@ -22,18 +25,20 @@ final class SearchTerm
      */
     public static function whereContains(BuilderContract $query, array $columns, string $term): BuilderContract
     {
-        $term = trim($term);
-        if ($term === '' || $columns === []) {
+        $words = array_slice(preg_split('/\s+/u', trim($term), -1, PREG_SPLIT_NO_EMPTY) ?: [], 0, self::MAX_WORDS);
+        if ($words === [] || $columns === []) {
             return $query;
         }
 
-        $pattern = '%'.self::escapeLike(self::normalize($term)).'%';
-
-        $query->where(function ($q) use ($columns, $pattern): void {
-            foreach ($columns as $column) {
-                $q->orWhereRaw(self::normalizedColumn($column)." LIKE ? ESCAPE '!'", [$pattern]);
-            }
-        });
+        // Every word must appear in at least one of the columns (any order).
+        foreach ($words as $word) {
+            $pattern = '%'.self::escapeLike(self::normalize($word)).'%';
+            $query->where(function ($q) use ($columns, $pattern): void {
+                foreach ($columns as $column) {
+                    $q->orWhereRaw(self::normalizedColumn($column)." LIKE ? ESCAPE '!'", [$pattern]);
+                }
+            });
+        }
 
         return $query;
     }
