@@ -1,0 +1,61 @@
+.main {
+  background: var(--mantine-color-gray-0);
+  min-height: 100dvh;
+}
+
+:where([data-mantine-color-scheme='dark']) .main {
+  background: var(--mantine-color-dark-8);
+}
+
+.mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.navGroupLabel {
+  padding: 16px 12px 6px;
+  font-size: 0.8125rem;
+  color: var(--mantine-color-dimmed);
+}
+
+.navLink {
+  border-radius: var(--mantine-radius-sm);
+  position: relative;
+}
+
+/* Active item: a turquoise bar at the inline start, the one accent of the shell. */
+.navLink[data-active] {
+  font-weight: 600;
+}
+
+.navLink[data-active]::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--mantine-color-turquoise-8);
+}
+
+.collapsedItem {
+  display: flex;
+  justify-content: center;
+}
+
+.searchButton {
+  justify-content: flex-start;
+}
+
+.searchLabel {
+  flex: 1;
+  text-align: start;
+}

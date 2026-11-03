@@ -1,0 +1,50 @@
+{
+  "groups": {
+    "main": "Asosiy",
+    "structure": "Tashkiliy tuzilma",
+    "administration": "Boshqaruv"
+  },
+  "items": {
+    "dashboard": "Boshqaruv paneli",
+    "organizations": "Tashkilotlar",
+    "departments": "Bo'limlar",
+    "employees": "Xodimlar",
+    "users": "Foydalanuvchilar",
+    "roles": "Rollar va ruxsatlar",
+    "audit": "Audit jurnali",
+    "settings": "Sozlamalar",
+    "profile": "Profil",
+    "notifications": "Bildirishnomalar",
+    "changePassword": "Parolni almashtirish"
+  },
+  "header": {
+    "search": "Qidirish",
+    "searchPlaceholder": "Tashkilot, xodim yoki foydalanuvchi",
+    "searchHint": "Kamida 2 ta belgi kiriting",
+    "nothingFound": "Hech narsa topilmadi",
+    "pages": "Sahifalar",
+    "allOrganizations": "Barcha tashkilotlar",
+    "orgContext": "Ishchi tashkilot",
+    "toggleNavigation": "Menyuni ochish yoki yopish",
+    "collapse": "Menyuni yig'ish",
+    "expand": "Menyuni yoyish",
+    "home": "Bosh sahifa"
+  },
+  "search": {
+    "organizations": "Tashkilotlar",
+    "employees": "Xodimlar",
+    "users": "Foydalanuvchilar"
+  },
+  "notifications": {
+    "open": "Bildirishnomalar",
+    "empty": "Yangi bildirishnoma yo'q",
+    "markAll": "Barchasini o'qilgan deb belgilash",
+    "all": "Barcha bildirishnomalar"
+  },
+  "user": {
+    "menu": "Foydalanuvchi menyusi",
+    "darkTheme": "Qorong'i mavzu",
+    "lightTheme": "Yorug' mavzu",
+    "language": "Til"
+  }
+}

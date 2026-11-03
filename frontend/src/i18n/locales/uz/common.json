@@ -37,6 +37,31 @@
   "errors": {
     "network": "Server bilan aloqa yo'q. Internet ulanishini tekshirib, qayta urinib ko'ring.",
     "generic": "So'rovni bajarib bo'lmadi.",
-    "requestId": "So'rov ID: {{id}}"
+    "requestId": "So'rov ID: {{id}}",
+    "loadFailed": "Ma'lumotlarni yuklab bo'lmadi",
+    "forbiddenTitle": "Ruxsat yo'q",
+    "forbidden": "Bu sahifani ko'rish uchun sizda ruxsat yo'q. Kerak bo'lsa, AT xizmatiga murojaat qiling.",
+    "notFoundTitle": "Sahifa topilmadi",
+    "notFound": "Havola noto'g'ri yoki sahifa o'chirilgan.",
+    "toHome": "Boshqaruv paneliga o'tish"
+  },
+  "status": {
+    "active": "Faol",
+    "on_leave": "Ta'tilda",
+    "business_trip": "Xizmat safarida",
+    "dismissed": "Ishdan bo'shagan",
+    "inactive": "Faol emas",
+    "must_change_password": "Parolni almashtirishi kerak"
+  },
+  "notifications": {
+    "access_changed": "{{actor}} rollaringiz yoki kirish doirangizni o'zgartirdi",
+    "password_reset_by_admin": "{{actor}} hisobingiz uchun vaqtinchalik parol berdi"
+  },
+  "languages": {
+    "uz": "O'zbekcha",
+    "ru": "Русский"
+  },
+  "confirm": {
+    "title": "Amalni tasdiqlang"
   }
 }

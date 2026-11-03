@@ -2,9 +2,13 @@ import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import ruAuth from './locales/ru/auth.json'
 import ruCommon from './locales/ru/common.json'
+import ruNav from './locales/ru/nav.json'
+import ruTable from './locales/ru/table.json'
 import ruValidation from './locales/ru/validation.json'
 import uzAuth from './locales/uz/auth.json'
 import uzCommon from './locales/uz/common.json'
+import uzNav from './locales/uz/nav.json'
+import uzTable from './locales/uz/table.json'
 import uzValidation from './locales/uz/validation.json'
 
 export const SUPPORTED_LANGUAGES = ['uz', 'ru'] as const
@@ -13,8 +17,8 @@ export type Language = (typeof SUPPORTED_LANGUAGES)[number]
 const STORAGE_KEY = 'at.locale'
 
 export const resources = {
-  uz: { common: uzCommon, auth: uzAuth, validation: uzValidation },
-  ru: { common: ruCommon, auth: ruAuth, validation: ruValidation },
+  uz: { common: uzCommon, auth: uzAuth, validation: uzValidation, nav: uzNav, table: uzTable },
+  ru: { common: ruCommon, auth: ruAuth, validation: ruValidation, nav: ruNav, table: ruTable },
 } as const
 
 export function isLanguage(value: unknown): value is Language {

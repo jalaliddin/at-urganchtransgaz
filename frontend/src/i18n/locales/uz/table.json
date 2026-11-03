@@ -1,0 +1,8 @@
+{
+  "pagination": "{{from}}–{{to}}, jami {{total}}",
+  "perPage": "Sahifada",
+  "search": "Qidirish",
+  "filters": "Filtrlar",
+  "resetFilters": "Filtrlarni tozalash",
+  "columnsHint": "Ustunlarni yashirish yoki ko'rsatish uchun sarlavhada sichqonchaning o'ng tugmasini bosing"
+}

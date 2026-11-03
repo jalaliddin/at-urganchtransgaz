@@ -1,0 +1,50 @@
+{
+  "groups": {
+    "main": "Основное",
+    "structure": "Оргструктура",
+    "administration": "Администрирование"
+  },
+  "items": {
+    "dashboard": "Панель управления",
+    "organizations": "Организации",
+    "departments": "Отделы",
+    "employees": "Сотрудники",
+    "users": "Пользователи",
+    "roles": "Роли и права",
+    "audit": "Журнал аудита",
+    "settings": "Настройки",
+    "profile": "Профиль",
+    "notifications": "Уведомления",
+    "changePassword": "Смена пароля"
+  },
+  "header": {
+    "search": "Поиск",
+    "searchPlaceholder": "Организация, сотрудник или пользователь",
+    "searchHint": "Введите не менее 2 символов",
+    "nothingFound": "Ничего не найдено",
+    "pages": "Страницы",
+    "allOrganizations": "Все организации",
+    "orgContext": "Рабочая организация",
+    "toggleNavigation": "Открыть или закрыть меню",
+    "collapse": "Свернуть меню",
+    "expand": "Развернуть меню",
+    "home": "Главная"
+  },
+  "search": {
+    "organizations": "Организации",
+    "employees": "Сотрудники",
+    "users": "Пользователи"
+  },
+  "notifications": {
+    "open": "Уведомления",
+    "empty": "Новых уведомлений нет",
+    "markAll": "Отметить все как прочитанные",
+    "all": "Все уведомления"
+  },
+  "user": {
+    "menu": "Меню пользователя",
+    "darkTheme": "Тёмная тема",
+    "lightTheme": "Светлая тема",
+    "language": "Язык"
+  }
+}
