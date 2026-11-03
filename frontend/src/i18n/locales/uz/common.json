@@ -63,5 +63,15 @@
   },
   "confirm": {
     "title": "Amalni tasdiqlang"
+  },
+  "entities": {
+    "organization": "Tashkilot",
+    "department": "Bo'lim",
+    "employee": "Xodim",
+    "user": "Foydalanuvchi",
+    "role": "Rol",
+    "organization_it_responsible": "AT mas'uli biriktiruvi",
+    "user_organization_access": "Kirish doirasi",
+    "system_setting": "Sozlama"
   }
 }

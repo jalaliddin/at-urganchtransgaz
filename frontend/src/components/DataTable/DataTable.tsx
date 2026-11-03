@@ -1,11 +1,12 @@
-import { Paper, Skeleton, Stack } from '@mantine/core'
+import { Button, Checkbox, Group, Menu, Paper, Skeleton, Stack } from '@mantine/core'
+import { IconColumns } from '@tabler/icons-react'
 import {
   DataTable as MantineDataTable,
   useDataTableColumns,
   type DataTableColumn,
   type DataTableSortStatus,
 } from 'mantine-datatable'
-import { useMemo, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { PaginationMeta } from '@/api/types'
 import { EmptyState } from '@/components/EmptyState'
@@ -29,20 +30,75 @@ export interface DataTableProps<T> {
   emptyDescription?: ReactNode
   emptyAction?: ReactNode
   onRowClick?: (record: T) => void
+  /** Filters shown in one row above the table, next to the column menu. */
+  toolbar?: ReactNode
 }
 
 /**
  * Server-side table: paging, sorting and column visibility, with loading,
- * empty and error states. Right-click a header to hide/show columns.
+ * empty and error states. Filters go in the toolbar row above the table.
  */
 export function DataTable<T extends { id: number | string }>(props: DataTableProps<T>) {
   const { t } = useTranslation('table')
-  const columns = useMemo(() => props.columns.map((c) => ({ toggleable: true, ...c })), [props.columns])
-  const { effectiveColumns } = useDataTableColumns<T>({
+  const { effectiveColumns, columnsToggle, setColumnsToggle, resetColumnsToggle } = useDataTableColumns<T>({
     key: props.storeKey,
-    columns,
+    columns: props.columns,
     getInitialValueInEffect: false,
   })
+
+  const titleOf = (accessor: string) => {
+    const column = props.columns.find((c) => String(c.accessor) === accessor)
+    return typeof column?.title === 'string' ? column.title : accessor
+  }
+  const visibleCount = columnsToggle.filter((c) => c.toggled).length
+
+  const columnMenu = (
+    <Menu position="bottom-end" closeOnItemClick={false}>
+      <Menu.Target>
+        <Button variant="default" leftSection={<IconColumns size={16} />}>
+          {t('columns')}
+        </Button>
+      </Menu.Target>
+      <Menu.Dropdown>
+        {columnsToggle.map((column) => (
+          <Menu.Item key={column.accessor}>
+            <Checkbox
+              label={titleOf(column.accessor)}
+              checked={column.toggled}
+              // At least one column always stays visible.
+              disabled={column.toggled && visibleCount === 1}
+              onChange={(event) =>
+                setColumnsToggle(
+                  columnsToggle.map((c) =>
+                    c.accessor === column.accessor ? { ...c, toggled: event.currentTarget.checked } : c,
+                  ),
+                )
+              }
+            />
+          </Menu.Item>
+        ))}
+        <Menu.Divider />
+        <Menu.Item onClick={resetColumnsToggle}>{t('showAllColumns')}</Menu.Item>
+      </Menu.Dropdown>
+    </Menu>
+  )
+
+  return (
+    <Stack gap="sm">
+      <Group justify="space-between" align="flex-end" gap="sm" wrap="wrap">
+        <Group gap="sm" wrap="wrap" style={{ flex: '1 1 auto' }}>
+          {props.toolbar}
+        </Group>
+        {columnMenu}
+      </Group>
+      <TableBody {...props} columns={effectiveColumns} />
+    </Stack>
+  )
+}
+
+function TableBody<T extends { id: number | string }>(props: DataTableProps<T>) {
+  const { t } = useTranslation('table')
+  const { meta, params } = props
 
   if (props.error) {
     return (
@@ -65,11 +121,9 @@ export function DataTable<T extends { id: number | string }>(props: DataTablePro
   }
 
   const records = props.records ?? []
-  const { meta, params } = props
-
   const shared = {
     storeColumnsKey: props.storeKey,
-    columns: effectiveColumns,
+    columns: props.columns,
     records,
     idAccessor: 'id' as const,
     minHeight: records.length ? undefined : 260,
@@ -84,6 +138,7 @@ export function DataTable<T extends { id: number | string }>(props: DataTablePro
     onRowClick: props.onRowClick ? ({ record }: { record: T }) => props.onRowClick?.(record) : undefined,
   }
 
+  // Pagination props are all-or-nothing in mantine-datatable's types, hence two branches.
   return (
     <Paper withBorder style={{ overflow: 'hidden' }}>
       {meta && records.length > 0 ? (

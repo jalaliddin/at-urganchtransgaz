@@ -1,0 +1,40 @@
+{
+  "title": "Boshqaruv paneli",
+  "greeting": "Xush kelibsiz, {{name}}",
+  "scope": "Ko'rsatkichlar tanlangan tashkilot va uning quyi tashkilotlari bo'yicha",
+  "organizations": {
+    "title": "Tashkilotlar",
+    "active": "{{count}} tasi faol"
+  },
+  "employees": {
+    "title": "Xodimlar",
+    "byStatus": "Xodimlar holati",
+    "share": "{{count}} nafar, {{percent}}%"
+  },
+  "coverage": {
+    "title": "AT mas'ullari",
+    "assigned": "{{with}} / {{total}} faol tashkilotda biriktirilgan",
+    "missing_one": "{{count}} ta tashkilotda AT mas'uli yo'q",
+    "missing_other": "{{count}} ta tashkilotda AT mas'uli yo'q",
+    "complete": "Barcha faol tashkilotlarda AT mas'uli bor",
+    "open": "Tashkilotlarni ko'rish"
+  },
+  "users": {
+    "title": "Foydalanuvchilar",
+    "active": "{{count}} tasi faol",
+    "pending": "{{count}} tasi parolni almashtirishi kerak"
+  },
+  "audit": {
+    "title": "So'nggi hodisalar",
+    "all": "Audit jurnalini ochish",
+    "empty": "Hozircha hodisa yo'q",
+    "system": "Tizim"
+  },
+  "profile": {
+    "title": "Mening ma'lumotlarim",
+    "organization": "Tashkilot",
+    "roles": "Rollar",
+    "changePassword": "Parolni almashtirish",
+    "open": "Profilni ochish"
+  }
+}

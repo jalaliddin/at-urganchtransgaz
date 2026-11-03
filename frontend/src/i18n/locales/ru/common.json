@@ -63,5 +63,15 @@
   },
   "confirm": {
     "title": "Подтвердите действие"
+  },
+  "entities": {
+    "organization": "Организация",
+    "department": "Отдел",
+    "employee": "Сотрудник",
+    "user": "Пользователь",
+    "role": "Роль",
+    "organization_it_responsible": "Назначение ответственного за ИТ",
+    "user_organization_access": "Доступ",
+    "system_setting": "Настройка"
   }
 }

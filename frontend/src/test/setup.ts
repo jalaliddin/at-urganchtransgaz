@@ -37,6 +37,11 @@ class ResizeObserverStub {
 }
 window.ResizeObserver = ResizeObserverStub
 window.HTMLElement.prototype.scrollIntoView = () => {}
+// Mantine's autosize textarea re-measures when web fonts finish loading.
+Object.defineProperty(document, 'fonts', {
+  configurable: true,
+  value: { ready: Promise.resolve(), addEventListener: () => {}, removeEventListener: () => {} },
+})
 window.HTMLElement.prototype.scrollTo = () => {}
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))

@@ -4,9 +4,12 @@ import { ForgotPasswordPage } from '@/features/auth/ForgotPasswordPage'
 import { LoginPage } from '@/features/auth/LoginPage'
 import { RequireAuth } from '@/features/auth/RequireAuth'
 import { RequirePasswordChanged } from '@/features/auth/RequirePasswordChanged'
+import { RequirePermission } from '@/features/auth/RequirePermission'
 import { ResetPasswordPage } from '@/features/auth/ResetPasswordPage'
 import { DashboardPage } from '@/features/dashboard/DashboardPage'
 import { NotFoundPage } from '@/features/errors/NotFoundPage'
+import { OrganizationDetailPage } from '@/features/organizations/OrganizationDetailPage'
+import { OrganizationsPage } from '@/features/organizations/OrganizationsPage'
 import { AppLayout } from '@/layouts/AppLayout/AppLayout'
 
 export const routes: RouteObject[] = [
@@ -25,6 +28,15 @@ export const routes: RouteObject[] = [
             handle: { crumb: 'nav:header.home' },
             children: [
               { index: true, element: <DashboardPage /> },
+              {
+                path: 'organizations',
+                element: <RequirePermission permission="organizations.view" />,
+                handle: { crumb: 'nav:items.organizations' },
+                children: [
+                  { index: true, element: <OrganizationsPage /> },
+                  { path: ':id', element: <OrganizationDetailPage />, handle: { crumb: 'organizations:crumb' } },
+                ],
+              },
               { path: '*', element: <NotFoundPage /> },
             ],
           },

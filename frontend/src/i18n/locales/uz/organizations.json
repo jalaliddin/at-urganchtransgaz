@@ -1,0 +1,89 @@
+{
+  "title": "Tashkilotlar",
+  "description": "Markaziy apparat va quyi tashkilotlar tuzilmasi",
+  "views": {
+    "tree": "Daraxt",
+    "list": "Ro'yxat"
+  },
+  "actions": {
+    "create": "Tashkilot qo'shish",
+    "edit": "Tahrirlash",
+    "delete": "O'chirish",
+    "addChild": "Quyi tashkilot qo'shish"
+  },
+  "fields": {
+    "parent": "Yuqori tashkilot",
+    "type": "Turi",
+    "name": "To'liq nomi",
+    "short_name": "Qisqa nomi",
+    "code": "Kodi",
+    "tin": "STIR",
+    "address": "Manzil",
+    "phone": "Telefon",
+    "email": "Email",
+    "head_name": "Rahbar F.I.Sh.",
+    "is_active": "Faol",
+    "sort_order": "Tartib raqami",
+    "children": "Quyi tashkilotlar",
+    "created_at": "Yaratilgan",
+    "updated_at": "O'zgartirilgan"
+  },
+  "types": {
+    "head_office": "Markaziy apparat",
+    "subsidiary": "Quyi tashkilot",
+    "branch": "Filial / tarkibiy bo'linma",
+    "other": "Boshqa"
+  },
+  "sections": {
+    "main": "Asosiy ma'lumotlar",
+    "contacts": "Aloqa",
+    "state": "Holat"
+  },
+  "form": {
+    "createTitle": "Yangi tashkilot",
+    "editTitle": "Tashkilotni tahrirlash",
+    "rootHint": "Bo'sh qoldirilsa, ildiz tashkilot yaratiladi",
+    "inactiveHint": "Faol bo'lmagan tashkilotga yangi yozuv qo'shilmaydi",
+    "created": "Tashkilot qo'shildi",
+    "updated": "O'zgarishlar saqlandi"
+  },
+  "delete": {
+    "title": "Tashkilotni o'chirish",
+    "message": "\"{{name}}\" o'chirilsinmi? Quyi tashkilotlari, bo'limlari yoki xodimlari bo'lsa, tizim o'chirishga ruxsat bermaydi — uning o'rniga faolsizlantiring.",
+    "done": "Tashkilot o'chirildi"
+  },
+  "filters": {
+    "type": "Turi",
+    "status": "Holati",
+    "allTypes": "Barcha turlar",
+    "any": "Barchasi",
+    "active": "Faol",
+    "inactive": "Faol emas",
+    "search": "Nomi, kodi yoki STIR"
+  },
+  "empty": {
+    "title": "Tashkilotlar topilmadi",
+    "description": "Qidiruv yoki filtrlarni o'zgartiring.",
+    "tree": "Sizning vakolatingizda tashkilot yo'q"
+  },
+  "tabs": {
+    "info": "Ma'lumotlar",
+    "it": "AT mas'ullari",
+    "departments": "Bo'limlar",
+    "employees": "Xodimlar"
+  },
+  "it": {
+    "title": "AT mas'ullari",
+    "assign": "Mas'ul biriktirish",
+    "employee": "Xodim",
+    "primary": "Asosiy mas'ul",
+    "assigned_at": "Biriktirilgan sana",
+    "notes": "Izoh",
+    "remove": "Biriktiruvni bekor qilish",
+    "removeConfirm": "{{name}} bu tashkilotning AT mas'uli sifatida olib tashlansinmi?",
+    "empty": "AT mas'uli biriktirilmagan",
+    "emptyHint": "Tashkilot uchun AT bo'yicha mas'ul xodimni biriktiring.",
+    "assigned": "Mas'ul biriktirildi"
+  },
+  "crumb": "Tashkilot"
+}
