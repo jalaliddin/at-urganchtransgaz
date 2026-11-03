@@ -25,6 +25,7 @@ return [
         'password_reset' => 'Parol tiklandi',
         'roles_changed' => "Rollar o'zgartirildi",
         'access_changed' => "Kirish doirasi o'zgartirildi",
+        'role_permissions_changed' => "Rol ruxsatlari o'zgartirildi",
         'settings_updated' => "Sozlamalar o'zgartirildi",
     ],
 ];

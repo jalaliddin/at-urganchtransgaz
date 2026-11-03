@@ -25,6 +25,7 @@ return [
         'password_reset' => 'Пароль сброшен',
         'roles_changed' => 'Роли изменены',
         'access_changed' => 'Доступ изменён',
+        'role_permissions_changed' => 'Права роли изменены',
         'settings_updated' => 'Настройки изменены',
     ],
 ];
