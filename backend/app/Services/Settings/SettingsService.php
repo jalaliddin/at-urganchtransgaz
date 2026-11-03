@@ -20,11 +20,11 @@ class SettingsService
     public function __construct(private readonly AuditLogger $audit) {}
 
     /**
-     * @return array<string, array{type: string, default: mixed, rules: list<string>, public: bool}>
+     * @return array<string, array{type: string, default: mixed, rules: list<string>, item_rules?: list<string>, public: bool}>
      */
     public function definitions(): array
     {
-        /** @var array<string, array{type: string, default: mixed, rules: list<string>, public: bool}> */
+        /** @var array<string, array{type: string, default: mixed, rules: list<string>, item_rules?: list<string>, public: bool}> */
         return config('settings', []);
     }
 
@@ -129,6 +129,7 @@ class SettingsService
         return match ($type) {
             'integer' => (int) $value,
             'boolean' => (bool) $value,
+            'array' => array_values((array) $value),
             default => (string) $value,
         };
     }

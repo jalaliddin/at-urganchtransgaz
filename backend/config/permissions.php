@@ -22,6 +22,8 @@ return [
         'roles' => ['view', 'manage'],
         'audit' => ['view'],
         'settings' => ['view', 'update'],
+        'helpdesk' => ['view', 'create', 'process', 'assign', 'export', 'manage'],
+        'documents' => ['view', 'manage'],
     ],
 
     'roles' => [
@@ -42,6 +44,9 @@ return [
                 'users.view', 'users.create', 'users.update', 'users.deactivate', 'users.reset_password',
                 'users.manage_access',
                 'roles.view', 'audit.view', 'settings.view',
+                'helpdesk.view', 'helpdesk.create', 'helpdesk.process', 'helpdesk.assign', 'helpdesk.export',
+                'helpdesk.manage',
+                'documents.view', 'documents.manage',
             ],
         ],
         'central-it-staff' => [
@@ -51,6 +56,8 @@ return [
                 'dashboard.view', 'organizations.view', 'departments.view',
                 'employees.view', 'employees.create', 'employees.update',
                 'users.view',
+                'helpdesk.view', 'helpdesk.create', 'helpdesk.process', 'helpdesk.export',
+                'documents.view', 'documents.manage',
             ],
         ],
         'org-it-responsible' => [
@@ -60,22 +67,30 @@ return [
                 'dashboard.view', 'organizations.view',
                 'departments.view', 'departments.create', 'departments.update', 'departments.delete',
                 'employees.view', 'employees.create', 'employees.update', 'employees.delete',
+                'helpdesk.view', 'helpdesk.create', 'helpdesk.process', 'helpdesk.assign', 'helpdesk.export',
+                'documents.view', 'documents.manage',
             ],
         ],
         'org-head' => [
             'display_name' => 'Quyi tashkilot rahbari',
             'description' => 'O\'z tashkiloti ma\'lumotlarini ko\'radi va belgilangan jarayonlarda tasdiqlaydi.',
-            'permissions' => ['dashboard.view', 'organizations.view', 'departments.view', 'employees.view'],
+            'permissions' => [
+                'dashboard.view', 'organizations.view', 'departments.view', 'employees.view',
+                'helpdesk.view', 'helpdesk.create', 'helpdesk.export',
+            ],
         ],
         'employee' => [
             'display_name' => 'Oddiy xodim',
             'description' => 'Helpdesk arizasi yuboradi, o\'z arizalari va aktivlarini ko\'radi.',
-            'permissions' => ['dashboard.view'],
+            'permissions' => ['dashboard.view', 'helpdesk.create'],
         ],
         'accountant' => [
             'display_name' => 'Buxgalter / moddiy javobgar shaxs',
             'description' => 'Kirim-chiqim, hisobdan chiqarish va moliyaviy ma\'lumotlar.',
-            'permissions' => ['dashboard.view', 'organizations.view', 'departments.view', 'employees.view'],
+            'permissions' => [
+                'dashboard.view', 'organizations.view', 'departments.view', 'employees.view',
+                'helpdesk.create', 'documents.view', 'documents.manage',
+            ],
         ],
         'auditor' => [
             'display_name' => 'Auditor / kuzatuvchi',
@@ -83,6 +98,7 @@ return [
             'permissions' => [
                 'dashboard.view', 'organizations.view', 'departments.view', 'employees.view',
                 'users.view', 'roles.view', 'audit.view', 'settings.view',
+                'helpdesk.view', 'helpdesk.export', 'documents.view',
             ],
         ],
     ],

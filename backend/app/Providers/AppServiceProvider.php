@@ -57,6 +57,15 @@ class AppServiceProvider extends ServiceProvider
             'system_setting' => SystemSetting::class,
             'role' => Role::class,
             'audit_log' => AuditLog::class,
+            'stored_file' => \App\Models\StoredFile::class,
+            'ticket_category' => \App\Models\TicketCategory::class,
+            'ticket_sla_policy' => \App\Models\TicketSlaPolicy::class,
+            'ticket' => \App\Models\Ticket::class,
+            'ticket_comment' => \App\Models\TicketComment::class,
+            'ticket_attachment' => \App\Models\TicketAttachment::class,
+            'document' => \App\Models\Document::class,
+            'document_version' => \App\Models\DocumentVersion::class,
+            'report_export' => \App\Models\ReportExport::class,
         ]);
     }
 

@@ -40,7 +40,7 @@ class RbacSeederTest extends TestCase
         $this->assertTrue($this->role(Roles::CENTRAL_IT_STAFF)->hasPermissionTo('employees.create'));
         $this->assertTrue($this->role(Roles::CENTRAL_IT_STAFF)->hasPermissionTo('employees.update'));
         $this->assertFalse($this->role(Roles::CENTRAL_IT_STAFF)->hasPermissionTo('employees.delete'));
-        $this->assertSame(['dashboard.view'], $this->role(Roles::EMPLOYEE)->permissions->pluck('name')->all());
+        $this->assertSame(['dashboard.view', 'helpdesk.create'], $this->role(Roles::EMPLOYEE)->permissions->pluck('name')->sort()->values()->all());
         $this->assertFalse($this->role(Roles::CENTRAL_IT_HEAD)->hasPermissionTo('roles.manage'));
         $this->assertTrue($this->role(Roles::SUPER_ADMIN)->hasPermissionTo('roles.manage'));
     }

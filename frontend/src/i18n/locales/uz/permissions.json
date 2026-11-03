@@ -7,7 +7,9 @@
     "users": "Foydalanuvchilar",
     "roles": "Rollar",
     "audit": "Audit jurnali",
-    "settings": "Sozlamalar"
+    "settings": "Sozlamalar",
+    "helpdesk": "Helpdesk arizalari",
+    "documents": "Hujjatlar"
   },
   "actions": {
     "view": "Ko'rish",
@@ -18,7 +20,10 @@
     "deactivate": "Faolsizlantirish",
     "reset_password": "Parolni tiklash",
     "manage_access": "Rollar va kirish doirasi",
-    "manage": "Boshqarish"
+    "manage": "Boshqarish",
+    "process": "Arizalarni bajarish",
+    "assign": "Mas'ul tayinlash",
+    "export": "Eksport (Excel/PDF)"
   },
   "selectAll": "Barchasi"
 }

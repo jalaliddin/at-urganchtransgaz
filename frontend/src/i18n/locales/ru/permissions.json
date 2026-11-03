@@ -7,7 +7,9 @@
     "users": "Пользователи",
     "roles": "Роли",
     "audit": "Журнал аудита",
-    "settings": "Настройки"
+    "settings": "Настройки",
+    "helpdesk": "Заявки Helpdesk",
+    "documents": "Документы"
   },
   "actions": {
     "view": "Просмотр",
@@ -18,7 +20,10 @@
     "deactivate": "Деактивация",
     "reset_password": "Сброс пароля",
     "manage_access": "Роли и доступ",
-    "manage": "Управление"
+    "manage": "Управление",
+    "process": "Исполнение заявок",
+    "assign": "Назначение исполнителя",
+    "export": "Экспорт (Excel/PDF)"
   },
   "selectAll": "Все"
 }

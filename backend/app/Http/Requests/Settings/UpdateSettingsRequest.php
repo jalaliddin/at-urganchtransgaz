@@ -21,10 +21,14 @@ class UpdateSettingsRequest extends FormRequest
         foreach (app(SettingsService::class)->definitions() as $key => $definition) {
             // Partial updates: each key is optional, but a required setting may not be blanked.
             // Setting keys contain dots; escape them so they are not read as nesting.
-            $rules['values.'.str_replace('.', '\.', $key)] = ['sometimes', ...array_map(
+            $field = 'values.'.str_replace('.', '\.', $key);
+            $rules[$field] = ['sometimes', ...array_map(
                 fn (string $rule): string => $rule === 'required' ? 'filled' : $rule,
                 $definition['rules'],
             )];
+            if (isset($definition['item_rules'])) {
+                $rules[$field.'.*'] = $definition['item_rules'];
+            }
         }
 
         return $rules;
