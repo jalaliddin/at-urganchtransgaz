@@ -128,6 +128,8 @@ function ListView() {
         {
           accessor: 'is_active',
           title: t('fields.is_active'),
+          width: 120,
+          noWrap: true,
           render: (org) =>
             org.is_active ? (
               <Badge color="green" variant="light" tt="none">
