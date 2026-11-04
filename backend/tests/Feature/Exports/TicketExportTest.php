@@ -130,4 +130,40 @@ class TicketExportTest extends TestCase
         $this->assertDatabaseMissing('report_exports', ['uuid' => $uuid]);
         Storage::disk('local')->assertMissing($path);
     }
+
+    public function test_large_export_contains_every_visible_ticket_once(): void
+    {
+        $template = (array) \Illuminate\Support\Facades\DB::table('helpdesk_tickets')->where('organization_id', $this->a->id)->first();
+        unset($template['id']);
+        $rows = [];
+        for ($i = 1; $i <= 620; $i++) {
+            $rows[] = [...$template, 'number' => sprintf('HD-2090-%06d', $i), 'created_at' => now()->subDay()->addMinutes($i)];
+        }
+        foreach (array_chunk($rows, 200) as $chunk) {
+            \Illuminate\Support\Facades\DB::table('helpdesk_tickets')->insert($chunk);
+        }
+        $this->actingAs($this->handler);
+
+        $uuid = $this->postJson('/api/v1/exports', ['type' => 'helpdesk_tickets', 'format' => 'xlsx'])->json('data.uuid');
+        $export = ReportExport::where('uuid', $uuid)->firstOrFail();
+        $numbers = array_column(array_slice($this->readXlsx((string) \Illuminate\Support\Facades\Storage::disk('local')->get($export->file->path)), 1), 0);
+
+        $this->assertSame(622, $export->row_count);
+        $this->assertCount(622, $numbers);
+        $this->assertCount(622, array_unique($numbers));
+        $this->assertSame('HD-2090-000620', $numbers[0], 'newest (highest id) first');
+    }
+
+    public function test_queue_worker_path_without_an_authenticated_user_applies_the_owners_scope(): void
+    {
+        $export = ReportExport::create([
+            'uuid' => (string) \Illuminate\Support\Str::uuid(), 'user_id' => $this->handler->id,
+            'type' => 'helpdesk_tickets', 'format' => 'xlsx', 'filters' => [], 'status' => 'pending',
+        ]);
+        $this->assertFalse(\Illuminate\Support\Facades\Auth::hasUser());
+
+        \App\Jobs\GenerateExportJob::dispatchSync($export->id);
+
+        $this->assertSame(2, $export->fresh()->row_count);
+    }
 }

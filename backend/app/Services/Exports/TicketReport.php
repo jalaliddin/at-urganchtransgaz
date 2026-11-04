@@ -38,14 +38,15 @@ class TicketReport implements ReportDefinition
     public function rows(User $user, array $filters, string $locale): iterable
     {
         $query = Ticket::query()->visibleTo($user)
-            ->with(['organization', 'category', 'assignee', 'requesterEmployee', 'requesterUser'])
-            ->orderByDesc('created_at')->orderByDesc('id');
+            ->with(['organization', 'category', 'assignee', 'requesterEmployee', 'requesterUser']);
         TicketFilters::applyAll($query, $filters, $user);
         if (isset($filters['search']) && is_string($filters['search'])) {
             SearchTerm::whereContains($query, ['number', 'title', 'contact_name', 'contact_phone'], SearchTerm::normalize($filters['search']));
         }
 
-        foreach ($query->lazyById(500, 'helpdesk_tickets.id', 'id') as $ticket) {
+        // Newest first. Keyset chunking needs the id as the only sort key — an extra
+        // ORDER BY (e.g. created_at) would make chunks overlap and skip rows.
+        foreach ($query->lazyByIdDesc(500, 'helpdesk_tickets.id', 'id') as $ticket) {
             /** @var Ticket $ticket */
             $breached = $ticket->resolution_breached_at !== null || $ticket->response_breached_at !== null;
             yield [
