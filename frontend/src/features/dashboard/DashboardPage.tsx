@@ -14,6 +14,7 @@ import { StatTile } from './widgets/StatTile'
 
 export function DashboardPage() {
   const { t } = useTranslation('dashboard')
+  const { t: th } = useTranslation('helpdesk')
   const me = useCurrentUser()
   const { organizationId: orgContextId } = useOrgContext()
   const query = useQuery({
@@ -52,6 +53,33 @@ export function DashboardPage() {
   }
 
   const tiles = [
+    data.helpdesk && (
+      <StatTile
+        key="helpdesk-open"
+        label={th('dashboard.open')}
+        value={data.helpdesk.open}
+        detail={th('dashboard.newToday') + ': ' + data.helpdesk.new_today}
+        href="/helpdesk?filter[status]=new,in_review,assigned,in_progress,waiting_user"
+      />
+    ),
+    data.helpdesk && (
+      <StatTile
+        key="helpdesk-overdue"
+        label={th('dashboard.overdue')}
+        value={data.helpdesk.overdue}
+        detail={th('dashboard.assignedToMe') + ': ' + data.helpdesk.assigned_to_me}
+        href="/helpdesk?filter[overdue]=1"
+      />
+    ),
+    data.my_tickets && (
+      <StatTile
+        key="my-tickets"
+        label={th('dashboard.myOpen')}
+        value={data.my_tickets.open}
+        detail={th('dashboard.myTotal') + ': ' + data.my_tickets.total}
+        href="/helpdesk"
+      />
+    ),
     data.organizations && (
       <StatTile
         key="organizations"

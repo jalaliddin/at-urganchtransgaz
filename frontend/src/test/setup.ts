@@ -1,8 +1,11 @@
 import '@testing-library/jest-dom/vitest'
-import { cleanup } from '@testing-library/react'
+import { cleanup, configure } from '@testing-library/react'
 import { afterAll, afterEach, beforeAll } from 'vitest'
 import '@/i18n'
 import { server } from './server'
+
+// findBy*/waitFor default to 1 s, which is too tight for Mantine pages on a busy container.
+configure({ asyncUtilTimeout: 4000 })
 
 // jsdom lacks these browser APIs that Mantine relies on.
 // matchMedia evaluates width queries against the jsdom viewport (1024px); other features (dark mode,

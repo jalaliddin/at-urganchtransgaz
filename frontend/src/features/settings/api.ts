@@ -3,9 +3,9 @@ import type { Resource } from '@/api/types'
 
 export interface SettingRow {
   key: string
-  type: 'string' | 'integer' | 'boolean'
-  value: string | number | boolean | null
-  default: string | number | boolean | null
+  type: 'string' | 'integer' | 'boolean' | 'array'
+  value: string | number | boolean | (string | number)[] | null
+  default: string | number | boolean | (string | number)[] | null
   public: boolean
 }
 

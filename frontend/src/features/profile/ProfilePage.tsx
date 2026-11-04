@@ -15,6 +15,7 @@ import { IconKey } from '@tabler/icons-react'
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
+import { NotificationPreferences } from './NotificationPreferences'
 import { PageHeader } from '@/components/PageHeader'
 import { useCurrentUser, useUpdateMyLocale } from '@/features/auth/queries'
 import { isLanguage } from '@/i18n'
@@ -131,6 +132,7 @@ export function ProfilePage() {
               {t('security.changePassword')}
             </Button>
           </Paper>
+          <NotificationPreferences me={me} />
         </SimpleGrid>
       </Stack>
     </>

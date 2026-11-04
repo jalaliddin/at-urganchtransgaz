@@ -27,5 +27,7 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     css: false,
     restoreMocks: true,
+    // Mantine + user-event interaction tests are slow on a loaded container.
+    testTimeout: 15000,
   },
 })

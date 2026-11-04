@@ -7,6 +7,7 @@ import {
   Paper,
   Skeleton,
   Stack,
+  Switch,
   TextInput,
   Title,
 } from '@mantine/core'
@@ -20,7 +21,7 @@ import { PageHeader } from '@/components/PageHeader'
 import { useCan } from '@/hooks/usePermissions'
 import { fetchSettings, updateSettings, type SettingRow } from './api'
 
-type Draft = Record<string, string | number | boolean | null>
+type Draft = Record<string, SettingRow['value']>
 
 const toDraft = (rows: SettingRow[]): Draft => Object.fromEntries(rows.map((r) => [r.key, r.value]))
 
@@ -93,6 +94,22 @@ function SettingsForm({ rows }: { rows: SettingRow[] }) {
                   </Group>
                 )
                 const error = errors[`values.${row.key}`]?.[0]
+                if (row.type === 'boolean') {
+                  return (
+                    <Switch
+                      key={row.key}
+                      label={label}
+                      description={description}
+                      checked={draft[row.key] === true}
+                      onChange={(e) => {
+                        const checked = e.currentTarget.checked
+                        setDraft((d) => ({ ...d, [row.key]: checked }))
+                      }}
+                      disabled={!canUpdate}
+                      error={error}
+                    />
+                  )
+                }
                 return row.type === 'integer' ? (
                   <NumberInput
                     key={row.key}
@@ -146,7 +163,10 @@ export function SettingsPage() {
       ) : !query.data ? (
         <Skeleton height={360} radius="md" />
       ) : (
-        <SettingsForm key={JSON.stringify(query.data)} rows={query.data} />
+        <SettingsForm
+          key={JSON.stringify(query.data)}
+          rows={query.data.filter((row) => !row.key.startsWith('helpdesk.'))}
+        />
       )}
     </>
   )

@@ -234,7 +234,9 @@
     "byPriority": "Ustuvorlik bo'yicha",
     "count": "Soni",
     "noData": "Tanlangan davrda ariza yo'q",
-    "table": "Jadval ko'rinishi"
+    "table": "Jadval ko'rinishi",
+    "chart": "Diagramma",
+    "view": "Ko'rinish"
   },
   "dashboard": {
     "title": "Helpdesk",

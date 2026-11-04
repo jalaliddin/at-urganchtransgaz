@@ -1,0 +1,286 @@
+import {
+  ActionIcon,
+  Anchor,
+  Button,
+  Card,
+  FileInput,
+  Group,
+  Modal,
+  Select,
+  SimpleGrid,
+  Stack,
+  Table,
+  Text,
+  TextInput,
+  Title,
+} from '@mantine/core'
+import { useDebouncedValue } from '@mantine/hooks'
+import { notifications } from '@mantine/notifications'
+import { IconDownload, IconLink, IconPencil, IconTrash, IconUpload } from '@tabler/icons-react'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link, useNavigate, useParams } from 'react-router'
+import { ApiError, toApiError } from '@/api/errors'
+import { confirmAction } from '@/components/confirm'
+import { ErrorState } from '@/components/ErrorState'
+import { PageHeader } from '@/components/PageHeader'
+import { NotFoundPage } from '@/features/errors/NotFoundPage'
+import { fileUrl } from '@/features/exports/api'
+import { formatSize } from '@/features/helpdesk/files'
+import { useTickets } from '@/features/helpdesk/queries'
+import { useCan } from '@/hooks/usePermissions'
+import { formatDate, formatDateTime } from '@/lib/format'
+import { DocumentFormModal } from './DocumentFormModal'
+import { useDocument, useDocumentMutations } from './queries'
+
+const fail = (error: unknown) => notifications.show({ color: 'red', message: toApiError(error).message })
+
+function VersionModal({ documentId, onClose }: { documentId: number; onClose: () => void }) {
+  const { t } = useTranslation(['documents', 'common'])
+  const { addVersion } = useDocumentMutations(documentId)
+  const [file, setFile] = useState<File | null>(null)
+  const [note, setNote] = useState('')
+  const error = addVersion.error
+    ? (toApiError(addVersion.error).fieldErrors.file?.[0] ?? toApiError(addVersion.error).message)
+    : null
+
+  return (
+    <Modal opened onClose={onClose} title={t('actions.newVersion')} centered>
+      <Stack>
+        <FileInput
+          label={t('fields.file')}
+          required
+          value={file}
+          onChange={setFile}
+          error={error}
+          data-autofocus
+        />
+        <TextInput label={t('fields.note')} value={note} onChange={(e) => setNote(e.currentTarget.value)} />
+        <Group justify="flex-end">
+          <Button
+            disabled={file === null}
+            loading={addVersion.isPending}
+            onClick={() =>
+              file &&
+              addVersion.mutate(
+                { file, note },
+                {
+                  onSuccess: (v) => {
+                    notifications.show({ color: 'green', message: t('versionAdded', { version: v.version }) })
+                    onClose()
+                  },
+                },
+              )
+            }
+          >
+            {t('common:actions.save')}
+          </Button>
+        </Group>
+      </Stack>
+    </Modal>
+  )
+}
+
+function LinkModal({ documentId, onClose }: { documentId: number; onClose: () => void }) {
+  const { t } = useTranslation(['documents', 'helpdesk', 'common'])
+  const { link } = useDocumentMutations(documentId)
+  const [search, setSearch] = useState('')
+  const [debounced] = useDebouncedValue(search, 300)
+  const [selected, setSelected] = useState<string | null>(null)
+  const tickets = useTickets({ search: debounced, per_page: 10 }, debounced.length >= 2)
+
+  return (
+    <Modal opened onClose={onClose} title={t('actions.link')} centered>
+      <Stack>
+        <Select
+          label={t('helpdesk:workflow.linkTicket')}
+          searchable
+          searchValue={search}
+          onSearchChange={setSearch}
+          filter={({ options }) => options}
+          data={(tickets.data?.data ?? []).map((tk) => ({
+            value: String(tk.id),
+            label: `${tk.number} — ${tk.title}`,
+          }))}
+          value={selected}
+          onChange={setSelected}
+          data-autofocus
+        />
+        <Group justify="flex-end">
+          <Button
+            disabled={selected === null}
+            loading={link.isPending}
+            onClick={() => selected && link.mutate(Number(selected), { onSuccess: onClose, onError: fail })}
+          >
+            {t('common:actions.save')}
+          </Button>
+        </Group>
+      </Stack>
+    </Modal>
+  )
+}
+
+export function DocumentDetailPage() {
+  const { t } = useTranslation(['documents', 'common'])
+  const navigate = useNavigate()
+  const id = Number(useParams().id)
+  const query = useDocument(id)
+  const { remove, unlink } = useDocumentMutations(id)
+  const canSeeTickets = useCan(['helpdesk.view', 'helpdesk.create'], 'any')
+  const [dialog, setDialog] = useState<'edit' | 'version' | 'link' | null>(null)
+
+  if (query.error instanceof ApiError && query.error.status === 404) return <NotFoundPage />
+  if (query.error) return <ErrorState error={query.error} onRetry={() => void query.refetch()} />
+  const doc = query.data
+  if (!doc) return null
+
+  const onDelete = async () => {
+    const ok = await confirmAction({
+      title: t('actions.delete'),
+      message: t('deleteConfirm', { title: doc.title }),
+      confirmLabel: t('common:actions.delete'),
+      danger: true,
+    })
+    if (ok) remove.mutate(undefined, { onSuccess: () => navigate('/documents'), onError: fail })
+  }
+
+  return (
+    <>
+      <PageHeader
+        title={doc.title}
+        description={`${t(`types.${doc.type}`)}${doc.number ? ` № ${doc.number}` : ''}${doc.document_date ? ` · ${formatDate(doc.document_date)}` : ''}`}
+        actions={
+          doc.can_manage && (
+            <>
+              <Button
+                variant="default"
+                leftSection={<IconPencil size={16} />}
+                onClick={() => setDialog('edit')}
+              >
+                {t('actions.edit')}
+              </Button>
+              <Button leftSection={<IconUpload size={16} />} onClick={() => setDialog('version')}>
+                {t('actions.newVersion')}
+              </Button>
+              <Button
+                variant="subtle"
+                color="red"
+                leftSection={<IconTrash size={16} />}
+                onClick={() => void onDelete()}
+              >
+                {t('actions.delete')}
+              </Button>
+            </>
+          )
+        }
+      />
+      <SimpleGrid cols={{ base: 1, md: 3 }} spacing="md">
+        <Card withBorder p={0} style={{ gridColumn: 'span 2' }}>
+          <Title order={3} fz="sm" p="md" pb={0}>
+            {t('fields.versions')}
+          </Title>
+          <Table.ScrollContainer minWidth={520}>
+            <Table verticalSpacing="sm">
+              <Table.Thead>
+                <Table.Tr>
+                  <Table.Th>{t('fields.version')}</Table.Th>
+                  <Table.Th>{t('fields.file')}</Table.Th>
+                  <Table.Th>{t('fields.note')}</Table.Th>
+                  <Table.Th>{t('fields.uploadedBy')}</Table.Th>
+                </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>
+                {(doc.versions ?? []).map((v) => (
+                  <Table.Tr key={v.id}>
+                    <Table.Td ff="monospace">v{v.version}</Table.Td>
+                    <Table.Td>
+                      <Anchor href={fileUrl(v.file.uuid)} size="sm">
+                        <Group gap={4} wrap="nowrap">
+                          <IconDownload size={14} aria-hidden />
+                          {v.file.name}
+                        </Group>
+                      </Anchor>
+                      <Text size="xs" c="dimmed" ff="monospace">
+                        {formatSize(v.file.size)}
+                      </Text>
+                    </Table.Td>
+                    <Table.Td>{v.note ?? '—'}</Table.Td>
+                    <Table.Td>
+                      <Text size="sm">{v.uploaded_by?.name ?? '—'}</Text>
+                      <Text size="xs" c="dimmed">
+                        {formatDateTime(v.created_at)}
+                      </Text>
+                    </Table.Td>
+                  </Table.Tr>
+                ))}
+              </Table.Tbody>
+            </Table>
+          </Table.ScrollContainer>
+        </Card>
+        <Stack gap="md">
+          <Card withBorder p="md">
+            <Stack gap="xs">
+              <Text size="xs" c="dimmed">
+                {t('fields.organization')}
+              </Text>
+              <Text size="sm">{doc.organization?.name ?? '—'}</Text>
+              {doc.description && (
+                <>
+                  <Text size="xs" c="dimmed">
+                    {t('fields.description')}
+                  </Text>
+                  <Text size="sm" style={{ whiteSpace: 'pre-wrap' }}>
+                    {doc.description}
+                  </Text>
+                </>
+              )}
+            </Stack>
+          </Card>
+          <Card withBorder p="md">
+            <Group justify="space-between" mb="xs">
+              <Title order={3} fz="sm">
+                {t('fields.links')}
+              </Title>
+              {doc.can_manage && canSeeTickets && (
+                <Button
+                  size="compact-sm"
+                  variant="subtle"
+                  leftSection={<IconLink size={14} />}
+                  onClick={() => setDialog('link')}
+                >
+                  {t('actions.link')}
+                </Button>
+              )}
+            </Group>
+            {(doc.links ?? []).length === 0 && (
+              <Text size="sm" c="dimmed">
+                {t('empty.noLinks')}
+              </Text>
+            )}
+            {(doc.links ?? []).map((l) => (
+              <Group key={l.id} justify="space-between" wrap="nowrap">
+                <Anchor component={Link} to={`/helpdesk/${l.target.id}`} size="sm">
+                  {l.target.number} {l.target.title ? `— ${l.target.title}` : ''}
+                </Anchor>
+                {doc.can_manage && (
+                  <ActionIcon
+                    size="sm"
+                    variant="subtle"
+                    color="red"
+                    aria-label={`${t('actions.unlink')}: ${l.target.number ?? l.target.id}`}
+                    onClick={() => unlink.mutate(l.id, { onError: fail })}
+                  >
+                    <IconTrash size={14} />
+                  </ActionIcon>
+                )}
+              </Group>
+            ))}
+          </Card>
+        </Stack>
+      </SimpleGrid>
+      {dialog === 'edit' && <DocumentFormModal document={doc} onClose={() => setDialog(null)} />}
+      {dialog === 'version' && <VersionModal documentId={doc.id} onClose={() => setDialog(null)} />}
+      {dialog === 'link' && <LinkModal documentId={doc.id} onClose={() => setDialog(null)} />}
+    </>
+  )
+}

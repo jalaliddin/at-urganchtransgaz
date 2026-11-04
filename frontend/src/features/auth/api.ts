@@ -30,6 +30,13 @@ export async function updateMyLocale(locale: Language): Promise<Me> {
   return data.data
 }
 
+export async function updateMailMuted(mailMuted: string[]): Promise<Me> {
+  const { data } = await api.patch<Resource<Me>>('/auth/me', {
+    notification_preferences: { mail_muted: mailMuted },
+  })
+  return data.data
+}
+
 export async function changePassword(input: ChangePasswordInput): Promise<string> {
   const { data } = await api.put<MessageResponse>('/auth/password', input)
   return data.message

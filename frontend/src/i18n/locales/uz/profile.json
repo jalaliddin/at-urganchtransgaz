@@ -22,5 +22,19 @@
     "title": "Xavfsizlik",
     "changePassword": "Parolni almashtirish",
     "hint": "Parol almashtirilganda boshqa qurilmalardagi sessiyalar yopiladi."
+  },
+  "notifications": {
+    "title": "Email bildirishnomalari",
+    "hint": "Tizim ichidagi bildirishnomalar doim keladi. Belgilangan turlar emailingizga ham yuboriladi.",
+    "noEmail": "Email orqali xabar olish uchun profilingizga email qo'shilishi kerak (administratorga murojaat qiling).",
+    "types": {
+      "ticket_created": "Yangi arizalar",
+      "ticket_assigned": "Menga ariza biriktirilganda",
+      "ticket_status_changed": "Arizam holati o'zgarganda",
+      "ticket_commented": "Arizaga izoh qoldirilganda",
+      "ticket_sla_breached": "SLA muddati o'tganda",
+      "ticket_due_soon": "Muddat yaqinlashganda",
+      "export_ready": "Eksport tayyor bo'lganda"
+    }
   }
 }

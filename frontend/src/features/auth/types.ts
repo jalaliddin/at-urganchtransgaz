@@ -14,6 +14,8 @@ export interface Me {
   roles: { name: string; display_name: string }[]
   permissions: string[]
   access: { organization_id: number; organization_name: string; include_descendants: boolean }[]
+  /** Notification types the user does not want by e-mail. */
+  notification_preferences: { mail_muted: string[] }
 }
 
 export interface PublicSettings {

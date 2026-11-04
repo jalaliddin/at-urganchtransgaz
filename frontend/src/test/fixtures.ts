@@ -15,6 +15,7 @@ export function makeMe(overrides: Partial<Me> = {}): Me {
     roles: [{ name: 'org-it-responsible', display_name: "Quyi tashkilot AT mas'uli" }],
     permissions: ['dashboard.view', 'organizations.view', 'employees.view'],
     access: [{ organization_id: 5, organization_name: 'Xorazm GTS', include_descendants: false }],
+    notification_preferences: { mail_muted: [] },
     ...overrides,
   }
 }

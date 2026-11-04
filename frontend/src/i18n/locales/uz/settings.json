@@ -3,7 +3,9 @@
   "description": "Tizimning umumiy va xavfsizlik sozlamalari",
   "groups": {
     "general": "Umumiy",
-    "security": "Xavfsizlik"
+    "security": "Xavfsizlik",
+    "files": "Fayllar",
+    "notifications": "Bildirishnomalar"
   },
   "keys": {
     "general": {
@@ -32,6 +34,18 @@
       "password_expires_days": {
         "label": "Parol amal qilish muddati (kun)",
         "hint": "0 — muddat cheklanmagan"
+      }
+    },
+    "files": {
+      "max_upload_mb": {
+        "label": "Yuklanadigan fayl hajmi chegarasi (MB)",
+        "hint": "Ariza ilovalari va hujjatlar uchun"
+      }
+    },
+    "notifications": {
+      "mail_enabled": {
+        "label": "Email orqali bildirishnoma yuborish",
+        "hint": "SMTP sozlangan bo'lishi kerak"
       }
     }
   },

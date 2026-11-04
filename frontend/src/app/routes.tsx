@@ -12,6 +12,11 @@ import { EmployeeDetailPage } from '@/features/employees/EmployeeDetailPage'
 import { EmployeesPage } from '@/features/employees/EmployeesPage'
 import { NewTicketPage } from '@/features/helpdesk/NewTicketPage'
 import { TicketDetailPage } from '@/features/helpdesk/TicketDetailPage'
+import { HelpdeskReportPage } from '@/features/helpdesk/HelpdeskReportPage'
+import { HelpdeskSettingsPage } from '@/features/helpdesk/HelpdeskSettingsPage'
+import { DocumentDetailPage } from '@/features/documents/DocumentDetailPage'
+import { DocumentsPage } from '@/features/documents/DocumentsPage'
+import { ExportsPage } from '@/features/exports/ExportsPage'
 import { TicketsPage } from '@/features/helpdesk/TicketsPage'
 import { NotFoundPage } from '@/features/errors/NotFoundPage'
 import { OrganizationDetailPage } from '@/features/organizations/OrganizationDetailPage'
@@ -54,8 +59,34 @@ export const routes: RouteObject[] = [
                     handle: { crumb: 'helpdesk:new.title' },
                     children: [{ index: true, element: <NewTicketPage /> }],
                   },
+                  {
+                    path: 'settings',
+                    element: <RequirePermission permission="helpdesk.manage" />,
+                    handle: { crumb: 'nav:items.helpdeskSettings' },
+                    children: [{ index: true, element: <HelpdeskSettingsPage /> }],
+                  },
+                  {
+                    path: 'reports',
+                    element: <RequirePermission permission="helpdesk.view" />,
+                    handle: { crumb: 'nav:items.helpdeskReports' },
+                    children: [{ index: true, element: <HelpdeskReportPage /> }],
+                  },
                   { path: ':id', element: <TicketDetailPage />, handle: { crumb: 'helpdesk:crumb' } },
                 ],
+              },
+              {
+                path: 'documents',
+                element: <RequirePermission permission="documents.view" />,
+                handle: { crumb: 'nav:items.documents' },
+                children: [
+                  { index: true, element: <DocumentsPage /> },
+                  { path: ':id', element: <DocumentDetailPage />, handle: { crumb: 'documents:crumb' } },
+                ],
+              },
+              {
+                path: 'exports',
+                element: <ExportsPage />,
+                handle: { crumb: 'nav:items.exports' },
               },
               {
                 path: 'organizations',

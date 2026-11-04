@@ -36,6 +36,14 @@ export interface DashboardData {
   it_coverage?: { with_responsible: number; without_responsible: number }
   users?: { total: number; active: number; pending_password_change: number }
   recent_audit?: AuditEntry[]
+  helpdesk?: {
+    open: number
+    overdue: number
+    new_today: number
+    assigned_to_me: number
+    by_status: Record<string, number>
+  }
+  my_tickets?: { open: number; total: number }
 }
 
 export async function fetchDashboard(organizationId: number | null): Promise<DashboardData> {
