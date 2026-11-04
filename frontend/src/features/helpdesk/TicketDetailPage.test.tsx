@@ -30,6 +30,26 @@ function serve(ticket: Ticket, onPost?: (path: string, body: unknown) => void) {
     http.get('*/api/v1/helpdesk/tickets/1/attachments', () => HttpResponse.json({ data: [] })),
     http.get('*/api/v1/helpdesk/tickets/1/links', () => HttpResponse.json({ data: [] })),
     http.get('*/api/v1/helpdesk/tickets/1/documents', () => HttpResponse.json({ data: [] })),
+    http.get('*/api/v1/ticket-categories', () =>
+      HttpResponse.json({
+        data: [
+          {
+            id: 2,
+            code: 'printer',
+            name: 'Printer',
+            name_ru: null,
+            label: 'Printer',
+            description: null,
+            is_active: true,
+            sort_order: 1,
+          },
+        ],
+      }),
+    ),
+    http.patch('*/api/v1/helpdesk/tickets/1', async ({ request }) => {
+      onPost?.('patch', await request.json())
+      return HttpResponse.json({ data: ticket })
+    }),
     http.post('*/api/v1/helpdesk/tickets/1/:action', async ({ request, params }) => {
       onPost?.(String(params.action), await request.json())
       return HttpResponse.json(
@@ -145,5 +165,34 @@ describe('TicketDetailPage', () => {
     await waitFor(() =>
       expect(posts).toContainEqual(['comments', { body: 'Server logini tekshirdim', is_internal: true }]),
     )
+  })
+
+  it('lets a handler downgrade the priority and sends only what changed', async () => {
+    const posts: [string, unknown][] = []
+    serve(
+      makeTicket({
+        status: 'in_progress',
+        priority: 'critical',
+        is_requester: false,
+        allowed_actions: ['update', 'comment', 'comment_internal'],
+        allowed_transitions: [],
+      }),
+      (path, body) => posts.push([path, body]),
+    )
+    render()
+
+    await userEvent.click(await screen.findByRole('button', { name: i18n.t('helpdesk:workflow.edit') }))
+    await userEvent.click(await screen.findByRole('radio', { name: i18n.t('helpdesk:priority.low') }))
+    await userEvent.click(screen.getByRole('button', { name: i18n.t('common:actions.save') }))
+
+    await waitFor(() => expect(posts).toContainEqual(['patch', { priority: 'low' }]))
+  })
+
+  it('hides editing when the server does not allow it', async () => {
+    serve(makeTicket({ status: 'in_review', allowed_actions: ['comment'], allowed_transitions: [] }))
+    render(requesterMe)
+
+    expect(await screen.findByText('Qaysi xonada?')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: i18n.t('helpdesk:workflow.edit') })).not.toBeInTheDocument()
   })
 })

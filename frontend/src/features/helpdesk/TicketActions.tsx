@@ -4,6 +4,7 @@ import {
   IconCheck,
   IconClockPlus,
   IconHandGrab,
+  IconPencil,
   IconRefresh,
   IconStar,
   IconUserPlus,
@@ -12,10 +13,12 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toApiError } from '@/api/errors'
 import { useAssignees, useTicketAction } from './queries'
+import { TicketEditModal } from './TicketEditModal'
 import type { Ticket, TicketStatus } from './types'
 
 type Dialog =
   | { kind: 'transition'; status: TicketStatus }
+  | { kind: 'edit' }
   | { kind: 'assign' }
   | { kind: 'time' }
   | { kind: 'rate' }
@@ -77,6 +80,15 @@ export function TicketActions({ ticket }: { ticket: Ticket }) {
             {transitionLabel(status)}
           </Button>
         ))}
+        {can('update') && (
+          <Button
+            variant="default"
+            leftSection={<IconPencil size={16} />}
+            onClick={() => setDialog({ kind: 'edit' })}
+          >
+            {t('workflow.edit')}
+          </Button>
+        )}
         {can('take') && (
           <Button
             variant="light"
@@ -124,6 +136,7 @@ export function TicketActions({ ticket }: { ticket: Ticket }) {
           onClose={() => setDialog(null)}
         />
       )}
+      {dialog?.kind === 'edit' && <TicketEditModal ticket={ticket} onClose={() => setDialog(null)} />}
       {dialog?.kind === 'assign' && <AssignDialog ticket={ticket} onClose={() => setDialog(null)} />}
       {dialog?.kind === 'time' && <TimeDialog ticket={ticket} onClose={() => setDialog(null)} />}
       {dialog?.kind === 'rate' && <RateDialog ticket={ticket} onClose={() => setDialog(null)} />}
