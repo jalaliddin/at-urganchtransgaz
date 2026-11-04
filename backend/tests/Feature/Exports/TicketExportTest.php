@@ -2,14 +2,18 @@
 
 namespace Tests\Feature\Exports;
 
+use App\Jobs\GenerateExportJob;
 use App\Models\Organization;
 use App\Models\ReportExport;
 use App\Models\User;
 use App\Notifications\ExportReadyNotification;
 use App\Support\Permissions\Roles;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use OpenSpout\Reader\XLSX\Reader;
 use Tests\Concerns\CreatesTickets;
 use Tests\Concerns\InteractsWithAccess;
@@ -133,20 +137,20 @@ class TicketExportTest extends TestCase
 
     public function test_large_export_contains_every_visible_ticket_once(): void
     {
-        $template = (array) \Illuminate\Support\Facades\DB::table('helpdesk_tickets')->where('organization_id', $this->a->id)->first();
+        $template = (array) DB::table('helpdesk_tickets')->where('organization_id', $this->a->id)->first();
         unset($template['id']);
         $rows = [];
         for ($i = 1; $i <= 620; $i++) {
             $rows[] = [...$template, 'number' => sprintf('HD-2090-%06d', $i), 'created_at' => now()->subDay()->addMinutes($i)];
         }
         foreach (array_chunk($rows, 200) as $chunk) {
-            \Illuminate\Support\Facades\DB::table('helpdesk_tickets')->insert($chunk);
+            DB::table('helpdesk_tickets')->insert($chunk);
         }
         $this->actingAs($this->handler);
 
         $uuid = $this->postJson('/api/v1/exports', ['type' => 'helpdesk_tickets', 'format' => 'xlsx'])->json('data.uuid');
         $export = ReportExport::where('uuid', $uuid)->firstOrFail();
-        $numbers = array_column(array_slice($this->readXlsx((string) \Illuminate\Support\Facades\Storage::disk('local')->get($export->file->path)), 1), 0);
+        $numbers = array_column(array_slice($this->readXlsx((string) Storage::disk('local')->get($export->file->path)), 1), 0);
 
         $this->assertSame(622, $export->row_count);
         $this->assertCount(622, $numbers);
@@ -157,12 +161,12 @@ class TicketExportTest extends TestCase
     public function test_queue_worker_path_without_an_authenticated_user_applies_the_owners_scope(): void
     {
         $export = ReportExport::create([
-            'uuid' => (string) \Illuminate\Support\Str::uuid(), 'user_id' => $this->handler->id,
+            'uuid' => (string) Str::uuid(), 'user_id' => $this->handler->id,
             'type' => 'helpdesk_tickets', 'format' => 'xlsx', 'filters' => [], 'status' => 'pending',
         ]);
-        $this->assertFalse(\Illuminate\Support\Facades\Auth::hasUser());
+        $this->assertFalse(Auth::hasUser());
 
-        \App\Jobs\GenerateExportJob::dispatchSync($export->id);
+        GenerateExportJob::dispatchSync($export->id);
 
         $this->assertSame(2, $export->fresh()->row_count);
     }
@@ -173,7 +177,7 @@ class TicketExportTest extends TestCase
         $this->actingAs($this->handler);
 
         $uuid = $this->postJson('/api/v1/exports', ['type' => 'helpdesk_tickets', 'format' => 'xlsx'])->json('data.uuid');
-        $path = (string) \Illuminate\Support\Facades\Storage::disk('local')->path(ReportExport::where('uuid', $uuid)->firstOrFail()->file->path);
+        $path = (string) Storage::disk('local')->path(ReportExport::where('uuid', $uuid)->firstOrFail()->file->path);
         $zip = new \ZipArchive;
         $zip->open($path);
         $sheet = (string) $zip->getFromName('xl/worksheets/sheet1.xml');

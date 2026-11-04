@@ -7,6 +7,7 @@ use App\Enums\TicketPriority;
 use App\Enums\TicketStatus;
 use App\Events\Helpdesk\TicketCreated;
 use App\Models\Employee;
+use App\Models\StoredFile;
 use App\Models\Ticket;
 use App\Models\TicketHistory;
 use App\Models\User;
@@ -38,44 +39,59 @@ class TicketService
      */
     public function create(array $data, User $by, array $files = []): Ticket
     {
-        return DB::transaction(function () use ($data, $by, $files): Ticket {
-            $now = CarbonImmutable::now();
-            $organizationId = (int) ($data['organization_id'] ?? $by->organization_id);
-            [$employee, $requesterUserId] = $this->resolveRequester($data, $by, $organizationId);
+        $organizationId = (int) ($data['organization_id'] ?? $by->organization_id);
+        $attachments = app(TicketAttachments::class);
+        // Slow file I/O first: the number counter row stays locked until commit.
+        $stored = $attachments->store($files, $organizationId, $by);
 
-            $ticket = new Ticket([
-                'number' => $this->numbers->next($now),
-                'organization_id' => $organizationId,
-                'department_id' => $data['department_id'] ?? $employee?->department_id,
-                'requester_employee_id' => $employee?->id,
-                'requester_user_id' => $requesterUserId,
-                'contact_name' => $data['contact_name'] ?? $employee->full_name ?? $by->name,
-                'contact_phone' => $data['contact_phone'] ?? $employee?->phone,
-                'contact_email' => $data['contact_email'] ?? $employee->email ?? ($requesterUserId === $by->id ? $by->email : null),
-                'location' => $data['location'] ?? null,
-                'category_id' => (int) $data['category_id'],
-                'title' => $data['title'],
-                'description' => $data['description'],
-                'priority' => TicketPriority::from((string) ($data['priority'] ?? TicketPriority::Normal->value)),
-                'status' => TicketStatus::New,
-                'created_by' => $by->id,
-            ]);
-            $ticket->created_at = $now;
-            $this->applySla($ticket);
-            $ticket->save();
+        try {
+            // A few attempts: MySQL may pick this transaction as a deadlock victim under load.
+            return DB::transaction(fn (): Ticket => $this->createLocked($data, $by, $organizationId, $stored), 3);
+        } catch (\Throwable $e) {
+            $attachments->discard($stored);
+            throw $e;
+        }
+    }
 
-            $this->history($ticket, $by, TicketHistoryAction::Created, new: [
-                'status' => TicketStatus::New->value, 'priority' => $ticket->priority->value,
-            ]);
+    /**
+     * @param  array<string, mixed>  $data
+     * @param  list<StoredFile>  $stored
+     */
+    private function createLocked(array $data, User $by, int $organizationId, array $stored): Ticket
+    {
+        $now = CarbonImmutable::now();
+        [$employee, $requesterUserId] = $this->resolveRequester($data, $by, $organizationId);
 
-            if ($files !== []) {
-                app(TicketAttachments::class)->attach($ticket, $files, $by);
-            }
+        $ticket = new Ticket([
+            'number' => $this->numbers->next($now),
+            'organization_id' => $organizationId,
+            'department_id' => $data['department_id'] ?? $employee?->department_id,
+            'requester_employee_id' => $employee?->id,
+            'requester_user_id' => $requesterUserId,
+            'contact_name' => $data['contact_name'] ?? $employee->full_name ?? $by->name,
+            'contact_phone' => $data['contact_phone'] ?? $employee?->phone,
+            'contact_email' => $data['contact_email'] ?? $employee->email ?? ($requesterUserId === $by->id ? $by->email : null),
+            'location' => $data['location'] ?? null,
+            'category_id' => (int) $data['category_id'],
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'priority' => TicketPriority::from((string) ($data['priority'] ?? TicketPriority::Normal->value)),
+            'status' => TicketStatus::New,
+            'created_by' => $by->id,
+        ]);
+        $ticket->created_at = $now;
+        $this->applySla($ticket);
+        $ticket->save();
 
-            TicketCreated::dispatch($ticket, $by);
+        $this->history($ticket, $by, TicketHistoryAction::Created, new: [
+            'status' => TicketStatus::New->value, 'priority' => $ticket->priority->value,
+        ]);
 
-            return $ticket;
-        });
+        app(TicketAttachments::class)->link($ticket, $stored, $by);
+
+        TicketCreated::dispatch($ticket, $by);
+
+        return $ticket;
     }
 
     /**
