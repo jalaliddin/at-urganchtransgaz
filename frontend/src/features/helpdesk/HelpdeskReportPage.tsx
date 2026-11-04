@@ -79,6 +79,8 @@ function Breakdown({
           series={[{ name: 'value', label: t('reports.count'), color: 'cobalt.6' }]}
           gridAxis="none"
           yAxisProps={{ width: 150 }}
+          xAxisProps={{ allowDecimals: false }}
+          maxBarWidth={28}
           barProps={{ radius: [0, 4, 4, 0] }}
           withBarValueLabel
           aria-label={title}

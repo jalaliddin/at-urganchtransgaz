@@ -77,6 +77,6 @@ describe('TicketsPage', () => {
       }),
     )
     const row = screen.getByText('HD-2026-000001').closest('tr')
-    expect(row && within(row).getByText(i18n.t('helpdesk:status.in_progress'))).toBeInTheDocument()
+    expect(row && within(row).getAllByText(i18n.t('helpdesk:status.in_progress')).length).toBeGreaterThan(0)
   })
 })

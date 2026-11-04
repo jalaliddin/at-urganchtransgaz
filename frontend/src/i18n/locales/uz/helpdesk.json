@@ -62,7 +62,7 @@
     "in_review": "Ko'rib chiqilmoqda",
     "assigned": "Mas'ul tayinlangan",
     "in_progress": "Jarayonda",
-    "waiting_user": "Javobingiz kutilmoqda",
+    "waiting_user": "Foydalanuvchi javobi kutilmoqda",
     "resolved": "Hal qilindi",
     "closed": "Yopildi",
     "rejected": "Rad etildi"

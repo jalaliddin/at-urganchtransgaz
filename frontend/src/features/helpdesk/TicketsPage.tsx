@@ -241,6 +241,7 @@ export function TicketsPage() {
           {
             accessor: 'title',
             title: t('fields.title'),
+            width: 320,
             render: (ticket) => (
               <Stack gap={0}>
                 <Text size="sm" fw={500} lineClamp={1}>
@@ -250,6 +251,11 @@ export function TicketsPage() {
                   {ticket.category?.name ?? '—'}
                   {ticket.requester.name ? ` · ${ticket.requester.name}` : ''}
                 </Text>
+                {/* Phones scroll the table sideways: keep status and SLA next to the title. */}
+                <Group gap={6} mt={4} hiddenFrom="sm" wrap="nowrap">
+                  <TicketStatusBadge status={ticket.status} />
+                  <SlaBadge ticket={ticket} />
+                </Group>
               </Stack>
             ),
           },
@@ -281,6 +287,7 @@ export function TicketsPage() {
             title: t('fields.sla'),
             sortable: true,
             noWrap: true,
+            width: 170,
             render: (ticket) => <SlaBadge ticket={ticket} />,
           },
           {
