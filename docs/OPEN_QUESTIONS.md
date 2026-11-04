@@ -17,6 +17,7 @@ o'zgartirgach, bu yerda belgilanadi.
 | D2 | Rol va tashkilot bog'liqligi | ✅ Rol — global; ma'lumot doirasi — `user_organization_access` |
 | D3 | Login identifikatori | ✅ Username; email ixtiyoriy (parol tiklash uchun) |
 | D4 | Laravel versiyasi | ✅ Laravel 13 (joriy barqaror; PHP 8.3 bilan mos) |
+| D5 | Helpdesk SLA hisoblash | ✅ Ish vaqti bo'yicha: Du–Ju 09:00–18:00, tushlik 13:00–14:00, Asia/Tashkent, bayramlar sozlamada (2026-11-03) |
 
 ## 1-bosqich bo'yicha ochiq savollar
 
@@ -35,6 +36,20 @@ o'zgartirgach, bu yerda belgilanadi.
 | Q11 | Markaziy AT xodimi barcha tashkilotlar xodimlarini qo'sha/tahrirlay oladimi? | Ha (`employees.create/update`), o'chira olmaydi | ❓ |
 | Q12 | Active Directory / LDAP orqali kirish (SSO) kerakmi? | Hozircha lokal hisoblar; arxitektura keyin qo'shishga tayyor | ❓ |
 | Q13 | Xodim ishdan bo'shatilganda | Bog'langan foydalanuvchi avtomatik faolsizlantiriladi va sessiyalari yopiladi; aktivlarni qaytarish — 3-bosqich | ❓ |
+
+## 2-bosqich (Helpdesk) bo'yicha ochiq savollar
+
+| # | Savol | Standart yechim (amalda) | Holat |
+|---|---|---|---|
+| Q14 | Bayram va qo'shimcha dam olish kunlari ro'yxatini kim kiritadi? | Helpdesk sozlamalarida `helpdesk.manage` ruxsatli xodim har yil kiritadi; standart ro'yxat bo'sh | ❓ |
+| Q15 | SLA me'yorlari (javob / hal qilish, ish daqiqalari) | Kritik 30/240, yuqori 60/480, normal 120/1440, past 480/2400; kategoriya bo'yicha alohida qoida qo'shish mumkin | ❓ |
+| Q16 | Hal qilingan arizani avtomatik yopish va qayta ochish muddati | 3 ish kunidan keyin avtomatik yopiladi; murojaatchi 7 kun ichida qayta ochishi mumkin | ❓ |
+| Q17 | Oddiy xodim "kritik" ustuvorlikni tanlay oladimi? | Ha; bajaruvchi keyin o'zgartiradi (SLA qayta hisoblanadi) | ❓ |
+| Q18 | Yangi ariza haqida kim xabar oladi? | `helpdesk.assign` ruxsati bor va ariza tashkilotiga kirishi bor barcha faol foydalanuvchilar (quyi tashkilot AT mas'uli, markaziy AT rahbari) | ❓ |
+| Q19 | Email yuborish uchun SMTP server | `.env` dagi `MAIL_*`; sozlanmaguncha xatlar jurnalga yoziladi, tizim ichidagi bildirishnomalar ishlaydi | ❓ |
+| Q20 | Fayl cheklovlari | 10 MB (sozlanadi), bir yuklashda 5 tagacha; rasm, PDF, Office, ODF, TXT/CSV, ZIP/RAR/7Z; skript/HTML/SVG/exe taqiqlangan | ❓ |
+| Q21 | Eksport fayllari qancha saqlanadi? | 7 kun; PDF 2000 qatordan oshsa Excel tavsiya qilinadi | ❓ |
+| Q22 | Ichki izohni kim ko'radi? | Faqat ariza tashkilotiga kirishi bor `helpdesk.process` egalari (murojaatchi va kuzatuvchilar ko'rmaydi) | ❓ |
 
 ## Infratuzilma bo'yicha savollar
 

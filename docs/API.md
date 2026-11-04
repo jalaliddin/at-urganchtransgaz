@@ -204,7 +204,55 @@ himoyalangan.
 | GET | `/notifications/unread-count` | O'ziniki |
 | POST | `/notifications/{id}/read`, `/notifications/read-all` | O'ziniki |
 
-## 8. Misol
+## 8. 2-bosqich endpointlari
+
+### Helpdesk sozlamalari
+
+| Metod | Yo'l | Ruxsat |
+|---|---|---|
+| GET | `/ticket-categories` | Helpdeskdan foydalanuvchi (`view`/`create`/`manage`) — `filter[active]=1` |
+| POST/PUT/DELETE | `/ticket-categories[/{id}]` | `helpdesk.manage`; arizasi bor kategoriyani o'chirish — 409 |
+| GET | `/ticket-sla-policies` | Helpdeskdan foydalanuvchi |
+| POST/PUT/DELETE | `/ticket-sla-policies[/{id}]` | `helpdesk.manage` — `{priority, category_id?, response_minutes, resolution_minutes}` (ish daqiqalari) |
+| GET/PUT | `/helpdesk/calendar` | GET — foydalanuvchi, PUT — `helpdesk.manage`: `work_days` (1–7), `work_start/end`, `lunch_start/end` (`H:i`), `holidays` (`Y-m-d`), `auto_close_days`, `reopen_days`, `due_soon_minutes` |
+
+### Arizalar
+
+| Metod | Yo'l | Ruxsat / izoh |
+|---|---|---|
+| GET | `/helpdesk/tickets` | O'z arizalari + `helpdesk.view` bo'lsa doiradagi barchasi. Filtr: `status` (vergul bilan), `priority`, `category`, `organization` (daraxt), `assignee` (`me`/`none`/id), `requester=me`, `overdue=1`, `created_from/to` (`Y-m-d`); `search` (raqam, sarlavha, aloqa); sort: `created_at`, `priority`, `resolution_due_at`, `number`, `status` |
+| POST | `/helpdesk/tickets` | `helpdesk.create`; JSON yoki multipart (`files[]` ≤ 5). Boshqa xodim nomidan (`requester_employee_id`) — faqat `helpdesk.process` |
+| GET | `/helpdesk/tickets/{id}` | ko'rinadigan bo'lsa; javobda `allowed_actions`, `allowed_transitions` |
+| PATCH | `/helpdesk/tickets/{id}` | murojaatchi — faqat `new` holatida; bajaruvchi — ochiq ariza (ustuvorlik/kategoriya o'zgarsa SLA qayta hisoblanadi) |
+| POST | `/helpdesk/tickets/{id}/transition` | `{status, note}` — workflow xaritasi (spec §4); `resolved`/`rejected` uchun `note` majburiy; noto'g'ri o'tish — 422 `invalid_transition` |
+| POST | `/helpdesk/tickets/{id}/assign` | `helpdesk.assign` — `{assignee_id}` (bajaruvchi, tashkilotga kirishi bor) |
+| POST | `/helpdesk/tickets/{id}/take` | `helpdesk.process` — o'ziga olish |
+| POST | `/helpdesk/tickets/{id}/rate` | murojaatchi, `resolved/closed` — `{rating: 1..5, comment?}` |
+| POST | `/helpdesk/tickets/{id}/time` | bajaruvchi — `{minutes: 1..1440, note?}` |
+| GET/POST | `/helpdesk/tickets/{id}/comments` | ishtirokchilar; `is_internal` — faqat bajaruvchi |
+| GET | `/helpdesk/tickets/{id}/history` | ichki yozuvlar faqat bajaruvchiga |
+| GET/POST | `/helpdesk/tickets/{id}/attachments` | multipart `files[]` ≤ 5, `comment_id?` |
+| DELETE | `/helpdesk/tickets/{id}/attachments/{attachmentId}` | yuklagan — 15 daqiqa ichida; bajaruvchi — har doim |
+| GET/POST/DELETE | `/helpdesk/tickets/{id}/links[/{linkId}]` | POST/DELETE — bajaruvchi: `{linked_ticket_id, type: relates|duplicates}` |
+| GET | `/helpdesk/tickets/{id}/documents` | bog'langan hujjatlar (`documents.view` bo'lsa) |
+| GET | `/helpdesk/assignees?organization_id=` | `helpdesk.assign` yoki `process` |
+| GET | `/helpdesk/stats` | `helpdesk.view` — ro'yxat filtrlari bilan: holat/ustuvorlik/kategoriya/tashkilot kesimi, SLA bajarilishi, o'rtacha hal qilish vaqti (ish daqiqalari) |
+
+### Fayllar, hujjatlar, eksport
+
+| Metod | Yo'l | Ruxsat / izoh |
+|---|---|---|
+| GET | `/files/{uuid}` | faqat egasi ruxsat bersa (aks holda 404); `?inline=1` — faqat rasmlar |
+| GET/POST/PUT/DELETE | `/documents[/{id}]` | `documents.view` / `documents.manage`; POST multipart `file` (1-versiya). Filtr: `type`, `organization`, `date_from/to`; `search` |
+| POST | `/documents/{id}/versions` | `documents.manage` — multipart `file`, `note?` |
+| POST/DELETE | `/documents/{id}/links[/{linkId}]` | `{type: "ticket", id}` — faqat ko'rinadigan obyektga |
+| GET | `/exports` | o'z eksportlari |
+| POST | `/exports` | `{type: "helpdesk_tickets", format: "xlsx"|"pdf", filters}` → 202; navbatda yaratiladi, tayyor bo'lganda bildirishnoma. 10/daq |
+| GET | `/exports/{uuid}` | o'ziniki; `file.uuid` orqali `/files/{uuid}` dan yuklab olinadi |
+
+`PATCH /auth/me` endi `notification_preferences.mail_muted` (email orqali yubormaslik turlari) ni ham qabul qiladi.
+
+## 9. Misol
 
 ```http
 POST /api/v1/employees HTTP/1.1

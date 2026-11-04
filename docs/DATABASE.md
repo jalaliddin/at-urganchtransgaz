@@ -221,7 +221,7 @@ Sozlamalar ro'yxati, turi, standart qiymati va validatsiyasi kodda
 
 ## 4. Rollar va ruxsatlar matritsasi
 
-1-bosqich ruxsatlari (keyingi bosqichlar o'z modullarini qo'shadi):
+1–2-bosqich ruxsatlari (keyingi bosqichlar o'z modullarini qo'shadi). Ruxsatsiz ham har bir foydalanuvchi o'zi yuborgan arizalarni ko'radi.
 
 | Ruxsat | super-admin | central-it-head | central-it-staff | org-it-responsible | org-head | employee | accountant | auditor |
 |---|---|---|---|---|---|---|---|---|
@@ -241,13 +241,103 @@ Sozlamalar ro'yxati, turi, standart qiymati va validatsiyasi kodda
 | audit.view | ✓ | ✓ | | | | | | ✓ |
 | settings.view | ✓ | ✓ | | | | | | ✓ |
 | settings.update | ✓ | | | | | | | |
+| helpdesk.create (ariza yuborish) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| helpdesk.view (doiradagi barcha arizalar) | ✓ | ✓ | ✓ | ✓ | ✓ | | | ✓ |
+| helpdesk.process (bajarish, izoh, vaqt) | ✓ | ✓ | ✓ | ✓ | | | | |
+| helpdesk.assign (mas'ul tayinlash) | ✓ | ✓ | | ✓ | | | | |
+| helpdesk.export (Excel/PDF) | ✓ | ✓ | ✓ | ✓ | ✓ | | | ✓ |
+| helpdesk.manage (kategoriya, SLA, kalendar) | ✓ | ✓ | | | | | | |
+| documents.view | ✓ | ✓ | ✓ | ✓ | | | ✓ | ✓ |
+| documents.manage | ✓ | ✓ | ✓ | ✓ | | | ✓ | |
 
 Ma'lumot **doirasi** rolga emas, `user_organization_access`ga bog'liq.
 Rollar nomlari: Super Admin, Markaziy AT rahbari, Markaziy AT xodimi,
 Quyi tashkilot AT mas'uli, Quyi tashkilot rahbari, Oddiy xodim,
 Buxgalter / moddiy javobgar shaxs, Auditor / kuzatuvchi.
 
-## 5. Keyingi bosqichlar jadvallari (reja)
+## 5. 2-bosqich jadvallari (Helpdesk, fayllar, hujjatlar, eksport)
+
+```mermaid
+erDiagram
+    organizations ||--o{ helpdesk_tickets : ""
+    ticket_categories ||--o{ helpdesk_tickets : ""
+    ticket_categories ||--o{ ticket_sla_policies : "ixtiyoriy"
+    employees ||--o{ helpdesk_tickets : "requester_employee_id"
+    users ||--o{ helpdesk_tickets : "requester_user_id, assignee_id"
+    helpdesk_tickets ||--o{ ticket_comments : ""
+    helpdesk_tickets ||--o{ ticket_attachments : ""
+    ticket_comments ||--o{ ticket_attachments : "ixtiyoriy"
+    stored_files ||--o| ticket_attachments : ""
+    helpdesk_tickets ||--o{ ticket_histories : ""
+    helpdesk_tickets ||--o{ ticket_links : ""
+    organizations ||--o{ documents : ""
+    documents ||--o{ document_versions : ""
+    stored_files ||--o| document_versions : ""
+    documents ||--o{ document_links : "morph"
+    users ||--o{ report_exports : ""
+    stored_files ||--o| report_exports : ""
+```
+
+### `stored_files`
+Private diskdagi fayl: `uuid` (yuklab olish kaliti), `disk`, `path` (`files/Y/m/<uuid>`, kengaytmasiz),
+`original_name`, `mime` (fayl baytlaridan aniqlangan), `extension`, `size`, `sha256`,
+`organization_id?`, `uploaded_by?`. Yuklab olish faqat `/files/{uuid}` orqali; ruxsatni egasi
+(ariza ilovasi, hujjat versiyasi, eksport) belgilaydi (`FileAccess`).
+
+### `ticket_categories`
+`code` (unique, seed), `name`, `name_ru?`, `description?`, `is_active`, `sort_order`, user stamps.
+Arizasi bor kategoriya o'chirilmaydi (409) — faolsizlantiriladi.
+
+### `ticket_sla_policies`
+`priority` (`low|normal|high|critical`), `category_id?` (NULL — ustuvorlik bo'yicha umumiy),
+`response_minutes`, `resolution_minutes` (**ish daqiqalari**). Tanlash tartibi: kategoriya+ustuvorlik →
+ustuvorlik → `config/helpdesk.php` standartlari (30/240, 60/480, 120/1440, 480/2400).
+
+### `ticket_counters`
+`year` (PK), `last_number`. `HD-YYYY-NNNNNN` raqami `FOR UPDATE` qulfi bilan beriladi (yil — Toshkent vaqti).
+
+### `helpdesk_tickets`
+| Ustun | Izoh |
+|---|---|
+| `number` | unique, `HD-2026-000001` |
+| `organization_id`, `department_id?` | tashkilot doirasi |
+| `requester_employee_id?`, `requester_user_id?` | murojaatchi (xodim / tizim foydalanuvchisi) |
+| `contact_name/phone/email`, `location` | aloqa |
+| `category_id`, `title`, `description`, `priority`, `status` | `status`: new, in_review, assigned, in_progress, waiting_user, resolved, closed, rejected |
+| `assignee_id?`, `assigned_at?` | mas'ul |
+| `sla_response_minutes`, `sla_resolution_minutes` | yaratilgandagi SLA nusxasi |
+| `response_due_at`, `resolution_due_at` | ish vaqti bo'yicha hisoblangan muddatlar |
+| `first_response_at?`, `response_breached_at?`, `resolution_breached_at?`, `due_soon_notified_at?` | SLA belgilari (bir martalik) |
+| `paused_at?`, `paused_minutes` | `waiting_user` pauzasi (ish daqiqalari) |
+| `resolved_at?`, `closed_at?`, `rejected_at?`, `resolution?`, `reject_reason?` | yakun |
+| `rating?` (1–5), `rating_comment?`, `rated_at?`, `reopened_count`, `time_spent_minutes` | |
+
+Muddat formulasi: `resolution_due_at = BusinessCalendar::addMinutes(created_at, sla_resolution_minutes + paused_minutes)`.
+Indekslar: `(organization_id, status)`, `(assignee_id, status)`, `(requester_user_id, status)`, `(status, resolution_due_at)`, `created_at`.
+
+### `ticket_comments`, `ticket_attachments`, `ticket_histories`, `ticket_links`
+- `ticket_comments`: `ticket_id`, `user_id?`, `body`, `is_internal` (faqat bajaruvchilarga ko'rinadi).
+- `ticket_attachments`: `ticket_id`, `comment_id?`, `stored_file_id` (unique), `user_id?`.
+- `ticket_histories`: append-only — `action` (created, updated, status_changed, assigned, commented,
+  attachment_added/removed, time_logged, rated, linked/unlinked, sla_breached, auto_closed), `old_values`,
+  `new_values`, `note`, `is_internal`. Arizalar uchun audit jurnali vazifasini bajaradi.
+- `ticket_links`: `ticket_id`, `linked_ticket_id`, `type` (`relates|duplicates`), bir juftlik bir marta.
+
+### `documents`, `document_versions`, `document_links`
+- `documents`: `organization_id`, `type` (contract, act, requisition, invoice, technical_passport, warranty,
+  order, letter, other), `number?`, `title`, `document_date?`, `description?`, `current_version_id?`, soft delete, audit.
+- `document_versions`: `document_id`, `version` (1, 2, …; unique), `stored_file_id`, `note?`, `uploaded_by?`.
+- `document_links`: `document_id`, `linkable_type` (morph alias, hozircha `ticket`), `linkable_id`.
+
+### `report_exports`
+`uuid`, `user_id`, `type` (`helpdesk_tickets`), `format` (`xlsx|pdf`), `filters` (json), `status`
+(pending, processing, done, failed), `stored_file_id?`, `row_count?`, `error?`, `started_at?`, `finished_at?`.
+7 kundan keyin `exports:prune` o'chiradi.
+
+### `users` (qo'shimcha)
+`notification_preferences` (json): `{"mail_muted": ["ticket_commented", …]}`.
+
+## 6. Keyingi bosqichlar jadvallari (reja)
 
 Har bir bosqich boshida ushbu bo'lim batafsil sxema bilan yangilanadi.
 Barcha tashkilotga tegishli jadvallar `organization_id` ustuniga va
@@ -297,7 +387,7 @@ erDiagram
 
 | Bosqich | Jadvallar |
 |---|---|
-| 2 — Helpdesk | ticket_categories, ticket_sla_policies, helpdesk_tickets, ticket_comments (`is_internal`), ticket_attachments, ticket_histories, ticket_links (takroriy muammolar), ticket_ratings; documents, document_links, document_versions; report_exports |
+| 2 — Helpdesk | ✅ §5 da (baho `helpdesk_tickets.rating` ustunida, alohida jadval shart emas) |
 | 3 — Aktivlar | asset_categories, manufacturers, asset_models, locations, assets, asset_assignments, asset_transfers (+ dalolatnoma), asset_maintenance, asset_disposals, inventory_sessions, inventory_session_items |
 | 4 — Ombor, talabnomalar | warehouses, units, inventory_items (`track_batches`, `min_quantity`), stock_balances (`warehouse_id, item_id, batch` UNIQUE, `quantity DECIMAL(18,3)` CHECK ≥ 0), stock_movements (yagona jurnal), stock_receipts, stock_issues, stock_transfers; requisitions, requisition_items, requisition_approvals, requisition_histories, requisition_fulfillments |
 | 5 — Monitoring, dasturlar | monitoring_policies, network_devices, monitoring_checks (partitsiya/retention), monitoring_events, monitoring_allowlist (CIDR); software_catalog, software_licenses, software_installations, software_policies, antivirus_statuses, device_agents, agent_tokens (hash), agent_checkins |
