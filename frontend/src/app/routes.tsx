@@ -10,6 +10,7 @@ import { DashboardPage } from '@/features/dashboard/DashboardPage'
 import { DepartmentsPage } from '@/features/departments/DepartmentsPage'
 import { EmployeeDetailPage } from '@/features/employees/EmployeeDetailPage'
 import { EmployeesPage } from '@/features/employees/EmployeesPage'
+import { NewTicketPage } from '@/features/helpdesk/NewTicketPage'
 import { TicketsPage } from '@/features/helpdesk/TicketsPage'
 import { NotFoundPage } from '@/features/errors/NotFoundPage'
 import { OrganizationDetailPage } from '@/features/organizations/OrganizationDetailPage'
@@ -44,7 +45,15 @@ export const routes: RouteObject[] = [
                 path: 'helpdesk',
                 element: <RequirePermission permission={['helpdesk.view', 'helpdesk.create']} />,
                 handle: { crumb: 'nav:items.helpdesk' },
-                children: [{ index: true, element: <TicketsPage /> }],
+                children: [
+                  { index: true, element: <TicketsPage /> },
+                  {
+                    path: 'new',
+                    element: <RequirePermission permission="helpdesk.create" />,
+                    handle: { crumb: 'helpdesk:new.title' },
+                    children: [{ index: true, element: <NewTicketPage /> }],
+                  },
+                ],
               },
               {
                 path: 'organizations',

@@ -10,5 +10,7 @@
   "date": "Sana noto'g'ri",
   "dismissedAt": "Ishdan bo'shagan sanani kiriting",
   "number": "Son kiriting",
-  "roles": "Kamida bitta rol tanlang"
+  "roles": "Kamida bitta rol tanlang",
+  "titleMin": "Kamida 5 ta belgi kiriting",
+  "descriptionMin": "Muammoni batafsilroq yozing (kamida 10 ta belgi)"
 }

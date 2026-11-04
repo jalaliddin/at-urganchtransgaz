@@ -11,6 +11,7 @@ export const server = setupServer(
         organization_name: '"Urganchtransgaz" MCHJ',
         support_phone: '+998 62 224-00-00',
         support_email: null,
+        max_upload_mb: 10,
       },
     }),
   ),

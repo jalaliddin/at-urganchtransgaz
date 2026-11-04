@@ -21,6 +21,8 @@ export interface PublicSettings {
   organization_name: string
   support_phone: string | null
   support_email: string | null
+  /** Upload size limit in MB (files.max_upload_mb). */
+  max_upload_mb: number
 }
 
 export interface LoginInput {
