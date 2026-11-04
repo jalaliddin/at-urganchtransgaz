@@ -39,7 +39,12 @@ export function toApiError(error: unknown): ApiError {
     return new ApiError({
       status: error.response.status,
       code: typeof body.code === 'string' ? body.code : 'http_error',
-      message: typeof body.message === 'string' ? body.message : i18n.t('common:errors.generic'),
+      message:
+        typeof body.message === 'string'
+          ? body.message
+          : error.response.status === 413
+            ? i18n.t('common:errors.tooLarge')
+            : i18n.t('common:errors.generic'),
       fieldErrors: isFieldErrors(body.errors) ? body.errors : {},
       requestId: typeof body.request_id === 'string' ? body.request_id : undefined,
     })

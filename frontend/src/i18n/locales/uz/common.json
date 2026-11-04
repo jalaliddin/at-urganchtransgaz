@@ -43,7 +43,8 @@
     "forbidden": "Bu sahifani ko'rish uchun sizda ruxsat yo'q. Kerak bo'lsa, AT xizmatiga murojaat qiling.",
     "notFoundTitle": "Sahifa topilmadi",
     "notFound": "Havola noto'g'ri yoki sahifa o'chirilgan.",
-    "toHome": "Boshqaruv paneliga o'tish"
+    "toHome": "Boshqaruv paneliga o'tish",
+    "tooLarge": "Yuborilayotgan fayllar hajmi juda katta. Kamroq yoki kichikroq fayl tanlang."
   },
   "status": {
     "active": "Faol",

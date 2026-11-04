@@ -3,7 +3,7 @@ DC := docker compose
 BACKEND := $(DC) exec -T backend
 FRONTEND := $(DC) exec -T frontend
 
-.PHONY: help init up down build ps logs shell migrate fresh seed test-backend test-frontend lint lint-backend lint-frontend build-frontend check
+.PHONY: check-limits help init up down build ps logs shell migrate fresh seed test-backend test-frontend lint lint-backend lint-frontend build-frontend check
 
 help: ## List targets
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-16s %s\n", $$1, $$2}'
@@ -44,6 +44,9 @@ test-backend: ## PHPUnit (ARGS="--filter=Name")
 test-frontend: ## Vitest (ARGS="path")
 	$(FRONTEND) npm run test -- --run $(ARGS)
 
+check-limits: ## nginx/PHP request limits fit the upload rules
+	./scripts/check-upload-limits.sh
+
 lint-backend: ## Pint (check) + Larastan
 	$(BACKEND) vendor/bin/pint --test
 	$(BACKEND) vendor/bin/phpstan analyse --memory-limit=1G --no-progress
@@ -57,4 +60,4 @@ lint: lint-backend lint-frontend ## All linters
 build-frontend: ## Production build of the SPA
 	$(FRONTEND) npm run build
 
-check: test-backend lint-backend test-frontend lint-frontend build-frontend ## Every quality gate
+check: check-limits test-backend lint-backend test-frontend lint-frontend build-frontend ## Every quality gate

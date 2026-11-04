@@ -8,7 +8,7 @@ server {
     listen 80;
     server_name ${NGINX_SERVER_NAME};
     server_tokens off;
-    client_max_body_size 25m;
+    client_max_body_size 110m;
 
     include /etc/nginx/snippets/security-headers.conf;
     # Dev only: Vite injects inline scripts and uses a websocket for HMR.

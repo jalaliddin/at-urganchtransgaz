@@ -47,7 +47,7 @@ o'zgartirgach, bu yerda belgilanadi.
 | Q17 | Oddiy xodim "kritik" ustuvorlikni tanlay oladimi? | Ha; bajaruvchi keyin o'zgartiradi (SLA qayta hisoblanadi) | ❓ |
 | Q18 | Yangi ariza haqida kim xabar oladi? | `helpdesk.assign` ruxsati bor va ariza tashkilotiga kirishi bor barcha faol foydalanuvchilar (quyi tashkilot AT mas'uli, markaziy AT rahbari) | ❓ |
 | Q19 | Email yuborish uchun SMTP server | `.env` dagi `MAIL_*`; sozlanmaguncha xatlar jurnalga yoziladi, tizim ichidagi bildirishnomalar ishlaydi | ❓ |
-| Q20 | Fayl cheklovlari | 10 MB (sozlanadi), bir yuklashda 5 tagacha; rasm, PDF, Office, ODF, TXT/CSV, ZIP/RAR/7Z; skript/HTML/SVG/exe taqiqlangan | ❓ |
+| Q20 | Fayl cheklovlari | 10 MB (sozlanadi, ko'pi bilan 20 MB), bir yuklashda 5 tagacha; rasm, PDF, Office, ODF, TXT/CSV, ZIP/RAR/7Z; skript/HTML/SVG/exe taqiqlangan | ❓ |
 | Q21 | Eksport fayllari qancha saqlanadi? | 7 kun; PDF 2000 qatordan oshsa Excel tavsiya qilinadi | ❓ |
 | Q22 | Ichki izohni kim ko'radi? | Faqat ariza tashkilotiga kirishi bor `helpdesk.process` egalari (murojaatchi va kuzatuvchilar ko'rmaydi) | ❓ |
 

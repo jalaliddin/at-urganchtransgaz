@@ -123,7 +123,8 @@ return [
     'files.max_upload_mb' => [
         'type' => 'integer',
         'default' => 10,
-        'rules' => ['required', 'integer', 'min:1', 'max:50'],
+        // 5 files × 20 MB per request must fit nginx/PHP limits (scripts/check-upload-limits.sh).
+        'rules' => ['required', 'integer', 'min:1', 'max:20'],
         'public' => true,
     ],
 

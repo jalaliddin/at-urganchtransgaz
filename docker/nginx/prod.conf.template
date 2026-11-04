@@ -28,7 +28,7 @@ server {
     http2 on;
     server_name ${NGINX_SERVER_NAME};
     server_tokens off;
-    client_max_body_size 25m;
+    client_max_body_size 110m;
 
     ssl_certificate     /etc/nginx/certs/fullchain.pem;
     ssl_certificate_key /etc/nginx/certs/privkey.pem;
