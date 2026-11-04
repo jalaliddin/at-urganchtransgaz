@@ -64,7 +64,7 @@ service + API + frontend sahifalar + testlar (shu jumladan tashkilotlararo kiris
 toza; production rejimi (TLS, `APP_DEBUG=false`, dev dependency'siz image) va backup/restore
 amalda sinab ko'rilgan. Excel/PDF eksport 2-bosqichga o'tkazilgan (eksport navbati bilan birga).
 
-## 2-bosqich — Helpdesk ⏳
+## 2-bosqich — Helpdesk ✅
 
 - Kategoriyalar, SLA siyosatlari (ustuvorlik × kategoriya), ariza raqami generatori
 - Ariza: yaratish (mobilga mos), status workflow, mas'ul tayinlash/qayta tayinlash
@@ -75,6 +75,10 @@ amalda sinab ko'rilgan. Excel/PDF eksport 2-bosqichga o'tkazilgan (eksport navba
 - Hujjatlar moduli asosi (`documents`, `document_links`, versiyalar)
 - Eksport infratuzilmasi: Excel/PDF, katta hisobotlar queue orqali
 - Helpdesk dashboard vidjetlari va hisobotlari
+
+Holat (2026-11-04): bajarildi. SLA ish vaqti bo'yicha (Du–Ju 09:00–18:00, tushlik 13–14, bayramlar
+sozlamada); `helpdesk:check-sla` (5 daqiqada), `helpdesk:auto-close` (soatda), `exports:prune` (kunda).
+Spec: `docs/superpowers/specs/2026-11-03-phase2-helpdesk-design.md`, ochiq savollar: Q14–Q22.
 
 ## 3-bosqich — IT aktivlar va CMDB ⏳
 
