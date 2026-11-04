@@ -1,0 +1,53 @@
+{
+  "title": "Hujjatlar",
+  "description": "Shartnoma, dalolatnoma, hisob-faktura va boshqa hujjatlar reyestri",
+  "crumb": "Hujjat",
+  "actions": {
+    "create": "Hujjat qo'shish",
+    "edit": "Tahrirlash",
+    "delete": "O'chirish",
+    "newVersion": "Yangi versiya",
+    "link": "Arizaga bog'lash",
+    "unlink": "Bog'lanishni olib tashlash"
+  },
+  "filters": {
+    "search": "Raqam yoki nomi",
+    "type": "Turi",
+    "allTypes": "Barcha turlar",
+    "organization": "Tashkilot"
+  },
+  "fields": {
+    "type": "Turi",
+    "number": "Raqami",
+    "title": "Nomi",
+    "date": "Sanasi",
+    "organization": "Tashkilot",
+    "description": "Izoh",
+    "file": "Fayl",
+    "version": "Versiya",
+    "versions": "Versiyalar",
+    "note": "Izoh",
+    "uploadedBy": "Yuklagan",
+    "links": "Bog'langan obyektlar",
+    "ticketId": "Ariza ID raqami"
+  },
+  "types": {
+    "contract": "Shartnoma",
+    "act": "Dalolatnoma",
+    "requisition": "Talabnoma",
+    "invoice": "Hisob-faktura",
+    "technical_passport": "Texnik pasport",
+    "warranty": "Kafolat hujjati",
+    "order": "Buyruq",
+    "letter": "Xat",
+    "other": "Boshqa"
+  },
+  "empty": {
+    "title": "Hujjatlar yo'q",
+    "description": "Hujjat qo'shing va unga fayl biriktiring.",
+    "noLinks": "Bog'langan obyekt yo'q"
+  },
+  "deleteConfirm": "\"{{title}}\" hujjatini o'chirasizmi?",
+  "saved": "Hujjat saqlandi",
+  "versionAdded": "{{version}}-versiya yuklandi"
+}

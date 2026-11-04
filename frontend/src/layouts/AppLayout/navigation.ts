@@ -1,6 +1,9 @@
 import {
   IconBuildingCommunity,
   IconClipboardList,
+  IconFileDownload,
+  IconFiles,
+  IconLifebuoy,
   IconHierarchy2,
   IconLayoutDashboard,
   IconSettings,
@@ -18,7 +21,8 @@ export interface NavItem {
   labelKey: string
   path: string
   icon: Icon
-  permission?: string
+  /** Required permission; with a list, any one of them is enough. */
+  permission?: string | string[]
 }
 
 export interface NavGroup {
@@ -27,7 +31,7 @@ export interface NavGroup {
   items: NavItem[]
 }
 
-/** Phase 1 modules. Later phases add their groups/items here. */
+/** Modules by phase. Later phases add their groups/items here. */
 export const navigation: NavGroup[] = [
   {
     key: 'main',
@@ -39,6 +43,33 @@ export const navigation: NavGroup[] = [
         path: '/',
         icon: IconLayoutDashboard,
         permission: 'dashboard.view',
+      },
+    ],
+  },
+  {
+    key: 'helpdesk',
+    labelKey: 'groups.helpdesk',
+    items: [
+      {
+        key: 'helpdesk',
+        labelKey: 'items.helpdesk',
+        path: '/helpdesk',
+        icon: IconLifebuoy,
+        permission: ['helpdesk.view', 'helpdesk.create'],
+      },
+      {
+        key: 'documents',
+        labelKey: 'items.documents',
+        path: '/documents',
+        icon: IconFiles,
+        permission: 'documents.view',
+      },
+      {
+        key: 'exports',
+        labelKey: 'items.exports',
+        path: '/exports',
+        icon: IconFileDownload,
+        permission: ['helpdesk.export'],
       },
     ],
   },
@@ -110,7 +141,7 @@ export function visibleNav(me: Me): NavGroup[] {
   return navigation
     .map((group) => ({
       ...group,
-      items: group.items.filter((item) => !item.permission || hasPermission(me, item.permission)),
+      items: group.items.filter((item) => !item.permission || hasPermission(me, item.permission, 'any')),
     }))
     .filter((group) => group.items.length > 0)
 }

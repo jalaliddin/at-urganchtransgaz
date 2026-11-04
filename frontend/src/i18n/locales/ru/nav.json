@@ -2,7 +2,8 @@
   "groups": {
     "main": "Основное",
     "structure": "Оргструктура",
-    "administration": "Администрирование"
+    "administration": "Администрирование",
+    "helpdesk": "Обслуживание"
   },
   "items": {
     "dashboard": "Панель управления",
@@ -15,7 +16,13 @@
     "settings": "Настройки",
     "profile": "Профиль",
     "notifications": "Уведомления",
-    "changePassword": "Смена пароля"
+    "changePassword": "Смена пароля",
+    "helpdesk": "Заявки",
+    "helpdeskNew": "Подать заявку",
+    "helpdeskReports": "Отчёт Helpdesk",
+    "helpdeskSettings": "Настройки Helpdesk",
+    "documents": "Документы",
+    "exports": "Экспорты"
   },
   "header": {
     "search": "Поиск",

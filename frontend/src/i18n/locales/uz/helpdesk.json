@@ -1,0 +1,249 @@
+{
+  "title": "Helpdesk arizalari",
+  "description": "AT xizmatiga yuborilgan arizalar, ularning holati va muddatlari",
+  "crumb": "Ariza",
+  "tabs": {
+    "mine": "Mening arizalarim",
+    "assigned": "Menga biriktirilgan",
+    "all": "Barcha arizalar"
+  },
+  "filters": {
+    "search": "Raqam, sarlavha yoki telefon",
+    "status": "Holat",
+    "allStatuses": "Barcha holatlar",
+    "openOnly": "Faqat ochiqlar",
+    "priority": "Ustuvorlik",
+    "category": "Kategoriya",
+    "organization": "Tashkilot",
+    "overdue": "Muddati o'tganlar",
+    "createdFrom": "Sanadan",
+    "createdTo": "Sanagacha"
+  },
+  "actions": {
+    "create": "Ariza yuborish",
+    "export": "Eksport",
+    "exportXlsx": "Excel (.xlsx)",
+    "exportPdf": "PDF",
+    "settings": "Sozlamalar",
+    "reports": "Hisobot"
+  },
+  "empty": {
+    "title": "Arizalar yo'q",
+    "description": "Muammo bo'lsa, AT xizmatiga ariza yuboring — u shu yerda ko'rinadi.",
+    "filtered": "Tanlangan filtrlar bo'yicha ariza topilmadi."
+  },
+  "fields": {
+    "number": "Raqam",
+    "title": "Muammo sarlavhasi",
+    "description": "Batafsil tavsif",
+    "category": "Kategoriya",
+    "priority": "Ustuvorlik",
+    "status": "Holat",
+    "organization": "Tashkilot",
+    "department": "Bo'lim",
+    "requester": "Murojaatchi",
+    "assignee": "Mas'ul",
+    "contactName": "Aloqa uchun ism",
+    "contactPhone": "Aloqa telefoni",
+    "contactEmail": "Email",
+    "location": "Xona / joy",
+    "createdAt": "Yuborilgan",
+    "responseDue": "Javob muddati",
+    "resolutionDue": "Hal qilish muddati",
+    "sla": "SLA",
+    "timeSpent": "Sarflangan vaqt",
+    "rating": "Baho",
+    "resolution": "Yechim",
+    "rejectReason": "Rad etish sababi",
+    "files": "Fayllar"
+  },
+  "status": {
+    "new": "Yangi",
+    "in_review": "Ko'rib chiqilmoqda",
+    "assigned": "Mas'ul tayinlangan",
+    "in_progress": "Jarayonda",
+    "waiting_user": "Javobingiz kutilmoqda",
+    "resolved": "Hal qilindi",
+    "closed": "Yopildi",
+    "rejected": "Rad etildi"
+  },
+  "priority": {
+    "low": "Past",
+    "normal": "Normal",
+    "high": "Yuqori",
+    "critical": "Kritik"
+  },
+  "sla": {
+    "ok": "Muddatida",
+    "soon": "Muddat yaqin",
+    "breached": "Muddati o'tgan",
+    "paused": "To'xtatilgan",
+    "done": "Yakunlangan",
+    "dueIn": "{{time}} gacha",
+    "minutes": "{{count}} daq.",
+    "hours": "{{count}} soat",
+    "businessMinutes": "{{count}} ish daqiqasi"
+  },
+  "new": {
+    "title": "Yangi ariza",
+    "description": "Muammoni aniq yozing — AT xodimi tezroq yordam beradi.",
+    "submit": "Arizani yuborish",
+    "submitted": "{{number}} raqamli ariza yuborildi",
+    "onBehalf": "Boshqa xodim nomidan",
+    "contactSection": "Aloqa ma'lumotlari",
+    "attachmentsHint": "Rasm, PDF, Office hujjatlari; har biri {{size}} MB gacha, 5 tagacha"
+  },
+  "dropzone": {
+    "idle": "Fayllarni shu yerga tashlang yoki tanlang",
+    "reject": "Bu fayl qabul qilinmaydi",
+    "tooLarge": "{{name}}: fayl {{size}} MB dan katta",
+    "badType": "{{name}}: fayl turi ruxsat etilmagan",
+    "tooMany": "Bir martada 5 tagacha fayl biriktirish mumkin",
+    "remove": "{{name}} faylini olib tashlash"
+  },
+  "detail": {
+    "conversation": "Muloqot",
+    "history": "Tarix",
+    "attachments": "Fayllar",
+    "links": "Bog'langan arizalar",
+    "documents": "Hujjatlar",
+    "facts": "Ma'lumotlar",
+    "noComments": "Hali izoh yo'q",
+    "noAttachments": "Fayl biriktirilmagan",
+    "noLinks": "Bog'langan ariza yo'q",
+    "noDocuments": "Bog'langan hujjat yo'q",
+    "commentPlaceholder": "Izoh yozing…",
+    "internal": "Ichki izoh",
+    "internalHint": "Faqat AT xodimlari ko'radi",
+    "send": "Yuborish",
+    "attach": "Fayl biriktirish",
+    "download": "Yuklab olish",
+    "deleteFile": "Faylni o'chirish",
+    "reopened": "Qayta ochilgan: {{count}} marta",
+    "paused": "SLA to'xtatilgan: foydalanuvchi javobi kutilmoqda"
+  },
+  "workflow": {
+    "assign": "Mas'ul tayinlash",
+    "take": "O'zimga olish",
+    "logTime": "Vaqt yozish",
+    "rate": "Baholash",
+    "link": "Ariza bog'lash",
+    "edit": "Tahrirlash",
+    "to": {
+      "in_review": "Ko'rib chiqishga olish",
+      "in_progress": "Ishni boshlash",
+      "waiting_user": "Foydalanuvchidan so'rash",
+      "resolved": "Hal qilindi",
+      "closed": "Yopish",
+      "rejected": "Rad etish",
+      "reopen": "Qayta ochish"
+    },
+    "noteLabel": "Izoh",
+    "resolutionLabel": "Yechim tavsifi",
+    "rejectLabel": "Rad etish sababi",
+    "waitingLabel": "Foydalanuvchiga savol",
+    "assignee": "Mas'ul xodim",
+    "minutes": "Daqiqa",
+    "ratingComment": "Fikringiz (ixtiyoriy)",
+    "linkTicket": "Ariza raqami yoki sarlavhasi",
+    "linkType": "Bog'lanish turi",
+    "linkTypes": {
+      "relates": "Bog'liq",
+      "duplicates": "Takroriy"
+    },
+    "confirm": "Tasdiqlash",
+    "done": "Saqlandi"
+  },
+  "history": {
+    "created": "Ariza yaratildi",
+    "updated": "Ma'lumotlar o'zgartirildi",
+    "status_changed": "Holat: {{from}} → {{to}}",
+    "assigned": "Mas'ul: {{name}}",
+    "commented": "Izoh qoldirildi",
+    "attachment_added": "Fayl biriktirildi: {{files}}",
+    "attachment_removed": "Fayl o'chirildi: {{files}}",
+    "time_logged": "Vaqt yozildi: {{minutes}} daq.",
+    "rated": "Baholandi: {{rating}}",
+    "linked": "Bog'landi: {{ticket}}",
+    "unlinked": "Bog'lanish olib tashlandi: {{ticket}}",
+    "sla_breached": "SLA muddati o'tdi ({{kind}})",
+    "auto_closed": "Avtomatik yopildi",
+    "system": "Tizim",
+    "kind": {
+      "response": "javob",
+      "resolution": "hal qilish"
+    }
+  },
+  "settings": {
+    "title": "Helpdesk sozlamalari",
+    "description": "Kategoriyalar, SLA me'yorlari va ish vaqti kalendari",
+    "tabs": {
+      "categories": "Kategoriyalar",
+      "sla": "SLA me'yorlari",
+      "calendar": "Ish vaqti"
+    },
+    "category": {
+      "add": "Kategoriya qo'shish",
+      "edit": "Kategoriyani tahrirlash",
+      "name": "Nomi (o'zbekcha)",
+      "nameRu": "Nomi (ruscha)",
+      "description": "Izoh",
+      "active": "Faol",
+      "sortOrder": "Tartib raqami",
+      "deleteConfirm": "\"{{name}}\" kategoriyasini o'chirasizmi?"
+    },
+    "sla": {
+      "hint": "Muddatlar ish daqiqalarida (ish kuni = {{minutes}} daqiqa). Kategoriya bo'yicha qoida umumiy qoidadan ustun.",
+      "add": "Kategoriya uchun qoida",
+      "general": "Barcha kategoriyalar",
+      "response": "Javob (daq.)",
+      "resolution": "Hal qilish (daq.)",
+      "default": "standart",
+      "deleteConfirm": "Bu SLA qoidasini o'chirasizmi?"
+    },
+    "calendar": {
+      "workDays": "Ish kunlari",
+      "workStart": "Ish boshlanishi",
+      "workEnd": "Ish tugashi",
+      "lunchStart": "Tushlik boshlanishi",
+      "lunchEnd": "Tushlik tugashi",
+      "holidays": "Bayram va dam olish kunlari",
+      "holidaysHint": "SLA bu kunlarda hisoblanmaydi",
+      "autoClose": "Avtomatik yopish (ish kuni)",
+      "autoCloseHint": "0 — o'chirilgan",
+      "reopenDays": "Qayta ochish muddati (kun)",
+      "dueSoon": "\"Muddat yaqin\" eslatmasi (ish daqiqasi)",
+      "timezone": "Vaqt mintaqasi: {{tz}}",
+      "weekdays": ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"]
+    },
+    "saved": "Sozlamalar saqlandi"
+  },
+  "reports": {
+    "title": "Helpdesk hisoboti",
+    "description": "SLA bajarilishi va arizalar kesimlari",
+    "total": "Jami arizalar",
+    "open": "Ochiq",
+    "overdue": "Muddati o'tgan",
+    "responseSla": "Javob SLA",
+    "resolutionSla": "Hal qilish SLA",
+    "avgResolution": "O'rtacha hal qilish vaqti",
+    "ofTotal": "{{met}} / {{total}}",
+    "byStatus": "Holat bo'yicha",
+    "byCategory": "Kategoriya bo'yicha",
+    "byOrganization": "Tashkilotlar kesimida",
+    "byPriority": "Ustuvorlik bo'yicha",
+    "count": "Soni",
+    "noData": "Tanlangan davrda ariza yo'q",
+    "table": "Jadval ko'rinishi"
+  },
+  "dashboard": {
+    "title": "Helpdesk",
+    "open": "Ochiq arizalar",
+    "overdue": "Muddati o'tgan",
+    "newToday": "Bugun yangi",
+    "assignedToMe": "Menga biriktirilgan",
+    "myOpen": "Ochiq arizalarim",
+    "myTotal": "Jami arizalarim",
+    "openList": "Arizalarni ochish"
+  }
+}

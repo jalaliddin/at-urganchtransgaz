@@ -26,4 +26,12 @@ describe('visibleNav', () => {
     expect(keys).toContain('settings')
     expect(keys).toContain('roles')
   })
+
+  it('accepts any one of several permissions for an item', () => {
+    const keys = visibleNav(makeMe({ permissions: ['dashboard.view', 'helpdesk.create'] })).flatMap((g) =>
+      g.items.map((i) => i.key),
+    )
+
+    expect(keys).toEqual(['dashboard', 'helpdesk'])
+  })
 })

@@ -55,7 +55,14 @@
   },
   "notifications": {
     "access_changed": "{{actor}} rollaringiz yoki kirish doirangizni o'zgartirdi",
-    "password_reset_by_admin": "{{actor}} hisobingiz uchun vaqtinchalik parol berdi"
+    "password_reset_by_admin": "{{actor}} hisobingiz uchun vaqtinchalik parol berdi",
+    "ticket_created": "{{number}}: yangi ariza — {{title}}",
+    "ticket_assigned": "{{number}} arizasi sizga biriktirildi",
+    "ticket_status_changed": "{{number}} arizasi holati o'zgardi",
+    "ticket_commented": "{{number}} arizasiga {{actor}} izoh qoldirdi",
+    "ticket_sla_breached": "{{number}} arizasi muddati o'tdi",
+    "ticket_due_soon": "{{number}} arizasini hal qilish muddati yaqin",
+    "export_ready": "Eksport tayyor — yuklab olishingiz mumkin"
   },
   "languages": {
     "uz": "O'zbekcha",

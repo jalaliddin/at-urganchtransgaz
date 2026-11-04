@@ -1,0 +1,28 @@
+{
+  "title": "Eksportlarim",
+  "description": "Excel va PDF hisobotlar navbatda tayyorlanadi va 7 kun saqlanadi",
+  "queued": "Eksport navbatga qo'yildi. Tayyor bo'lganda bildirishnoma keladi.",
+  "open": "Eksportlarni ochish",
+  "empty": {
+    "title": "Eksport yo'q",
+    "description": "Ro'yxat sahifasidagi \"Eksport\" tugmasi orqali hisobot oling."
+  },
+  "fields": {
+    "report": "Hisobot",
+    "format": "Format",
+    "status": "Holat",
+    "rows": "Qatorlar",
+    "createdAt": "So'ralgan",
+    "file": "Fayl"
+  },
+  "status": {
+    "pending": "Navbatda",
+    "processing": "Tayyorlanmoqda",
+    "done": "Tayyor",
+    "failed": "Xatolik"
+  },
+  "reports": {
+    "helpdesk_tickets": "Helpdesk arizalari"
+  },
+  "download": "Yuklab olish"
+}

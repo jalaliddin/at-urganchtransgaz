@@ -1,0 +1,249 @@
+{
+  "title": "Заявки Helpdesk",
+  "description": "Заявки в ИТ-службу, их статусы и сроки",
+  "crumb": "Заявка",
+  "tabs": {
+    "mine": "Мои заявки",
+    "assigned": "Назначенные мне",
+    "all": "Все заявки"
+  },
+  "filters": {
+    "search": "Номер, заголовок или телефон",
+    "status": "Статус",
+    "allStatuses": "Все статусы",
+    "openOnly": "Только открытые",
+    "priority": "Приоритет",
+    "category": "Категория",
+    "organization": "Организация",
+    "overdue": "Просроченные",
+    "createdFrom": "С даты",
+    "createdTo": "По дату"
+  },
+  "actions": {
+    "create": "Подать заявку",
+    "export": "Экспорт",
+    "exportXlsx": "Excel (.xlsx)",
+    "exportPdf": "PDF",
+    "settings": "Настройки",
+    "reports": "Отчёт"
+  },
+  "empty": {
+    "title": "Заявок нет",
+    "description": "Если возникла проблема, подайте заявку в ИТ-службу — она появится здесь.",
+    "filtered": "По выбранным фильтрам заявок не найдено."
+  },
+  "fields": {
+    "number": "Номер",
+    "title": "Заголовок проблемы",
+    "description": "Подробное описание",
+    "category": "Категория",
+    "priority": "Приоритет",
+    "status": "Статус",
+    "organization": "Организация",
+    "department": "Отдел",
+    "requester": "Заявитель",
+    "assignee": "Исполнитель",
+    "contactName": "Контактное лицо",
+    "contactPhone": "Контактный телефон",
+    "contactEmail": "Email",
+    "location": "Кабинет / место",
+    "createdAt": "Подана",
+    "responseDue": "Срок реакции",
+    "resolutionDue": "Срок решения",
+    "sla": "SLA",
+    "timeSpent": "Затрачено времени",
+    "rating": "Оценка",
+    "resolution": "Решение",
+    "rejectReason": "Причина отказа",
+    "files": "Файлы"
+  },
+  "status": {
+    "new": "Новая",
+    "in_review": "На рассмотрении",
+    "assigned": "Назначен исполнитель",
+    "in_progress": "В работе",
+    "waiting_user": "Ожидается ваш ответ",
+    "resolved": "Решена",
+    "closed": "Закрыта",
+    "rejected": "Отклонена"
+  },
+  "priority": {
+    "low": "Низкий",
+    "normal": "Обычный",
+    "high": "Высокий",
+    "critical": "Критический"
+  },
+  "sla": {
+    "ok": "В срок",
+    "soon": "Срок близко",
+    "breached": "Просрочено",
+    "paused": "Приостановлено",
+    "done": "Завершено",
+    "dueIn": "до {{time}}",
+    "minutes": "{{count}} мин.",
+    "hours": "{{count}} ч",
+    "businessMinutes": "{{count}} рабочих минут"
+  },
+  "new": {
+    "title": "Новая заявка",
+    "description": "Опишите проблему точно — специалист поможет быстрее.",
+    "submit": "Отправить заявку",
+    "submitted": "Заявка {{number}} отправлена",
+    "onBehalf": "От имени другого сотрудника",
+    "contactSection": "Контактные данные",
+    "attachmentsHint": "Фото, PDF, документы Office; каждый до {{size}} МБ, не более 5"
+  },
+  "dropzone": {
+    "idle": "Перетащите файлы сюда или выберите",
+    "reject": "Этот файл не принимается",
+    "tooLarge": "{{name}}: файл больше {{size}} МБ",
+    "badType": "{{name}}: тип файла не разрешён",
+    "tooMany": "За один раз можно прикрепить не более 5 файлов",
+    "remove": "Убрать файл {{name}}"
+  },
+  "detail": {
+    "conversation": "Переписка",
+    "history": "История",
+    "attachments": "Файлы",
+    "links": "Связанные заявки",
+    "documents": "Документы",
+    "facts": "Сведения",
+    "noComments": "Комментариев пока нет",
+    "noAttachments": "Файлы не прикреплены",
+    "noLinks": "Связанных заявок нет",
+    "noDocuments": "Связанных документов нет",
+    "commentPlaceholder": "Напишите комментарий…",
+    "internal": "Внутренний комментарий",
+    "internalHint": "Видят только сотрудники ИТ",
+    "send": "Отправить",
+    "attach": "Прикрепить файл",
+    "download": "Скачать",
+    "deleteFile": "Удалить файл",
+    "reopened": "Открывалась повторно: {{count}} раз",
+    "paused": "SLA приостановлен: ожидается ответ пользователя"
+  },
+  "workflow": {
+    "assign": "Назначить исполнителя",
+    "take": "Взять себе",
+    "logTime": "Учесть время",
+    "rate": "Оценить",
+    "link": "Связать заявку",
+    "edit": "Редактировать",
+    "to": {
+      "in_review": "Взять на рассмотрение",
+      "in_progress": "Начать работу",
+      "waiting_user": "Запросить у пользователя",
+      "resolved": "Решена",
+      "closed": "Закрыть",
+      "rejected": "Отклонить",
+      "reopen": "Открыть повторно"
+    },
+    "noteLabel": "Комментарий",
+    "resolutionLabel": "Описание решения",
+    "rejectLabel": "Причина отказа",
+    "waitingLabel": "Вопрос пользователю",
+    "assignee": "Исполнитель",
+    "minutes": "Минуты",
+    "ratingComment": "Ваш отзыв (необязательно)",
+    "linkTicket": "Номер или заголовок заявки",
+    "linkType": "Тип связи",
+    "linkTypes": {
+      "relates": "Связана",
+      "duplicates": "Дубликат"
+    },
+    "confirm": "Подтвердить",
+    "done": "Сохранено"
+  },
+  "history": {
+    "created": "Заявка создана",
+    "updated": "Данные изменены",
+    "status_changed": "Статус: {{from}} → {{to}}",
+    "assigned": "Исполнитель: {{name}}",
+    "commented": "Добавлен комментарий",
+    "attachment_added": "Прикреплён файл: {{files}}",
+    "attachment_removed": "Удалён файл: {{files}}",
+    "time_logged": "Учтено время: {{minutes}} мин.",
+    "rated": "Оценка: {{rating}}",
+    "linked": "Связана: {{ticket}}",
+    "unlinked": "Связь удалена: {{ticket}}",
+    "sla_breached": "Нарушен срок SLA ({{kind}})",
+    "auto_closed": "Закрыта автоматически",
+    "system": "Система",
+    "kind": {
+      "response": "реакция",
+      "resolution": "решение"
+    }
+  },
+  "settings": {
+    "title": "Настройки Helpdesk",
+    "description": "Категории, нормативы SLA и рабочий календарь",
+    "tabs": {
+      "categories": "Категории",
+      "sla": "Нормативы SLA",
+      "calendar": "Рабочее время"
+    },
+    "category": {
+      "add": "Добавить категорию",
+      "edit": "Изменить категорию",
+      "name": "Название (узбекский)",
+      "nameRu": "Название (русский)",
+      "description": "Описание",
+      "active": "Активна",
+      "sortOrder": "Порядок",
+      "deleteConfirm": "Удалить категорию «{{name}}»?"
+    },
+    "sla": {
+      "hint": "Сроки в рабочих минутах (рабочий день = {{minutes}} минут). Правило для категории важнее общего.",
+      "add": "Правило для категории",
+      "general": "Все категории",
+      "response": "Реакция (мин.)",
+      "resolution": "Решение (мин.)",
+      "default": "по умолчанию",
+      "deleteConfirm": "Удалить это правило SLA?"
+    },
+    "calendar": {
+      "workDays": "Рабочие дни",
+      "workStart": "Начало работы",
+      "workEnd": "Окончание работы",
+      "lunchStart": "Начало обеда",
+      "lunchEnd": "Окончание обеда",
+      "holidays": "Праздничные и выходные дни",
+      "holidaysHint": "В эти дни SLA не считается",
+      "autoClose": "Автозакрытие (рабочих дней)",
+      "autoCloseHint": "0 — отключено",
+      "reopenDays": "Срок повторного открытия (дней)",
+      "dueSoon": "Напоминание «срок близко» (рабочих минут)",
+      "timezone": "Часовой пояс: {{tz}}",
+      "weekdays": ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
+    },
+    "saved": "Настройки сохранены"
+  },
+  "reports": {
+    "title": "Отчёт Helpdesk",
+    "description": "Выполнение SLA и разрезы заявок",
+    "total": "Всего заявок",
+    "open": "Открытые",
+    "overdue": "Просроченные",
+    "responseSla": "SLA реакции",
+    "resolutionSla": "SLA решения",
+    "avgResolution": "Среднее время решения",
+    "ofTotal": "{{met}} / {{total}}",
+    "byStatus": "По статусам",
+    "byCategory": "По категориям",
+    "byOrganization": "По организациям",
+    "byPriority": "По приоритетам",
+    "count": "Количество",
+    "noData": "За выбранный период заявок нет",
+    "table": "Табличный вид"
+  },
+  "dashboard": {
+    "title": "Helpdesk",
+    "open": "Открытые заявки",
+    "overdue": "Просроченные",
+    "newToday": "Новые сегодня",
+    "assignedToMe": "Назначенные мне",
+    "myOpen": "Мои открытые заявки",
+    "myTotal": "Всего моих заявок",
+    "openList": "Открыть заявки"
+  }
+}

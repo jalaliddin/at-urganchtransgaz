@@ -55,7 +55,14 @@
   },
   "notifications": {
     "access_changed": "{{actor}} изменил(а) ваши роли или доступ",
-    "password_reset_by_admin": "{{actor}} выдал(а) временный пароль для вашей учётной записи"
+    "password_reset_by_admin": "{{actor}} выдал(а) временный пароль для вашей учётной записи",
+    "ticket_created": "{{number}}: новая заявка — {{title}}",
+    "ticket_assigned": "Вам назначена заявка {{number}}",
+    "ticket_status_changed": "Изменён статус заявки {{number}}",
+    "ticket_commented": "{{actor}} прокомментировал(а) заявку {{number}}",
+    "ticket_sla_breached": "Нарушен срок по заявке {{number}}",
+    "ticket_due_soon": "Скоро истекает срок решения заявки {{number}}",
+    "export_ready": "Экспорт готов — его можно скачать"
   },
   "languages": {
     "uz": "O'zbekcha",
