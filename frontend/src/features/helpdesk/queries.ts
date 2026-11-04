@@ -19,11 +19,12 @@ export const helpdeskKeys = {
   calendar: ['helpdesk', 'calendar'] as const,
 }
 
-export function useTickets(params: Params) {
+export function useTickets(params: Params, enabled = true) {
   return useQuery({
     queryKey: helpdeskKeys.list(params),
     queryFn: () => hd.listTickets(params),
     placeholderData: keepPreviousData,
+    enabled,
   })
 }
 
@@ -45,6 +46,14 @@ export function useTicketAttachments(id: number) {
 
 export function useTicketLinks(id: number) {
   return useQuery({ queryKey: helpdeskKeys.links(id), queryFn: () => hd.listLinks(id) })
+}
+
+export function useTicketDocuments(id: number, enabled: boolean) {
+  return useQuery({
+    queryKey: [...helpdeskKeys.ticket(id), 'documents'] as const,
+    queryFn: () => hd.listTicketDocuments(id),
+    enabled,
+  })
 }
 
 export function useAssignees(organizationId: number | null) {

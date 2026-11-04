@@ -224,3 +224,17 @@ export async function saveCalendar(input: Omit<CalendarSettings, 'timezone'>): P
   const { data } = await api.put<Resource<CalendarSettings>>('/helpdesk/calendar', input)
   return data.data
 }
+
+export interface LinkedDocument {
+  id: number
+  type: string
+  number: string | null
+  title: string
+  document_date: string | null
+  current_version: { version: number; file: { uuid: string; name: string } } | null
+}
+
+export async function listTicketDocuments(id: number): Promise<LinkedDocument[]> {
+  const { data } = await api.get<Resource<LinkedDocument[]>>(`/helpdesk/tickets/${id}/documents`)
+  return data.data
+}

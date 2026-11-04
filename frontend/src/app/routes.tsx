@@ -11,6 +11,7 @@ import { DepartmentsPage } from '@/features/departments/DepartmentsPage'
 import { EmployeeDetailPage } from '@/features/employees/EmployeeDetailPage'
 import { EmployeesPage } from '@/features/employees/EmployeesPage'
 import { NewTicketPage } from '@/features/helpdesk/NewTicketPage'
+import { TicketDetailPage } from '@/features/helpdesk/TicketDetailPage'
 import { TicketsPage } from '@/features/helpdesk/TicketsPage'
 import { NotFoundPage } from '@/features/errors/NotFoundPage'
 import { OrganizationDetailPage } from '@/features/organizations/OrganizationDetailPage'
@@ -53,6 +54,7 @@ export const routes: RouteObject[] = [
                     handle: { crumb: 'helpdesk:new.title' },
                     children: [{ index: true, element: <NewTicketPage /> }],
                   },
+                  { path: ':id', element: <TicketDetailPage />, handle: { crumb: 'helpdesk:crumb' } },
                 ],
               },
               {
