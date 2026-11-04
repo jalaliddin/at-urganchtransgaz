@@ -48,7 +48,7 @@ COPY docker/php/php-prod.ini /usr/local/etc/php/conf.d/zz-prod.ini
 COPY --from=vendor --chown=www-data:www-data /app /var/www/html
 RUN rm -rf tests .env .env.* \
     && mkdir -p storage/app/private storage/app/public storage/framework/cache/data \
-       storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
+       storage/framework/sessions storage/framework/views storage/logs storage/fonts bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache
 
 USER www-data
