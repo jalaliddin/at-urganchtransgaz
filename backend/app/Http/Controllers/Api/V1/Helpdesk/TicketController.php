@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Helpdesk;
 
+use App\Enums\TicketPriority;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Helpdesk\StoreTicketRequest;
 use App\Http\Requests\Helpdesk\UpdateTicketRequest;
@@ -13,10 +14,12 @@ use App\Services\Helpdesk\TicketFilters;
 use App\Services\Helpdesk\TicketService;
 use App\Support\ApiResponse;
 use App\Support\Pagination;
+use App\Support\QueryFilters\EnumOrderSort;
 use App\Support\Search\SearchTerm;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class TicketController extends Controller
@@ -38,7 +41,13 @@ class TicketController extends Controller
 
         $page = QueryBuilder::for($base)
             ->allowedFilters(TicketFilters::allowed($user))
-            ->allowedSorts(['created_at', 'priority', 'resolution_due_at', 'number', 'status'])
+            ->allowedSorts([
+                'created_at', 'resolution_due_at', 'number', 'status',
+                AllowedSort::custom('priority', new EnumOrderSort(array_map(
+                    fn (TicketPriority $p): string => $p->value,
+                    TicketPriority::cases(),
+                ))),
+            ])
             ->defaultSort('-created_at')
             ->paginate(Pagination::perPage($request))
             ->withQueryString();

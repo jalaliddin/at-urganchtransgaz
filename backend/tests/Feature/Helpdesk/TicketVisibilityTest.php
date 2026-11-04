@@ -103,4 +103,18 @@ class TicketVisibilityTest extends TestCase
         $this->assertSame([$own->id], collect($this->getJson('/api/v1/helpdesk/tickets?filter[requester]=me')->json('data'))->pluck('id')->all());
         $this->assertCount(2, $this->getJson('/api/v1/helpdesk/tickets')->json('data'));
     }
+
+    public function test_priority_sorts_by_severity(): void
+    {
+        $alice = $this->makeStaff(Roles::EMPLOYEE, $this->org);
+        foreach (['normal', 'critical', 'low', 'high'] as $priority) {
+            $this->ticketBy($alice, ['priority' => $priority]);
+        }
+        $this->actingAs($alice);
+
+        $order = fn (string $sort) => collect($this->getJson('/api/v1/helpdesk/tickets?sort='.$sort)->assertOk()->json('data'))->pluck('priority')->all();
+
+        $this->assertSame(['critical', 'high', 'normal', 'low'], $order('-priority'));
+        $this->assertSame(['low', 'normal', 'high', 'critical'], $order('priority'));
+    }
 }
