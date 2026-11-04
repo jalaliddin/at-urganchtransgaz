@@ -125,9 +125,45 @@ docker compose exec nginx nginx -s reload
 
 Yangilash uchun xuddi shu `certbot renew` + nusxa + `nginx -s reload` ni cron'ga qo'ying.
 **Korporativ CA:** berilgan sertifikat zanjiri va kalitni shu fayl nomlari bilan joylang.
-**Yuqorida boshqa reverse proxy bo'lsa:** TLS'ni o'sha proxy tugatadi; `.env` da
-`TRUSTED_PROXIES` ga uning IP manzilini yozing (aks holda audit jurnalida proxy IP'si yoziladi).
 HTTPS standart bo'lmagan portda bo'lsa, `HTTPS_PORT=8443` va `HTTPS_PORT_SUFFIX=:8443`.
+
+### Mavjud reverse proxy ortida (80/443 band bo'lsa)
+
+Serverda 80/443 portlarni boshqa web-server (masalan, host nginx) egallagan va TLS'ni o'sha tugatsa,
+ilova nginx'ini faqat lokal HTTP portda ishga tushiring. `.env`:
+
+```
+NGINX_TEMPLATE=proxied
+HTTP_PORT=127.0.0.1:8082
+HTTPS_PORT=127.0.0.1:8443        # bu rejimda ishlatilmaydi, lekin bo'sh port bo'lishi kerak
+TRUSTED_PROXIES=172.16.0.0/12    # Docker tarmoqlari: haqiqiy IP va https sxemasi shu orqali o'tadi
+SESSION_SECURE_COOKIE=true
+```
+
+Host nginx (TLS sertifikati shu yerda):
+
+```nginx
+server {
+    listen 443 ssl http2;
+    server_name at.urtg.uz;
+    ssl_certificate     /etc/ssl/at.urtg.uz/fullchain.pem;
+    ssl_certificate_key /etc/ssl/at.urtg.uz/privkey.pem;
+    client_max_body_size 110m;              # 5 ta fayl × 20 MB
+
+    location / {
+        proxy_pass http://127.0.0.1:8082;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 120s;
+    }
+}
+server { listen 80; server_name at.urtg.uz; return 301 https://$host$request_uri; }
+```
+
+`docker compose up -d`, so'ng `sudo nginx -t && sudo systemctl reload nginx`. Docker boshqa manzil
+diapazonini ishlatsa (`docker network inspect aturtg_default` → `Subnet`), `TRUSTED_PROXIES` ni shunga moslang.
 
 ## 6. Backup va restore
 

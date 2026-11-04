@@ -1,0 +1,36 @@
+# AT.urtg.uz — nginx behind an existing reverse proxy that terminates TLS
+# (e.g. a host nginx with `proxy_pass http://127.0.0.1:8082`). Plain HTTP only: no
+# certificates, no redirect to HTTPS (the outer proxy owns both). Enable with
+# NGINX_TEMPLATE=proxied — see README §5 "Mavjud reverse proxy ortida".
+
+# The outer proxy tells us the original scheme; fall back to ours if it does not.
+map $http_x_forwarded_proto $forwarded_proto {
+    default $http_x_forwarded_proto;
+    ''      $scheme;
+}
+
+server {
+    listen 80 default_server;
+    server_name ${NGINX_SERVER_NAME};
+    server_tokens off;
+    client_max_body_size 110m;
+
+    location = /nginx-health {
+        access_log off;
+        default_type text/plain;
+        return 200 "ok\n";
+    }
+
+    include /etc/nginx/snippets/security-headers.conf;
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" always;
+
+    include /etc/nginx/snippets/backend.conf;
+
+    location / {
+        proxy_pass http://frontend:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $forwarded_proto;
+    }
+}

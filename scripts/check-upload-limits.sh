@@ -12,7 +12,7 @@ mb() { # "25m" / "26M" -> 25 / 26
   echo "$1" | tr -d 'mM ' ;
 }
 fail=0
-for f in docker/nginx/dev.conf.template docker/nginx/prod.conf.template; do
+for f in docker/nginx/dev.conf.template docker/nginx/prod.conf.template docker/nginx/proxied.conf.template; do
   v=$(mb "$(sed -n 's/.*client_max_body_size \([0-9]*[mM]\);.*/\1/p' "$f")")
   [ "$v" -ge "$need" ] || { echo "$f: client_max_body_size ${v}m < ${need}m"; fail=1; }
 done
