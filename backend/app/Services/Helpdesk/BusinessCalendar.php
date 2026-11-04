@@ -76,6 +76,18 @@ class BusinessCalendar
         return intdiv($seconds, 60);
     }
 
+    /** Business minutes in one ordinary working day (used for "N business days"). */
+    public function dailyMinutes(): int
+    {
+        $config = $this->config();
+        $toMinutes = fn (string $t): int => ((int) substr($t, 0, 2)) * 60 + (int) substr($t, 3, 2);
+        [$start, $end] = [$toMinutes($config['start']), $toMinutes($config['end'])];
+        [$lunchStart, $lunchEnd] = [$toMinutes($config['lunch_start']), $toMinutes($config['lunch_end'])];
+        $lunch = max(0, min($lunchEnd, $end) - max($lunchStart, $start));
+
+        return max(0, $end - $start - $lunch);
+    }
+
     /**
      * Working windows of the local day containing $moment.
      *

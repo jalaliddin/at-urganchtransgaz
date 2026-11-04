@@ -28,6 +28,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string|null $email
  * @property int|null $organization_id
  * @property int|null $employee_id
+ * @property array<string, mixed>|null $notification_preferences
  * @property string $locale
  * @property bool $is_active
  * @property bool $must_change_password
@@ -40,7 +41,7 @@ class User extends Authenticatable
     use Auditable, BelongsToOrganization, HasApiTokens, HasFactory, HasRoles, HasUserStamps, Notifiable, SoftDeletes;
 
     protected $fillable = [
-        'username', 'name', 'email', 'organization_id', 'employee_id', 'password', 'locale',
+        'username', 'name', 'email', 'organization_id', 'employee_id', 'password', 'locale', 'notification_preferences',
         'is_active', 'must_change_password', 'password_changed_at',
     ];
 
@@ -60,6 +61,7 @@ class User extends Authenticatable
             'two_factor_secret' => 'encrypted',
             'two_factor_recovery_codes' => 'encrypted',
             'two_factor_confirmed_at' => 'datetime',
+            'notification_preferences' => 'array',
         ];
     }
 

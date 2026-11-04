@@ -28,6 +28,9 @@ class MeResource extends JsonResource
             'name' => $user->name,
             'email' => $user->email,
             'locale' => $user->locale,
+            'notification_preferences' => [
+                'mail_muted' => array_values((array) (($user->notification_preferences ?? [])['mail_muted'] ?? [])),
+            ],
             'must_change_password' => $user->must_change_password,
             'password_expired' => $user->passwordExpired(),
             'is_super_admin' => $isSuperAdmin,

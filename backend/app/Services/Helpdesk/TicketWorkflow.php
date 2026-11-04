@@ -108,10 +108,11 @@ class TicketWorkflow
         }
 
         return DB::transaction(function () use ($ticket, $assignee, $by): Ticket {
-            $old = ['assignee_id' => $ticket->assignee_id, 'status' => $ticket->status->value];
+            $from = $ticket->status;
+            $old = ['assignee_id' => $ticket->assignee_id, 'status' => $from->value];
             $ticket->assignee_id = $assignee->id;
             $ticket->assigned_at = CarbonImmutable::now();
-            if (in_array($ticket->status, [TicketStatus::New, TicketStatus::InReview], true)) {
+            if (in_array($from, [TicketStatus::New, TicketStatus::InReview], true)) {
                 $ticket->status = TicketStatus::Assigned;
             }
             $ticket->save();
@@ -121,6 +122,9 @@ class TicketWorkflow
             ]);
             $this->recordFirstResponse($ticket, $by);
             TicketAssigned::dispatch($ticket, $assignee, $by);
+            if ($ticket->status !== $from) {
+                TicketStatusChanged::dispatch($ticket, $from, $ticket->status, $by);
+            }
 
             return $ticket;
         });
