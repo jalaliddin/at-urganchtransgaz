@@ -4,13 +4,25 @@ namespace App\Providers;
 
 use App\Models\AuditLog;
 use App\Models\Department;
+use App\Models\Document;
+use App\Models\DocumentVersion;
 use App\Models\Employee;
 use App\Models\Organization;
 use App\Models\OrganizationItResponsible;
+use App\Models\ReportExport;
 use App\Models\Role;
+use App\Models\StoredFile;
 use App\Models\SystemSetting;
+use App\Models\Ticket;
+use App\Models\TicketAttachment;
+use App\Models\TicketCategory;
+use App\Models\TicketComment;
+use App\Models\TicketSlaPolicy;
 use App\Models\User;
 use App\Models\UserOrganizationAccess;
+use App\Services\Documents\DocumentService;
+use App\Services\Files\FileAccess;
+use App\Services\Helpdesk\TicketAttachments;
 use App\Support\Access\OrganizationAccessResolver;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -28,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(\App\Services\Files\FileAccess::class);
+        $this->app->singleton(FileAccess::class);
         $this->app->scoped(OrganizationAccessResolver::class);
     }
 
@@ -58,15 +70,15 @@ class AppServiceProvider extends ServiceProvider
             'system_setting' => SystemSetting::class,
             'role' => Role::class,
             'audit_log' => AuditLog::class,
-            'stored_file' => \App\Models\StoredFile::class,
-            'ticket_category' => \App\Models\TicketCategory::class,
-            'ticket_sla_policy' => \App\Models\TicketSlaPolicy::class,
-            'ticket' => \App\Models\Ticket::class,
-            'ticket_comment' => \App\Models\TicketComment::class,
-            'ticket_attachment' => \App\Models\TicketAttachment::class,
-            'document' => \App\Models\Document::class,
-            'document_version' => \App\Models\DocumentVersion::class,
-            'report_export' => \App\Models\ReportExport::class,
+            'stored_file' => StoredFile::class,
+            'ticket_category' => TicketCategory::class,
+            'ticket_sla_policy' => TicketSlaPolicy::class,
+            'ticket' => Ticket::class,
+            'ticket_comment' => TicketComment::class,
+            'ticket_attachment' => TicketAttachment::class,
+            'document' => Document::class,
+            'document_version' => DocumentVersion::class,
+            'report_export' => ReportExport::class,
         ]);
     }
 
@@ -91,15 +103,18 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(fn ($user) => $user instanceof User && $user->isSuperAdmin() ? true : null);
 
         // OpenAPI docs (/docs/api): always open locally, otherwise Super Admin only.
-        $files = $this->app->make(\App\Services\Files\FileAccess::class);
-        $files->register(fn (User $user, \App\Models\StoredFile $file): ?bool => $this->app
-            ->make(\App\Services\Helpdesk\TicketAttachments::class)->canDownload($user, $file));
+        $files = $this->app->make(FileAccess::class);
+        $files->register(fn (User $user, StoredFile $file): ?bool => $this->app
+            ->make(TicketAttachments::class)->canDownload($user, $file));
 
-        $files->register(function (User $user, \App\Models\StoredFile $file): ?bool {
-            $owner = \App\Models\ReportExport::query()->where('stored_file_id', $file->id)->value('user_id');
+        $files->register(function (User $user, StoredFile $file): ?bool {
+            $owner = ReportExport::query()->where('stored_file_id', $file->id)->value('user_id');
 
             return $owner === null ? null : (int) $owner === $user->id;
         });
+
+        $files->register(fn (User $user, StoredFile $file): ?bool => $this->app
+            ->make(DocumentService::class)->canDownload($user, $file));
 
         Gate::define('helpdesk.use', fn (User $user): bool => $user->canAny(['helpdesk.view', 'helpdesk.create', 'helpdesk.manage']));
         Gate::define('viewApiDocs', fn (?User $user): bool => $user?->isSuperAdmin() ?? false);

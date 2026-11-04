@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Rules\AccessibleOrganization;
 use App\Rules\SafeUpload;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
@@ -66,7 +67,7 @@ class StoreTicketRequest extends FormRequest
         }];
     }
 
-    /** @return list<\Illuminate\Http\UploadedFile> */
+    /** @return list<UploadedFile> */
     public function uploads(): array
     {
         return array_values((array) $this->file('files', []));

@@ -10,6 +10,7 @@ use App\Notifications\Helpdesk\TicketSlaBreachedNotification;
 use App\Notifications\Helpdesk\TicketStatusChangedNotification;
 use App\Support\Permissions\Roles;
 use Carbon\CarbonImmutable;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\Concerns\CreatesTickets;
@@ -109,7 +110,7 @@ class SlaCommandsTest extends TestCase
 
     public function test_commands_are_scheduled(): void
     {
-        $events = collect(app(\Illuminate\Console\Scheduling\Schedule::class)->events())->map(fn ($e) => $e->command);
+        $events = collect(app(Schedule::class)->events())->map(fn ($e) => $e->command);
 
         $this->assertTrue($events->contains(fn ($c) => str_contains((string) $c, 'helpdesk:check-sla')));
         $this->assertTrue($events->contains(fn ($c) => str_contains((string) $c, 'helpdesk:auto-close')));

@@ -8,6 +8,7 @@ use App\Models\Ticket;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -33,7 +34,7 @@ class TicketStats
         $open = fn (Builder $q): Builder => $q->whereIn('status', TicketStatus::openValues());
         $overdue = fn (Builder $q): Builder => $open($q)->whereNull('paused_at')->where('resolution_due_at', '<', $now);
 
-        $categories = $base()->join('ticket_categories as c', 'c.id', '=', 'helpdesk_tickets.category_id')
+        $categories = $base()->toBase()->join('ticket_categories as c', 'c.id', '=', 'helpdesk_tickets.category_id')
             ->select('c.id', 'c.name', 'c.name_ru', DB::raw('count(*) as total'))
             ->groupBy('c.id', 'c.name', 'c.name_ru')->orderByDesc('total')->orderBy('c.name')->get()
             ->map(fn ($row): array => [
@@ -42,7 +43,7 @@ class TicketStats
                 'total' => (int) $row->total,
             ])->all();
 
-        $organizations = $base()->join('organizations as o', 'o.id', '=', 'helpdesk_tickets.organization_id')
+        $organizations = $base()->toBase()->join('organizations as o', 'o.id', '=', 'helpdesk_tickets.organization_id')
             ->select('o.id', 'o.name', DB::raw('count(*) as total'),
                 DB::raw("sum(case when helpdesk_tickets.status in ('".implode("','", TicketStatus::openValues())."') then 1 else 0 end) as open_count"),
                 DB::raw("sum(case when helpdesk_tickets.status in ('".implode("','", TicketStatus::openValues())."') and helpdesk_tickets.paused_at is null and helpdesk_tickets.resolution_due_at < ? then 1 else 0 end) as overdue_count"))
@@ -102,7 +103,7 @@ class TicketStats
     }
 
     /**
-     * @param  \Illuminate\Support\Collection<array-key, mixed>  $counts
+     * @param  Collection<array-key, mixed>  $counts
      * @param  array<int, \BackedEnum>  $cases
      * @return array<string, int>
      */

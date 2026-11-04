@@ -8,8 +8,8 @@ use App\Models\Ticket;
 use App\Models\TicketAttachment;
 use App\Models\User;
 use App\Services\Files\FileStore;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -47,7 +47,7 @@ class TicketAttachments
             }
         } catch (\Throwable $e) {
             // Do not leave orphaned files behind when the surrounding transaction rolls back.
-            $stored->each(fn (TicketAttachment $a) => Storage::disk(FileStore::DISK)->delete((string) $a->file?->path));
+            $stored->each(fn (TicketAttachment $a) => Storage::disk(FileStore::DISK)->delete($a->file->path));
             throw $e;
         }
 

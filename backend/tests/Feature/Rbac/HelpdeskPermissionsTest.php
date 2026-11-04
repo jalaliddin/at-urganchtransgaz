@@ -4,9 +4,10 @@ namespace Tests\Feature\Rbac;
 
 use App\Models\Role;
 use Database\Seeders\RbacSeeder;
-use PHPUnit\Framework\Attributes\DataProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
 class HelpdeskPermissionsTest extends TestCase
@@ -47,7 +48,7 @@ class HelpdeskPermissionsTest extends TestCase
         $role = Role::findByName('org-head', 'web');
         $role->revokePermissionTo('helpdesk.export');
         Permission::where('name', 'helpdesk.view')->delete();
-        app(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
 
         $this->seed(RbacSeeder::class);
 

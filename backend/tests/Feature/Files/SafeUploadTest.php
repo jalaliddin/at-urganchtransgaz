@@ -62,7 +62,7 @@ class SafeUploadTest extends TestCase
     {
         return [
             'php disguised as pdf' => ['invoice.pdf', "<?php system(\$_GET['c']);"],
-            'php extension' => ['shell.php', "<?php echo 1;"],
+            'php extension' => ['shell.php', '<?php echo 1;'],
             'svg' => ['logo.svg', '<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>'],
             'html as txt' => ['note.txt', '<html><body><script>alert(1)</script></body></html>'],
             'html extension' => ['page.html', '<p>x</p>'],

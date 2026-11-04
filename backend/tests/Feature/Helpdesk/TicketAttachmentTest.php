@@ -10,6 +10,7 @@ use App\Support\Permissions\Roles;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Testing\TestResponse;
 use Tests\Concerns\CreatesTickets;
 use Tests\Concerns\InteractsWithAccess;
 use Tests\Feature\Files\SafeUploadTest;
@@ -40,7 +41,7 @@ class TicketAttachmentTest extends TestCase
         return UploadedFile::fake()->createWithContent($name, SafeUploadTest::pdf());
     }
 
-    private function createWithFiles(array $files): \Illuminate\Testing\TestResponse
+    private function createWithFiles(array $files): TestResponse
     {
         return $this->actingAs($this->requester)->post('/api/v1/helpdesk/tickets', [
             'title' => 'Monitor miltillayapti',

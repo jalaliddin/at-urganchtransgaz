@@ -6,7 +6,6 @@ use App\Enums\TicketPriority;
 use App\Enums\TicketStatus;
 use App\Models\Ticket;
 use App\Models\User;
-use App\Support\QueryFilters\OrganizationSubtreeFilter;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -57,7 +56,9 @@ final class TicketFilters
             'status' => self::whereInOrNone($query, 'status', array_filter($values, fn ($v) => TicketStatus::tryFrom((string) $v) !== null)),
             'priority' => self::whereInOrNone($query, 'priority', array_filter($values, fn ($v) => TicketPriority::tryFrom((string) $v) !== null)),
             'category' => self::whereInOrNone($query, 'category_id', array_filter(array_map('intval', $values))),
-            'organization' => (new OrganizationSubtreeFilter)($query, $values[0] ?? null, 'organization'),
+            'organization' => ctype_digit((string) ($values[0] ?? ''))
+                ? $query->withinOrganizationSubtree((int) $values[0])
+                : $query->whereRaw('1 = 0'),
             'assignee' => self::assignee($query, (string) ($values[0] ?? ''), $user),
             'requester' => ($values[0] ?? null) === 'me' ? self::requestedBy($query, $user) : $query->whereRaw('1 = 0'),
             'overdue' => self::overdue($query, filter_var($values[0] ?? false, FILTER_VALIDATE_BOOL)),

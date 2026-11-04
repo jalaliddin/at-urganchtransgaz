@@ -7,7 +7,6 @@ use App\Events\Helpdesk\TicketAssigned;
 use App\Events\Helpdesk\TicketCommented;
 use App\Events\Helpdesk\TicketCreated;
 use App\Events\Helpdesk\TicketStatusChanged;
-use App\Models\Ticket;
 use App\Models\User;
 use App\Notifications\Helpdesk\TicketAssignedNotification;
 use App\Notifications\Helpdesk\TicketCommentedNotification;

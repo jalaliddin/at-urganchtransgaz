@@ -8,6 +8,9 @@ use App\Http\Controllers\Api\V1\Auth\PasswordController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\V1\Dashboard\DashboardController;
 use App\Http\Controllers\Api\V1\Departments\DepartmentController;
+use App\Http\Controllers\Api\V1\Documents\DocumentController;
+use App\Http\Controllers\Api\V1\Documents\DocumentLinkController;
+use App\Http\Controllers\Api\V1\Documents\DocumentVersionController;
 use App\Http\Controllers\Api\V1\Employees\EmployeeController;
 use App\Http\Controllers\Api\V1\Exports\ExportController;
 use App\Http\Controllers\Api\V1\Files\FileDownloadController;
@@ -21,6 +24,7 @@ use App\Http\Controllers\Api\V1\Helpdesk\TicketAttachmentController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketCategoryController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketCommentController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketController;
+use App\Http\Controllers\Api\V1\Helpdesk\TicketDocumentController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketHistoryController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketLinkController;
 use App\Http\Controllers\Api\V1\Notifications\NotificationController;
@@ -108,6 +112,7 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
         Route::post('tickets/{ticket}/attachments', [TicketAttachmentController::class, 'store'])->name('tickets.attachments.store');
         Route::delete('tickets/{ticket}/attachments/{attachment}', [TicketAttachmentController::class, 'destroy'])
             ->whereNumber('attachment')->name('tickets.attachments.destroy');
+        Route::get('tickets/{ticket}/documents', TicketDocumentController::class)->name('tickets.documents');
         Route::get('tickets/{ticket}/links', [TicketLinkController::class, 'index'])->name('tickets.links.index');
         Route::post('tickets/{ticket}/links', [TicketLinkController::class, 'store'])->name('tickets.links.store');
         Route::delete('tickets/{ticket}/links/{link}', [TicketLinkController::class, 'destroy'])
@@ -115,6 +120,12 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     });
     Route::get('helpdesk/calendar', [CalendarSettingsController::class, 'show'])->name('helpdesk.calendar.show');
     Route::put('helpdesk/calendar', [CalendarSettingsController::class, 'update'])->name('helpdesk.calendar.update');
+
+    Route::apiResource('documents', DocumentController::class);
+    Route::post('documents/{document}/versions', [DocumentVersionController::class, 'store'])->name('documents.versions.store');
+    Route::post('documents/{document}/links', [DocumentLinkController::class, 'store'])->name('documents.links.store');
+    Route::delete('documents/{document}/links/{link}', [DocumentLinkController::class, 'destroy'])
+        ->whereNumber('link')->name('documents.links.destroy');
 
     Route::get('exports', [ExportController::class, 'index'])->name('exports.index');
     Route::post('exports', [ExportController::class, 'store'])->middleware('throttle:exports')->name('exports.store');

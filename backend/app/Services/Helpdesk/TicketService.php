@@ -46,13 +46,12 @@ class TicketService
             $ticket = new Ticket([
                 'number' => $this->numbers->next($now),
                 'organization_id' => $organizationId,
-                'department_id' => $data['department_id']
-                    ?? ($employee?->organization_id === $organizationId ? $employee?->department_id : null),
+                'department_id' => $data['department_id'] ?? $employee?->department_id,
                 'requester_employee_id' => $employee?->id,
                 'requester_user_id' => $requesterUserId,
-                'contact_name' => $data['contact_name'] ?? $employee?->full_name ?? $by->name,
+                'contact_name' => $data['contact_name'] ?? $employee->full_name ?? $by->name,
                 'contact_phone' => $data['contact_phone'] ?? $employee?->phone,
-                'contact_email' => $data['contact_email'] ?? $employee?->email ?? ($requesterUserId === $by->id ? $by->email : null),
+                'contact_email' => $data['contact_email'] ?? $employee->email ?? ($requesterUserId === $by->id ? $by->email : null),
                 'location' => $data['location'] ?? null,
                 'category_id' => (int) $data['category_id'],
                 'title' => $data['title'],

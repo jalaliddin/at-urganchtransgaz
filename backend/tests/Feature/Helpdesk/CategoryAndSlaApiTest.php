@@ -4,6 +4,7 @@ namespace Tests\Feature\Helpdesk;
 
 use App\Enums\TicketPriority;
 use App\Models\Organization;
+use App\Models\Role;
 use App\Models\TicketCategory;
 use App\Models\TicketSlaPolicy;
 use App\Services\Helpdesk\SlaResolver;
@@ -41,7 +42,7 @@ class CategoryAndSlaApiTest extends TestCase
 
     public function test_user_without_helpdesk_permissions_cannot_list(): void
     {
-        $role = \App\Models\Role::findByName(Roles::EMPLOYEE, 'web');
+        $role = Role::findByName(Roles::EMPLOYEE, 'web');
         $role->revokePermissionTo('helpdesk.create');
         $this->actingAs($this->makeUser(Roles::EMPLOYEE, $this->org));
 

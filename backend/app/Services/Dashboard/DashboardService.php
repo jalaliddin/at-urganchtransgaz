@@ -3,13 +3,13 @@
 namespace App\Services\Dashboard;
 
 use App\Enums\EmployeeStatus;
+use App\Enums\TicketStatus;
 use App\Http\Resources\Audit\AuditLogResource;
 use App\Models\AuditLog;
 use App\Models\Employee;
 use App\Models\Organization;
-use App\Models\User;
 use App\Models\Ticket;
-use App\Enums\TicketStatus;
+use App\Models\User;
 use App\Services\Helpdesk\TicketStats;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;

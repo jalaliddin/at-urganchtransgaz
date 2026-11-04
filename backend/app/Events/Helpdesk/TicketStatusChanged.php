@@ -4,7 +4,6 @@ namespace App\Events\Helpdesk;
 
 use App\Enums\TicketStatus;
 use App\Models\Ticket;
-use App\Models\TicketComment;
 use App\Models\User;
 use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;
 use Illuminate\Foundation\Events\Dispatchable;

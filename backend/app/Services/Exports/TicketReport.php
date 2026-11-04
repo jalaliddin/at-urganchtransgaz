@@ -56,7 +56,7 @@ class TicketReport implements ReportDefinition
                 $ticket->category?->localizedName($locale),
                 __('enums.ticket_priority.'.$ticket->priority->value, [], $locale),
                 __('enums.ticket_status.'.$ticket->status->value, [], $locale),
-                $ticket->requesterEmployee?->full_name ?? $ticket->requesterUser?->name ?? $ticket->contact_name,
+                $ticket->requesterEmployee->full_name ?? $ticket->requesterUser->name ?? $ticket->contact_name,
                 $ticket->assignee?->name,
                 $this->date($ticket->response_due_at),
                 $this->date($ticket->resolution_due_at),
