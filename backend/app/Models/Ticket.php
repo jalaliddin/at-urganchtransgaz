@@ -137,11 +137,24 @@ class Ticket extends Model
         return $query->where($field ?? $this->getRouteKeyName(), $value)->firstOrFail();
     }
 
+    /**
+     * The person the ticket is for. A handler filing on someone's behalf is the
+     * creator, not the requester; only a ticket without a recorded requester
+     * falls back to its creator.
+     */
     public function isRequester(User $user): bool
     {
-        return $this->requester_user_id === $user->id
-            || $this->created_by === $user->id
-            || ($user->employee_id !== null && $this->requester_employee_id === $user->employee_id);
+        if ($this->requester_user_id !== null || $this->requester_employee_id !== null) {
+            return $this->requester_user_id === $user->id
+                || ($user->employee_id !== null && $this->requester_employee_id === $user->employee_id);
+        }
+
+        return $this->created_by === $user->id;
+    }
+
+    public function isCreator(User $user): bool
+    {
+        return $this->created_by === $user->id;
     }
 
     /** @return BelongsTo<Organization, $this> */

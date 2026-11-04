@@ -16,6 +16,7 @@ class TicketPolicy
     public function view(User $user, Ticket $ticket): bool
     {
         return $ticket->isRequester($user)
+            || $ticket->isCreator($user)
             || ($user->can('helpdesk.view') && $user->canAccessOrganization($ticket->organization_id));
     }
 
