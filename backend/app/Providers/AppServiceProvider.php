@@ -95,6 +95,12 @@ class AppServiceProvider extends ServiceProvider
         $files->register(fn (User $user, \App\Models\StoredFile $file): ?bool => $this->app
             ->make(\App\Services\Helpdesk\TicketAttachments::class)->canDownload($user, $file));
 
+        $files->register(function (User $user, \App\Models\StoredFile $file): ?bool {
+            $owner = \App\Models\ReportExport::query()->where('stored_file_id', $file->id)->value('user_id');
+
+            return $owner === null ? null : (int) $owner === $user->id;
+        });
+
         Gate::define('helpdesk.use', fn (User $user): bool => $user->canAny(['helpdesk.view', 'helpdesk.create', 'helpdesk.manage']));
         Gate::define('viewApiDocs', fn (?User $user): bool => $user?->isSuperAdmin() ?? false);
     }
@@ -104,6 +110,7 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('api', fn (Request $request) => Limit::perMinute(120)
             ->by($request->user()?->getAuthIdentifier() ?: $request->ip()));
 
+        RateLimiter::for('exports', fn (Request $request) => Limit::perMinute(10)->by((string) ($request->user()?->getAuthIdentifier() ?? $request->ip())));
         RateLimiter::for('public', fn (Request $request) => Limit::perMinute(60)->by($request->ip()));
 
         RateLimiter::for('password-reset', fn (Request $request) => Limit::perMinute(5)->by($request->ip()));

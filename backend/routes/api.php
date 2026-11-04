@@ -9,11 +9,13 @@ use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\V1\Dashboard\DashboardController;
 use App\Http\Controllers\Api\V1\Departments\DepartmentController;
 use App\Http\Controllers\Api\V1\Employees\EmployeeController;
+use App\Http\Controllers\Api\V1\Exports\ExportController;
 use App\Http\Controllers\Api\V1\Files\FileDownloadController;
 use App\Http\Controllers\Api\V1\Health\HealthController;
 use App\Http\Controllers\Api\V1\Helpdesk\AssigneeController;
 use App\Http\Controllers\Api\V1\Helpdesk\CalendarSettingsController;
 use App\Http\Controllers\Api\V1\Helpdesk\SlaPolicyController;
+use App\Http\Controllers\Api\V1\Helpdesk\StatsController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketActionController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketAttachmentController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketCategoryController;
@@ -93,6 +95,7 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::prefix('helpdesk')->name('helpdesk.')->group(function (): void {
         Route::apiResource('tickets', TicketController::class)->except(['destroy']);
         Route::get('assignees', AssigneeController::class)->name('assignees');
+        Route::get('stats', StatsController::class)->name('stats');
         Route::post('tickets/{ticket}/transition', [TicketActionController::class, 'transition'])->name('tickets.transition');
         Route::post('tickets/{ticket}/assign', [TicketActionController::class, 'assign'])->name('tickets.assign');
         Route::post('tickets/{ticket}/take', [TicketActionController::class, 'take'])->name('tickets.take');
@@ -112,6 +115,10 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     });
     Route::get('helpdesk/calendar', [CalendarSettingsController::class, 'show'])->name('helpdesk.calendar.show');
     Route::put('helpdesk/calendar', [CalendarSettingsController::class, 'update'])->name('helpdesk.calendar.update');
+
+    Route::get('exports', [ExportController::class, 'index'])->name('exports.index');
+    Route::post('exports', [ExportController::class, 'store'])->middleware('throttle:exports')->name('exports.store');
+    Route::get('exports/{uuid}', [ExportController::class, 'show'])->whereUuid('uuid')->name('exports.show');
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('notifications/unread-count', [NotificationController::class, 'unreadCount'])->name('notifications.unread-count');

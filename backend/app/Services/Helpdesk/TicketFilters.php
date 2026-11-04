@@ -80,9 +80,9 @@ final class TicketFilters
     private static function assignee(Builder $query, string $value, User $user): void
     {
         match (true) {
-            $value === 'me' => $query->where('assignee_id', $user->id),
-            $value === 'none' => $query->whereNull('assignee_id'),
-            ctype_digit($value) => $query->where('assignee_id', (int) $value),
+            $value === 'me' => $query->where($query->qualifyColumn('assignee_id'), $user->id),
+            $value === 'none' => $query->whereNull($query->qualifyColumn('assignee_id')),
+            ctype_digit($value) => $query->where($query->qualifyColumn('assignee_id'), (int) $value),
             default => $query->whereRaw('1 = 0'),
         };
     }
@@ -91,9 +91,9 @@ final class TicketFilters
     private static function requestedBy(Builder $query, User $user): void
     {
         $query->where(function (Builder $q) use ($user): void {
-            $q->where('requester_user_id', $user->id)->orWhere('created_by', $user->id);
+            $q->where($q->qualifyColumn('requester_user_id'), $user->id)->orWhere($q->qualifyColumn('created_by'), $user->id);
             if ($user->employee_id !== null) {
-                $q->orWhere('requester_employee_id', $user->employee_id);
+                $q->orWhere($q->qualifyColumn('requester_employee_id'), $user->employee_id);
             }
         });
     }
@@ -104,9 +104,9 @@ final class TicketFilters
         if (! $overdue) {
             return;
         }
-        $query->whereIn('status', TicketStatus::openValues())
-            ->whereNull('paused_at')
-            ->where('resolution_due_at', '<', now());
+        $query->whereIn($query->qualifyColumn('status'), TicketStatus::openValues())
+            ->whereNull($query->qualifyColumn('paused_at'))
+            ->where($query->qualifyColumn('resolution_due_at'), '<', now());
     }
 
     /** @param  Builder<Ticket>  $query */
@@ -123,6 +123,6 @@ final class TicketFilters
             return;
         }
         $bound = $operator === '<' ? $day->addDay() : $day;
-        $query->where('created_at', $operator, $bound->utc());
+        $query->where($query->qualifyColumn('created_at'), $operator, $bound->utc());
     }
 }

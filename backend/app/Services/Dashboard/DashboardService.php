@@ -8,6 +8,10 @@ use App\Models\AuditLog;
 use App\Models\Employee;
 use App\Models\Organization;
 use App\Models\User;
+use App\Models\Ticket;
+use App\Enums\TicketStatus;
+use App\Services\Helpdesk\TicketStats;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
@@ -55,6 +59,16 @@ class DashboardService
             ];
         }
 
+        if ($user->can('helpdesk.view')) {
+            $widgets['helpdesk'] = $this->helpdesk($user, $organizationId);
+        } elseif ($user->can('helpdesk.create')) {
+            $mine = Ticket::query()->visibleTo($user);
+            $widgets['my_tickets'] = [
+                'open' => (clone $mine)->whereIn('status', TicketStatus::openValues())->count(),
+                'total' => $mine->count(),
+            ];
+        }
+
         if ($user->can('audit.view')) {
             $logs = AuditLog::query()->visibleTo($user)->with(AuditLogResource::RELATIONS)->latest('created_at')->latest('id')->limit(10);
             if ($organizationId !== null) {
@@ -65,6 +79,30 @@ class DashboardService
         }
 
         return $widgets;
+    }
+
+    /** @return array<string, mixed> */
+    private function helpdesk(User $user, ?int $organizationId): array
+    {
+        $filters = $organizationId !== null ? ['organization' => $organizationId] : [];
+        $summary = app(TicketStats::class);
+        $base = fn () => $summary->base($user, $filters);
+        $today = CarbonImmutable::now((string) config('app.display_timezone'))->startOfDay()->utc();
+
+        $byStatus = [];
+        $counts = $base()->select('status', DB::raw('count(*) as c'))->groupBy('status')->pluck('c', 'status');
+        foreach (TicketStatus::cases() as $status) {
+            $byStatus[$status->value] = (int) ($counts[$status->value] ?? 0);
+        }
+
+        return [
+            'open' => $base()->whereIn('status', TicketStatus::openValues())->count(),
+            'overdue' => $base()->whereIn('status', TicketStatus::openValues())->whereNull('paused_at')
+                ->where('resolution_due_at', '<', now())->count(),
+            'new_today' => $base()->where('created_at', '>=', $today)->count(),
+            'assigned_to_me' => $base()->where('assignee_id', $user->id)->whereIn('status', TicketStatus::openValues())->count(),
+            'by_status' => $byStatus,
+        ];
     }
 
     /**

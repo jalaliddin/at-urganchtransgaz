@@ -30,4 +30,9 @@ return [
         'response' => 'реакции',
         'resolution' => 'решения',
     ],
+    'open_exports' => 'Открыть экспорты',
+    'export_ready' => [
+        'subject' => 'Экспорт «:report» готов',
+        'line' => 'Отчёт «:report» готов к скачиванию.',
+    ],
 ];

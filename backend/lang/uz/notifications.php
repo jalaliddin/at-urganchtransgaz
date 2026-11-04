@@ -30,4 +30,9 @@ return [
         'response' => 'javob berish',
         'resolution' => 'hal qilish',
     ],
+    'open_exports' => 'Eksportlarni ochish',
+    'export_ready' => [
+        'subject' => ':report eksporti tayyor',
+        'line' => ':report hisoboti yuklab olishga tayyor.',
+    ],
 ];
