@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Assets\AssetAssignmentController;
 use App\Http\Controllers\Api\V1\Assets\AssetCatalogController;
 use App\Http\Controllers\Api\V1\Assets\AssetController;
 use App\Http\Controllers\Api\V1\Assets\AssetDetailController;
@@ -145,6 +146,11 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::delete('asset-models/{assetModel}', [AssetCatalogController::class, 'destroyModel'])->name('asset-models.destroy');
     Route::apiResource('locations', LocationController::class)->except(['show']);
 
+    Route::get('assets/mine', [AssetAssignmentController::class, 'mine'])->name('assets.mine');
+    Route::post('assets/{asset}/assign', [AssetAssignmentController::class, 'assign'])->whereNumber('asset')->name('assets.assign');
+    Route::post('assets/{asset}/return', [AssetAssignmentController::class, 'return'])->whereNumber('asset')->name('assets.return');
+    Route::get('assets/{asset}/assignments', [AssetAssignmentController::class, 'history'])->whereNumber('asset')->name('assets.assignments');
+    Route::get('employees/{employee}/assets', [AssetAssignmentController::class, 'employeeAssets'])->name('employees.assets');
     Route::get('assets/lookup/{inventory}', [AssetController::class, 'lookup'])->where('inventory', '[^/]+')->name('assets.lookup');
     Route::apiResource('assets', AssetController::class)->whereNumber('asset');
     Route::post('assets/{asset}/status', [AssetController::class, 'status'])->whereNumber('asset')->name('assets.status');

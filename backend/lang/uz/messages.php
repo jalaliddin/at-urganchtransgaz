@@ -59,4 +59,8 @@ return [
     'asset_model_category' => 'Tanlangan model boshqa toifaga tegishli.',
     'asset_relation_invalid' => "Bog'lanadigan aktiv topilmadi yoki aktivni o'ziga bog'lab bo'lmaydi.",
     'asset_relation_exists' => "Bu aktivlar o'rtasida shunday bog'lanish allaqachon bor.",
+    'asset_not_assignable' => "Ta'mirdagi yoki yo'qolgan aktivni biriktirib bo'lmaydi.",
+    'asset_employee_invalid' => "Xodim aktiv tashkilotining faol xodimi bo'lishi kerak.",
+    'asset_reassigned' => 'Boshqa xodimga biriktirildi',
+    'asset_not_held' => 'Aktiv hech kimga biriktirilmagan.',
 ];

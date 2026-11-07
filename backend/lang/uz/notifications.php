@@ -35,4 +35,9 @@ return [
         'subject' => ':report eksporti tayyor',
         'line' => ':report hisoboti yuklab olishga tayyor.',
     ],
+    'open_employee' => 'Xodim kartasini ochish',
+    'assets_return_required' => [
+        'subject' => ":employee ishdan bo'shadi — aktivlarni qaytarib oling",
+        'line' => ":employee ishdan bo'shadi, unda :count ta aktiv bor.",
+    ],
 ];

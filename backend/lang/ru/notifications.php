@@ -35,4 +35,9 @@ return [
         'subject' => 'Экспорт «:report» готов',
         'line' => 'Отчёт «:report» готов к скачиванию.',
     ],
+    'open_employee' => 'Открыть карточку сотрудника',
+    'assets_return_required' => [
+        'subject' => ':employee уволен(а) — верните активы',
+        'line' => ':employee уволен(а), за ним(ней) числится активов: :count.',
+    ],
 ];
