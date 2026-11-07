@@ -63,7 +63,11 @@
     "ticket_commented": "{{number}} arizasiga {{actor}} izoh qoldirdi",
     "ticket_sla_breached": "{{number}} arizasi muddati o'tdi",
     "ticket_due_soon": "{{number}} arizasini hal qilish muddati yaqin",
-    "export_ready": "Eksport tayyor — yuklab olishingiz mumkin"
+    "export_ready": "Eksport tayyor — yuklab olishingiz mumkin",
+    "assets_return_required": "{{employee}} ishdan bo'shadi — {{count}} ta aktivni qaytarib oling",
+    "asset_transfer_incoming": "{{number}}: {{from}} tashkilotidan aktivlar jo'natildi",
+    "asset_disposal_requested": "{{number}} aktivini hisobdan chiqarish so'raldi",
+    "asset_warranty_expiring": "{{organization}}: {{count}} ta aktiv kafolati tugayapti"
   },
   "languages": {
     "uz": "O'zbekcha",
@@ -81,5 +85,6 @@
     "organization_it_responsible": "AT mas'uli biriktiruvi",
     "user_organization_access": "Kirish doirasi",
     "system_setting": "Sozlama"
-  }
+  },
+  "saved": "Saqlandi"
 }

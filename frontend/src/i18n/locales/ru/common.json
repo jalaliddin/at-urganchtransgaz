@@ -63,7 +63,11 @@
     "ticket_commented": "{{actor}} прокомментировал(а) заявку {{number}}",
     "ticket_sla_breached": "Нарушен срок по заявке {{number}}",
     "ticket_due_soon": "Скоро истекает срок решения заявки {{number}}",
-    "export_ready": "Экспорт готов — его можно скачать"
+    "export_ready": "Экспорт готов — его можно скачать",
+    "assets_return_required": "{{employee}} уволен(а) — верните активы ({{count}})",
+    "asset_transfer_incoming": "{{number}}: организация {{from}} отправила активы",
+    "asset_disposal_requested": "Запрошено списание актива {{number}}",
+    "asset_warranty_expiring": "{{organization}}: истекает гарантия {{count}} активов"
   },
   "languages": {
     "uz": "O'zbekcha",
@@ -81,5 +85,6 @@
     "organization_it_responsible": "Назначение ответственного за ИТ",
     "user_organization_access": "Доступ",
     "system_setting": "Настройка"
-  }
+  },
+  "saved": "Сохранено"
 }

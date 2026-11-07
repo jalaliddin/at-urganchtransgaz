@@ -16,6 +16,7 @@ import ruSettings from './locales/ru/settings.json'
 import ruTable from './locales/ru/table.json'
 import ruUsers from './locales/ru/users.json'
 import ruValidation from './locales/ru/validation.json'
+import ruAssets from './locales/ru/assets.json'
 import ruExports from './locales/ru/exports.json'
 import ruDocuments from './locales/ru/documents.json'
 import ruHelpdesk from './locales/ru/helpdesk.json'
@@ -35,6 +36,7 @@ import uzSettings from './locales/uz/settings.json'
 import uzTable from './locales/uz/table.json'
 import uzUsers from './locales/uz/users.json'
 import uzValidation from './locales/uz/validation.json'
+import uzAssets from './locales/uz/assets.json'
 import uzExports from './locales/uz/exports.json'
 import uzDocuments from './locales/uz/documents.json'
 import uzHelpdesk from './locales/uz/helpdesk.json'
@@ -62,6 +64,7 @@ export const resources = {
     settings: uzSettings,
     profile: uzProfile,
     notifications: uzNotifications,
+    assets: uzAssets,
     exports: uzExports,
     documents: uzDocuments,
     helpdesk: uzHelpdesk,
@@ -83,6 +86,7 @@ export const resources = {
     settings: ruSettings,
     profile: ruProfile,
     notifications: ruNotifications,
+    assets: ruAssets,
     exports: ruExports,
     documents: ruDocuments,
     helpdesk: ruHelpdesk,

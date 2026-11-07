@@ -12,5 +12,8 @@
   "number": "Son kiriting",
   "roles": "Kamida bitta rol tanlang",
   "titleMin": "Kamida 5 ta belgi kiriting",
-  "descriptionMin": "Muammoni batafsilroq yozing (kamida 10 ta belgi)"
+  "descriptionMin": "Muammoni batafsilroq yozing (kamida 10 ta belgi)",
+  "ip": "IP manzil noto'g'ri",
+  "mac": "MAC manzil noto'g'ri (masalan, AA:BB:CC:DD:EE:FF)",
+  "fixErrors": "Belgilangan maydonlarni to'g'rilang"
 }

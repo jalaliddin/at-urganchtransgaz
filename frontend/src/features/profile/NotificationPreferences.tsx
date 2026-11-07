@@ -16,6 +16,10 @@ export const MAIL_TYPES = [
   'ticket_sla_breached',
   'ticket_due_soon',
   'export_ready',
+  'assets_return_required',
+  'asset_warranty_expiring',
+  'asset_transfer_incoming',
+  'asset_disposal_requested',
 ] as const
 
 /** In-app notifications always arrive; here the user chooses which ones also come by e-mail. */

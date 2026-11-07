@@ -3,7 +3,8 @@
     "main": "Asosiy",
     "structure": "Tashkiliy tuzilma",
     "administration": "Boshqaruv",
-    "helpdesk": "Xizmat ko'rsatish"
+    "helpdesk": "Xizmat ko'rsatish",
+    "assets": "IT aktivlar"
   },
   "items": {
     "dashboard": "Boshqaruv paneli",
@@ -22,7 +23,15 @@
     "helpdeskReports": "Helpdesk hisoboti",
     "helpdeskSettings": "Helpdesk sozlamalari",
     "documents": "Hujjatlar",
-    "exports": "Eksportlar"
+    "exports": "Eksportlar",
+    "assets": "Aktivlar reyestri",
+    "myAssets": "Mening aktivlarim",
+    "assetTransfers": "Ko'chirishlar",
+    "inventory": "Inventarizatsiya",
+    "disposals": "Hisobdan chiqarish",
+    "assetSettings": "Ma'lumotnomalar",
+    "assetReport": "Aktivlar hisoboti",
+    "assetLabels": "QR yorliqlar"
   },
   "header": {
     "search": "Qidirish",

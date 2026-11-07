@@ -34,7 +34,11 @@
       "ticket_commented": "Новый комментарий к заявке",
       "ticket_sla_breached": "Нарушен срок SLA",
       "ticket_due_soon": "Срок скоро истекает",
-      "export_ready": "Экспорт готов"
+      "export_ready": "Экспорт готов",
+      "assets_return_required": "Активы уволенных сотрудников",
+      "asset_warranty_expiring": "Истечение гарантии",
+      "asset_transfer_incoming": "Входящие передачи",
+      "asset_disposal_requested": "Запросы на списание"
     }
   }
 }

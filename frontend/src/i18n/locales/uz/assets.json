@@ -1,0 +1,287 @@
+{
+  "title": "IT aktivlar",
+  "description": "Kompyuterlar, serverlar, printerlar, tarmoq va boshqa AT texnikasi reyestri",
+  "crumb": "Aktiv",
+  "actions": {
+    "create": "Aktiv qo'shish",
+    "edit": "Tahrirlash",
+    "delete": "O'chirish",
+    "assign": "Xodimga biriktirish",
+    "return": "Qaytarib olish",
+    "status": "Holatni o'zgartirish",
+    "repair": "Ta'mirga berish",
+    "closeRepair": "Ta'mirni yakunlash",
+    "dispose": "Hisobdan chiqarish",
+    "labels": "QR yorliqlar",
+    "export": "Eksport",
+    "addRelation": "Bog'lanish qo'shish",
+    "upload": "Fayl yuklash",
+    "transfer": "Ko'chirish",
+    "report": "Hisobot",
+    "settings": "Ma'lumotnomalar",
+    "inventory": "Inventarizatsiya",
+    "disposals": "Hisobdan chiqarish",
+    "transfers": "Ko'chirishlar",
+    "selectToLabel": "Yorliq uchun belgilang"
+  },
+  "filters": {
+    "search": "Inventar, seriya, hostname, IP yoki MAC",
+    "status": "Holat",
+    "allStatuses": "Barcha holatlar",
+    "category": "Toifa",
+    "organization": "Tashkilot",
+    "location": "Joylashuv",
+    "warranty": "Kafolat",
+    "warrantyExpiring": "Kafolati tugayapti",
+    "warrantyExpired": "Kafolati tugagan",
+    "unassigned": "Biriktirilmagan"
+  },
+  "fields": {
+    "inventory_number": "Inventar raqami",
+    "inventoryHint": "Bo'sh qoldirilsa, tizim avtomatik beradi",
+    "name": "Nomi",
+    "category": "Toifa",
+    "manufacturer": "Ishlab chiqaruvchi",
+    "model": "Model",
+    "organization": "Tashkilot",
+    "department": "Bo'lim",
+    "serial_number": "Seriya raqami",
+    "hostname": "Hostname",
+    "ip_address": "IP manzil",
+    "mac_address": "MAC manzil",
+    "vlan": "VLAN",
+    "subnet": "Subnet",
+    "status": "Holat",
+    "holder": "Foydalanuvchi xodim",
+    "responsible": "Moddiy javobgar shaxs",
+    "location": "Joylashuv",
+    "room": "Xona",
+    "purchase_date": "Xarid sanasi",
+    "warranty_until": "Kafolat muddati",
+    "cost": "Qiymati (so'm)",
+    "supplier": "Yetkazib beruvchi",
+    "specs": "Texnik xususiyatlari",
+    "notes": "Izoh",
+    "note": "Izoh",
+    "employee": "Xodim"
+  },
+  "sections": {
+    "identity": "Asosiy ma'lumotlar",
+    "network": "Tarmoq",
+    "placement": "Joylashuv va javobgarlik",
+    "finance": "Xarid va kafolat",
+    "details": "Tafsilotlar",
+    "history": "Tarix",
+    "assignments": "Biriktirishlar",
+    "repairs": "Ta'mir",
+    "relations": "Bog'lanishlar (CMDB)",
+    "files": "Fayllar",
+    "documents": "Hujjatlar"
+  },
+  "status": {
+    "in_stock": "Omborda",
+    "in_use": "Foydalanishda",
+    "in_repair": "Ta'mirda",
+    "reserve": "Zaxirada",
+    "written_off": "Hisobdan chiqarilgan",
+    "lost": "Yo'qolgan"
+  },
+  "warranty": {
+    "expiring": "Kafolat tugayapti",
+    "expired": "Kafolat tugagan"
+  },
+  "empty": {
+    "title": "Aktivlar yo'q",
+    "description": "Birinchi aktivni qo'shing yoki filtrlarni o'zgartiring.",
+    "noHistory": "Tarix yo'q",
+    "noFiles": "Fayl yo'q",
+    "noRelations": "Bog'lanish yo'q",
+    "noRepairs": "Ta'mir bo'lmagan",
+    "noAssignments": "Hech kimga biriktirilmagan",
+    "noDocuments": "Hujjat yo'q",
+    "mine": "Sizga biriktirilgan aktiv yo'q"
+  },
+  "relations": {
+    "type": "Bog'lanish turi",
+    "asset": "Aktiv (inventar raqami yoki nomi)",
+    "note": "Port / izoh",
+    "outgoing": "→",
+    "incoming": "←",
+    "types": {
+      "connected_to": "ulangan",
+      "installed_in": "o'rnatilgan",
+      "part_of": "tarkibiy qismi",
+      "depends_on": "bog'liq"
+    }
+  },
+  "repair": {
+    "description": "Nosozlik tavsifi",
+    "vendor": "Servis / ijrochi",
+    "ticket": "Helpdesk arizasi ID (ixtiyoriy)",
+    "result": "Bajarilgan ish",
+    "cost": "Xarajat (so'm)",
+    "open": "Ochiq",
+    "closed": "Yakunlangan"
+  },
+  "disposal": {
+    "reason": "Sabab",
+    "act": "Dalolatnoma raqami",
+    "requested": "So'rov yuborildi. Tasdiqlovchiga xabar berildi.",
+    "approve": "Tasdiqlash",
+    "reject": "Rad etish",
+    "decisionNote": "Izoh",
+    "status": {
+      "pending": "Ko'rib chiqilmoqda",
+      "approved": "Tasdiqlangan",
+      "rejected": "Rad etilgan"
+    },
+    "title": "Hisobdan chiqarish so'rovlari",
+    "description": "Aktivlarni hisobdan chiqarish bo'yicha qarorlar"
+  },
+  "events": {
+    "created": "Aktiv qo'shildi",
+    "updated": "Ma'lumotlar o'zgartirildi",
+    "status_changed": "Holat o'zgardi",
+    "assigned": "Biriktirildi: {{name}}",
+    "returned": "Qaytarib olindi",
+    "transferred": "Ko'chirildi: {{from}} → {{to}}",
+    "maintenance_opened": "Ta'mirga berildi",
+    "maintenance_closed": "Ta'mir yakunlandi",
+    "disposal_requested": "Hisobdan chiqarish so'raldi",
+    "disposal_approved": "Hisobdan chiqarildi",
+    "disposal_rejected": "Hisobdan chiqarish rad etildi",
+    "relation_added": "Bog'lanish qo'shildi",
+    "relation_removed": "Bog'lanish olib tashlandi",
+    "attachment_added": "Fayl qo'shildi",
+    "attachment_removed": "Fayl o'chirildi",
+    "inventory_found": "Inventarizatsiyada topildi",
+    "system": "Tizim"
+  },
+  "assign": {
+    "employee": "Xodim",
+    "note": "Izoh",
+    "returnNote": "Qaytarish izohi"
+  },
+  "mine": {
+    "title": "Mening aktivlarim",
+    "description": "Sizga biriktirilgan texnika"
+  },
+  "labels": {
+    "title": "QR yorliqlar",
+    "description": "Chop eting va aktivlarga yopishtiring. Telefon kamerasi bilan skanerlansa, aktiv kartasi ochiladi.",
+    "print": "Chop etish",
+    "empty": "Ro'yxatdan aktivlarni belgilang."
+  },
+  "lookup": {
+    "notFound": "Bu inventar raqamli aktiv topilmadi yoki uni ko'rishga ruxsatingiz yo'q.",
+    "searching": "Aktiv qidirilmoqda…"
+  },
+  "transfers": {
+    "title": "Ko'chirishlar",
+    "description": "Tashkilotlar o'rtasida aktivlarni topshirish va qabul qilish",
+    "create": "Yangi ko'chirish",
+    "number": "Raqam",
+    "from": "Topshiruvchi",
+    "to": "Qabul qiluvchi",
+    "items": "Aktivlar",
+    "addAssets": "Aktiv qo'shish",
+    "send": "Jo'natish",
+    "receive": "Qabul qilish",
+    "cancel": "Bekor qilish",
+    "act": "Dalolatnoma (PDF)",
+    "direction": {
+      "incoming": "Kiruvchi",
+      "outgoing": "Chiquvchi"
+    },
+    "condition": "Holati / izoh",
+    "sendConfirm": "Jo'natilgach aktivlar ro'yxatini o'zgartirib bo'lmaydi. Davom etasizmi?",
+    "receiveConfirm": "Aktivlar tashkilotingiz hisobiga o'tadi. Qabul qilasizmi?",
+    "empty": "Ko'chirishlar yo'q",
+    "status": {
+      "draft": "Qoralama",
+      "sent": "Jo'natilgan",
+      "received": "Qabul qilingan",
+      "cancelled": "Bekor qilingan"
+    }
+  },
+  "inventory": {
+    "title": "Inventarizatsiya",
+    "description": "Faktik mavjudlikni hisobdagi bilan solishtirish",
+    "start": "Inventarizatsiyani boshlash",
+    "name": "Nomi",
+    "includeDescendants": "Quyi tashkilotlar bilan",
+    "scan": "Skanerlash",
+    "scanPlaceholder": "Inventar raqami yoki QR — skaner bilan o'qing yoki yozing",
+    "camera": "Kamera bilan",
+    "cameraStop": "Kamerani to'xtatish",
+    "cameraUnsupported": "Bu brauzer kamera orqali QR o'qishni qo'llamaydi — skaner yoki qo'lda kiriting.",
+    "close": "Yakunlash",
+    "closeConfirm": "Yakunlangandan keyin skanerlab bo'lmaydi. Topilmaganlar hisobotda qoladi (holati o'zgarmaydi).",
+    "expected": "Kutilgan",
+    "found": "Topildi",
+    "missing": "Topilmadi",
+    "unexpected": "Kutilmagan",
+    "progress": "{{found}} / {{expected}}",
+    "result": {
+      "found": "Topildi: {{number}}",
+      "already_found": "Allaqachon belgilangan: {{number}}",
+      "unexpected": "Ro'yxatda yo'q: {{number}}",
+      "already_scanned": "Allaqachon skanerlangan: {{number}}"
+    },
+    "state": {
+      "found": "Topildi",
+      "missing": "Topilmadi",
+      "unexpected": "Kutilmagan"
+    },
+    "empty": "Inventarizatsiyalar yo'q",
+    "status": {
+      "open": "Davom etmoqda",
+      "closed": "Yakunlangan"
+    }
+  },
+  "settings": {
+    "title": "Aktivlar ma'lumotnomalari",
+    "description": "Toifalar, ishlab chiqaruvchilar, modellar va joylashuvlar",
+    "tabs": {
+      "categories": "Toifalar",
+      "manufacturers": "Ishlab chiqaruvchilar",
+      "models": "Modellar",
+      "locations": "Joylashuvlar"
+    },
+    "name": "Nomi",
+    "nameRu": "Nomi (ruscha)",
+    "networked": "Tarmoq qurilmasi",
+    "active": "Faol",
+    "website": "Veb-sayt",
+    "parent": "Yuqori joylashuv",
+    "code": "Kod",
+    "add": "Qo'shish",
+    "deleteConfirm": "\"{{name}}\" o'chirilsinmi?",
+    "saved": "Saqlandi"
+  },
+  "report": {
+    "title": "Aktivlar hisoboti",
+    "description": "Holat, toifa va tashkilotlar kesimida",
+    "total": "Jami (hisobda)",
+    "active": "Faol aktivlar",
+    "cost": "Umumiy qiymati",
+    "inRepair": "Ta'mirda",
+    "warrantyExpiring": "Kafolati tugayapti",
+    "warrantyExpired": "Kafolati tugagan",
+    "byStatus": "Holat bo'yicha",
+    "byCategory": "Toifa bo'yicha",
+    "byOrganization": "Tashkilotlar kesimida",
+    "count": "Soni",
+    "inUse": "Foydalanishda"
+  },
+  "dashboard": {
+    "active": "IT aktivlar",
+    "inRepair": "Ta'mirda: {{count}}",
+    "warranty": "Kafolati tugayapti",
+    "mine": "Mening aktivlarim"
+  },
+  "employeeBlock": {
+    "title": "Biriktirilgan aktivlar",
+    "dismissed": "Xodim ishdan bo'shagan — quyidagi aktivlarni qaytarib oling."
+  }
+}

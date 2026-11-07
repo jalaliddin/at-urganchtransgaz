@@ -34,7 +34,11 @@
       "ticket_commented": "Arizaga izoh qoldirilganda",
       "ticket_sla_breached": "SLA muddati o'tganda",
       "ticket_due_soon": "Muddat yaqinlashganda",
-      "export_ready": "Eksport tayyor bo'lganda"
+      "export_ready": "Eksport tayyor bo'lganda",
+      "assets_return_required": "Ishdan bo'shagan xodim aktivlari",
+      "asset_warranty_expiring": "Kafolat muddati tugashi",
+      "asset_transfer_incoming": "Kiruvchi ko'chirishlar",
+      "asset_disposal_requested": "Hisobdan chiqarish so'rovlari"
     }
   }
 }

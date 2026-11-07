@@ -3,7 +3,8 @@
     "main": "Основное",
     "structure": "Оргструктура",
     "administration": "Администрирование",
-    "helpdesk": "Обслуживание"
+    "helpdesk": "Обслуживание",
+    "assets": "ИТ-активы"
   },
   "items": {
     "dashboard": "Панель управления",
@@ -22,7 +23,15 @@
     "helpdeskReports": "Отчёт Helpdesk",
     "helpdeskSettings": "Настройки Helpdesk",
     "documents": "Документы",
-    "exports": "Экспорты"
+    "exports": "Экспорты",
+    "assets": "Реестр активов",
+    "myAssets": "Мои активы",
+    "assetTransfers": "Передачи",
+    "inventory": "Инвентаризация",
+    "disposals": "Списание",
+    "assetSettings": "Справочники",
+    "assetReport": "Отчёт по активам",
+    "assetLabels": "QR-этикетки"
   },
   "header": {
     "search": "Поиск",
