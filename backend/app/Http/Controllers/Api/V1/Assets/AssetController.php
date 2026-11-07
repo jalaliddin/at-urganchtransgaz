@@ -6,10 +6,13 @@ use App\Enums\AssetStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Assets\AssetRequest;
 use App\Http\Resources\Assets\AssetResource;
+use App\Http\Resources\Documents\DocumentResource;
 use App\Models\Asset;
+use App\Models\Document;
 use App\Models\User;
 use App\Services\Assets\AssetFilters;
 use App\Services\Assets\AssetService;
+use App\Services\Assets\AssetStats;
 use App\Support\ApiResponse;
 use App\Support\Pagination;
 use App\Support\Search\SearchTerm;
@@ -43,6 +46,32 @@ class AssetController extends Controller
             ->withQueryString();
 
         return ApiResponse::paginated($page, AssetResource::class);
+    }
+
+    public function stats(Request $request, AssetStats $stats): JsonResponse
+    {
+        Gate::authorize('viewAny', Asset::class);
+        $request->validate(['filter' => ['sometimes', 'array:'.implode(',', AssetFilters::NAMES)]]);
+        /** @var User $user */
+        $user = $request->user();
+
+        return ApiResponse::data($stats->summary($user, (array) $request->input('filter', [])));
+    }
+
+    /** Documents linked to the asset that the user may also see. */
+    public function documents(Request $request, Asset $asset): JsonResponse
+    {
+        Gate::authorize('view', $asset);
+        /** @var User $user */
+        $user = $request->user();
+        if (! $user->can('documents.view')) {
+            return ApiResponse::data([]);
+        }
+        $documents = Document::query()
+            ->whereHas('links', fn ($q) => $q->where('linkable_type', 'asset')->where('linkable_id', $asset->id))
+            ->with(['organization', 'currentVersion.file', 'currentVersion.uploader'])->orderByDesc('document_date')->get();
+
+        return ApiResponse::data(DocumentResource::collection($documents));
     }
 
     public function store(AssetRequest $request): JsonResponse

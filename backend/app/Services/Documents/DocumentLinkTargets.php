@@ -2,6 +2,7 @@
 
 namespace App\Services\Documents;
 
+use App\Models\Asset;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -13,12 +14,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class DocumentLinkTargets
 {
-    public const TYPES = ['ticket'];
+    public const TYPES = ['ticket', 'asset'];
 
     public function find(string $type, int $id, User $user): ?Model
     {
         return match ($type) {
             'ticket' => Ticket::query()->visibleTo($user)->find($id),
+            'asset' => $user->can('assets.view') ? Asset::query()->visibleTo($user)->find($id) : null,
             default => null,
         };
     }
@@ -28,6 +30,7 @@ class DocumentLinkTargets
     {
         return match (true) {
             $target instanceof Ticket => ['id' => $target->id, 'number' => $target->number, 'title' => $target->title],
+            $target instanceof Asset => ['id' => $target->id, 'number' => $target->inventory_number, 'title' => $target->name],
             default => ['id' => $target->getKey()],
         };
     }

@@ -181,6 +181,8 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::post('assets/{asset}/return', [AssetAssignmentController::class, 'return'])->whereNumber('asset')->name('assets.return');
     Route::get('assets/{asset}/assignments', [AssetAssignmentController::class, 'history'])->whereNumber('asset')->name('assets.assignments');
     Route::get('employees/{employee}/assets', [AssetAssignmentController::class, 'employeeAssets'])->name('employees.assets');
+    Route::get('assets/stats', [AssetController::class, 'stats'])->name('assets.stats');
+    Route::get('assets/{asset}/documents', [AssetController::class, 'documents'])->whereNumber('asset')->name('assets.documents');
     Route::get('assets/lookup/{inventory}', [AssetController::class, 'lookup'])->where('inventory', '[^/]+')->name('assets.lookup');
     Route::apiResource('assets', AssetController::class)->whereNumber('asset');
     Route::post('assets/{asset}/status', [AssetController::class, 'status'])->whereNumber('asset')->name('assets.status');

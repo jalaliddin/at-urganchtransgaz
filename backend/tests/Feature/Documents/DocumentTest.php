@@ -117,7 +117,7 @@ class DocumentTest extends TestCase
         $this->actingAs($this->manager);
 
         $this->postJson("/api/v1/documents/{$doc['id']}/links", ['type' => 'ticket', 'id' => $foreign->id])->assertNotFound();
-        $this->postJson("/api/v1/documents/{$doc['id']}/links", ['type' => 'asset', 'id' => 1])->assertStatus(422);
+        $this->postJson("/api/v1/documents/{$doc['id']}/links", ['type' => 'sim_card', 'id' => 1])->assertStatus(422);
         $linkId = $this->postJson("/api/v1/documents/{$doc['id']}/links", ['type' => 'ticket', 'id' => $ticket->id])
             ->assertCreated()->assertJsonPath('data.target.number', $ticket->number)->json('data.id');
         $this->postJson("/api/v1/documents/{$doc['id']}/links", ['type' => 'ticket', 'id' => $ticket->id])->assertStatus(409);

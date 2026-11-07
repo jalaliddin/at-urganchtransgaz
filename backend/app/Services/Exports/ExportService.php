@@ -17,6 +17,7 @@ class ExportService
     /** @var array<string, class-string<ReportDefinition>> */
     public const REPORTS = [
         'helpdesk_tickets' => TicketReport::class,
+        'assets' => AssetReport::class,
     ];
 
     public function report(string $type): ReportDefinition

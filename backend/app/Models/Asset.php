@@ -7,6 +7,7 @@ use App\Models\Concerns\BelongsToOrganization;
 use App\Models\Concerns\HasUserStamps;
 use App\Models\Scopes\OrganizationScope;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -68,6 +69,22 @@ class Asset extends Model
             'created_at' => 'immutable_datetime',
             'updated_at' => 'immutable_datetime',
         ];
+    }
+
+    /**
+     * Assets in $user's organization scope, applied explicitly (works in queued jobs
+     * where the global OrganizationScope is inactive).
+     *
+     * @param  Builder<self>  $query
+     */
+    public function scopeVisibleTo(Builder $query, User $user): void
+    {
+        $query->withoutGlobalScope(OrganizationScope::class);
+        $scope = $user->accessScope();
+        if (! $scope->isUnrestricted()) {
+            $ids = $scope->organizationIds();
+            $ids === [] ? $query->whereRaw('1 = 0') : $query->whereIn($query->qualifyColumn('organization_id'), $ids);
+        }
     }
 
     /** @return BelongsTo<Organization, $this> */

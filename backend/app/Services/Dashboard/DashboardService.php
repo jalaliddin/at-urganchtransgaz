@@ -5,11 +5,13 @@ namespace App\Services\Dashboard;
 use App\Enums\EmployeeStatus;
 use App\Enums\TicketStatus;
 use App\Http\Resources\Audit\AuditLogResource;
+use App\Models\Asset;
 use App\Models\AuditLog;
 use App\Models\Employee;
 use App\Models\Organization;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Services\Assets\AssetStats;
 use App\Services\Helpdesk\TicketStats;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
@@ -67,6 +69,19 @@ class DashboardService
                 'open' => (clone $mine)->whereIn('status', TicketStatus::openValues())->count(),
                 'total' => $mine->count(),
             ];
+        }
+
+        if ($user->can('assets.view')) {
+            $filters = $organizationId !== null ? ['organization' => $organizationId] : [];
+            $assets = app(AssetStats::class)->summary($user, $filters);
+            $widgets['assets'] = [
+                'active' => $assets['active'],
+                'in_repair' => $assets['by_status']['in_repair'],
+                'warranty_expiring' => $assets['warranty_expiring'],
+                'by_status' => $assets['by_status'],
+            ];
+        } elseif ($user->employee_id !== null) {
+            $widgets['my_assets'] = ['total' => Asset::query()->withoutGlobalScopes()->where('holder_employee_id', $user->employee_id)->count()];
         }
 
         if ($user->can('audit.view')) {
