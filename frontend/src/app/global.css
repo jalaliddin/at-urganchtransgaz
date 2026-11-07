@@ -9,3 +9,13 @@
   src: local('Arial'), local('Segoe UI'), local('Roboto'), local('Liberation Sans'), local('DejaVu Sans');
   unicode-range: U+02BB-02BC;
 }
+
+/* Print pages (QR labels): only the content, no app controls. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+  }
+}

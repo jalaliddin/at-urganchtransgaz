@@ -19,6 +19,12 @@ import { DocumentsPage } from '@/features/documents/DocumentsPage'
 import { ExportsPage } from '@/features/exports/ExportsPage'
 import { AssetDetailPage } from '@/features/assets/AssetDetailPage'
 import { AssetsPage } from '@/features/assets/AssetsPage'
+import { DisposalsPage } from '@/features/assets/DisposalsPage'
+import { InventoryPage } from '@/features/assets/InventoryPage'
+import { InventorySessionPage } from '@/features/assets/InventorySessionPage'
+import { LabelsPage } from '@/features/assets/LabelsPage'
+import { LookupPage } from '@/features/assets/LookupPage'
+import { MyAssetsPage } from '@/features/assets/MyAssetsPage'
 import { TransferDetailPage } from '@/features/assets/TransferDetailPage'
 import { TransfersPage } from '@/features/assets/TransfersPage'
 import { TicketsPage } from '@/features/helpdesk/TicketsPage'
@@ -46,6 +52,11 @@ export const routes: RouteObject[] = [
       {
         element: <RequirePasswordChanged />,
         children: [
+          {
+            path: '/assets/labels',
+            element: <RequirePermission permission="assets.view" />,
+            children: [{ index: true, element: <LabelsPage /> }],
+          },
           {
             element: <AppLayout />,
             handle: { crumb: 'nav:header.home' },
@@ -82,10 +93,30 @@ export const routes: RouteObject[] = [
                 path: 'assets',
                 handle: { crumb: 'nav:items.assets' },
                 children: [
+                  { path: 'mine', element: <MyAssetsPage />, handle: { crumb: 'nav:items.myAssets' } },
+                  { path: 'lookup/:inventory', element: <LookupPage />, handle: { crumb: 'assets:crumb' } },
+                  {
+                    path: 'inventory',
+                    element: <RequirePermission permission={['assets.view', 'assets.inventory']} />,
+                    handle: { crumb: 'nav:items.inventory' },
+                    children: [
+                      { index: true, element: <InventoryPage /> },
+                      {
+                        path: ':id',
+                        element: <InventorySessionPage />,
+                        handle: { crumb: 'assets:inventory.title' },
+                      },
+                    ],
+                  },
                   {
                     element: <RequirePermission permission="assets.view" />,
                     children: [
                       { index: true, element: <AssetsPage /> },
+                      {
+                        path: 'disposals',
+                        element: <DisposalsPage />,
+                        handle: { crumb: 'nav:items.disposals' },
+                      },
                       {
                         path: 'transfers',
                         handle: { crumb: 'nav:items.assetTransfers' },
