@@ -206,7 +206,6 @@ export function InventorySessionPage() {
                   onChange={(e) => setCode(e.currentTarget.value)}
                   leftSection={<IconScan size={18} />}
                   size="md"
-                  autoFocus
                   autoComplete="off"
                   style={{ flex: 1 }}
                   styles={{ input: { fontFamily: 'var(--mantine-font-family-monospace)' } }}
