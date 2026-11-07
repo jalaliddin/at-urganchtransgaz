@@ -17,6 +17,8 @@ import { HelpdeskSettingsPage } from '@/features/helpdesk/HelpdeskSettingsPage'
 import { DocumentDetailPage } from '@/features/documents/DocumentDetailPage'
 import { DocumentsPage } from '@/features/documents/DocumentsPage'
 import { ExportsPage } from '@/features/exports/ExportsPage'
+import { AssetDetailPage } from '@/features/assets/AssetDetailPage'
+import { AssetsPage } from '@/features/assets/AssetsPage'
 import { TicketsPage } from '@/features/helpdesk/TicketsPage'
 import { NotFoundPage } from '@/features/errors/NotFoundPage'
 import { OrganizationDetailPage } from '@/features/organizations/OrganizationDetailPage'
@@ -72,6 +74,19 @@ export const routes: RouteObject[] = [
                     children: [{ index: true, element: <HelpdeskReportPage /> }],
                   },
                   { path: ':id', element: <TicketDetailPage />, handle: { crumb: 'helpdesk:crumb' } },
+                ],
+              },
+              {
+                path: 'assets',
+                handle: { crumb: 'nav:items.assets' },
+                children: [
+                  {
+                    element: <RequirePermission permission="assets.view" />,
+                    children: [
+                      { index: true, element: <AssetsPage /> },
+                      { path: ':id', element: <AssetDetailPage />, handle: { crumb: 'assets:crumb' } },
+                    ],
+                  },
                 ],
               },
               {
