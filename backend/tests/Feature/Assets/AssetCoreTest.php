@@ -139,6 +139,7 @@ class AssetCoreTest extends TestCase
         $this->assertSame(['A-2'], $ids('search=10.0.0.5'));
         $this->assertSame(['A-1'], $ids('filter[warranty]=expiring'));
         $this->assertSame(['A-1', 'A-2'], $ids('filter[status]=in_stock'));
+        $this->assertSame(['A-1'], $ids('filter[id]='.$mine->id.','.$foreign->id));
 
         $this->getJson('/api/v1/assets/lookup/A-1')->assertOk()->assertJsonPath('data.id', $mine->id);
         $this->getJson('/api/v1/assets/lookup/B-1')->assertNotFound();

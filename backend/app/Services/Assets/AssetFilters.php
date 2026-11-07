@@ -13,7 +13,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 final class AssetFilters
 {
     public const NAMES = [
-        'status', 'category', 'organization', 'department', 'location', 'holder', 'responsible', 'model',
+        'id', 'status', 'category', 'organization', 'department', 'location', 'holder', 'responsible', 'model',
         'manufacturer', 'warranty',
     ];
 
@@ -52,6 +52,7 @@ final class AssetFilters
 
         match ($name) {
             'status' => self::in($query, $column('status'), array_values(array_filter($values, fn ($v) => AssetStatus::tryFrom($v) !== null))),
+            'id' => self::in($query, $column('id'), array_slice($ids, 0, 500)),
             'category' => self::in($query, $column('category_id'), $ids),
             'department' => self::in($query, $column('department_id'), $ids),
             'location' => self::in($query, $column('location_id'), $ids),
