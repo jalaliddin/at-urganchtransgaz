@@ -24,6 +24,15 @@ class AssetAssignments
 
     public function assign(Asset $asset, Employee $employee, User $by, ?string $note): Asset
     {
+        return DB::transaction(function () use ($asset, $employee, $by, $note): Asset {
+            $this->lock($asset);
+
+            return $this->assignLocked($asset, $employee, $by, $note);
+        });
+    }
+
+    private function assignLocked(Asset $asset, Employee $employee, User $by, ?string $note): Asset
+    {
         $this->assets->assertEditable($asset);
         if (in_array($asset->status, [AssetStatus::InRepair, AssetStatus::Lost], true)) {
             throw new InvalidTransitionException(__('messages.asset_not_assignable'));
@@ -50,6 +59,15 @@ class AssetAssignments
 
     public function return(Asset $asset, User $by, ?string $note): Asset
     {
+        return DB::transaction(function () use ($asset, $by, $note): Asset {
+            $this->lock($asset);
+
+            return $this->returnLocked($asset, $by, $note);
+        });
+    }
+
+    private function returnLocked(Asset $asset, User $by, ?string $note): Asset
+    {
         if ($asset->holder_employee_id === null) {
             throw new InvalidTransitionException(__('messages.asset_not_held'));
         }
@@ -57,8 +75,12 @@ class AssetAssignments
         return DB::transaction(function () use ($asset, $by, $note): Asset {
             $holder = $asset->holder?->full_name;
             $this->closeOpen($asset, $by, $note);
-            $asset->forceFill(['holder_employee_id' => null, 'status' => AssetStatus::InStock])->save();
-            $this->events->record($asset, $by, AssetEventAction::Returned, ['holder' => $holder], ['status' => AssetStatus::InStock->value], $note);
+            // Under repair it stays in repair; the repair closes back to "in stock".
+            $changes = $asset->status === AssetStatus::InRepair
+                ? ['holder_employee_id' => null, 'previous_status' => AssetStatus::InStock]
+                : ['holder_employee_id' => null, 'status' => AssetStatus::InStock];
+            $asset->forceFill($changes)->save();
+            $this->events->record($asset, $by, AssetEventAction::Returned, ['holder' => $holder], ['status' => $asset->status->value], $note);
 
             return $asset;
         });
@@ -70,5 +92,11 @@ class AssetAssignments
         AssetAssignment::query()->where('asset_id', $asset->id)->whereNull('returned_at')->update([
             'returned_at' => CarbonImmutable::now(), 'returned_by' => $by?->id, 'return_note' => $note,
         ]);
+    }
+
+    private function lock(Asset $asset): void
+    {
+        $locked = Asset::query()->withoutGlobalScopes()->lockForUpdate()->findOrFail($asset->id);
+        $asset->setRawAttributes($locked->getAttributes(), true);
     }
 }

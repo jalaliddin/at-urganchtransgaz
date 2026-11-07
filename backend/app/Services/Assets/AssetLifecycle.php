@@ -30,12 +30,12 @@ class AssetLifecycle
 
     public function openMaintenance(Asset $asset, string $description, ?string $vendor, ?int $ticketId, User $by): AssetMaintenance
     {
-        $this->assets->assertEditable($asset);
-        if (AssetMaintenance::query()->where('asset_id', $asset->id)->where('status', MaintenanceStatus::Open)->exists()) {
-            throw new InvalidTransitionException(__('messages.asset_repair_open'));
-        }
-
         return DB::transaction(function () use ($asset, $description, $vendor, $ticketId, $by): AssetMaintenance {
+            $this->lockAsset($asset);
+            $this->assets->assertEditable($asset);
+            if (AssetMaintenance::query()->where('asset_id', $asset->id)->where('status', MaintenanceStatus::Open)->exists()) {
+                throw new InvalidTransitionException(__('messages.asset_repair_open'));
+            }
             $maintenance = AssetMaintenance::create([
                 'asset_id' => $asset->id, 'ticket_id' => $ticketId, 'status' => MaintenanceStatus::Open,
                 'started_at' => CarbonImmutable::now(), 'vendor' => $vendor, 'description' => $description, 'created_by' => $by->id,
@@ -50,11 +50,11 @@ class AssetLifecycle
 
     public function closeMaintenance(Asset $asset, AssetMaintenance $maintenance, string $result, ?string $cost, User $by): AssetMaintenance
     {
-        if ($maintenance->status !== MaintenanceStatus::Open) {
-            throw new InvalidTransitionException(__('messages.invalid_transition'));
-        }
-
         return DB::transaction(function () use ($asset, $maintenance, $result, $cost, $by): AssetMaintenance {
+            $this->lockAsset($asset);
+            if (AssetMaintenance::query()->lockForUpdate()->findOrFail($maintenance->id)->status !== MaintenanceStatus::Open) {
+                throw new InvalidTransitionException(__('messages.invalid_transition'));
+            }
             $maintenance->forceFill([
                 'status' => MaintenanceStatus::Closed, 'finished_at' => CarbonImmutable::now(), 'result' => $result,
                 'cost' => $cost, 'closed_by' => $by->id,
@@ -71,12 +71,12 @@ class AssetLifecycle
 
     public function requestDisposal(Asset $asset, string $reason, ?string $actNumber, User $by): AssetDisposal
     {
-        $this->assets->assertEditable($asset);
-        if (AssetDisposal::query()->where('asset_id', $asset->id)->where('status', DisposalStatus::Pending)->exists()) {
-            throw new InvalidTransitionException(__('messages.asset_disposal_pending'));
-        }
-
         $disposal = DB::transaction(function () use ($asset, $reason, $actNumber, $by): AssetDisposal {
+            $this->lockAsset($asset);
+            $this->assets->assertEditable($asset);
+            if (AssetDisposal::query()->where('asset_id', $asset->id)->where('status', DisposalStatus::Pending)->exists()) {
+                throw new InvalidTransitionException(__('messages.asset_disposal_pending'));
+            }
             $disposal = AssetDisposal::create([
                 'asset_id' => $asset->id, 'status' => DisposalStatus::Pending, 'reason' => $reason,
                 'act_number' => $actNumber, 'requested_by' => $by->id, 'requested_at' => CarbonImmutable::now(),
@@ -98,14 +98,16 @@ class AssetLifecycle
         if (! $by->can('assets.dispose') || ! $by->canAccessOrganization($asset->organization_id)) {
             throw new AuthorizationException;
         }
-        if ($disposal->status !== DisposalStatus::Pending) {
-            throw new InvalidTransitionException(__('messages.invalid_transition'));
-        }
-        if ($approve && $asset->transfer_id !== null) {
-            throw new InvalidTransitionException(__('messages.asset_in_transfer'));
-        }
 
         return DB::transaction(function () use ($disposal, $asset, $approve, $note, $by): AssetDisposal {
+            $this->lockAsset($asset);
+            $locked = AssetDisposal::query()->lockForUpdate()->findOrFail($disposal->id);
+            if ($locked->status !== DisposalStatus::Pending) {
+                throw new InvalidTransitionException(__('messages.invalid_transition'));
+            }
+            if ($approve && $asset->transfer_id !== null) {
+                throw new InvalidTransitionException(__('messages.asset_in_transfer'));
+            }
             $disposal->forceFill([
                 'status' => $approve ? DisposalStatus::Approved : DisposalStatus::Rejected,
                 'decided_by' => $by->id, 'decided_at' => CarbonImmutable::now(), 'decision_note' => $note,
@@ -121,5 +123,12 @@ class AssetLifecycle
 
             return $disposal;
         });
+    }
+
+    /** Row lock on the asset, and refresh the caller's copy with the locked state. */
+    private function lockAsset(Asset $asset): void
+    {
+        $locked = Asset::query()->withoutGlobalScopes()->lockForUpdate()->findOrFail($asset->id);
+        $asset->setRawAttributes($locked->getAttributes(), true);
     }
 }

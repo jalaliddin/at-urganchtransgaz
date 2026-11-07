@@ -37,7 +37,9 @@ class AssetRequest extends FormRequest
         return [
             'organization_id' => $creating ? ['required', 'integer', new AccessibleOrganization] : ['prohibited'],
             'status' => $creating ? ['sometimes', Rule::in([AssetStatus::InStock->value, AssetStatus::Reserve->value])] : ['prohibited'],
-            'inventory_number' => ['nullable', 'string', 'max:50', Rule::unique('assets', 'inventory_number')->ignore($this->asset()?->id)],
+            // Blank on create = generate; an existing number can be changed but not removed.
+            'inventory_number' => [$creating ? 'nullable' : 'sometimes', ...($creating ? [] : ['required']), 'string', 'max:50',
+                Rule::unique('assets', 'inventory_number')->ignore($this->asset()?->id)],
             'name' => [$req, 'string', 'max:200'],
             'category_id' => [$req, 'integer', Rule::exists('asset_categories', 'id')],
             'model_id' => ['nullable', 'integer', Rule::exists('asset_models', 'id')],

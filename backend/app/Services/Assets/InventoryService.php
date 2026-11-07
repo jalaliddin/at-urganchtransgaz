@@ -24,11 +24,12 @@ class InventoryService
 
     public function start(int $organizationId, bool $descendants, string $name, ?string $note, User $by): InventorySession
     {
-        if (InventorySession::query()->where('organization_id', $organizationId)->where('status', InventoryStatus::Open)->exists()) {
-            throw ValidationException::withMessages(['organization_id' => __('messages.inventory_open_exists')]);
-        }
-
         return DB::transaction(function () use ($organizationId, $descendants, $name, $note, $by): InventorySession {
+            // Serialize starts per organization so two people cannot open parallel counts.
+            DB::table('organizations')->where('id', $organizationId)->lockForUpdate()->value('id');
+            if (InventorySession::query()->where('organization_id', $organizationId)->where('status', InventoryStatus::Open)->exists()) {
+                throw ValidationException::withMessages(['organization_id' => __('messages.inventory_open_exists')]);
+            }
             $session = InventorySession::create([
                 'organization_id' => $organizationId, 'include_descendants' => $descendants, 'name' => $name, 'note' => $note,
                 'status' => InventoryStatus::Open, 'started_by' => $by->id, 'started_at' => CarbonImmutable::now(),

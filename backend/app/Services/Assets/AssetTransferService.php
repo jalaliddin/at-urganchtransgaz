@@ -58,12 +58,13 @@ class AssetTransferService
     public function addItems(AssetTransfer $transfer, array $assetIds, ?string $condition, User $by): void
     {
         $this->assertSide($by, $transfer->from_organization_id);
-        $this->assertStatus($transfer, TransferStatus::Draft);
 
         DB::transaction(function () use ($transfer, $assetIds, $condition): void {
+            $this->lockIn($transfer, TransferStatus::Draft);
             $assets = Asset::query()->whereIn('id', $assetIds)->lockForUpdate()->get();
+            $movable = [AssetStatus::InStock, AssetStatus::InUse, AssetStatus::Reserve];
             $valid = $assets->filter(fn (Asset $a) => $a->organization_id === $transfer->from_organization_id
-                && ! $a->status->isTerminal() && ($a->transfer_id === null || $a->transfer_id === $transfer->id));
+                && in_array($a->status, $movable, true) && ($a->transfer_id === null || $a->transfer_id === $transfer->id));
             if ($valid->count() !== count(array_unique($assetIds))) {
                 throw ValidationException::withMessages(['asset_ids' => __('messages.transfer_assets_invalid')]);
             }
@@ -77,9 +78,9 @@ class AssetTransferService
     public function removeItem(AssetTransfer $transfer, int $assetId, User $by): void
     {
         $this->assertSide($by, $transfer->from_organization_id);
-        $this->assertStatus($transfer, TransferStatus::Draft);
 
         DB::transaction(function () use ($transfer, $assetId): void {
+            $this->lockIn($transfer, TransferStatus::Draft);
             AssetTransferItem::query()->where('transfer_id', $transfer->id)->where('asset_id', $assetId)->delete();
             Asset::query()->withoutGlobalScopes()->whereKey($assetId)->where('transfer_id', $transfer->id)->update(['transfer_id' => null]);
         });
@@ -88,12 +89,12 @@ class AssetTransferService
     public function send(AssetTransfer $transfer, User $by): AssetTransfer
     {
         $this->assertSide($by, $transfer->from_organization_id);
-        $this->assertStatus($transfer, TransferStatus::Draft);
-        if (! $transfer->items()->exists()) {
-            throw new InvalidTransitionException(__('messages.transfer_empty'));
-        }
 
         DB::transaction(function () use ($transfer, $by): void {
+            $this->lockIn($transfer, TransferStatus::Draft);
+            if (! $transfer->items()->exists()) {
+                throw new InvalidTransitionException(__('messages.transfer_empty'));
+            }
             $transfer->forceFill(['status' => TransferStatus::Sent, 'sent_by' => $by->id, 'sent_at' => CarbonImmutable::now()])->save();
             $act = $this->renderAct($transfer, $by);
             $transfer->forceFill(['act_file_id' => $act->id])->save();
@@ -110,9 +111,9 @@ class AssetTransferService
     public function receive(AssetTransfer $transfer, User $by, ?string $note): AssetTransfer
     {
         $this->assertSide($by, $transfer->to_organization_id);
-        $this->assertStatus($transfer, TransferStatus::Sent);
 
         return DB::transaction(function () use ($transfer, $by, $note): AssetTransfer {
+            $this->lockIn($transfer, TransferStatus::Sent);
             $from = $transfer->fromOrganization->name;
             $to = $transfer->toOrganization->name;
             foreach ($transfer->items()->with('asset')->get() as $item) {
@@ -137,11 +138,9 @@ class AssetTransferService
     public function cancel(AssetTransfer $transfer, User $by): AssetTransfer
     {
         $this->assertSide($by, $transfer->from_organization_id);
-        if (! $transfer->status->isOpen()) {
-            throw new InvalidTransitionException(__('messages.invalid_transition'));
-        }
 
         return DB::transaction(function () use ($transfer, $by): AssetTransfer {
+            $this->lockIn($transfer, null);
             Asset::query()->withoutGlobalScopes()->where('transfer_id', $transfer->id)->update(['transfer_id' => null]);
             $transfer->forceFill(['status' => TransferStatus::Cancelled, 'cancelled_by' => $by->id, 'cancelled_at' => CarbonImmutable::now()])->save();
 
@@ -179,10 +178,18 @@ class AssetTransferService
         }
     }
 
-    private function assertStatus(AssetTransfer $transfer, TransferStatus $status): void
+    /**
+     * Re-reads the transfer with a row lock and checks its status there, so a
+     * concurrent send/receive/cancel cannot act on a stale copy. $status null means
+     * "any open status". The caller's model is refreshed with the locked state.
+     */
+    private function lockIn(AssetTransfer $transfer, ?TransferStatus $status): void
     {
-        if ($transfer->status !== $status) {
+        $locked = AssetTransfer::query()->lockForUpdate()->findOrFail($transfer->id);
+        $allowed = $status === null ? $locked->status->isOpen() : $locked->status === $status;
+        if (! $allowed) {
             throw new InvalidTransitionException(__('messages.invalid_transition'));
         }
+        $transfer->setRawAttributes($locked->getAttributes(), true);
     }
 }
