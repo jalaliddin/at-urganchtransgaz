@@ -8,14 +8,19 @@ describe('visibleNav', () => {
       g.items.map((i) => i.key),
     )
 
-    expect(keys).toEqual(['dashboard'])
+    expect(keys).toEqual(['dashboard', 'myAssets'])
   })
 
   it('drops empty groups and keeps permitted items', () => {
     const groups = visibleNav(makeMe({ permissions: ['dashboard.view', 'employees.view', 'audit.view'] }))
 
-    expect(groups.map((g) => g.key)).toEqual(['main', 'structure', 'administration'])
-    expect(groups.flatMap((g) => g.items.map((i) => i.key))).toEqual(['dashboard', 'employees', 'audit'])
+    expect(groups.map((g) => g.key)).toEqual(['main', 'assets', 'structure', 'administration'])
+    expect(groups.flatMap((g) => g.items.map((i) => i.key))).toEqual([
+      'dashboard',
+      'myAssets',
+      'employees',
+      'audit',
+    ])
   })
 
   it('shows everything to a super admin', () => {
@@ -32,6 +37,6 @@ describe('visibleNav', () => {
       g.items.map((i) => i.key),
     )
 
-    expect(keys).toEqual(['dashboard', 'helpdesk'])
+    expect(keys).toEqual(['dashboard', 'helpdesk', 'myAssets'])
   })
 })

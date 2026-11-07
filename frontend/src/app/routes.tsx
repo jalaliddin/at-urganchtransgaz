@@ -19,6 +19,8 @@ import { DocumentsPage } from '@/features/documents/DocumentsPage'
 import { ExportsPage } from '@/features/exports/ExportsPage'
 import { AssetDetailPage } from '@/features/assets/AssetDetailPage'
 import { AssetsPage } from '@/features/assets/AssetsPage'
+import { AssetReportPage } from '@/features/assets/AssetReportPage'
+import { AssetSettingsPage } from '@/features/assets/AssetSettingsPage'
 import { DisposalsPage } from '@/features/assets/DisposalsPage'
 import { InventoryPage } from '@/features/assets/InventoryPage'
 import { InventorySessionPage } from '@/features/assets/InventorySessionPage'
@@ -109,9 +111,20 @@ export const routes: RouteObject[] = [
                     ],
                   },
                   {
+                    path: 'settings',
+                    element: <RequirePermission permission={['assets.manage_catalog', 'assets.update']} />,
+                    handle: { crumb: 'nav:items.assetSettings' },
+                    children: [{ index: true, element: <AssetSettingsPage /> }],
+                  },
+                  {
                     element: <RequirePermission permission="assets.view" />,
                     children: [
                       { index: true, element: <AssetsPage /> },
+                      {
+                        path: 'report',
+                        element: <AssetReportPage />,
+                        handle: { crumb: 'nav:items.assetReport' },
+                      },
                       {
                         path: 'disposals',
                         element: <DisposalsPage />,

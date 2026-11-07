@@ -15,6 +15,7 @@ import { StatTile } from './widgets/StatTile'
 export function DashboardPage() {
   const { t } = useTranslation('dashboard')
   const { t: th } = useTranslation('helpdesk')
+  const { t: ta } = useTranslation('assets')
   const me = useCurrentUser()
   const { organizationId: orgContextId } = useOrgContext()
   const query = useQuery({
@@ -69,6 +70,31 @@ export function DashboardPage() {
         value={data.helpdesk.overdue}
         detail={th('dashboard.assignedToMe') + ': ' + data.helpdesk.assigned_to_me}
         href="/helpdesk?filter[overdue]=1"
+      />
+    ),
+    data.assets && (
+      <StatTile
+        key="assets"
+        label={ta('dashboard.active')}
+        value={data.assets.active}
+        detail={ta('dashboard.inRepair', { count: data.assets.in_repair })}
+        href="/assets"
+      />
+    ),
+    data.assets && data.assets.warranty_expiring > 0 && (
+      <StatTile
+        key="assets-warranty"
+        label={ta('dashboard.warranty')}
+        value={data.assets.warranty_expiring}
+        href="/assets?filter[warranty]=expiring"
+      />
+    ),
+    data.my_assets && (
+      <StatTile
+        key="my-assets"
+        label={ta('dashboard.mine')}
+        value={data.my_assets.total}
+        href="/assets/mine"
       />
     ),
     data.my_tickets && (

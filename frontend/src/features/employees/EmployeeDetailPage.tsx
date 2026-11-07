@@ -1,4 +1,4 @@
-import { Anchor, Button, Group, Paper, SimpleGrid, Skeleton, Text } from '@mantine/core'
+import { Anchor, Box, Button, Group, Paper, SimpleGrid, Skeleton, Text } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
 import type { ReactNode } from 'react'
@@ -13,6 +13,7 @@ import { StatusBadge } from '@/components/StatusBadge'
 import { NotFoundPage } from '@/features/errors/NotFoundPage'
 import { useCan } from '@/hooks/usePermissions'
 import { formatDate, formatDateTime } from '@/lib/format'
+import { EmployeeAssetsBlock } from '@/features/assets/EmployeeAssetsBlock'
 import { EmployeeFormDrawer } from './EmployeeFormDrawer'
 import { useDeleteEmployee, useEmployee } from './queries'
 
@@ -142,6 +143,9 @@ export function EmployeeDetailPage() {
           </Field>
         )}
       </Paper>
+      <Box mt="md">
+        <EmployeeAssetsBlock employeeId={employee.id} dismissed={employee.status === 'dismissed'} />
+      </Box>
       <EmployeeFormDrawer opened={editing} employee={employee} onClose={() => setEditing(false)} />
     </>
   )

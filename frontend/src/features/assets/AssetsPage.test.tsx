@@ -72,15 +72,18 @@ describe('AssetsPage', () => {
 
     await userEvent.click(await screen.findByRole('button', { name: i18n.t('assets:actions.create') }))
     const drawer = within(await screen.findByRole('dialog'))
-    await userEvent.type(drawer.getByRole('textbox', { name: /^Nomi/ }), 'Dell OptiPlex 7090')
+    // paste: one input event instead of one per keystroke in this large form
+    await userEvent.click(drawer.getByRole('textbox', { name: /^Nomi/ }))
+    await userEvent.paste('Dell OptiPlex 7090')
     await userEvent.click(drawer.getByRole('combobox', { name: /Toifa/ }))
     await userEvent.click(await screen.findByRole('option', { name: 'Kompyuter, monoblok, noutbuk' }))
-    await userEvent.type(drawer.getByRole('textbox', { name: 'IP manzil' }), '10.20.1.999')
+    await userEvent.click(drawer.getByRole('textbox', { name: 'IP manzil' }))
+    await userEvent.paste('10.20.1.999')
     await userEvent.click(drawer.getByRole('button', { name: i18n.t('common:actions.save') }))
     expect(await screen.findByText(i18n.t('validation:ip'))).toBeInTheDocument()
 
     await userEvent.clear(drawer.getByRole('textbox', { name: 'IP manzil' }))
-    await userEvent.type(drawer.getByRole('textbox', { name: 'IP manzil' }), '10.20.1.99')
+    await userEvent.paste('10.20.1.99')
     await userEvent.click(drawer.getByRole('button', { name: i18n.t('common:actions.save') }))
 
     await waitFor(() => expect(router.state.location.pathname).toBe('/assets/7'))
