@@ -51,6 +51,18 @@ o'zgartirgach, bu yerda belgilanadi.
 | Q21 | Eksport fayllari qancha saqlanadi? | 7 kun; PDF 2000 qatordan oshsa Excel tavsiya qilinadi | ❓ |
 | Q22 | Ichki izohni kim ko'radi? | Faqat ariza tashkilotiga kirishi bor `helpdesk.process` egalari (murojaatchi va kuzatuvchilar ko'rmaydi) | ❓ |
 
+## 3-bosqich (IT aktivlar) bo'yicha ochiq savollar
+
+| # | Savol | Standart yechim (amalda) | Holat |
+|---|---|---|---|
+| Q23 | Inventar raqami kim tomonidan beriladi? | Buxgalteriya raqami qo'lda kiritiladi; bo'sh bo'lsa tizim `AT-000001` beradi | ❓ |
+| Q24 | Hisobdan chiqarishni kim tasdiqlaydi? | `assets.dispose` ruxsati — standart bo'yicha markaziy AT rahbari | ❓ |
+| Q25 | Inventarizatsiyada topilmagan aktiv avtomatik "yo'qolgan" bo'ladimi? | Yo'q — hisobotda ko'rsatiladi, holatni mas'ul xodim o'zi o'zgartiradi | ❓ |
+| Q26 | Ko'chirishda qabul qiluvchi tomon aktivni kimga biriktiradi? | Qabul qilingach aktiv "omborda" holatida, bo'lim/joylashuv/MJSh bo'sh — qabul qiluvchi o'zi to'ldiradi | ❓ |
+| Q27 | Kafolat ogohlantirishi necha kun oldin? | 30 kun oldin, har kuni 08:00 da, har aktiv uchun bir marta | ❓ |
+| Q28 | Ishdan bo'shagan xodim aktivlari | Avtomatik qaytarilmaydi; tashkilot AT mas'ullariga ro'yxat bilan xabar yuboriladi | ❓ |
+| Q29 | Dalolatnoma shakli | Tizim shakli (o'zbek tilida): tashkilotlar, aktivlar ro'yxati, imzo joylari. Korxona shabloni bo'lsa, almashtirish mumkin | ❓ |
+
 ## Infratuzilma bo'yicha savollar
 
 | # | Savol | Standart yechim | Holat |

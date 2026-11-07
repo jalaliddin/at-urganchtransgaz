@@ -221,7 +221,7 @@ Sozlamalar ro'yxati, turi, standart qiymati va validatsiyasi kodda
 
 ## 4. Rollar va ruxsatlar matritsasi
 
-1–2-bosqich ruxsatlari (keyingi bosqichlar o'z modullarini qo'shadi). Ruxsatsiz ham har bir foydalanuvchi o'zi yuborgan arizalarni ko'radi.
+1–3-bosqich ruxsatlari (keyingi bosqichlar o'z modullarini qo'shadi). Ruxsatsiz ham har bir foydalanuvchi o'zi yuborgan arizalarni ko'radi.
 
 | Ruxsat | super-admin | central-it-head | central-it-staff | org-it-responsible | org-head | employee | accountant | auditor |
 |---|---|---|---|---|---|---|---|---|
@@ -249,6 +249,10 @@ Sozlamalar ro'yxati, turi, standart qiymati va validatsiyasi kodda
 | helpdesk.manage (kategoriya, SLA, kalendar) | ✓ | ✓ | | | | | | |
 | documents.view | ✓ | ✓ | ✓ | ✓ | | | ✓ | ✓ |
 | documents.manage | ✓ | ✓ | ✓ | ✓ | | | ✓ | |
+| assets.view / export | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
+| assets.create / update / assign / transfer | ✓ | ✓ | ✓ | ✓ | | | | |
+| assets.inventory | ✓ | ✓ | ✓ | ✓ | | | ✓ | |
+| assets.delete / dispose (tasdiqlash) / manage_catalog | ✓ | ✓ | | | | | | |
 
 Ma'lumot **doirasi** rolga emas, `user_organization_access`ga bog'liq.
 Rollar nomlari: Super Admin, Markaziy AT rahbari, Markaziy AT xodimi,
@@ -337,7 +341,48 @@ Indekslar: `(organization_id, status)`, `(assignee_id, status)`, `(requester_use
 ### `users` (qo'shimcha)
 `notification_preferences` (json): `{"mail_muted": ["ticket_commented", …]}`.
 
-## 6. Keyingi bosqichlar jadvallari (reja)
+## 6. 3-bosqich jadvallari (IT aktivlar va CMDB)
+
+```mermaid
+erDiagram
+    asset_categories ||--o{ asset_models : ""
+    manufacturers ||--o{ asset_models : ""
+    organizations ||--o{ locations : ""
+    organizations ||--o{ assets : ""
+    asset_categories ||--o{ assets : ""
+    asset_models ||--o{ assets : ""
+    locations ||--o{ assets : ""
+    employees ||--o{ assets : "holder / responsible"
+    assets ||--o{ asset_events : ""
+    assets ||--o{ asset_assignments : ""
+    assets ||--o{ asset_relations : "CMDB"
+    assets ||--o{ asset_attachments : ""
+    assets ||--o{ asset_maintenances : ""
+    helpdesk_tickets ||--o{ asset_maintenances : "ixtiyoriy"
+    assets ||--o{ asset_disposals : ""
+    asset_transfers ||--o{ asset_transfer_items : ""
+    assets ||--o{ asset_transfer_items : ""
+    inventory_sessions ||--o{ inventory_items : ""
+    assets ||--o{ inventory_items : ""
+```
+
+| Jadval | Asosiy ustunlar / qoidalar |
+|---|---|
+| `number_sequences` | `key` (PK, masalan `asset`, `transfer:2026`), `last_number` — bitta `INSERT … ON DUPLICATE KEY UPDATE` bilan, tranzaksiya ichida (bo'shliqsiz) |
+| `asset_categories` | `code` (seed, spec §5.4 dagi 10 guruh), `name`, `name_ru`, `is_networked` (5-bosqich monitoringi uchun), `is_active`, `sort_order` |
+| `manufacturers`, `asset_models` | ishlab chiqaruvchi (unique nom); model = ishlab chiqaruvchi + toifa + nom (+ `specs`) |
+| `locations` | `organization_id`, `parent_id?` (bino → xona, shu tashkilot ichida), `name`, `code?` |
+| `assets` | `inventory_number` (unique; bo'sh bo'lsa `AT-NNNNNN`), `organization_id`, `department_id?`, `category_id`, `manufacturer_id?`, `model_id?`, `serial_number`, `hostname`, `ip_address`, `mac_address` (`AA:BB:…`), `vlan`, `subnet`, `status` (in_stock, in_use, in_repair, reserve, written_off, lost), `previous_status` (ta'mirdan keyin tiklash), `holder_employee_id`, `responsible_employee_id` (moddiy javobgar), `location_id`, `room`, `purchase_date`, `warranty_until`, `warranty_notified_for`, `cost` decimal(15,2), `supplier`, `specs`, `notes`, `transfer_id` (ochiq ko'chirishda — aktiv faqat o'qiladi) |
+| `asset_events` | append-only tarix: created, updated, status_changed, assigned, returned, transferred, maintenance_opened/closed, disposal_requested/approved/rejected, relation_added/removed, attachment_added/removed, inventory_found |
+| `asset_assignments` | `asset_id`, `organization_id`, `employee_id`, `assigned_at/by`, `returned_at/by`, izohlar (ochiq = `returned_at IS NULL`) |
+| `asset_relations` | `asset_id → related_asset_id`, `type` (connected_to, installed_in, part_of, depends_on), `note` (port/slot) |
+| `asset_attachments` | aktiv fayllari (`stored_files`, private) |
+| `asset_maintenances` | `status` (open/closed), `started_at`, `finished_at`, `vendor`, `description`, `result`, `cost`, `ticket_id?` |
+| `asset_disposals` | `status` (pending/approved/rejected), `reason`, `act_number`, so'rovchi va qaror qiluvchi |
+| `asset_transfers` (+ `asset_transfer_items`) | `number` `TR-YYYY-NNNNN`, `from_/to_organization_id`, `status` (draft → sent → received / cancelled), `act_file_id` (dalolatnoma PDF), kim/qachon |
+| `inventory_sessions` (+ `inventory_items`) | tashkilot (+ quyi tashkilotlar), `status` (open/closed), hisoblagichlar; item: `inventory_number`, `expected`, `found_at`, `asset_id?` |
+
+## 7. Keyingi bosqichlar jadvallari (reja)
 
 Har bir bosqich boshida ushbu bo'lim batafsil sxema bilan yangilanadi.
 Barcha tashkilotga tegishli jadvallar `organization_id` ustuniga va
@@ -388,7 +433,7 @@ erDiagram
 | Bosqich | Jadvallar |
 |---|---|
 | 2 — Helpdesk | ✅ §5 da (baho `helpdesk_tickets.rating` ustunida, alohida jadval shart emas) |
-| 3 — Aktivlar | asset_categories, manufacturers, asset_models, locations, assets, asset_assignments, asset_transfers (+ dalolatnoma), asset_maintenance, asset_disposals, inventory_sessions, inventory_session_items |
+| 3 — Aktivlar | ✅ §6 da |
 | 4 — Ombor, talabnomalar | warehouses, units, inventory_items (`track_batches`, `min_quantity`), stock_balances (`warehouse_id, item_id, batch` UNIQUE, `quantity DECIMAL(18,3)` CHECK ≥ 0), stock_movements (yagona jurnal), stock_receipts, stock_issues, stock_transfers; requisitions, requisition_items, requisition_approvals, requisition_histories, requisition_fulfillments |
 | 5 — Monitoring, dasturlar | monitoring_policies, network_devices, monitoring_checks (partitsiya/retention), monitoring_events, monitoring_allowlist (CIDR); software_catalog, software_licenses, software_installations, software_policies, antivirus_statuses, device_agents, agent_tokens (hash), agent_checkins |
 | 6 — SIM, xizmatlar | mobile_operators, sim_cards (ICCID shifrlangan), sim_assignments, sim_histories, sim_requests; service_providers, service_contracts, service_services, service_invoices, service_payments |

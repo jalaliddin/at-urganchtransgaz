@@ -252,7 +252,31 @@ himoyalangan.
 
 `PATCH /auth/me` endi `notification_preferences.mail_muted` (email orqali yubormaslik turlari) ni ham qabul qiladi.
 
-## 9. Misol
+## 9. 3-bosqich endpointlari (IT aktivlar)
+
+| Metod | Yo'l | Ruxsat / izoh |
+|---|---|---|
+| GET | `/asset-categories`, `/manufacturers`, `/asset-models`, `/locations` | aktivlardan foydalanuvchi (`assets.view/create/inventory`) |
+| POST/PUT/DELETE | `/asset-categories`, `/manufacturers`, `/asset-models` | `assets.manage_catalog`; ishlatilayotgan yozuv — 409 |
+| POST/PUT/DELETE | `/locations` | `assets.update`, o'z tashkiloti doirasida |
+| GET | `/assets` | `assets.view` — filtr: `status` (vergul), `category`, `organization` (daraxt), `department`, `location`, `holder` (`none`/id), `responsible`, `model`, `manufacturer`, `warranty` (`expiring`/`expired`); `search` (inventar, seriya, hostname, IP, MAC, nom) |
+| POST / GET / PATCH / DELETE | `/assets[/{id}]` | `assets.create` / `view` / `update` / `delete` (tarixi bor aktivni o'chirib bo'lmaydi — 409). PATCH'da `organization_id` va `status` taqiqlangan |
+| GET | `/assets/lookup/{inventar}` | QR yorlig'i maqsadi; doiradan tashqarida — 404 |
+| GET | `/assets/stats` | `assets.view` — holat, toifa, tashkilot kesimi, jami qiymat, kafolat |
+| GET | `/assets/mine` | har qanday foydalanuvchi — o'ziga biriktirilgan aktivlar |
+| POST | `/assets/{id}/status` | `assets.update` — faqat `in_stock`, `reserve`, `lost` |
+| POST | `/assets/{id}/assign`, `/return` | `assets.assign` — `{employee_id, note}` |
+| GET | `/assets/{id}/events`, `/assignments`, `/attachments`, `/relations`, `/maintenances`, `/documents` | `assets.view` |
+| POST/DELETE | `/assets/{id}/attachments`, `/relations` | `assets.update` |
+| POST | `/assets/{id}/maintenances`, `/maintenances/{m}/close` | `assets.update` — `in_repair` ↔ oldingi holat |
+| POST | `/assets/{id}/disposals` | `assets.update` — hisobdan chiqarish so'rovi |
+| GET / POST | `/asset-disposals`, `/{d}/approve`, `/{d}/reject` | ro'yxat — `assets.view`; qaror — `assets.dispose` |
+| GET / POST | `/asset-transfers`, `/{t}`, `/{t}/items`, `/{t}/send`, `/{t}/receive`, `/{t}/cancel` | `assets.transfer`: jo'natuvchi — tahrirlash/jo'natish/bekor qilish, qabul qiluvchi — qabul; dalolatnoma `act.uuid` → `/files/{uuid}` |
+| GET / POST | `/inventory-sessions`, `/{s}`, `/{s}/items?filter[state]=found|missing|unexpected`, `/{s}/scan`, `/{s}/close` | boshlash/skan/yakunlash — `assets.inventory`; `code` — inventar raqami yoki QR URL |
+| GET | `/employees/{id}/assets` | `assets.view` |
+| POST | `/exports` `{type: "assets"}` | `assets.export` |
+
+## 10. Misol
 
 ```http
 POST /api/v1/employees HTTP/1.1
