@@ -68,4 +68,6 @@ return [
     'transfer_closed_assignment' => ":number ko'chirish bilan yopildi",
     'asset_repair_open' => "Aktivning ochiq ta'miri bor. Avval uni yakunlang.",
     'asset_disposal_pending' => "Bu aktivni hisobdan chiqarish so'rovi allaqachon ko'rib chiqilmoqda.",
+    'inventory_open_exists' => 'Bu tashkilot uchun ochiq inventarizatsiya bor. Avval uni yakunlang.',
+    'inventory_closed' => 'Inventarizatsiya yakunlangan.',
 ];

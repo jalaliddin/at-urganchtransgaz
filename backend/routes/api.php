@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\Assets\AssetController;
 use App\Http\Controllers\Api\V1\Assets\AssetDetailController;
 use App\Http\Controllers\Api\V1\Assets\AssetLifecycleController;
 use App\Http\Controllers\Api\V1\Assets\AssetTransferController;
+use App\Http\Controllers\Api\V1\Assets\InventorySessionController;
 use App\Http\Controllers\Api\V1\Assets\LocationController;
 use App\Http\Controllers\Api\V1\Audit\AuditLogController;
 use App\Http\Controllers\Api\V1\Auth\ForgotPasswordController;
@@ -166,6 +167,14 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::post('assets/{asset}/maintenances/{maintenance}/close', [AssetLifecycleController::class, 'closeMaintenance'])
         ->whereNumber(['asset', 'maintenance'])->name('assets.maintenances.close');
     Route::post('assets/{asset}/disposals', [AssetLifecycleController::class, 'requestDisposal'])->whereNumber('asset')->name('assets.disposals.store');
+
+    Route::get('inventory-sessions', [InventorySessionController::class, 'index'])->name('inventory-sessions.index');
+    Route::post('inventory-sessions', [InventorySessionController::class, 'store'])->name('inventory-sessions.store');
+    Route::get('inventory-sessions/{inventorySession}', [InventorySessionController::class, 'show'])->name('inventory-sessions.show');
+    Route::get('inventory-sessions/{inventorySession}/items', [InventorySessionController::class, 'items'])->name('inventory-sessions.items');
+    Route::post('inventory-sessions/{inventorySession}/scan', [InventorySessionController::class, 'scan'])
+        ->middleware('throttle:120,1')->name('inventory-sessions.scan');
+    Route::post('inventory-sessions/{inventorySession}/close', [InventorySessionController::class, 'close'])->name('inventory-sessions.close');
 
     Route::get('assets/mine', [AssetAssignmentController::class, 'mine'])->name('assets.mine');
     Route::post('assets/{asset}/assign', [AssetAssignmentController::class, 'assign'])->whereNumber('asset')->name('assets.assign');
