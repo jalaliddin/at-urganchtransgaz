@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\Assets\AssetAssignmentController;
 use App\Http\Controllers\Api\V1\Assets\AssetCatalogController;
 use App\Http\Controllers\Api\V1\Assets\AssetController;
 use App\Http\Controllers\Api\V1\Assets\AssetDetailController;
+use App\Http\Controllers\Api\V1\Assets\AssetLifecycleController;
 use App\Http\Controllers\Api\V1\Assets\AssetTransferController;
 use App\Http\Controllers\Api\V1\Assets\LocationController;
 use App\Http\Controllers\Api\V1\Audit\AuditLogController;
@@ -156,6 +157,15 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::post('asset-transfers/{assetTransfer}/send', [AssetTransferController::class, 'send'])->name('asset-transfers.send');
     Route::post('asset-transfers/{assetTransfer}/receive', [AssetTransferController::class, 'receive'])->name('asset-transfers.receive');
     Route::post('asset-transfers/{assetTransfer}/cancel', [AssetTransferController::class, 'cancel'])->name('asset-transfers.cancel');
+
+    Route::get('asset-disposals', [AssetLifecycleController::class, 'disposals'])->name('asset-disposals.index');
+    Route::post('asset-disposals/{assetDisposal}/approve', [AssetLifecycleController::class, 'approve'])->name('asset-disposals.approve');
+    Route::post('asset-disposals/{assetDisposal}/reject', [AssetLifecycleController::class, 'reject'])->name('asset-disposals.reject');
+    Route::get('assets/{asset}/maintenances', [AssetLifecycleController::class, 'maintenances'])->whereNumber('asset')->name('assets.maintenances.index');
+    Route::post('assets/{asset}/maintenances', [AssetLifecycleController::class, 'openMaintenance'])->whereNumber('asset')->name('assets.maintenances.store');
+    Route::post('assets/{asset}/maintenances/{maintenance}/close', [AssetLifecycleController::class, 'closeMaintenance'])
+        ->whereNumber(['asset', 'maintenance'])->name('assets.maintenances.close');
+    Route::post('assets/{asset}/disposals', [AssetLifecycleController::class, 'requestDisposal'])->whereNumber('asset')->name('assets.disposals.store');
 
     Route::get('assets/mine', [AssetAssignmentController::class, 'mine'])->name('assets.mine');
     Route::post('assets/{asset}/assign', [AssetAssignmentController::class, 'assign'])->whereNumber('asset')->name('assets.assign');

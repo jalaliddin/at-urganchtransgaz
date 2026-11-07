@@ -11,3 +11,4 @@ Artisan::command('inspire', function () {
 Schedule::command('helpdesk:check-sla')->everyFiveMinutes()->withoutOverlapping();
 Schedule::command('helpdesk:auto-close')->hourly()->withoutOverlapping();
 Schedule::command('exports:prune')->dailyAt('03:30');
+Schedule::command('assets:warranty-check')->dailyAt('08:00')->withoutOverlapping();

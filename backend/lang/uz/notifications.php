@@ -45,4 +45,14 @@ return [
         'subject' => ":number: aktivlar sizning tashkilotingizga jo'natildi",
         'line' => ":from tashkilotidan aktivlar jo'natildi. Ularni tekshirib, qabul qiling.",
     ],
+    'open_disposals' => "Hisobdan chiqarish so'rovlari",
+    'open_assets' => 'Aktivlarni ochish',
+    'asset_disposal_requested' => [
+        'subject' => ":number aktivini hisobdan chiqarish so'raldi",
+        'line' => ":number — :name aktivini hisobdan chiqarish so'rovi qarorni kutmoqda.",
+    ],
+    'asset_warranty_expiring' => [
+        'subject' => ':organization: :count ta aktiv kafolati tugayapti',
+        'line' => ':organization tashkilotida :count ta aktivning kafolati :days kun ichida tugaydi.',
+    ],
 ];

@@ -45,4 +45,14 @@ return [
         'subject' => ':number: активы отправлены в вашу организацию',
         'line' => 'Организация :from отправила активы. Проверьте и примите их.',
     ],
+    'open_disposals' => 'Запросы на списание',
+    'open_assets' => 'Открыть активы',
+    'asset_disposal_requested' => [
+        'subject' => 'Запрошено списание актива :number',
+        'line' => 'Запрос на списание актива :number — :name ожидает решения.',
+    ],
+    'asset_warranty_expiring' => [
+        'subject' => ':organization: истекает гарантия :count активов',
+        'line' => 'В организации :organization гарантия :count активов истекает в течение :days дней.',
+    ],
 ];

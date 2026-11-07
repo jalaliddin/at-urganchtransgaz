@@ -66,4 +66,6 @@ return [
     'transfer_assets_invalid' => "Faqat topshiruvchi tashkilotning hisobdan chiqarilmagan va boshqa ko'chirishda bo'lmagan aktivlarini qo'shish mumkin.",
     'transfer_empty' => "Ko'chirishda birorta ham aktiv yo'q.",
     'transfer_closed_assignment' => ":number ko'chirish bilan yopildi",
+    'asset_repair_open' => "Aktivning ochiq ta'miri bor. Avval uni yakunlang.",
+    'asset_disposal_pending' => "Bu aktivni hisobdan chiqarish so'rovi allaqachon ko'rib chiqilmoqda.",
 ];
