@@ -113,6 +113,8 @@ export const decideDisposal = (id: number, approve: boolean, note?: string) =>
 // Transfers
 export const listTransfers = (params: Params) =>
   api.get<Paginated<Transfer>>('/asset-transfers', { params }).then((r) => r.data)
+export const transferDestinations = () =>
+  data<{ id: number; name: string }[]>(api.get('/asset-transfers/destinations'))
 export const getTransfer = (id: number) => data<Transfer>(api.get(`/asset-transfers/${id}`))
 export const createTransfer = (input: {
   from_organization_id: number

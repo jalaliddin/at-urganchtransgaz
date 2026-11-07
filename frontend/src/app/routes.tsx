@@ -19,6 +19,8 @@ import { DocumentsPage } from '@/features/documents/DocumentsPage'
 import { ExportsPage } from '@/features/exports/ExportsPage'
 import { AssetDetailPage } from '@/features/assets/AssetDetailPage'
 import { AssetsPage } from '@/features/assets/AssetsPage'
+import { TransferDetailPage } from '@/features/assets/TransferDetailPage'
+import { TransfersPage } from '@/features/assets/TransfersPage'
 import { TicketsPage } from '@/features/helpdesk/TicketsPage'
 import { NotFoundPage } from '@/features/errors/NotFoundPage'
 import { OrganizationDetailPage } from '@/features/organizations/OrganizationDetailPage'
@@ -84,6 +86,18 @@ export const routes: RouteObject[] = [
                     element: <RequirePermission permission="assets.view" />,
                     children: [
                       { index: true, element: <AssetsPage /> },
+                      {
+                        path: 'transfers',
+                        handle: { crumb: 'nav:items.assetTransfers' },
+                        children: [
+                          { index: true, element: <TransfersPage /> },
+                          {
+                            path: ':id',
+                            element: <TransferDetailPage />,
+                            handle: { crumb: 'assets:transfers.number' },
+                          },
+                        ],
+                      },
                       { path: ':id', element: <AssetDetailPage />, handle: { crumb: 'assets:crumb' } },
                     ],
                   },
