@@ -77,7 +77,9 @@ export function AssetDialogs({ dialog, asset, openRepair, onClose }: Props) {
   const { errors, setErrors, capture } = useErrors()
   const [employeeId, setEmployeeId] = useState<number | null>(null)
   const [note, setNote] = useState('')
-  const [status, setStatus] = useState<AssetStatus>('reserve')
+  const [status, setStatus] = useState<AssetStatus>(
+    MANUAL_STATUSES.find((s) => s !== asset.status) ?? 'reserve',
+  )
   const [vendor, setVendor] = useState('')
   const [ticketId, setTicketId] = useState('')
   const [cost, setCost] = useState<number | string>('')

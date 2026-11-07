@@ -49,5 +49,11 @@
   },
   "deleteConfirm": "Удалить документ «{{title}}»?",
   "saved": "Документ сохранён",
-  "versionAdded": "Загружена версия {{version}}"
+  "versionAdded": "Загружена версия {{version}}",
+  "linkType": "Тип связи",
+  "linkTarget": "Объект (номер или название)",
+  "linkTypes": {
+    "ticket": "Заявка",
+    "asset": "Актив"
+  }
 }

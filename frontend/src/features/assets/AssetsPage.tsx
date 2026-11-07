@@ -22,7 +22,7 @@ export function AssetsPage() {
   const navigate = useNavigate()
   const canCreate = useCan('assets.create')
   const canExport = useCan('assets.export')
-  const canCatalog = useCan('assets.manage_catalog')
+  const canSettings = useCan(['assets.manage_catalog', 'assets.update'], 'any')
   const params = useTableParams({
     defaultSort: 'inventory_number',
     filterKeys: FILTER_KEYS,
@@ -65,7 +65,7 @@ export function AssetsPage() {
             >
               {t('actions.report')}
             </Button>
-            {canCatalog && (
+            {canSettings && (
               <Button
                 component={Link}
                 to="/assets/settings"

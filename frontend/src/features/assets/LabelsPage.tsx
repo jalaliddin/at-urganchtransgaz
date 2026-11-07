@@ -4,7 +4,8 @@ import QRCode from 'qrcode'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useSearchParams } from 'react-router'
-import { useAssets } from './queries'
+import { useQuery } from '@tanstack/react-query'
+import { listAssets } from './api'
 import type { Asset } from './types'
 
 /** The QR encodes the lookup URL, so any phone camera opens the asset card. */
@@ -60,7 +61,19 @@ export function LabelsPage() {
     .split(',')
     .filter((v) => /^\d+$/.test(v))
     .slice(0, 500)
-  const list = useAssets({ 'filter[id]': ids.join(','), per_page: 100 }, ids.length > 0)
+  // The API returns at most 100 per page: fetch the selection in chunks of 100.
+  const list = useQuery({
+    queryKey: ['assets', 'labels', ids.join(',')],
+    queryFn: async () => {
+      const chunks: string[][] = []
+      for (let i = 0; i < ids.length; i += 100) chunks.push(ids.slice(i, i + 100))
+      const pages = await Promise.all(
+        chunks.map((chunk) => listAssets({ 'filter[id]': chunk.join(','), per_page: 100 })),
+      )
+      return pages.flatMap((p) => p.data)
+    },
+    enabled: ids.length > 0,
+  })
 
   return (
     <Stack p="md" gap="md" maw={1100} mx="auto">
@@ -80,7 +93,7 @@ export function LabelsPage() {
           <Button
             leftSection={<IconPrinter size={16} />}
             onClick={() => window.print()}
-            disabled={!list.data?.data.length}
+            disabled={!list.data?.length}
           >
             {t('labels.print')}
           </Button>
@@ -88,7 +101,7 @@ export function LabelsPage() {
       </Group>
       {ids.length === 0 && <Alert color="cobalt">{t('labels.empty')}</Alert>}
       <SimpleGrid cols={{ base: 1, xs: 2, md: 3 }} spacing="xs">
-        {list.data?.data.map((asset) => (
+        {list.data?.map((asset) => (
           <Label key={asset.id} asset={asset} />
         ))}
       </SimpleGrid>

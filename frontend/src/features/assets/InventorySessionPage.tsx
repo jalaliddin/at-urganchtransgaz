@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   Group,
+  Pagination,
   Progress,
   SegmentedControl,
   SimpleGrid,
@@ -56,6 +57,11 @@ const RESULT_COLORS: Record<ScanResult, MantineColor> = {
 function CameraScanner({ onCode, onStop }: { onCode: (code: string) => void; onStop: () => void }) {
   const video = useRef<HTMLVideoElement>(null)
   const last = useRef<string>('')
+  // Latest callbacks without restarting the camera: the stream is opened once per mount.
+  const handlers = useRef({ onCode, onStop })
+  useEffect(() => {
+    handlers.current = { onCode, onStop }
+  })
 
   useEffect(() => {
     const Detector = barcodeDetector()
@@ -79,18 +85,18 @@ function CameraScanner({ onCode, onStop }: { onCode: (code: string) => void; onS
             const value = codes[0]?.rawValue
             if (value && value !== last.current) {
               last.current = value
-              onCode(value)
+              handlers.current.onCode(value)
             }
           })
         }, 400)
       })
-      .catch(() => onStop())
+      .catch(() => handlers.current.onStop())
     return () => {
       stopped = true
       window.clearInterval(timer)
       stream?.getTracks().forEach((track) => track.stop())
     }
-  }, [onCode, onStop])
+  }, [])
 
   return (
     <video
@@ -108,7 +114,8 @@ export function InventorySessionPage() {
   const session = useSession(id)
   const canScan = useCan('assets.inventory')
   const [state, setState] = useState<'found' | 'missing' | 'unexpected'>('missing')
-  const items = useSessionItems(id, { 'filter[state]': state, per_page: 50 })
+  const [page, setPage] = useState(1)
+  const items = useSessionItems(id, { 'filter[state]': state, per_page: 50, page })
   const [code, setCode] = useState('')
   const [feedback, setFeedback] = useState<{ result: ScanResult; number: string; name?: string } | null>(null)
   const [camera, setCamera] = useState(false)
@@ -120,15 +127,21 @@ export function InventorySessionPage() {
 
   const submit = (value: string) => {
     if (value.trim() === '') return
+    // Clear at once: a keyboard-wedge scanner may already be typing the next label.
+    setCode('')
+    input.current?.focus()
     scan.mutate(value, {
-      onSuccess: (r) => {
-        setFeedback({ result: r.result, number: r.item.inventory_number, name: r.item.asset?.name })
-        setCode('')
-        input.current?.focus()
-      },
+      onSuccess: (r) =>
+        setFeedback({ result: r.result, number: r.item.inventory_number, name: r.item.asset?.name }),
       onError: (e) => notifications.show({ color: 'red', message: toApiError(e).message }),
     })
   }
+
+  // A scanning screen: put the cursor in the field so a USB/Bluetooth scanner can type straight in.
+  const scanning = session.data?.status === 'open' && canScan
+  useEffect(() => {
+    if (scanning) input.current?.focus()
+  }, [scanning])
 
   if (session.error instanceof ApiError && session.error.status === 404) return <NotFoundPage />
   if (session.error) return <ErrorState error={session.error} onRetry={() => void session.refetch()} />
@@ -245,7 +258,10 @@ export function InventorySessionPage() {
             <SegmentedControl
               aria-label={t('fields.status')}
               value={state}
-              onChange={(v) => setState(v as typeof state)}
+              onChange={(v) => {
+                setState(v as typeof state)
+                setPage(1)
+              }}
               data={(['missing', 'found', 'unexpected'] as const).map((k) => ({
                 value: k,
                 label: t(`inventory.state.${k}`),
@@ -254,6 +270,14 @@ export function InventorySessionPage() {
           </Group>
           <Table.ScrollContainer minWidth={520}>
             <Table verticalSpacing="xs">
+              <Table.Thead>
+                <Table.Tr>
+                  <Table.Th>{t('fields.inventory_number')}</Table.Th>
+                  <Table.Th>{t('fields.name')}</Table.Th>
+                  <Table.Th>{t('fields.status')}</Table.Th>
+                  <Table.Th>{t('inventory.found')}</Table.Th>
+                </Table.Tr>
+              </Table.Thead>
               <Table.Tbody>
                 {items.data?.data.map((i) => (
                   <Table.Tr key={i.id}>
@@ -281,6 +305,11 @@ export function InventorySessionPage() {
               </Table.Tbody>
             </Table>
           </Table.ScrollContainer>
+          {(items.data?.meta.last_page ?? 1) > 1 && (
+            <Group justify="center" p="sm">
+              <Pagination total={items.data?.meta.last_page ?? 1} value={page} onChange={setPage} size="sm" />
+            </Group>
+          )}
         </Card>
       </Stack>
     </>

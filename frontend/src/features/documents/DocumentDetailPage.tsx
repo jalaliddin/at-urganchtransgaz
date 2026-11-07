@@ -6,6 +6,7 @@ import {
   FileInput,
   Group,
   Modal,
+  SegmentedControl,
   Select,
   SimpleGrid,
   Stack,
@@ -27,11 +28,14 @@ import { PageHeader } from '@/components/PageHeader'
 import { NotFoundPage } from '@/features/errors/NotFoundPage'
 import { fileUrl } from '@/features/exports/api'
 import { formatSize } from '@/features/helpdesk/files'
+import { useAssets } from '@/features/assets/queries'
 import { useTickets } from '@/features/helpdesk/queries'
 import { useCan } from '@/hooks/usePermissions'
 import { formatDate, formatDateTime } from '@/lib/format'
 import { DocumentFormModal } from './DocumentFormModal'
 import { useDocument, useDocumentMutations } from './queries'
+
+type LinkType = 'ticket' | 'asset'
 
 const fail = (error: unknown) => notifications.show({ color: 'red', message: toApiError(error).message })
 
@@ -81,27 +85,57 @@ function VersionModal({ documentId, onClose }: { documentId: number; onClose: ()
   )
 }
 
-function LinkModal({ documentId, onClose }: { documentId: number; onClose: () => void }) {
-  const { t } = useTranslation(['documents', 'helpdesk', 'common'])
+function LinkModal({
+  documentId,
+  types,
+  onClose,
+}: {
+  documentId: number
+  types: LinkType[]
+  onClose: () => void
+}) {
+  const { t } = useTranslation(['documents', 'common'])
   const { link } = useDocumentMutations(documentId)
+  const [type, setType] = useState<LinkType>(types[0] ?? 'ticket')
   const [search, setSearch] = useState('')
   const [debounced] = useDebouncedValue(search, 300)
   const [selected, setSelected] = useState<string | null>(null)
-  const tickets = useTickets({ search: debounced, per_page: 10 }, debounced.length >= 2)
+  const searching = debounced.length >= 2
+  const tickets = useTickets({ search: debounced, per_page: 10 }, type === 'ticket' && searching)
+  const assets = useAssets({ search: debounced, per_page: 10 }, type === 'asset' && searching)
+  const options =
+    type === 'ticket'
+      ? (tickets.data?.data ?? []).map((tk) => ({
+          value: String(tk.id),
+          label: `${tk.number} — ${tk.title}`,
+        }))
+      : (assets.data?.data ?? []).map((a) => ({
+          value: String(a.id),
+          label: `${a.inventory_number} — ${a.name}`,
+        }))
 
   return (
     <Modal opened onClose={onClose} title={t('actions.link')} centered>
       <Stack>
+        {types.length > 1 && (
+          <SegmentedControl
+            aria-label={t('linkType')}
+            value={type}
+            onChange={(v) => {
+              setType(v as LinkType)
+              setSelected(null)
+              setSearch('')
+            }}
+            data={types.map((v) => ({ value: v, label: t(`linkTypes.${v}`) }))}
+          />
+        )}
         <Select
-          label={t('helpdesk:workflow.linkTicket')}
+          label={t('linkTarget')}
           searchable
           searchValue={search}
           onSearchChange={setSearch}
-          filter={({ options }) => options}
-          data={(tickets.data?.data ?? []).map((tk) => ({
-            value: String(tk.id),
-            label: `${tk.number} — ${tk.title}`,
-          }))}
+          filter={({ options: o }) => o}
+          data={options}
           value={selected}
           onChange={setSelected}
           data-autofocus
@@ -110,7 +144,10 @@ function LinkModal({ documentId, onClose }: { documentId: number; onClose: () =>
           <Button
             disabled={selected === null}
             loading={link.isPending}
-            onClick={() => selected && link.mutate(Number(selected), { onSuccess: onClose, onError: fail })}
+            onClick={() =>
+              selected &&
+              link.mutate({ type, targetId: Number(selected) }, { onSuccess: onClose, onError: fail })
+            }
           >
             {t('common:actions.save')}
           </Button>
@@ -127,6 +164,11 @@ export function DocumentDetailPage() {
   const query = useDocument(id)
   const { remove, unlink } = useDocumentMutations(id)
   const canSeeTickets = useCan(['helpdesk.view', 'helpdesk.create'], 'any')
+  const canSeeAssets = useCan('assets.view')
+  const linkTypes: LinkType[] = [
+    ...(canSeeTickets ? (['ticket'] as const) : []),
+    ...(canSeeAssets ? (['asset'] as const) : []),
+  ]
   const [dialog, setDialog] = useState<'edit' | 'version' | 'link' | null>(null)
 
   if (query.error instanceof ApiError && query.error.status === 404) return <NotFoundPage />
@@ -241,7 +283,7 @@ export function DocumentDetailPage() {
               <Title order={3} fz="sm">
                 {t('fields.links')}
               </Title>
-              {doc.can_manage && canSeeTickets && (
+              {doc.can_manage && linkTypes.length > 0 && (
                 <Button
                   size="compact-sm"
                   variant="subtle"
@@ -259,7 +301,11 @@ export function DocumentDetailPage() {
             )}
             {(doc.links ?? []).map((l) => (
               <Group key={l.id} justify="space-between" wrap="nowrap">
-                <Anchor component={Link} to={`/helpdesk/${l.target.id}`} size="sm">
+                <Anchor
+                  component={Link}
+                  to={l.type === 'asset' ? `/assets/${l.target.id}` : `/helpdesk/${l.target.id}`}
+                  size="sm"
+                >
                   {l.target.number} {l.target.title ? `— ${l.target.title}` : ''}
                 </Anchor>
                 {doc.can_manage && (
@@ -280,7 +326,9 @@ export function DocumentDetailPage() {
       </SimpleGrid>
       {dialog === 'edit' && <DocumentFormModal document={doc} onClose={() => setDialog(null)} />}
       {dialog === 'version' && <VersionModal documentId={doc.id} onClose={() => setDialog(null)} />}
-      {dialog === 'link' && <LinkModal documentId={doc.id} onClose={() => setDialog(null)} />}
+      {dialog === 'link' && (
+        <LinkModal documentId={doc.id} types={linkTypes} onClose={() => setDialog(null)} />
+      )}
     </>
   )
 }

@@ -19,6 +19,7 @@ function useInvalidate() {
     Promise.all([
       queryClient.invalidateQueries({ queryKey: ['documents'] }),
       queryClient.invalidateQueries({ queryKey: ['helpdesk', 'ticket'] }),
+      queryClient.invalidateQueries({ queryKey: ['assets'] }),
     ])
 }
 
@@ -40,7 +41,8 @@ export function useDocumentMutations(id?: number) {
       onSuccess: invalidate,
     }),
     link: useMutation({
-      mutationFn: (ticketId: number) => docs.linkDocument(id ?? 0, 'ticket', ticketId),
+      mutationFn: ({ type, targetId }: { type: 'ticket' | 'asset'; targetId: number }) =>
+        docs.linkDocument(id ?? 0, type, targetId),
       onSuccess: invalidate,
     }),
     unlink: useMutation({
