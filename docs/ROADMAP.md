@@ -80,7 +80,7 @@ Holat (2026-11-04): bajarildi. SLA ish vaqti bo'yicha (Du–Ju 09:00–18:00, tu
 sozlamada); `helpdesk:check-sla` (5 daqiqada), `helpdesk:auto-close` (soatda), `exports:prune` (kunda).
 Spec: `docs/superpowers/specs/2026-11-03-phase2-helpdesk-design.md`, ochiq savollar: Q14–Q22.
 
-## 3-bosqich — IT aktivlar va CMDB ⏳
+## 3-bosqich — IT aktivlar va CMDB ✅
 
 - Aktiv toifalari, ishlab chiqaruvchi/model ma'lumotnomalari, joylashuvlar
 - Aktiv kartasi (inventar raqami, serial, MAC, IP, kafolat, qiymat, fayllar)
@@ -89,6 +89,11 @@ Spec: `docs/superpowers/specs/2026-11-03-phase2-helpdesk-design.md`, ochiq savol
 - Inventarizatsiya sessiyalari (faktik vs hisobdagi), QR/barcode
 - Ta'mir tarixi, kafolat ogohlantirishlari, hisobdan chiqarish
 - Xodim ishdan bo'shaganda aktivlarni qaytarish jarayoni
+
+Holat (2026-11-07): bajarildi. QR yorliqlar (telefon kamerasi kartani ochadi), inventarizatsiya skaneri
+(USB/Bluetooth skaner, qo'lda kiritish, Chrome/Android kamerasi), ko'chirish dalolatnomasi PDF,
+`assets:warranty-check` (har kuni 08:00). Spec: `docs/superpowers/specs/2026-11-07-phase3-assets-design.md`,
+ochiq savollar: Q23–Q29.
 
 ## 4-bosqich — Ombor va talabnomalar ⏳
 

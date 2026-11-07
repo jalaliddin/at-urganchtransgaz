@@ -271,6 +271,7 @@ himoyalangan.
 | POST | `/assets/{id}/maintenances`, `/maintenances/{m}/close` | `assets.update` — `in_repair` ↔ oldingi holat |
 | POST | `/assets/{id}/disposals` | `assets.update` — hisobdan chiqarish so'rovi |
 | GET / POST | `/asset-disposals`, `/{d}/approve`, `/{d}/reject` | ro'yxat — `assets.view`; qaror — `assets.dispose` |
+| GET | `/asset-transfers/destinations` | `assets.transfer` — barcha faol tashkilotlar (faqat id va nom) |
 | GET / POST | `/asset-transfers`, `/{t}`, `/{t}/items`, `/{t}/send`, `/{t}/receive`, `/{t}/cancel` | `assets.transfer`: jo'natuvchi — tahrirlash/jo'natish/bekor qilish, qabul qiluvchi — qabul; dalolatnoma `act.uuid` → `/files/{uuid}` |
 | GET / POST | `/inventory-sessions`, `/{s}`, `/{s}/items?filter[state]=found|missing|unexpected`, `/{s}/scan`, `/{s}/close` | boshlash/skan/yakunlash — `assets.inventory`; `code` — inventar raqami yoki QR URL |
 | GET | `/employees/{id}/assets` | `assets.view` |
