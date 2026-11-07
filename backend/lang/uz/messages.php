@@ -50,4 +50,6 @@ return [
     'ticket_link_invalid' => "Bog'lanadigan ariza topilmadi yoki uni bog'lab bo'lmaydi.",
     'ticket_link_exists' => "Bu arizalar allaqachon bog'langan.",
     'document_link_exists' => "Hujjat bu obyektga allaqachon bog'langan.",
+    'catalog_in_use' => "Bu yozuvdan foydalanilmoqda (aktiv, model yoki ichki joylashuv bor). Avval ularni o'zgartiring.",
+    'location_parent_invalid' => "Yuqori joylashuv shu tashkilotning boshqa joylashuvi bo'lishi kerak.",
 ];

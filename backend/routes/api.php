@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Assets\AssetCatalogController;
+use App\Http\Controllers\Api\V1\Assets\LocationController;
 use App\Http\Controllers\Api\V1\Audit\AuditLogController;
 use App\Http\Controllers\Api\V1\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
@@ -126,6 +128,20 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::post('documents/{document}/links', [DocumentLinkController::class, 'store'])->name('documents.links.store');
     Route::delete('documents/{document}/links/{link}', [DocumentLinkController::class, 'destroy'])
         ->whereNumber('link')->name('documents.links.destroy');
+
+    Route::get('asset-categories', [AssetCatalogController::class, 'categories'])->name('asset-categories.index');
+    Route::post('asset-categories', [AssetCatalogController::class, 'storeCategory'])->name('asset-categories.store');
+    Route::put('asset-categories/{assetCategory}', [AssetCatalogController::class, 'updateCategory'])->name('asset-categories.update');
+    Route::delete('asset-categories/{assetCategory}', [AssetCatalogController::class, 'destroyCategory'])->name('asset-categories.destroy');
+    Route::get('manufacturers', [AssetCatalogController::class, 'manufacturers'])->name('manufacturers.index');
+    Route::post('manufacturers', [AssetCatalogController::class, 'storeManufacturer'])->name('manufacturers.store');
+    Route::put('manufacturers/{manufacturer}', [AssetCatalogController::class, 'updateManufacturer'])->name('manufacturers.update');
+    Route::delete('manufacturers/{manufacturer}', [AssetCatalogController::class, 'destroyManufacturer'])->name('manufacturers.destroy');
+    Route::get('asset-models', [AssetCatalogController::class, 'models'])->name('asset-models.index');
+    Route::post('asset-models', [AssetCatalogController::class, 'storeModel'])->name('asset-models.store');
+    Route::put('asset-models/{assetModel}', [AssetCatalogController::class, 'updateModel'])->name('asset-models.update');
+    Route::delete('asset-models/{assetModel}', [AssetCatalogController::class, 'destroyModel'])->name('asset-models.destroy');
+    Route::apiResource('locations', LocationController::class)->except(['show']);
 
     Route::get('exports', [ExportController::class, 'index'])->name('exports.index');
     Route::post('exports', [ExportController::class, 'store'])->middleware('throttle:exports')->name('exports.store');
