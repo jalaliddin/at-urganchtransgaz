@@ -40,4 +40,9 @@ return [
         'subject' => ":employee ishdan bo'shadi — aktivlarni qaytarib oling",
         'line' => ":employee ishdan bo'shadi, unda :count ta aktiv bor.",
     ],
+    'open_transfer' => "Ko'chirishni ochish",
+    'asset_transfer_incoming' => [
+        'subject' => ":number: aktivlar sizning tashkilotingizga jo'natildi",
+        'line' => ":from tashkilotidan aktivlar jo'natildi. Ularni tekshirib, qabul qiling.",
+    ],
 ];

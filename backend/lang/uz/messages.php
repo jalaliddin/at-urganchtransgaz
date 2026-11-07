@@ -63,4 +63,7 @@ return [
     'asset_employee_invalid' => "Xodim aktiv tashkilotining faol xodimi bo'lishi kerak.",
     'asset_reassigned' => 'Boshqa xodimga biriktirildi',
     'asset_not_held' => 'Aktiv hech kimga biriktirilmagan.',
+    'transfer_assets_invalid' => "Faqat topshiruvchi tashkilotning hisobdan chiqarilmagan va boshqa ko'chirishda bo'lmagan aktivlarini qo'shish mumkin.",
+    'transfer_empty' => "Ko'chirishda birorta ham aktiv yo'q.",
+    'transfer_closed_assignment' => ":number ko'chirish bilan yopildi",
 ];

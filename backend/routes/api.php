@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\Assets\AssetAssignmentController;
 use App\Http\Controllers\Api\V1\Assets\AssetCatalogController;
 use App\Http\Controllers\Api\V1\Assets\AssetController;
 use App\Http\Controllers\Api\V1\Assets\AssetDetailController;
+use App\Http\Controllers\Api\V1\Assets\AssetTransferController;
 use App\Http\Controllers\Api\V1\Assets\LocationController;
 use App\Http\Controllers\Api\V1\Audit\AuditLogController;
 use App\Http\Controllers\Api\V1\Auth\ForgotPasswordController;
@@ -145,6 +146,16 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::put('asset-models/{assetModel}', [AssetCatalogController::class, 'updateModel'])->name('asset-models.update');
     Route::delete('asset-models/{assetModel}', [AssetCatalogController::class, 'destroyModel'])->name('asset-models.destroy');
     Route::apiResource('locations', LocationController::class)->except(['show']);
+
+    Route::get('asset-transfers', [AssetTransferController::class, 'index'])->name('asset-transfers.index');
+    Route::post('asset-transfers', [AssetTransferController::class, 'store'])->name('asset-transfers.store');
+    Route::get('asset-transfers/{assetTransfer}', [AssetTransferController::class, 'show'])->name('asset-transfers.show');
+    Route::post('asset-transfers/{assetTransfer}/items', [AssetTransferController::class, 'addItems'])->name('asset-transfers.items.store');
+    Route::delete('asset-transfers/{assetTransfer}/items/{asset}', [AssetTransferController::class, 'removeItem'])
+        ->whereNumber('asset')->name('asset-transfers.items.destroy');
+    Route::post('asset-transfers/{assetTransfer}/send', [AssetTransferController::class, 'send'])->name('asset-transfers.send');
+    Route::post('asset-transfers/{assetTransfer}/receive', [AssetTransferController::class, 'receive'])->name('asset-transfers.receive');
+    Route::post('asset-transfers/{assetTransfer}/cancel', [AssetTransferController::class, 'cancel'])->name('asset-transfers.cancel');
 
     Route::get('assets/mine', [AssetAssignmentController::class, 'mine'])->name('assets.mine');
     Route::post('assets/{asset}/assign', [AssetAssignmentController::class, 'assign'])->whereNumber('asset')->name('assets.assign');

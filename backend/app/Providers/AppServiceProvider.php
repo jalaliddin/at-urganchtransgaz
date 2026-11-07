@@ -31,6 +31,7 @@ use App\Models\TicketSlaPolicy;
 use App\Models\User;
 use App\Models\UserOrganizationAccess;
 use App\Services\Assets\AssetAttachments;
+use App\Services\Assets\AssetTransferService;
 use App\Services\Documents\DocumentService;
 use App\Services\Files\FileAccess;
 use App\Services\Helpdesk\TicketAttachments;
@@ -139,6 +140,9 @@ class AppServiceProvider extends ServiceProvider
 
         $files->register(fn (User $user, StoredFile $file): ?bool => $this->app
             ->make(AssetAttachments::class)->canDownload($user, $file));
+
+        $files->register(fn (User $user, StoredFile $file): ?bool => $this->app
+            ->make(AssetTransferService::class)->canDownload($user, $file));
 
         Gate::define('assets.use', fn (User $user): bool => $user->canAny(['assets.view', 'assets.create', 'assets.inventory']));
         Gate::define('helpdesk.use', fn (User $user): bool => $user->canAny(['helpdesk.view', 'helpdesk.create', 'helpdesk.manage']));
