@@ -11,7 +11,11 @@ enum AssetStatus: string
     case WrittenOff = 'written_off';
     case Lost = 'lost';
 
-    /** Statuses a user may set directly; the others come from assignment, repair or write-off. */
+    /**
+     * Statuses a user may set directly; the others come from assignment, repair or write-off.
+     *
+     * @return list<self>
+     */
     public static function manual(): array
     {
         return [self::InStock, self::Reserve, self::Lost];

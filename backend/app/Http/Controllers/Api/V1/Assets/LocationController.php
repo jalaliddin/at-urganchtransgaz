@@ -9,7 +9,6 @@ use App\Models\Asset;
 use App\Models\Location;
 use App\Rules\AccessibleOrganization;
 use App\Support\ApiResponse;
-use App\Support\QueryFilters\OrganizationSubtreeFilter;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -23,7 +22,7 @@ class LocationController extends Controller
         Gate::authorize('assets.use');
         $query = Location::query()->with(['organization', 'parent'])->orderBy('name');
         if ($request->filled('filter.organization')) {
-            (new OrganizationSubtreeFilter)($query, $request->input('filter.organization'), 'organization');
+            $query->withinOrganizationSubtree($request->integer('filter.organization'));
         }
 
         return ApiResponse::data($query->get()->map(fn ($l) => CatalogResource::location($l))->values());

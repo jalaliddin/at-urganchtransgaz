@@ -2,11 +2,21 @@
 
 namespace App\Providers;
 
+use App\Models\Asset;
+use App\Models\AssetAssignment;
+use App\Models\AssetCategory;
+use App\Models\AssetDisposal;
+use App\Models\AssetMaintenance;
+use App\Models\AssetModel;
+use App\Models\AssetTransfer;
 use App\Models\AuditLog;
 use App\Models\Department;
 use App\Models\Document;
 use App\Models\DocumentVersion;
 use App\Models\Employee;
+use App\Models\InventorySession;
+use App\Models\Location;
+use App\Models\Manufacturer;
 use App\Models\Organization;
 use App\Models\OrganizationItResponsible;
 use App\Models\ReportExport;
@@ -20,6 +30,7 @@ use App\Models\TicketComment;
 use App\Models\TicketSlaPolicy;
 use App\Models\User;
 use App\Models\UserOrganizationAccess;
+use App\Services\Assets\AssetAttachments;
 use App\Services\Documents\DocumentService;
 use App\Services\Files\FileAccess;
 use App\Services\Helpdesk\TicketAttachments;
@@ -79,16 +90,16 @@ class AppServiceProvider extends ServiceProvider
             'document' => Document::class,
             'document_version' => DocumentVersion::class,
             'report_export' => ReportExport::class,
-            'asset_category' => \App\Models\AssetCategory::class,
-            'manufacturer' => \App\Models\Manufacturer::class,
-            'asset_model' => \App\Models\AssetModel::class,
-            'location' => \App\Models\Location::class,
-            'asset' => \App\Models\Asset::class,
-            'asset_assignment' => \App\Models\AssetAssignment::class,
-            'asset_maintenance' => \App\Models\AssetMaintenance::class,
-            'asset_disposal' => \App\Models\AssetDisposal::class,
-            'asset_transfer' => \App\Models\AssetTransfer::class,
-            'inventory_session' => \App\Models\InventorySession::class,
+            'asset_category' => AssetCategory::class,
+            'manufacturer' => Manufacturer::class,
+            'asset_model' => AssetModel::class,
+            'location' => Location::class,
+            'asset' => Asset::class,
+            'asset_assignment' => AssetAssignment::class,
+            'asset_maintenance' => AssetMaintenance::class,
+            'asset_disposal' => AssetDisposal::class,
+            'asset_transfer' => AssetTransfer::class,
+            'inventory_session' => InventorySession::class,
         ]);
     }
 
@@ -125,6 +136,9 @@ class AppServiceProvider extends ServiceProvider
 
         $files->register(fn (User $user, StoredFile $file): ?bool => $this->app
             ->make(DocumentService::class)->canDownload($user, $file));
+
+        $files->register(fn (User $user, StoredFile $file): ?bool => $this->app
+            ->make(AssetAttachments::class)->canDownload($user, $file));
 
         Gate::define('assets.use', fn (User $user): bool => $user->canAny(['assets.view', 'assets.create', 'assets.inventory']));
         Gate::define('helpdesk.use', fn (User $user): bool => $user->canAny(['helpdesk.view', 'helpdesk.create', 'helpdesk.manage']));

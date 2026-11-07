@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\V1\Assets\AssetCatalogController;
+use App\Http\Controllers\Api\V1\Assets\AssetController;
+use App\Http\Controllers\Api\V1\Assets\AssetDetailController;
 use App\Http\Controllers\Api\V1\Assets\LocationController;
 use App\Http\Controllers\Api\V1\Audit\AuditLogController;
 use App\Http\Controllers\Api\V1\Auth\ForgotPasswordController;
@@ -142,6 +144,19 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::put('asset-models/{assetModel}', [AssetCatalogController::class, 'updateModel'])->name('asset-models.update');
     Route::delete('asset-models/{assetModel}', [AssetCatalogController::class, 'destroyModel'])->name('asset-models.destroy');
     Route::apiResource('locations', LocationController::class)->except(['show']);
+
+    Route::get('assets/lookup/{inventory}', [AssetController::class, 'lookup'])->where('inventory', '[^/]+')->name('assets.lookup');
+    Route::apiResource('assets', AssetController::class)->whereNumber('asset');
+    Route::post('assets/{asset}/status', [AssetController::class, 'status'])->whereNumber('asset')->name('assets.status');
+    Route::get('assets/{asset}/events', [AssetDetailController::class, 'events'])->whereNumber('asset')->name('assets.events');
+    Route::get('assets/{asset}/attachments', [AssetDetailController::class, 'attachments'])->whereNumber('asset')->name('assets.attachments.index');
+    Route::post('assets/{asset}/attachments', [AssetDetailController::class, 'storeAttachments'])->whereNumber('asset')->name('assets.attachments.store');
+    Route::delete('assets/{asset}/attachments/{attachment}', [AssetDetailController::class, 'destroyAttachment'])
+        ->whereNumber(['asset', 'attachment'])->name('assets.attachments.destroy');
+    Route::get('assets/{asset}/relations', [AssetDetailController::class, 'relations'])->whereNumber('asset')->name('assets.relations.index');
+    Route::post('assets/{asset}/relations', [AssetDetailController::class, 'storeRelation'])->whereNumber('asset')->name('assets.relations.store');
+    Route::delete('assets/{asset}/relations/{relation}', [AssetDetailController::class, 'destroyRelation'])
+        ->whereNumber(['asset', 'relation'])->name('assets.relations.destroy');
 
     Route::get('exports', [ExportController::class, 'index'])->name('exports.index');
     Route::post('exports', [ExportController::class, 'store'])->middleware('throttle:exports')->name('exports.store');

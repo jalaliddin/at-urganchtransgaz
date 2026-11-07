@@ -52,4 +52,11 @@ return [
     'document_link_exists' => "Hujjat bu obyektga allaqachon bog'langan.",
     'catalog_in_use' => "Bu yozuvdan foydalanilmoqda (aktiv, model yoki ichki joylashuv bor). Avval ularni o'zgartiring.",
     'location_parent_invalid' => "Yuqori joylashuv shu tashkilotning boshqa joylashuvi bo'lishi kerak.",
+    'asset_status_locked' => "Avval aktivni qaytarib oling yoki ta'mirni yakunlang, so'ng holatni o'zgartiring.",
+    'asset_has_history' => "Aktivda biriktirish, ta'mir, ko'chirish yoki hisobdan chiqarish tarixi bor. Uni o'chirib bo'lmaydi — hisobdan chiqaring.",
+    'asset_written_off' => "Aktiv hisobdan chiqarilgan, uni o'zgartirib bo'lmaydi.",
+    'asset_in_transfer' => "Aktiv boshqa tashkilotga ko'chirilmoqda. Ko'chirish yakunlanguncha uni o'zgartirib bo'lmaydi.",
+    'asset_model_category' => 'Tanlangan model boshqa toifaga tegishli.',
+    'asset_relation_invalid' => "Bog'lanadigan aktiv topilmadi yoki aktivni o'ziga bog'lab bo'lmaydi.",
+    'asset_relation_exists' => "Bu aktivlar o'rtasida shunday bog'lanish allaqachon bor.",
 ];
