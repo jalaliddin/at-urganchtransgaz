@@ -142,4 +142,17 @@ class AssetTransferTest extends TestCase
         $this->assertSame('incoming', $this->getJson('/api/v1/asset-transfers?filter[direction]=incoming')->json('data.0.direction'));
         $this->assertSame([], $this->getJson('/api/v1/asset-transfers?filter[direction]=outgoing')->json('data'));
     }
+
+    public function test_destinations_list_all_active_organizations(): void
+    {
+        $inactive = Organization::factory()->create(['is_active' => false]);
+        $this->actingAs($this->itA);
+
+        $ids = collect($this->getJson('/api/v1/asset-transfers/destinations')->assertOk()->json('data'))->pluck('id');
+        $this->assertTrue($ids->contains($this->b->id));
+        $this->assertFalse($ids->contains($inactive->id));
+
+        $this->actingAs($this->makeUser(Roles::ORG_HEAD, $this->a));
+        $this->getJson('/api/v1/asset-transfers/destinations')->assertForbidden();
+    }
 }

@@ -151,7 +151,8 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
 
     Route::get('asset-transfers', [AssetTransferController::class, 'index'])->name('asset-transfers.index');
     Route::post('asset-transfers', [AssetTransferController::class, 'store'])->name('asset-transfers.store');
-    Route::get('asset-transfers/{assetTransfer}', [AssetTransferController::class, 'show'])->name('asset-transfers.show');
+    Route::get('asset-transfers/destinations', [AssetTransferController::class, 'destinations'])->name('asset-transfers.destinations');
+    Route::get('asset-transfers/{assetTransfer}', [AssetTransferController::class, 'show'])->whereNumber('assetTransfer')->name('asset-transfers.show');
     Route::post('asset-transfers/{assetTransfer}/items', [AssetTransferController::class, 'addItems'])->name('asset-transfers.items.store');
     Route::delete('asset-transfers/{assetTransfer}/items/{asset}', [AssetTransferController::class, 'removeItem'])
         ->whereNumber('asset')->name('asset-transfers.items.destroy');

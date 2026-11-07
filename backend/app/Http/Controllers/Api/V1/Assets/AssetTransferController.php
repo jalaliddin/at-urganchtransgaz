@@ -46,6 +46,16 @@ class AssetTransferController extends Controller
         );
     }
 
+    /** Receiving organizations may be outside the sender's scope: all active ones (id + name only). */
+    public function destinations(): JsonResponse
+    {
+        Gate::authorize('assets.transfer');
+        $rows = DB::table('organizations')->whereNull('deleted_at')->where('is_active', true)->orderBy('name')->get(['id', 'name'])
+            ->map(fn ($o) => ['id' => (int) $o->id, 'name' => (string) $o->name]);
+
+        return ApiResponse::data($rows->values());
+    }
+
     public function store(Request $request): JsonResponse
     {
         $data = $request->validate([
