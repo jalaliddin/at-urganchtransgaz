@@ -79,6 +79,16 @@ class AppServiceProvider extends ServiceProvider
             'document' => Document::class,
             'document_version' => DocumentVersion::class,
             'report_export' => ReportExport::class,
+            'asset_category' => \App\Models\AssetCategory::class,
+            'manufacturer' => \App\Models\Manufacturer::class,
+            'asset_model' => \App\Models\AssetModel::class,
+            'location' => \App\Models\Location::class,
+            'asset' => \App\Models\Asset::class,
+            'asset_assignment' => \App\Models\AssetAssignment::class,
+            'asset_maintenance' => \App\Models\AssetMaintenance::class,
+            'asset_disposal' => \App\Models\AssetDisposal::class,
+            'asset_transfer' => \App\Models\AssetTransfer::class,
+            'inventory_session' => \App\Models\InventorySession::class,
         ]);
     }
 
@@ -116,6 +126,7 @@ class AppServiceProvider extends ServiceProvider
         $files->register(fn (User $user, StoredFile $file): ?bool => $this->app
             ->make(DocumentService::class)->canDownload($user, $file));
 
+        Gate::define('assets.use', fn (User $user): bool => $user->canAny(['assets.view', 'assets.create', 'assets.inventory']));
         Gate::define('helpdesk.use', fn (User $user): bool => $user->canAny(['helpdesk.view', 'helpdesk.create', 'helpdesk.manage']));
         Gate::define('viewApiDocs', fn (?User $user): bool => $user?->isSuperAdmin() ?? false);
     }

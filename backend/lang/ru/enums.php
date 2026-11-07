@@ -55,4 +55,18 @@ return [
         'letter' => 'Письмо',
         'other' => 'Другое',
     ],
+    'asset_status' => [
+        'in_stock' => "На складе",
+        'in_use' => "В эксплуатации",
+        'in_repair' => "В ремонте",
+        'reserve' => "В резерве",
+        'written_off' => "Списан",
+        'lost' => "Утерян",
+    ],
+    'transfer_status' => [
+        'draft' => "Черновик",
+        'sent' => "Отправлен",
+        'received' => "Принят",
+        'cancelled' => "Отменён",
+    ],
 ];

@@ -24,6 +24,7 @@ return [
         'settings' => ['view', 'update'],
         'helpdesk' => ['view', 'create', 'process', 'assign', 'export', 'manage'],
         'documents' => ['view', 'manage'],
+        'assets' => ['view', 'create', 'update', 'delete', 'assign', 'transfer', 'inventory', 'dispose', 'export', 'manage_catalog'],
     ],
 
     'roles' => [
@@ -47,6 +48,8 @@ return [
                 'helpdesk.view', 'helpdesk.create', 'helpdesk.process', 'helpdesk.assign', 'helpdesk.export',
                 'helpdesk.manage',
                 'documents.view', 'documents.manage',
+                'assets.view', 'assets.create', 'assets.update', 'assets.delete', 'assets.assign', 'assets.transfer',
+                'assets.inventory', 'assets.dispose', 'assets.export', 'assets.manage_catalog',
             ],
         ],
         'central-it-staff' => [
@@ -58,6 +61,7 @@ return [
                 'users.view',
                 'helpdesk.view', 'helpdesk.create', 'helpdesk.process', 'helpdesk.export',
                 'documents.view', 'documents.manage',
+                'assets.view', 'assets.create', 'assets.update', 'assets.assign', 'assets.transfer', 'assets.inventory', 'assets.export',
             ],
         ],
         'org-it-responsible' => [
@@ -69,6 +73,7 @@ return [
                 'employees.view', 'employees.create', 'employees.update', 'employees.delete',
                 'helpdesk.view', 'helpdesk.create', 'helpdesk.process', 'helpdesk.assign', 'helpdesk.export',
                 'documents.view', 'documents.manage',
+                'assets.view', 'assets.create', 'assets.update', 'assets.assign', 'assets.transfer', 'assets.inventory', 'assets.export',
             ],
         ],
         'org-head' => [
@@ -77,6 +82,7 @@ return [
             'permissions' => [
                 'dashboard.view', 'organizations.view', 'departments.view', 'employees.view',
                 'helpdesk.view', 'helpdesk.create', 'helpdesk.export',
+                'assets.view', 'assets.export',
             ],
         ],
         'employee' => [
@@ -90,6 +96,7 @@ return [
             'permissions' => [
                 'dashboard.view', 'organizations.view', 'departments.view', 'employees.view',
                 'helpdesk.create', 'documents.view', 'documents.manage',
+                'assets.view', 'assets.inventory', 'assets.export',
             ],
         ],
         'auditor' => [
@@ -99,6 +106,7 @@ return [
                 'dashboard.view', 'organizations.view', 'departments.view', 'employees.view',
                 'users.view', 'roles.view', 'audit.view', 'settings.view',
                 'helpdesk.view', 'helpdesk.export', 'documents.view',
+                'assets.view', 'assets.export',
             ],
         ],
     ],

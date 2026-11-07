@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([RbacSeeder::class, HelpdeskSeeder::class]);
+        $this->call([RbacSeeder::class, HelpdeskSeeder::class, AssetsSeeder::class]);
 
         if ($this->container->environment(['local', 'development', 'testing'])) {
             $this->call(DemoSeeder::class);

@@ -55,4 +55,18 @@ return [
         'letter' => 'Xat',
         'other' => 'Boshqa',
     ],
+    'asset_status' => [
+        'in_stock' => "Omborda",
+        'in_use' => "Foydalanishda",
+        'in_repair' => "Ta'mirda",
+        'reserve' => "Zaxirada",
+        'written_off' => "Hisobdan chiqarilgan",
+        'lost' => "Yo'qolgan",
+    ],
+    'transfer_status' => [
+        'draft' => "Qoralama",
+        'sent' => "Jo'natilgan",
+        'received' => "Qabul qilingan",
+        'cancelled' => "Bekor qilingan",
+    ],
 ];
