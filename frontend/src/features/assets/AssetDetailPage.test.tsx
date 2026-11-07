@@ -36,7 +36,7 @@ describe('AssetDetailPage', () => {
     expect(await screen.findByText('urg-pc-214')).toBeInTheDocument()
     expect(screen.getByText('Karimov Aziz')).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: i18n.t('assets:actions.assign') })).not.toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: i18n.t('assets:actions.status') })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: i18n.t('assets:actions.more') })).not.toBeInTheDocument()
   })
 
   it('takes an asset back with a note', async () => {
@@ -57,7 +57,7 @@ describe('AssetDetailPage', () => {
     serve(makeAsset({ holder: null, status: 'in_stock' }), posts)
     render()
 
-    await userEvent.click(await screen.findByRole('button', { name: i18n.t('assets:actions.status') }))
+    await userEvent.click(await screen.findByRole('button', { name: i18n.t('assets:actions.more') }))
     await userEvent.click(await screen.findByRole('menuitem', { name: i18n.t('assets:actions.dispose') }))
     const dialog = within(await screen.findByRole('dialog'))
     await userEvent.click(dialog.getByRole('button', { name: i18n.t('common:actions.save') }))

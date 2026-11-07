@@ -22,7 +22,8 @@
     "inventory": "Инвентаризация",
     "disposals": "Списание",
     "transfers": "Передачи",
-    "selectToLabel": "Отметьте для этикеток"
+    "selectToLabel": "Отметьте для этикеток",
+    "more": "Действия"
   },
   "filters": {
     "search": "Инвентарный, серийный, hostname, IP или MAC",

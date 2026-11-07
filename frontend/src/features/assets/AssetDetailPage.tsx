@@ -422,7 +422,7 @@ export function AssetDetailPage() {
               <Menu position="bottom-end">
                 <Menu.Target>
                   <Button variant="default" rightSection={<IconChevronDown size={14} />}>
-                    {t('actions.status')}
+                    {t('actions.more')}
                   </Button>
                 </Menu.Target>
                 <Menu.Dropdown>

@@ -22,7 +22,8 @@
     "inventory": "Inventarizatsiya",
     "disposals": "Hisobdan chiqarish",
     "transfers": "Ko'chirishlar",
-    "selectToLabel": "Yorliq uchun belgilang"
+    "selectToLabel": "Yorliq uchun belgilang",
+    "more": "Amallar"
   },
   "filters": {
     "search": "Inventar, seriya, hostname, IP yoki MAC",
