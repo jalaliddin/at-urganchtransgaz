@@ -10,6 +10,7 @@ import { CatalogTable } from '@/components/CatalogTable'
 import { DataTable } from '@/components/DataTable'
 import { PageHeader } from '@/components/PageHeader'
 import { useAssetCategories } from '@/features/assets/queries'
+import { useCurrentUser } from '@/features/auth/queries'
 import { useCan } from '@/hooks/usePermissions'
 import { useTableParams } from '@/hooks/useTableParams'
 import * as s from './api'
@@ -180,6 +181,8 @@ function UnrecognizedTab() {
 function PoliciesTab() {
   const { t } = useTranslation('software')
   const canManage = useCan('software.manage')
+  // A policy without an organization covers every organization: only unrestricted users may set one.
+  const unrestricted = useCurrentUser().is_super_admin
   const policies = usePolicies()
   const catalog = useSoftwareList({ per_page: 100, 'filter[active]': 1 })
   const categories = useAssetCategories()
@@ -219,7 +222,12 @@ function PoliciesTab() {
             required: true,
             data: (catalog.data?.data ?? []).map((c) => ({ value: String(c.id), label: c.name })),
           },
-          { key: 'organization_id', label: t('policies.organizationHint'), kind: 'organization' },
+          {
+            key: 'organization_id',
+            label: unrestricted ? t('policies.organizationHint') : t('policies.organization'),
+            kind: 'organization',
+            required: !unrestricted,
+          },
           {
             key: 'asset_category_id',
             label: t('policies.category'),

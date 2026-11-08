@@ -131,4 +131,16 @@ class AgentTest extends TestCase
         }
         $this->checkin($token, ['software' => []])->assertStatus(429);
     }
+
+    public function test_antivirus_dates_in_the_future_are_rejected(): void
+    {
+        $token = $this->register();
+        $av = fn ($date) => ['software' => [['name' => 'X']], 'antivirus' => ['state' => 'installed', 'definitions_updated_at' => $date]];
+
+        $this->checkin($token, $av(now()->addDays(3)->toIso8601String()))->assertStatus(422)->assertJsonValidationErrors('antivirus.definitions_updated_at');
+        $this->checkin($token, ['software' => [['name' => 'X']], 'antivirus' => ['state' => 'installed', 'last_scan_at' => now()->addDays(3)->toIso8601String()]])
+            ->assertStatus(422)->assertJsonValidationErrors('antivirus.last_scan_at');
+        // A client clock a few minutes ahead is tolerated.
+        $this->checkin($token, $av(now()->addMinutes(10)->toIso8601String()))->assertOk();
+    }
 }

@@ -129,4 +129,5 @@ return [
     'import_name_required' => 'Пустое название программы.',
     'import_state_invalid' => 'Статус должен быть installed или not_installed.',
     'import_date_invalid' => 'Неверная дата: :value (YYYY-MM-DD или DD.MM.YYYY).',
+    'import_date_future' => 'Дата в будущем: :value.',
 ];

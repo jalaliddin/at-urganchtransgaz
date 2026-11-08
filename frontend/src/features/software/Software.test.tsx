@@ -11,6 +11,7 @@ import { AssetSoftwareTab } from './AssetSoftwareTab'
 import { CompliancePage } from './CompliancePage'
 import { ImportPage } from './ImportPage'
 import { LicensesPage } from './LicensesPage'
+import { SoftwarePage } from './SoftwarePage'
 import type { DeviceSoftware, License } from './types'
 
 const ts = (key: string, options?: Record<string, unknown>) => i18n.t(`software:${key}`, options)
@@ -207,5 +208,25 @@ describe('ImportPage', () => {
     await userEvent.click(screen.getByRole('button', { name: ts('import.run') }))
     expect(await screen.findByText(ts('import.result', { imported: 2, total: 3 }))).toBeInTheDocument()
     expect(screen.getByText('Inventar raqami topilmadi')).toBeInTheDocument()
+  })
+})
+
+describe('SoftwarePage policies', () => {
+  it('requires an organization unless the user is unrestricted', async () => {
+    server.use(
+      http.get('*/api/v1/software-policies', () => HttpResponse.json({ data: [] })),
+      http.get('*/api/v1/software', () => HttpResponse.json(page([]))),
+      http.get('*/api/v1/asset-categories', () => HttpResponse.json({ data: [] })),
+      http.get('*/api/v1/organizations', () => HttpResponse.json(page([]))),
+    )
+    renderWithProviders(<SoftwarePage />, {
+      me: makeMe({ is_super_admin: false, permissions: ['software.view', 'software.manage'] }),
+    })
+
+    await userEvent.click(await screen.findByRole('tab', { name: ts('tabs.policies') }))
+    await userEvent.click(await screen.findByRole('button', { name: ts('policies.add') }))
+    const dialog = within(await screen.findByRole('dialog'))
+    expect(dialog.getAllByLabelText(new RegExp(ts('policies.organization')))[0]).toBeRequired()
+    expect(dialog.queryByText(ts('policies.organizationHint'))).not.toBeInTheDocument()
   })
 })

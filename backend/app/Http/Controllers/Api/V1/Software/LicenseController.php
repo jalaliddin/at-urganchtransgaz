@@ -67,7 +67,7 @@ class LicenseController extends Controller
         $data = $request->validate($this->rules(false));
         DB::transaction(function () use ($softwareLicense, $data): void {
             $locked = SoftwareLicense::query()->withoutGlobalScopes()->lockForUpdate()->findOrFail($softwareLicense->id);
-            $used = SoftwareInstallation::query()->where('license_id', $locked->id)->count();
+            $used = SoftwareInstallation::query()->where('license_id', $locked->id)->lockForUpdate()->count();
             if (isset($data['seats']) && (int) $data['seats'] < max(1, $used)) {
                 throw ValidationException::withMessages(['seats' => __('messages.license_seats_below_used', ['used' => $used])]);
             }

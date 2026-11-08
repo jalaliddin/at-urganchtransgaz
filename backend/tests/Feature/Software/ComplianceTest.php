@@ -6,6 +6,7 @@ use App\Enums\AntivirusEffective;
 use App\Models\AntivirusStatus;
 use App\Models\Asset;
 use App\Models\Organization;
+use App\Models\SoftwarePolicy;
 use App\Models\User;
 use App\Services\Settings\SettingsService;
 use App\Support\Permissions\Roles;
@@ -87,7 +88,7 @@ class ComplianceTest extends TestCase
         $this->report($pc1, ['definitions_updated_at' => now()]);
 
         $this->actingAs($this->head);
-        $this->postJson('/api/v1/software-policies', ['software_id' => $office->id])->assertCreated();
+        $this->postJson('/api/v1/software-policies', ['software_id' => $office->id, 'organization_id' => $this->org->id])->assertCreated();
         $this->postJson('/api/v1/software-policies', ['software_id' => $this->software(['name' => 'Only for other'])->id, 'organization_id' => $other->id])
             ->assertStatus(422)->assertJsonValidationErrors('organization_id');
         $this->postJson("/api/v1/assets/{$pc1->id}/software", ['software_id' => $office->id])->assertCreated();
@@ -103,5 +104,29 @@ class ComplianceTest extends TestCase
             ->assertJsonCount(1, 'data')->assertJsonPath('data.0.id', $pc2->id)->assertJsonPath('data.0.missing', ['Microsoft Office']);
         $this->getJson('/api/v1/software-compliance/devices?filter[problem]=unprotected')->assertOk()
             ->assertJsonCount(1, 'data')->assertJsonPath('data.0.antivirus', 'unknown');
+    }
+
+    public function test_policies_are_scoped_and_only_unrestricted_users_set_global_ones(): void
+    {
+        $other = Organization::factory()->create();
+        $global = SoftwarePolicy::create(['software_id' => $this->software(['name' => 'Kaspersky'])->id]);
+        $foreign = SoftwarePolicy::create(['software_id' => $this->software(['name' => 'Foreign'])->id, 'organization_id' => $other->id]);
+        $own = SoftwarePolicy::create(['software_id' => $this->software(['name' => 'Own'])->id, 'organization_id' => $this->org->id]);
+        $office = $this->software(['name' => 'Office']);
+
+        $this->actingAs($this->head);
+        $this->assertEqualsCanonicalizing([$global->id, $own->id], collect($this->getJson('/api/v1/software-policies')->assertOk()->json('data'))->pluck('id')->all());
+        $this->putJson("/api/v1/software-policies/{$foreign->id}", ['software_id' => $office->id, 'organization_id' => $this->org->id])->assertNotFound();
+        $this->deleteJson("/api/v1/software-policies/{$foreign->id}")->assertNotFound();
+        $this->putJson("/api/v1/software-policies/{$global->id}", ['software_id' => $office->id, 'organization_id' => $this->org->id])->assertForbidden();
+        $this->deleteJson("/api/v1/software-policies/{$global->id}")->assertForbidden();
+        $this->postJson('/api/v1/software-policies', ['software_id' => $office->id])->assertStatus(422)->assertJsonValidationErrors('organization_id');
+        $this->putJson("/api/v1/software-policies/{$own->id}", ['software_id' => $office->id, 'organization_id' => null])
+            ->assertStatus(422)->assertJsonValidationErrors('organization_id');
+        $this->putJson("/api/v1/software-policies/{$own->id}", ['software_id' => $office->id, 'organization_id' => $this->org->id])->assertOk();
+
+        $this->actingAs($this->makeUser(Roles::SUPER_ADMIN));
+        $this->postJson('/api/v1/software-policies', ['software_id' => $office->id])->assertCreated();
+        $this->assertCount(4, $this->getJson('/api/v1/software-policies')->assertOk()->json('data'));
     }
 }

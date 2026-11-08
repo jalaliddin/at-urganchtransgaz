@@ -158,15 +158,25 @@ class SoftwareImportService
         if ($value === '') {
             return null;
         }
+        $date = null;
         foreach (['Y-m-d H:i:s', 'Y-m-d H:i', 'Y-m-d', 'd.m.Y H:i', 'd.m.Y'] as $format) {
             try {
-                $date = CarbonImmutable::createFromFormat($format, $value, (string) config('app.display_timezone'));
-                if ($date !== null && $date->format($format) === $value) {
-                    return $date->utc();
+                $parsed = CarbonImmutable::createFromFormat($format, $value, (string) config('app.display_timezone'));
+                if ($parsed !== null && $parsed->format($format) === $value) {
+                    $date = $parsed;
+                    break;
                 }
             } catch (Throwable) {
             }
         }
-        throw new \InvalidArgumentException(__('messages.import_date_invalid', ['value' => $value]));
+        if ($date === null) {
+            throw new \InvalidArgumentException(__('messages.import_date_invalid', ['value' => $value]));
+        }
+        // A future date would keep the device "updated" for ever (a day of clock/timezone slack).
+        if ($date->isAfter(CarbonImmutable::now()->addDay())) {
+            throw new \InvalidArgumentException(__('messages.import_date_future', ['value' => $value]));
+        }
+
+        return $date->utc();
     }
 }

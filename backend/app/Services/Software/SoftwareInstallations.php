@@ -73,7 +73,9 @@ class SoftwareInstallations
         if ($installation->license_id === $license->id) {
             return;
         }
-        $used = SoftwareInstallation::query()->where('license_id', $license->id)->count();
+        // A locking read sees links committed while we waited for the licence lock; a plain COUNT would read the
+        // REPEATABLE READ snapshot taken by the transaction's first query and miss them.
+        $used = SoftwareInstallation::query()->where('license_id', $license->id)->lockForUpdate()->count();
         if ($used >= $license->seats) {
             throw ValidationException::withMessages(['license_id' => __('messages.license_no_seats')]);
         }

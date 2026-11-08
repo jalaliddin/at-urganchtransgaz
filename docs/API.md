@@ -329,7 +329,7 @@ Javobdagi `can` obyekti har bir amal uchun joriy foydalanuvchi huquqini beradi (
 | GET | `/assets/{id}/software` | qurilma dasturlari, antivirus (`effective`), agent |
 | POST / PATCH / DELETE | `/assets/{id}/software`, `/software-installations/{id}` | `software.install` — `{software_id \| name, version, vendor, installed_at, license_id}`; bo'sh o'rin bo'lmasa 422 |
 | PUT | `/assets/{id}/antivirus` | `software.install` — `{software_id (antivirus), product_name, state: installed\|not_installed, definitions_updated_at, last_scan_at}` |
-| GET/POST/PUT/DELETE | `/software-policies` | o'qish — doira; yozish — `software.manage` (`organization_id` NULL — hammasi) |
+| GET/POST/PUT/DELETE | `/software-policies` | o'qish — umumiy + doiradagi tashkilotlar; yozish — `software.manage`. `organization_id` NULL (barcha tashkilotlar) faqat cheklovsiz foydalanuvchi uchun; boshqalar tashkilot tanlaydi (quyi tashkilotlari bilan) — umumiy siyosatni o'zgartirish 403, doiradan tashqarisi 404 |
 | GET | `/software-compliance`, `/software-compliance/devices?filter[problem]=missing_required\|unprotected\|outdated` | tashkilotlar kesimida qurilmalar, antivirus holatlari, majburiy dasturi yo'qlar |
 | POST | `/software-imports` `{type: installations\|antivirus, file}` | `software.install` — CSV (`,` yoki `;`), ≤ 5000 qator; javob `{total, imported, errors: [{line, message}]}` |
 | GET | `/device-agents`, `/device-agents/{id}/checkins` | doiradagi qurilmalar agentlari va oxirgi 50 ta check-in |
@@ -353,7 +353,8 @@ Content-Type: application/json
 
 Token qaysi qurilmaga berilgan bo'lsa, faqat o'sha qurilma yangilanadi. Agent manbali, endi kelmagan yozuvlar o'chadi;
 qo'lda yoki CSV bilan kiritilganlar qoladi. Noto'g'ri yoki bekor qilingan token — 401, tokenga daqiqasiga 30 so'rov
-(429). Har bir urinish `agent_checkins` ga yoziladi.
+(429). Har bir urinish `agent_checkins` ga yoziladi. Antivirus sanalari kelajakda (1 kundan ortiq) bo'lsa — 422
+(aks holda qurilma doim "yangilangan" ko'rinib qolardi); CSV importida bunday qator xato sifatida qaytadi.
 
 ## 12. Misol
 

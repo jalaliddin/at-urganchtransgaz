@@ -51,10 +51,15 @@ class ComplianceController extends Controller
         return ApiResponse::data(SoftwareResource::antivirus($status->load('software')));
     }
 
-    public function policies(): JsonResponse
+    /** Global policies and those of organizations in the user's scope. */
+    public function policies(Request $request): JsonResponse
     {
         Gate::authorize('software.use');
-        $rows = SoftwarePolicy::query()->with(['software', 'organization', 'assetCategory'])->orderBy('id')->get();
+        $scope = $this->user($request)->accessScope();
+        $rows = SoftwarePolicy::query()->with(['software', 'organization', 'assetCategory'])
+            ->when(! $scope->isUnrestricted(), fn ($q) => $q->where(fn ($w) => $w->whereNull('organization_id')
+                ->orWhereIn('organization_id', $scope->organizationIds() ?: [0])))
+            ->orderBy('id')->get();
 
         return ApiResponse::data($rows->map(fn (SoftwarePolicy $p) => SoftwareResource::policy($p))->values());
     }
@@ -62,7 +67,7 @@ class ComplianceController extends Controller
     public function storePolicy(Request $request): JsonResponse
     {
         Gate::authorize('software.manage');
-        $policy = SoftwarePolicy::create($request->validate($this->policyRules()));
+        $policy = SoftwarePolicy::create($request->validate($this->policyRules($this->user($request))));
 
         return ApiResponse::data(SoftwareResource::policy($policy->load(['software', 'organization', 'assetCategory'])), 201);
     }
@@ -70,7 +75,8 @@ class ComplianceController extends Controller
     public function updatePolicy(Request $request, SoftwarePolicy $softwarePolicy): JsonResponse
     {
         Gate::authorize('software.manage');
-        $softwarePolicy->update($request->validate($this->policyRules()));
+        $this->authorizePolicy($this->user($request), $softwarePolicy);
+        $softwarePolicy->update($request->validate($this->policyRules($this->user($request))));
 
         return ApiResponse::data(SoftwareResource::policy($softwarePolicy->load(['software', 'organization', 'assetCategory'])));
     }
@@ -78,8 +84,7 @@ class ComplianceController extends Controller
     public function destroyPolicy(SoftwarePolicy $softwarePolicy): JsonResponse
     {
         Gate::authorize('software.manage');
-        // A policy of an organization outside the user's scope is not theirs to see.
-        abort_if($softwarePolicy->organization_id !== null && ! $this->user(request())->canAccessOrganization($softwarePolicy->organization_id), 404);
+        $this->authorizePolicy($this->user(request()), $softwarePolicy);
         $softwarePolicy->delete();
 
         return ApiResponse::message(__('messages.deleted'));
@@ -119,12 +124,23 @@ class ComplianceController extends Controller
         return array_intersect_key((array) $request->input('filter', []), array_flip(['organization']));
     }
 
+    /**
+     * A policy of an organization outside the user's scope is not theirs to see (404). A global policy
+     * (no organization) applies to every organization, so only unrestricted users change it (403); others
+     * pick an organization (its whole subtree is covered).
+     */
+    private function authorizePolicy(User $user, SoftwarePolicy $policy): void
+    {
+        abort_if($policy->organization_id !== null && ! $user->canAccessOrganization($policy->organization_id), 404);
+        abort_if($policy->organization_id === null && ! $user->accessScope()->isUnrestricted(), 403);
+    }
+
     /** @return array<string, mixed> */
-    private function policyRules(): array
+    private function policyRules(User $user): array
     {
         return [
             'software_id' => ['required', 'integer', Rule::exists('software', 'id')],
-            'organization_id' => ['nullable', 'integer', new AccessibleOrganization],
+            'organization_id' => [$user->accessScope()->isUnrestricted() ? 'nullable' : 'required', 'integer', new AccessibleOrganization],
             'asset_category_id' => ['nullable', 'integer', Rule::exists('asset_categories', 'id')],
             'note' => ['nullable', 'string', 'max:500'],
         ];

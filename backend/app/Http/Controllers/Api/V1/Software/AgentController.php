@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Software;
 
 use App\Enums\AntivirusState;
 use App\Http\Controllers\Controller;
+use Carbon\CarbonImmutable;
 use App\Models\Asset;
 use App\Models\DeviceAgent;
 use App\Models\User;
@@ -74,6 +75,8 @@ class AgentController extends Controller
     {
         /** @var DeviceAgent $agent */
         $agent = $request->attributes->get('agent');
+        // Future dates would keep a device "updated" for ever; a client clock up to a day ahead is tolerated.
+        $latest = 'before_or_equal:'.CarbonImmutable::now()->addDay()->toIso8601String();
         $validator = Validator::make($request->all(), [
             'platform' => ['nullable', 'string', 'max:50'],
             'agent_version' => ['nullable', 'string', 'max:50'],
@@ -85,8 +88,8 @@ class AgentController extends Controller
             'antivirus' => ['nullable', 'array'],
             'antivirus.product' => ['nullable', 'string', 'max:150'],
             'antivirus.state' => ['required_with:antivirus', Rule::enum(AntivirusState::class)],
-            'antivirus.definitions_updated_at' => ['nullable', 'date'],
-            'antivirus.last_scan_at' => ['nullable', 'date'],
+            'antivirus.definitions_updated_at' => ['nullable', 'date', $latest],
+            'antivirus.last_scan_at' => ['nullable', 'date', $latest],
         ]);
         if ($validator->fails()) {
             $service->reject($agent, $request->ip(), (string) $validator->errors()->first());

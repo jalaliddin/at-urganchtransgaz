@@ -72,9 +72,12 @@ class ImportTest extends TestCase
         $this->software(['name' => 'ESET Endpoint Security', 'category' => 'antivirus', 'is_antivirus' => true]);
         $csv = "inventory_number,product,state,definitions_updated_at,last_scan_at\n"
             .'PC-001,ESET Endpoint Security,installed,'.now()->subDay()->format('Y-m-d H:i').",\n"
-            ."PC-001,ESET,maybe,,\n";
+            ."PC-001,ESET,maybe,,\n"
+            .'PC-001,ESET Endpoint Security,installed,'.now()->addDays(3)->format('Y-m-d').",\n";
 
-        $this->upload('antivirus', $csv)->assertOk()->assertJsonPath('data.imported', 1)->assertJsonPath('data.errors.0.line', 3);
+        $this->upload('antivirus', $csv)->assertOk()->assertJsonPath('data.imported', 1)
+            ->assertJsonPath('data.errors.0.line', 3)->assertJsonPath('data.errors.1.line', 4)
+            ->assertJsonPath('data.errors.1.message', __('messages.import_date_future', ['value' => now()->addDays(3)->format('Y-m-d')]));
         $status = AntivirusStatus::query()->where('asset_id', $this->pc->id)->firstOrFail();
         $this->assertSame('csv', $status->source->value);
         $this->assertNotNull($status->software_id);
