@@ -38,6 +38,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property CarbonImmutable|null $purchase_date
  * @property CarbonImmutable|null $warranty_until
  * @property CarbonImmutable|null $warranty_notified_for
+ * @property CarbonImmutable|null $software_inventoried_at
  * @property string|null $cost
  * @property string|null $supplier
  * @property string|null $specs
@@ -65,6 +66,7 @@ class Asset extends Model
             'purchase_date' => 'immutable_date',
             'warranty_until' => 'immutable_date',
             'warranty_notified_for' => 'immutable_date',
+            'software_inventoried_at' => 'immutable_datetime',
             'cost' => 'decimal:2',
             'created_at' => 'immutable_datetime',
             'updated_at' => 'immutable_datetime',
