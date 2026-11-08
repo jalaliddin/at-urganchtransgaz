@@ -48,6 +48,7 @@ use App\Http\Controllers\Api\V1\Settings\PublicSettingsController;
 use App\Http\Controllers\Api\V1\Settings\SettingsController;
 use App\Http\Controllers\Api\V1\Software\AgentController;
 use App\Http\Controllers\Api\V1\Software\ComplianceController;
+use App\Http\Controllers\Api\V1\Software\ImportController;
 use App\Http\Controllers\Api\V1\Software\InstallationController;
 use App\Http\Controllers\Api\V1\Software\LicenseController;
 use App\Http\Controllers\Api\V1\Software\SoftwareController;
@@ -206,6 +207,7 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::delete('software-policies/{softwarePolicy}', [ComplianceController::class, 'destroyPolicy'])->whereNumber('softwarePolicy')->name('software-policies.destroy');
     Route::get('software-compliance', [ComplianceController::class, 'summary'])->name('software-compliance');
     Route::get('software-compliance/devices', [ComplianceController::class, 'devices'])->name('software-compliance.devices');
+    Route::post('software-imports', ImportController::class)->name('software-imports');
     Route::get('device-agents', [AgentController::class, 'index'])->name('device-agents.index');
     Route::post('assets/{asset}/agent', [AgentController::class, 'store'])->whereNumber('asset')->name('assets.agent');
     Route::post('device-agents/{deviceAgent}/tokens', [AgentController::class, 'token'])->whereNumber('deviceAgent')->name('device-agents.token');

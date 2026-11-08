@@ -122,4 +122,11 @@ return [
     'license_in_use' => 'Litsenziya qurilmalarga biriktirilgan. Avval ularni ajrating.',
     'not_an_antivirus' => 'Tanlangan dastur katalogda antivirus deb belgilanmagan.',
     'agent_exists' => "Bu qurilmada agent allaqachon ro'yxatdan o'tgan. Yangi token chiqaring.",
+    'import_columns' => "Fayl sarlavhasida kerakli ustunlar yo'q. Ustunlar: :columns.",
+    'import_too_many' => "Faylda qatorlar juda ko'p (ko'pi bilan :max ta).",
+    'import_unreadable' => "Faylni o'qib bo'lmadi.",
+    'import_unknown_device' => 'Inventar raqami topilmadi yoki sizning tashkilotlaringizga tegishli emas.',
+    'import_name_required' => "Dastur nomi bo'sh.",
+    'import_state_invalid' => "Holat installed yoki not_installed bo'lishi kerak.",
+    'import_date_invalid' => "Sana noto'g'ri: :value (YYYY-MM-DD yoki DD.MM.YYYY).",
 ];
