@@ -5,7 +5,8 @@
     "general": "Umumiy",
     "security": "Xavfsizlik",
     "files": "Fayllar",
-    "notifications": "Bildirishnomalar"
+    "notifications": "Bildirishnomalar",
+    "requisitions": "Talabnomalar"
   },
   "keys": {
     "general": {
@@ -47,6 +48,10 @@
         "label": "Email orqali bildirishnoma yuborish",
         "hint": "SMTP sozlangan bo'lishi kerak"
       }
+    },
+    "requisitions.head_approval": {
+      "label": "Tashkilot rahbari tasdig'i",
+      "hint": "Yoqilgan bo'lsa, talabnoma avval quyi tashkilot rahbariga boradi (tashkilotda tasdiqlovchi bo'lmasa bosqich o'tkazib yuboriladi)"
     }
   },
   "public": "Ommaviy",

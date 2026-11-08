@@ -67,7 +67,20 @@
     "assets_return_required": "{{employee}} уволен(а) — верните активы ({{count}})",
     "asset_transfer_incoming": "{{number}}: организация {{from}} отправила активы",
     "asset_disposal_requested": "Запрошено списание актива {{number}}",
-    "asset_warranty_expiring": "{{organization}}: истекает гарантия {{count}} активов"
+    "asset_warranty_expiring": "{{organization}}: истекает гарантия {{count}} активов",
+    "stock_low": "{{warehouse}}: {{material}} ниже минимума ({{quantity}} {{unit}})",
+    "stock_expiring": "Истекает срок годности партий: {{count}}",
+    "requisition_org_approval": "Заявка {{number}} ждёт вашего согласования",
+    "requisition_queued": "Заявка {{number}} поступила в центральную ИТ-службу",
+    "requisition_info_requested": "{{number}}: запрошена дополнительная информация",
+    "requisition_info_provided": "{{number}}: информация предоставлена",
+    "requisition_approved": "Заявка {{number}} утверждена",
+    "requisition_allocation": "{{number}}: нужно выделить ресурсы",
+    "requisition_rejected": "Заявка {{number}} отклонена",
+    "requisition_returned": "Заявка {{number}} возвращена на доработку",
+    "requisition_partially_fulfilled": "{{number}}: ресурсы выделены частично",
+    "requisition_fulfilled": "{{number}}: ресурсы выделены — подтвердите получение",
+    "requisition_received": "{{number}}: ресурсы получены"
   },
   "languages": {
     "uz": "O'zbekcha",

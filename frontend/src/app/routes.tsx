@@ -29,6 +29,8 @@ import { LookupPage } from '@/features/assets/LookupPage'
 import { MyAssetsPage } from '@/features/assets/MyAssetsPage'
 import { TransferDetailPage } from '@/features/assets/TransferDetailPage'
 import { TransfersPage } from '@/features/assets/TransfersPage'
+import { RequisitionDetailPage } from '@/features/requisitions/RequisitionDetailPage'
+import { RequisitionsPage } from '@/features/requisitions/RequisitionsPage'
 import { BalancesPage } from '@/features/warehouse/BalancesPage'
 import { CountPage } from '@/features/warehouse/CountPage'
 import { CountsPage } from '@/features/warehouse/CountsPage'
@@ -151,6 +153,19 @@ export const routes: RouteObject[] = [
                       },
                       { path: ':id', element: <AssetDetailPage />, handle: { crumb: 'assets:crumb' } },
                     ],
+                  },
+                ],
+              },
+              {
+                path: 'requisitions',
+                element: <RequirePermission permission={['requisitions.view', 'requisitions.create']} />,
+                handle: { crumb: 'nav:items.requisitions' },
+                children: [
+                  { index: true, element: <RequisitionsPage /> },
+                  {
+                    path: ':id',
+                    element: <RequisitionDetailPage />,
+                    handle: { crumb: 'requisitions:crumb' },
                   },
                 ],
               },

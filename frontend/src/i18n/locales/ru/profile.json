@@ -38,7 +38,11 @@
       "assets_return_required": "Активы уволенных сотрудников",
       "asset_warranty_expiring": "Истечение гарантии",
       "asset_transfer_incoming": "Входящие передачи",
-      "asset_disposal_requested": "Запросы на списание"
+      "asset_disposal_requested": "Запросы на списание",
+      "stock_low": "Минимальный остаток",
+      "stock_expiring": "Истечение срока годности",
+      "requisition_action": "Заявка: ожидается ваше действие",
+      "requisition_update": "Изменился статус заявки"
     }
   }
 }

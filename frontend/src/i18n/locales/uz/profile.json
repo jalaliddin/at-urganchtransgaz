@@ -38,7 +38,11 @@
       "assets_return_required": "Ishdan bo'shagan xodim aktivlari",
       "asset_warranty_expiring": "Kafolat muddati tugashi",
       "asset_transfer_incoming": "Kiruvchi ko'chirishlar",
-      "asset_disposal_requested": "Hisobdan chiqarish so'rovlari"
+      "asset_disposal_requested": "Hisobdan chiqarish so'rovlari",
+      "stock_low": "Minimal qoldiq",
+      "stock_expiring": "Yaroqlilik muddati tugashi",
+      "requisition_action": "Talabnoma: sizdan harakat kutilmoqda",
+      "requisition_update": "Talabnoma holati o'zgardi"
     }
   }
 }

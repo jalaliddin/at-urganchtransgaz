@@ -20,6 +20,10 @@ export const MAIL_TYPES = [
   'asset_warranty_expiring',
   'asset_transfer_incoming',
   'asset_disposal_requested',
+  'stock_low',
+  'stock_expiring',
+  'requisition_action',
+  'requisition_update',
 ] as const
 
 /** In-app notifications always arrive; here the user chooses which ones also come by e-mail. */

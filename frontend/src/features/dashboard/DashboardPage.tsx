@@ -16,6 +16,8 @@ export function DashboardPage() {
   const { t } = useTranslation('dashboard')
   const { t: th } = useTranslation('helpdesk')
   const { t: ta } = useTranslation('assets')
+  const { t: tw } = useTranslation('warehouse')
+  const { t: tr } = useTranslation('requisitions')
   const me = useCurrentUser()
   const { organizationId: orgContextId } = useOrgContext()
   const query = useQuery({
@@ -95,6 +97,32 @@ export function DashboardPage() {
         label={ta('dashboard.mine')}
         value={data.my_assets.total}
         href="/assets/mine"
+      />
+    ),
+    data.requisitions && (
+      <StatTile
+        key="requisitions"
+        label={tr('dashboard.awaiting')}
+        value={data.requisitions.awaiting_action}
+        detail={tr('dashboard.open', { count: data.requisitions.open })}
+        href="/requisitions?filter[tab]=action"
+      />
+    ),
+    data.warehouse && (
+      <StatTile
+        key="warehouse-low"
+        label={tw('dashboard.lowStock')}
+        value={data.warehouse.low_stock}
+        detail={tw('dashboard.documentsMonth', { count: data.warehouse.documents_month })}
+        href="/warehouse?filter[low]=1"
+      />
+    ),
+    data.warehouse && data.warehouse.expiring > 0 && (
+      <StatTile
+        key="warehouse-expiring"
+        label={tw('dashboard.expiring')}
+        value={data.warehouse.expiring}
+        href="/warehouse?filter[expiring]=1"
       />
     ),
     data.my_tickets && (

@@ -67,7 +67,20 @@
     "assets_return_required": "{{employee}} ishdan bo'shadi — {{count}} ta aktivni qaytarib oling",
     "asset_transfer_incoming": "{{number}}: {{from}} tashkilotidan aktivlar jo'natildi",
     "asset_disposal_requested": "{{number}} aktivini hisobdan chiqarish so'raldi",
-    "asset_warranty_expiring": "{{organization}}: {{count}} ta aktiv kafolati tugayapti"
+    "asset_warranty_expiring": "{{organization}}: {{count}} ta aktiv kafolati tugayapti",
+    "stock_low": "{{warehouse}}: {{material}} minimal qoldiqdan kam ({{quantity}} {{unit}})",
+    "stock_expiring": "{{count}} ta partiyaning yaroqlilik muddati tugayapti",
+    "requisition_org_approval": "{{number}} talabnomasi tasdiqlashingizni kutmoqda",
+    "requisition_queued": "{{number}} talabnomasi markaziy AT xizmatiga keldi",
+    "requisition_info_requested": "{{number}}: qo'shimcha ma'lumot so'raldi",
+    "requisition_info_provided": "{{number}}: ma'lumot berildi",
+    "requisition_approved": "{{number}} talabnomasi tasdiqlandi",
+    "requisition_allocation": "{{number}}: resurs ajratish kerak",
+    "requisition_rejected": "{{number}} talabnomasi rad etildi",
+    "requisition_returned": "{{number}} talabnomasi qayta ishlashga qaytarildi",
+    "requisition_partially_fulfilled": "{{number}}: resurslar qisman ajratildi",
+    "requisition_fulfilled": "{{number}}: resurslar ajratildi — qabul qiling",
+    "requisition_received": "{{number}}: resurslar qabul qilindi"
   },
   "languages": {
     "uz": "O'zbekcha",

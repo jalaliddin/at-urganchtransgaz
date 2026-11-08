@@ -46,6 +46,8 @@ export interface DashboardData {
   my_tickets?: { open: number; total: number }
   assets?: { active: number; in_repair: number; warranty_expiring: number; by_status: Record<string, number> }
   my_assets?: { total: number }
+  warehouse?: { low_stock: number; expiring: number; documents_month: number }
+  requisitions?: { awaiting_action: number; open: number; mine_open: number }
 }
 
 export async function fetchDashboard(organizationId: number | null): Promise<DashboardData> {

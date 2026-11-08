@@ -1,0 +1,177 @@
+{
+  "title": "Talabnomalar",
+  "description": "Quyi tashkilotlarning resurs talabnomalari: tasdiqlash, ajratish va qabul",
+  "crumb": "Talabnoma",
+  "actions": {
+    "create": "Yangi talabnoma",
+    "edit": "Tahrirlash",
+    "saveDraft": "Qoralamani saqlash",
+    "submit": "Yuborish",
+    "orgDecide": "Rahbar qarori",
+    "take": "Ko'rib chiqishga olish",
+    "requestInfo": "Ma'lumot so'rash",
+    "provideInfo": "Ma'lumot berish",
+    "decide": "Qaror qabul qilish",
+    "ready": "Ajratishga tayyor",
+    "allocate": "Ajratish",
+    "complete": "Ajratishni yakunlash",
+    "receive": "Qabul qilinganini tasdiqlash",
+    "close": "Yopish",
+    "deleteConfirm": "{{number}} qoralamasi o'chirilsinmi?"
+  },
+  "empty": {
+    "title": "Talabnoma yo'q",
+    "description": "Yangi talabnoma yarating yoki filtrlarni o'zgartiring."
+  },
+  "tabs": {
+    "label": "Talabnomalar ko'rinishi",
+    "action": "Mening navbatim",
+    "mine": "Men yaratganlar",
+    "all": "Barchasi"
+  },
+  "filters": {
+    "search": "Raqam yoki mavzu",
+    "status": "Holat",
+    "allStatuses": "Barcha holatlar"
+  },
+  "fields": {
+    "number": "Raqam",
+    "title": "Mavzu",
+    "status": "Holat",
+    "requester": "Yaratgan",
+    "neededBy": "Kerakli sana",
+    "updatedAt": "Yangilangan",
+    "organization": "Tashkilot",
+    "description": "Asoslash",
+    "descriptionHint": "Nima uchun kerak, kim foydalanadi",
+    "recipient": "Qabul qiluvchi xodim",
+    "submittedAt": "Yuborilgan",
+    "reviewer": "Ko'rib chiquvchi",
+    "approvedBy": "Tasdiqlagan",
+    "rejectionReason": "Rad etish sababi",
+    "receivedAt": "Qabul qilingan"
+  },
+  "status": {
+    "draft": "Qoralama",
+    "submitted": "Yuborilgan",
+    "org_approval": "Tashkilot rahbari tasdig'ida",
+    "central_review": "Markaziy ko'rib chiqishda",
+    "info_requested": "Ma'lumot kutilmoqda",
+    "approved": "Tasdiqlangan",
+    "rejected": "Rad etilgan",
+    "ready_for_allocation": "Ajratishga tayyor",
+    "partially_fulfilled": "Qisman ajratilgan",
+    "fulfilled": "To'liq ajratilgan",
+    "received": "Qabul qilingan",
+    "closed": "Yopilgan"
+  },
+  "kinds": {
+    "equipment": "Kompyuter, printer, monitor va boshqa texnika",
+    "network": "Tarmoq qurilmalari va ehtiyot qismlar",
+    "consumable": "Kartrij, toner va sarf materiallari",
+    "sim": "SIM-karta va mobil aloqa",
+    "internet": "Internet yoki aloqa xizmati",
+    "software": "Dasturiy ta'minot va litsenziya",
+    "repair": "Ta'mirlash yoki texnik xizmat",
+    "other": "Boshqa AT ehtiyoji"
+  },
+  "items": {
+    "title": "Talab qilinadigan resurslar",
+    "kind": "Turi",
+    "material": "Ombor materiali",
+    "materialHint": "Katalogdan tanlansa, ombordan avtomatik ajratiladi",
+    "assetCategory": "Aktiv toifasi",
+    "name": "Nomi",
+    "quantity": "Miqdor",
+    "unit": "O'lchov birligi",
+    "note": "Izoh",
+    "remove": "Qatorni o'chirish",
+    "add": "Qator qo'shish",
+    "requested": "So'ralgan",
+    "approved": "Tasdiqlangan",
+    "fulfilled": "Ajratilgan",
+    "allocations": "Ajratilgan resurslar"
+  },
+  "decision": {
+    "orgTitle": "Tashkilot rahbari qarori",
+    "centralTitle": "Markaziy AT rahbari qarori",
+    "label": "Qaror",
+    "approved": "Tasdiqlash",
+    "returned": "Qayta ishlashga",
+    "rejected": "Rad etish",
+    "comment": "Izoh",
+    "reason": "Sabab",
+    "confirm": {
+      "approved": "Tasdiqlash",
+      "returned": "Qaytarish",
+      "rejected": "Rad etish"
+    }
+  },
+  "allocate": {
+    "title": "Resurs ajratish",
+    "remaining": "Qolgan: {{quantity}} {{unit}}",
+    "type": "Qayerdan",
+    "types": {
+      "stock": "Ombordan",
+      "asset": "Aktivlardan",
+      "note": "Boshqa (izoh)"
+    },
+    "warehouse": "Ombor",
+    "target": "Talabnoma tashkilotining ombori",
+    "targetHint": "Tanlansa — ko'chiriladi, aks holda tashkilotga chiqim qilinadi",
+    "asset": "Aktiv",
+    "assetHint": "Omborda yoki zaxirada turgan aktivlar; boshqa tashkilotdan bo'lsa ko'chirish yuboriladi",
+    "quantity": "Miqdor",
+    "note": "Izoh",
+    "noteRequired": "Nima ajratilgani (shartnoma, raqam, xizmat)",
+    "confirm": "Ajratish"
+  },
+  "comments": {
+    "title": "Izohlar",
+    "empty": "Izoh yo'q",
+    "add": "Izoh yozish",
+    "placeholder": "Izoh yozing…",
+    "send": "Yuborish"
+  },
+  "files": {
+    "title": "Hujjatlar",
+    "add": "Qo'shish",
+    "empty": "Hujjat biriktirilmagan"
+  },
+  "history": {
+    "title": "Tarix",
+    "movedTo": "→ {{status}}",
+    "actions": {
+      "created": "Yaratildi",
+      "updated": "Tahrirlandi",
+      "submitted": "Yuborildi",
+      "approval_skipped": "Rahbar tasdig'i o'tkazib yuborildi (tasdiqlovchi yo'q)",
+      "org_approved": "Tashkilot rahbari tasdiqladi",
+      "org_rejected": "Tashkilot rahbari rad etdi",
+      "returned": "Qayta ishlashga qaytarildi",
+      "taken": "Ko'rib chiqishga olindi",
+      "info_requested": "Qo'shimcha ma'lumot so'raldi",
+      "info_provided": "Ma'lumot berildi",
+      "approved": "Markaziy AT rahbari tasdiqladi",
+      "rejected": "Rad etildi",
+      "ready": "Ajratishga tayyor",
+      "allocated": "Resurs ajratildi",
+      "completed": "Ajratish yakunlandi",
+      "received": "Qabul qilindi",
+      "closed": "Yopildi",
+      "commented": "Izoh",
+      "file_added": "Fayl qo'shildi"
+    }
+  },
+  "dialogs": {
+    "question": "Qanday ma'lumot kerak?",
+    "answer": "Javob",
+    "completeReason": "Nega qolgani ajratilmaydi?",
+    "receiveNote": "Izoh (ixtiyoriy)"
+  },
+  "dashboard": {
+    "awaiting": "Talabnomalar: mening navbatim",
+    "open": "Ochiq talabnomalar: {{count}}",
+    "mineOpen": "Mening ochiq talabnomalarim"
+  }
+}
