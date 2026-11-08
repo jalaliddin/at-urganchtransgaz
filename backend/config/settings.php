@@ -128,6 +128,14 @@ return [
         'public' => true,
     ],
 
+    // Requisitions go to the organization head first; skipped when the organization has no active approver.
+    'requisitions.head_approval' => [
+        'type' => 'boolean',
+        'default' => true,
+        'rules' => ['required', 'boolean'],
+        'public' => false,
+    ],
+
     'notifications.mail_enabled' => [
         'type' => 'boolean',
         'default' => true,

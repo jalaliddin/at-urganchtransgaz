@@ -25,6 +25,8 @@ return [
         'helpdesk' => ['view', 'create', 'process', 'assign', 'export', 'manage'],
         'documents' => ['view', 'manage'],
         'assets' => ['view', 'create', 'update', 'delete', 'assign', 'transfer', 'inventory', 'dispose', 'export', 'manage_catalog'],
+        'warehouse' => ['view', 'receive', 'issue', 'transfer', 'inventory', 'manage', 'export'],
+        'requisitions' => ['view', 'create', 'approve_org', 'review', 'approve', 'fulfill', 'export'],
     ],
 
     'roles' => [
@@ -50,6 +52,10 @@ return [
                 'documents.view', 'documents.manage',
                 'assets.view', 'assets.create', 'assets.update', 'assets.delete', 'assets.assign', 'assets.transfer',
                 'assets.inventory', 'assets.dispose', 'assets.export', 'assets.manage_catalog',
+                'warehouse.view', 'warehouse.receive', 'warehouse.issue', 'warehouse.transfer', 'warehouse.inventory',
+                'warehouse.manage', 'warehouse.export',
+                'requisitions.view', 'requisitions.create', 'requisitions.approve_org', 'requisitions.review',
+                'requisitions.approve', 'requisitions.fulfill', 'requisitions.export',
             ],
         ],
         'central-it-staff' => [
@@ -62,6 +68,8 @@ return [
                 'helpdesk.view', 'helpdesk.create', 'helpdesk.process', 'helpdesk.export',
                 'documents.view', 'documents.manage',
                 'assets.view', 'assets.create', 'assets.update', 'assets.assign', 'assets.transfer', 'assets.inventory', 'assets.export',
+                'warehouse.view', 'warehouse.receive', 'warehouse.issue', 'warehouse.transfer', 'warehouse.inventory', 'warehouse.export',
+                'requisitions.view', 'requisitions.review', 'requisitions.fulfill',
             ],
         ],
         'org-it-responsible' => [
@@ -74,6 +82,8 @@ return [
                 'helpdesk.view', 'helpdesk.create', 'helpdesk.process', 'helpdesk.assign', 'helpdesk.export',
                 'documents.view', 'documents.manage',
                 'assets.view', 'assets.create', 'assets.update', 'assets.assign', 'assets.transfer', 'assets.inventory', 'assets.export',
+                'warehouse.view', 'warehouse.receive', 'warehouse.issue', 'warehouse.transfer', 'warehouse.inventory', 'warehouse.export',
+                'requisitions.view', 'requisitions.create',
             ],
         ],
         'org-head' => [
@@ -83,6 +93,8 @@ return [
                 'dashboard.view', 'organizations.view', 'departments.view', 'employees.view',
                 'helpdesk.view', 'helpdesk.create', 'helpdesk.export',
                 'assets.view', 'assets.export',
+                'warehouse.view', 'warehouse.export',
+                'requisitions.view', 'requisitions.approve_org',
             ],
         ],
         'employee' => [
@@ -97,6 +109,8 @@ return [
                 'dashboard.view', 'organizations.view', 'departments.view', 'employees.view',
                 'helpdesk.create', 'documents.view', 'documents.manage',
                 'assets.view', 'assets.inventory', 'assets.export',
+                'warehouse.view', 'warehouse.receive', 'warehouse.issue', 'warehouse.inventory', 'warehouse.export',
+                'requisitions.view', 'requisitions.fulfill',
             ],
         ],
         'auditor' => [
@@ -107,6 +121,8 @@ return [
                 'users.view', 'roles.view', 'audit.view', 'settings.view',
                 'helpdesk.view', 'helpdesk.export', 'documents.view',
                 'assets.view', 'assets.export',
+                'warehouse.view', 'warehouse.export',
+                'requisitions.view', 'requisitions.export',
             ],
         ],
     ],

@@ -17,10 +17,15 @@ use App\Models\Employee;
 use App\Models\InventorySession;
 use App\Models\Location;
 use App\Models\Manufacturer;
+use App\Models\Material;
+use App\Models\MaterialCategory;
 use App\Models\Organization;
 use App\Models\OrganizationItResponsible;
 use App\Models\ReportExport;
+use App\Models\Requisition;
 use App\Models\Role;
+use App\Models\StockCount;
+use App\Models\StockDocument;
 use App\Models\StoredFile;
 use App\Models\SystemSetting;
 use App\Models\Ticket;
@@ -28,8 +33,10 @@ use App\Models\TicketAttachment;
 use App\Models\TicketCategory;
 use App\Models\TicketComment;
 use App\Models\TicketSlaPolicy;
+use App\Models\Unit;
 use App\Models\User;
 use App\Models\UserOrganizationAccess;
+use App\Models\Warehouse;
 use App\Services\Assets\AssetAttachments;
 use App\Services\Assets\AssetTransferService;
 use App\Services\Documents\DocumentService;
@@ -101,6 +108,13 @@ class AppServiceProvider extends ServiceProvider
             'asset_disposal' => AssetDisposal::class,
             'asset_transfer' => AssetTransfer::class,
             'inventory_session' => InventorySession::class,
+            'unit' => Unit::class,
+            'material_category' => MaterialCategory::class,
+            'material' => Material::class,
+            'warehouse' => Warehouse::class,
+            'stock_document' => StockDocument::class,
+            'stock_count' => StockCount::class,
+            'requisition' => Requisition::class,
         ]);
     }
 
