@@ -120,4 +120,5 @@ return [
     'license_no_seats' => "Litsenziyada bo'sh o'rin qolmagan.",
     'license_seats_below_used' => "O'rinlar soni band qilinganlardan (:used) kam bo'lishi mumkin emas.",
     'license_in_use' => 'Litsenziya qurilmalarga biriktirilgan. Avval ularni ajrating.',
+    'not_an_antivirus' => 'Tanlangan dastur katalogda antivirus deb belgilanmagan.',
 ];
