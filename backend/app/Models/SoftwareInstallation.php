@@ -52,6 +52,17 @@ class SoftwareInstallation extends Model
         $query->whereIn($query->qualifyColumn('asset_id'), Asset::query()->visibleTo($user)->select('assets.id'));
     }
 
+    public function resolveRouteBinding($value, $field = null): ?Model
+    {
+        $user = request()->user();
+        $query = static::query();
+        if ($user instanceof User) {
+            $query->visibleTo($user);
+        }
+
+        return $query->where($field ?? 'id', $value)->firstOrFail();
+    }
+
     /** @return BelongsTo<Asset, $this> */
     public function asset(): BelongsTo
     {

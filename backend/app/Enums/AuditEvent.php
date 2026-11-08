@@ -17,6 +17,7 @@ enum AuditEvent: string
     case AccessChanged = 'access_changed';
     case SettingsUpdated = 'settings_updated';
     case RolePermissionsChanged = 'role_permissions_changed';
+    case SecretRevealed = 'secret_revealed';
 
     public function label(): string
     {

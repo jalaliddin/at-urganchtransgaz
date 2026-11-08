@@ -115,4 +115,9 @@ return [
     'requisition_delete_submitted' => "Yuborilgan talabnomani o'chirib bo'lmaydi: uning tarixi saqlanadi. Tahrirlab qayta yuboring.",
     'software_in_use' => "Bu dasturdan foydalanilmoqda (qurilmalar, litsenziyalar, siyosatlar yoki antivirus holati). Avval ularni o'zgartiring.",
     'software_name_taken' => 'Bunday nomli dastur katalogda bor.',
+    'software_already_installed' => 'Bu dastur qurilmada allaqachon qayd etilgan.',
+    'license_other_software' => 'Litsenziya topilmadi yoki boshqa dastur uchun.',
+    'license_no_seats' => "Litsenziyada bo'sh o'rin qolmagan.",
+    'license_seats_below_used' => "O'rinlar soni band qilinganlardan (:used) kam bo'lishi mumkin emas.",
+    'license_in_use' => 'Litsenziya qurilmalarga biriktirilgan. Avval ularni ajrating.',
 ];

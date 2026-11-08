@@ -46,6 +46,8 @@ use App\Http\Controllers\Api\V1\Roles\RoleController;
 use App\Http\Controllers\Api\V1\Search\SearchController;
 use App\Http\Controllers\Api\V1\Settings\PublicSettingsController;
 use App\Http\Controllers\Api\V1\Settings\SettingsController;
+use App\Http\Controllers\Api\V1\Software\InstallationController;
+use App\Http\Controllers\Api\V1\Software\LicenseController;
 use App\Http\Controllers\Api\V1\Software\SoftwareController;
 use App\Http\Controllers\Api\V1\Users\UserController;
 use App\Http\Controllers\Api\V1\Users\UserOrganizationAccessController;
@@ -186,7 +188,15 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::post('stock-counts/{stockCount}/cancel', [StockCountController::class, 'cancel'])->whereNumber('stockCount')->name('stock-counts.cancel');
 
     // Phase 5: software, licences, antivirus, agents
+    Route::get('software-unrecognized', [SoftwareController::class, 'unrecognized'])->name('software.unrecognized');
     Route::apiResource('software', SoftwareController::class)->parameters(['software' => 'software'])->whereNumber('software');
+    Route::post('software/{software}/adopt', [SoftwareController::class, 'adopt'])->whereNumber('software')->name('software.adopt');
+    Route::apiResource('software-licenses', LicenseController::class)->parameters(['software-licenses' => 'softwareLicense'])->whereNumber('softwareLicense');
+    Route::post('software-licenses/{softwareLicense}/reveal', [LicenseController::class, 'reveal'])->whereNumber('softwareLicense')->name('software-licenses.reveal');
+    Route::get('assets/{asset}/software', [InstallationController::class, 'index'])->whereNumber('asset')->name('assets.software');
+    Route::post('assets/{asset}/software', [InstallationController::class, 'store'])->whereNumber('asset')->name('assets.software.store');
+    Route::patch('software-installations/{softwareInstallation}', [InstallationController::class, 'update'])->whereNumber('softwareInstallation')->name('software-installations.update');
+    Route::delete('software-installations/{softwareInstallation}', [InstallationController::class, 'destroy'])->whereNumber('softwareInstallation')->name('software-installations.destroy');
 
     // Phase 4: requisitions
     Route::apiResource('requisitions', RequisitionController::class)->whereNumber('requisition');

@@ -14,6 +14,7 @@ use App\Models\SoftwareInstallation;
 use App\Models\SoftwareLicense;
 use App\Models\SoftwarePolicy;
 use App\Models\User;
+use App\Services\Software\SoftwareInstallations;
 use App\Support\ApiResponse;
 use App\Support\Pagination;
 use Closure;
@@ -58,6 +59,29 @@ class SoftwareController extends Controller
             'versions' => $versions->values(),
             'licenses' => $licenses->map(fn (SoftwareLicense $l) => SoftwareResource::license($l, (int) $l->getAttribute('installations_count')))->values(),
         ]);
+    }
+
+    /** Names reported on the user's devices that match no catalog title, with device counts. */
+    public function unrecognized(Request $request): JsonResponse
+    {
+        Gate::authorize('software.use');
+        $rows = SoftwareInstallation::query()->visibleTo($this->user($request))->whereNull('software_id')
+            ->selectRaw('normalized_name, MIN(name) AS name, MIN(vendor) AS vendor, COUNT(*) AS devices')
+            ->groupBy('normalized_name')->orderByDesc('devices')->orderBy('normalized_name')->limit(500)->get();
+
+        return ApiResponse::data($rows->map(fn ($r) => [
+            'name' => (string) $r->getAttribute('name'), 'normalized_name' => (string) $r->getAttribute('normalized_name'),
+            'vendor' => $r->getAttribute('vendor'), 'devices' => (int) $r->getAttribute('devices'),
+        ])->values());
+    }
+
+    /** Links all unrecognised rows with this name to the catalog title. */
+    public function adopt(Request $request, Software $software, SoftwareInstallations $installations): JsonResponse
+    {
+        Gate::authorize('software.manage');
+        $data = $request->validate(['name' => ['required', 'string', 'max:255']]);
+
+        return ApiResponse::data(['linked' => $installations->adopt($software, $data['name'])]);
     }
 
     public function store(Request $request): JsonResponse

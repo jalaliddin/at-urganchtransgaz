@@ -26,6 +26,7 @@ return [
         'roles_changed' => "Rollar o'zgartirildi",
         'access_changed' => "Kirish doirasi o'zgartirildi",
         'role_permissions_changed' => "Rol ruxsatlari o'zgartirildi",
+        'secret_revealed' => "Maxfiy ma'lumot ochib ko'rildi",
         'settings_updated' => "Sozlamalar o'zgartirildi",
     ],
     'ticket_status' => [

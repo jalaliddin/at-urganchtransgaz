@@ -26,6 +26,7 @@ return [
         'roles_changed' => 'Роли изменены',
         'access_changed' => 'Доступ изменён',
         'role_permissions_changed' => 'Права роли изменены',
+        'secret_revealed' => 'Просмотр секретных данных',
         'settings_updated' => 'Настройки изменены',
     ],
     'ticket_status' => [
