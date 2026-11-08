@@ -24,6 +24,9 @@ use App\Models\OrganizationItResponsible;
 use App\Models\ReportExport;
 use App\Models\Requisition;
 use App\Models\Role;
+use App\Models\Software;
+use App\Models\SoftwareLicense;
+use App\Models\SoftwarePolicy;
 use App\Models\StockCount;
 use App\Models\StockDocument;
 use App\Models\StoredFile;
@@ -116,6 +119,9 @@ class AppServiceProvider extends ServiceProvider
             'stock_document' => StockDocument::class,
             'stock_count' => StockCount::class,
             'requisition' => Requisition::class,
+            'software' => Software::class,
+            'software_license' => SoftwareLicense::class,
+            'software_policy' => SoftwarePolicy::class,
         ]);
     }
 
@@ -173,6 +179,7 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('assets.use', fn (User $user): bool => $user->canAny(['assets.view', 'assets.create', 'assets.inventory']));
         Gate::define('warehouse.catalog', fn (User $user): bool => $user->canAny(['warehouse.view', 'requisitions.create', 'requisitions.review', 'requisitions.fulfill']));
+        Gate::define('software.use', fn (User $user): bool => $user->canAny(['software.view', 'software.install', 'software.manage']));
         Gate::define('helpdesk.use', fn (User $user): bool => $user->canAny(['helpdesk.view', 'helpdesk.create', 'helpdesk.manage']));
         Gate::define('viewApiDocs', fn (?User $user): bool => $user?->isSuperAdmin() ?? false);
     }

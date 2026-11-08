@@ -113,4 +113,6 @@ return [
     'return_wrong_warehouse' => 'Qaytarish chiqim qilingan omborga rasmiylashtiriladi.',
     'transfer_linked_to_requisition' => "Bu ko'chirish talabnoma bo'yicha ajratilgan aktivni olib boryapti: uni bekor qilib bo'lmaydi. Qabul qilingach, kerak bo'lsa aktivni qayta ko'chiring.",
     'requisition_delete_submitted' => "Yuborilgan talabnomani o'chirib bo'lmaydi: uning tarixi saqlanadi. Tahrirlab qayta yuboring.",
+    'software_in_use' => "Bu dasturdan foydalanilmoqda (qurilmalar, litsenziyalar, siyosatlar yoki antivirus holati). Avval ularni o'zgartiring.",
+    'software_name_taken' => 'Bunday nomli dastur katalogda bor.',
 ];

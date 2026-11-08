@@ -136,6 +136,14 @@ return [
         'public' => false,
     ],
 
+    // Antivirus definitions older than this many days count as outdated.
+    'software.av_outdated_days' => [
+        'type' => 'integer',
+        'default' => 7,
+        'rules' => ['required', 'integer', 'min:1', 'max:90'],
+        'public' => false,
+    ],
+
     'notifications.mail_enabled' => [
         'type' => 'boolean',
         'default' => true,

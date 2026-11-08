@@ -46,6 +46,7 @@ use App\Http\Controllers\Api\V1\Roles\RoleController;
 use App\Http\Controllers\Api\V1\Search\SearchController;
 use App\Http\Controllers\Api\V1\Settings\PublicSettingsController;
 use App\Http\Controllers\Api\V1\Settings\SettingsController;
+use App\Http\Controllers\Api\V1\Software\SoftwareController;
 use App\Http\Controllers\Api\V1\Users\UserController;
 use App\Http\Controllers\Api\V1\Users\UserOrganizationAccessController;
 use App\Http\Controllers\Api\V1\Users\UserPasswordResetController;
@@ -183,6 +184,9 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::post('stock-counts/{stockCount}/lines', [StockCountController::class, 'addLine'])->whereNumber('stockCount')->name('stock-counts.add-line');
     Route::post('stock-counts/{stockCount}/close', [StockCountController::class, 'close'])->whereNumber('stockCount')->name('stock-counts.close');
     Route::post('stock-counts/{stockCount}/cancel', [StockCountController::class, 'cancel'])->whereNumber('stockCount')->name('stock-counts.cancel');
+
+    // Phase 5: software, licences, antivirus, agents
+    Route::apiResource('software', SoftwareController::class)->parameters(['software' => 'software'])->whereNumber('software');
 
     // Phase 4: requisitions
     Route::apiResource('requisitions', RequisitionController::class)->whereNumber('requisition');

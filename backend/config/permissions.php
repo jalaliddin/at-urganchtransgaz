@@ -27,6 +27,7 @@ return [
         'assets' => ['view', 'create', 'update', 'delete', 'assign', 'transfer', 'inventory', 'dispose', 'export', 'manage_catalog'],
         'warehouse' => ['view', 'receive', 'issue', 'transfer', 'inventory', 'manage', 'export'],
         'requisitions' => ['view', 'create', 'approve_org', 'review', 'approve', 'fulfill', 'export'],
+        'software' => ['view', 'install', 'manage', 'agents', 'export'],
     ],
 
     'roles' => [
@@ -56,6 +57,7 @@ return [
                 'warehouse.manage', 'warehouse.export',
                 'requisitions.view', 'requisitions.create', 'requisitions.review',
                 'requisitions.approve', 'requisitions.fulfill', 'requisitions.export',
+                'software.view', 'software.install', 'software.manage', 'software.agents', 'software.export',
             ],
         ],
         'central-it-staff' => [
@@ -70,6 +72,7 @@ return [
                 'assets.view', 'assets.create', 'assets.update', 'assets.assign', 'assets.transfer', 'assets.inventory', 'assets.export',
                 'warehouse.view', 'warehouse.receive', 'warehouse.issue', 'warehouse.transfer', 'warehouse.inventory', 'warehouse.export',
                 'requisitions.view', 'requisitions.review', 'requisitions.fulfill',
+                'software.view', 'software.install', 'software.agents', 'software.export',
             ],
         ],
         'org-it-responsible' => [
@@ -84,6 +87,7 @@ return [
                 'assets.view', 'assets.create', 'assets.update', 'assets.assign', 'assets.transfer', 'assets.inventory', 'assets.export',
                 'warehouse.view', 'warehouse.receive', 'warehouse.issue', 'warehouse.transfer', 'warehouse.inventory', 'warehouse.export',
                 'requisitions.view', 'requisitions.create',
+                'software.view', 'software.install', 'software.export',
             ],
         ],
         'org-head' => [
@@ -95,6 +99,7 @@ return [
                 'assets.view', 'assets.export',
                 'warehouse.view', 'warehouse.export',
                 'requisitions.view', 'requisitions.approve_org',
+                'software.view', 'software.export',
             ],
         ],
         'employee' => [
@@ -111,6 +116,7 @@ return [
                 'assets.view', 'assets.inventory', 'assets.export',
                 'warehouse.view', 'warehouse.receive', 'warehouse.issue', 'warehouse.inventory', 'warehouse.export',
                 'requisitions.view', 'requisitions.fulfill',
+                'software.view',
             ],
         ],
         'auditor' => [
@@ -123,6 +129,7 @@ return [
                 'assets.view', 'assets.export',
                 'warehouse.view', 'warehouse.export',
                 'requisitions.view', 'requisitions.export',
+                'software.view', 'software.export',
             ],
         ],
     ],
