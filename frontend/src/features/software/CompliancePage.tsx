@@ -1,4 +1,5 @@
 import { Anchor, Card, Group, SegmentedControl, Table, Text, Title } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { DataTable } from '@/components/DataTable'
@@ -14,6 +15,7 @@ import { AV_STATES, type ComplianceDevice } from './types'
 export function CompliancePage() {
   const { t } = useTranslation('software')
   const canExport = useCan('software.export')
+  const phone = useMediaQuery('(max-width: 48em)')
   const params = useTableParams({
     defaultSort: 'inventory_number',
     filterKeys: ['problem', 'organization'],
@@ -99,6 +101,8 @@ export function CompliancePage() {
         toolbar={
           <SegmentedControl
             aria-label={t('compliance.problem')}
+            orientation={phone ? 'vertical' : 'horizontal'}
+            fullWidth={phone}
             value={params.filters.problem ?? 'all'}
             onChange={(v) => params.setFilter('problem', v === 'all' ? null : v)}
             data={[
