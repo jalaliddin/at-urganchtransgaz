@@ -28,7 +28,8 @@ class WarehouseFoundationTest extends TestCase
 
         return [
             'central head warehouse' => ['central-it-head', 'warehouse', [...$warehouseOps, 'manage']],
-            'central head requisitions' => ['central-it-head', 'requisitions', ['view', 'create', 'approve_org', 'review', 'approve', 'fulfill', 'export']],
+            // The organization-head stage belongs to subsidiaries' heads, not to the central head.
+            'central head requisitions' => ['central-it-head', 'requisitions', ['view', 'create', 'review', 'approve', 'fulfill', 'export']],
             'central staff warehouse' => ['central-it-staff', 'warehouse', $warehouseOps],
             'central staff requisitions' => ['central-it-staff', 'requisitions', ['view', 'review', 'fulfill']],
             'org it warehouse' => ['org-it-responsible', 'warehouse', $warehouseOps],

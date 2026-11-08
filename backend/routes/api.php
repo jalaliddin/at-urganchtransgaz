@@ -39,6 +39,8 @@ use App\Http\Controllers\Api\V1\Notifications\NotificationController;
 use App\Http\Controllers\Api\V1\Organizations\ItResponsibleController;
 use App\Http\Controllers\Api\V1\Organizations\OrganizationController;
 use App\Http\Controllers\Api\V1\Organizations\OrganizationTreeController;
+use App\Http\Controllers\Api\V1\Requisitions\RequisitionActionController;
+use App\Http\Controllers\Api\V1\Requisitions\RequisitionController;
 use App\Http\Controllers\Api\V1\Roles\PermissionController;
 use App\Http\Controllers\Api\V1\Roles\RoleController;
 use App\Http\Controllers\Api\V1\Search\SearchController;
@@ -181,6 +183,20 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::post('stock-counts/{stockCount}/lines', [StockCountController::class, 'addLine'])->whereNumber('stockCount')->name('stock-counts.add-line');
     Route::post('stock-counts/{stockCount}/close', [StockCountController::class, 'close'])->whereNumber('stockCount')->name('stock-counts.close');
     Route::post('stock-counts/{stockCount}/cancel', [StockCountController::class, 'cancel'])->whereNumber('stockCount')->name('stock-counts.cancel');
+
+    // Phase 4: requisitions
+    Route::apiResource('requisitions', RequisitionController::class)->whereNumber('requisition');
+    Route::prefix('requisitions/{requisition}')->whereNumber('requisition')->name('requisitions.')->group(function (): void {
+        Route::post('submit', [RequisitionActionController::class, 'submit'])->name('submit');
+        Route::post('org-decision', [RequisitionActionController::class, 'orgDecision'])->name('org-decision');
+        Route::post('take', [RequisitionActionController::class, 'take'])->name('take');
+        Route::post('request-info', [RequisitionActionController::class, 'requestInfo'])->name('request-info');
+        Route::post('provide-info', [RequisitionActionController::class, 'provideInfo'])->name('provide-info');
+        Route::post('decision', [RequisitionActionController::class, 'decide'])->name('decision');
+        Route::post('ready', [RequisitionActionController::class, 'ready'])->name('ready');
+        Route::post('comments', [RequisitionActionController::class, 'comment'])->name('comments');
+        Route::post('attachments', [RequisitionActionController::class, 'attach'])->name('attachments');
+    });
 
     Route::get('asset-transfers', [AssetTransferController::class, 'index'])->name('asset-transfers.index');
     Route::post('asset-transfers', [AssetTransferController::class, 'store'])->name('asset-transfers.store');

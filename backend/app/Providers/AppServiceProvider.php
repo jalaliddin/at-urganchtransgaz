@@ -42,6 +42,7 @@ use App\Services\Assets\AssetTransferService;
 use App\Services\Documents\DocumentService;
 use App\Services\Files\FileAccess;
 use App\Services\Helpdesk\TicketAttachments;
+use App\Services\Requisitions\RequisitionService;
 use App\Support\Access\OrganizationAccessResolver;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -166,6 +167,9 @@ class AppServiceProvider extends ServiceProvider
 
             return $user->can('warehouse.view') && StockDocument::query()->visibleTo($user)->whereKey($documentId)->exists();
         });
+
+        $files->register(fn (User $user, StoredFile $file): ?bool => $this->app
+            ->make(RequisitionService::class)->canDownload($user, $file));
 
         Gate::define('assets.use', fn (User $user): bool => $user->canAny(['assets.view', 'assets.create', 'assets.inventory']));
         Gate::define('warehouse.catalog', fn (User $user): bool => $user->canAny(['warehouse.view', 'requisitions.create', 'requisitions.review', 'requisitions.fulfill']));

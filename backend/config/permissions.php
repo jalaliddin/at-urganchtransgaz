@@ -54,7 +54,7 @@ return [
                 'assets.inventory', 'assets.dispose', 'assets.export', 'assets.manage_catalog',
                 'warehouse.view', 'warehouse.receive', 'warehouse.issue', 'warehouse.transfer', 'warehouse.inventory',
                 'warehouse.manage', 'warehouse.export',
-                'requisitions.view', 'requisitions.create', 'requisitions.approve_org', 'requisitions.review',
+                'requisitions.view', 'requisitions.create', 'requisitions.review',
                 'requisitions.approve', 'requisitions.fulfill', 'requisitions.export',
             ],
         ],

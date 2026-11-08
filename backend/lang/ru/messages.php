@@ -98,4 +98,8 @@ return [
     'stock_count_line_exists' => 'Этот материал и партия уже есть в списке.',
     'stock_count_uncounted' => 'Есть непосчитанные строки: :count.',
     'stock_count_reason' => 'Результат инвентаризации (:number)',
+    'requisition_items_required' => 'В заявке должна быть хотя бы одна строка.',
+    'requisition_quantity_invalid' => 'Утверждённое количество должно быть от 0 до запрошенного.',
+    'requisition_nothing_approved' => 'Нужно утвердить количество хотя бы по одной строке.',
+    'requisition_comment_required' => 'Напишите комментарий.',
 ];

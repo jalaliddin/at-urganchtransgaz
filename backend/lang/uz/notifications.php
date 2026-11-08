@@ -64,4 +64,51 @@ return [
         'line' => ':count ta partiyaning yaroqlilik muddati :days kun ichida tugaydi:',
     ],
     'open_warehouse' => 'Omborni ochish',
+    'requisition' => [
+        'org_approval' => [
+            'subject' => ':number talabnomasi tasdiqlashingizni kutmoqda',
+            'line' => ":organization: «:title» talabnomasi tashkilot rahbari tasdig'ini kutmoqda.",
+        ],
+        'queued' => [
+            'subject' => ':number talabnomasi markaziy AT xizmatiga keldi',
+            'line' => ":organization: «:title» talabnomasi ko'rib chiqishni kutmoqda.",
+        ],
+        'info_requested' => [
+            'subject' => ":number: qo'shimcha ma'lumot so'raldi",
+            'line' => "«:title» talabnomasi bo'yicha markaziy AT xizmati qo'shimcha ma'lumot so'radi.",
+        ],
+        'info_provided' => [
+            'subject' => ":number: ma'lumot berildi",
+            'line' => "«:title» talabnomasi bo'yicha so'ralgan ma'lumot berildi.",
+        ],
+        'approved' => [
+            'subject' => ':number talabnomasi tasdiqlandi',
+            'line' => '«:title» talabnomasi markaziy AT rahbari tomonidan tasdiqlandi.',
+        ],
+        'allocation' => [
+            'subject' => ':number: resurs ajratish kerak',
+            'line' => ':organization: «:title» talabnomasi tasdiqlandi, resurslarni ajrating.',
+        ],
+        'rejected' => [
+            'subject' => ':number talabnomasi rad etildi',
+            'line' => '«:title» talabnomasi rad etildi.',
+        ],
+        'returned' => [
+            'subject' => ':number talabnomasi qayta ishlashga qaytarildi',
+            'line' => "«:title» talabnomasini to'g'rilab, qayta yuboring.",
+        ],
+        'partially_fulfilled' => [
+            'subject' => ':number: resurslar qisman ajratildi',
+            'line' => "«:title» talabnomasi bo'yicha resurslarning bir qismi ajratildi.",
+        ],
+        'fulfilled' => [
+            'subject' => ':number: resurslar ajratildi — qabul qiling',
+            'line' => "«:title» talabnomasi bo'yicha resurslar to'liq ajratildi. Qabul qilinganini tasdiqlang.",
+        ],
+        'received' => [
+            'subject' => ':number: resurslar qabul qilindi',
+            'line' => ":organization: «:title» talabnomasi bo'yicha resurslar qabul qilinganini tasdiqladi.",
+        ],
+    ],
+    'open_requisition' => 'Talabnomani ochish',
 ];

@@ -98,4 +98,8 @@ return [
     'stock_count_line_exists' => "Bu material va partiya ro'yxatda allaqachon bor.",
     'stock_count_uncounted' => 'Hali sanalmagan qatorlar bor: :count ta.',
     'stock_count_reason' => 'Inventarizatsiya natijasi (:number)',
+    'requisition_items_required' => "Talabnomada kamida bitta qator bo'lishi kerak.",
+    'requisition_quantity_invalid' => "Tasdiqlangan miqdor 0 dan so'ralgan miqdorgacha bo'lishi kerak.",
+    'requisition_nothing_approved' => 'Kamida bitta qator uchun miqdor tasdiqlanishi kerak.',
+    'requisition_comment_required' => 'Izoh yozing.',
 ];

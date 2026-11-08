@@ -17,6 +17,7 @@ class ChannelResolver
         'ticket_created', 'ticket_assigned', 'ticket_status_changed', 'ticket_commented',
         'ticket_sla_breached', 'ticket_due_soon', 'export_ready', 'assets_return_required', 'asset_warranty_expiring',
         'asset_transfer_incoming', 'asset_disposal_requested', 'stock_low', 'stock_expiring',
+        'requisition_action', 'requisition_update',
     ];
 
     public function __construct(private readonly SettingsService $settings) {}
