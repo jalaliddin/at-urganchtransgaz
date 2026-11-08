@@ -81,7 +81,8 @@
     "requisition_returned": "Заявка {{number}} возвращена на доработку",
     "requisition_partially_fulfilled": "{{number}}: ресурсы выделены частично",
     "requisition_fulfilled": "{{number}}: ресурсы выделены — подтвердите получение",
-    "requisition_received": "{{number}}: ресурсы получены"
+    "requisition_received": "{{number}}: ресурсы получены",
+    "license_expiring": "Истекает лицензия {{software}} ({{date}})"
   },
   "languages": {
     "uz": "O'zbekcha",
@@ -109,7 +110,10 @@
     "warehouse": "Склад",
     "stock_document": "Складской документ",
     "stock_count": "Инвентаризация склада",
-    "requisition": "Заявка"
+    "requisition": "Заявка",
+    "software": "Программа",
+    "software_license": "Лицензия на ПО",
+    "software_policy": "Обязательная программа"
   },
   "saved": "Сохранено"
 }

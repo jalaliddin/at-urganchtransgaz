@@ -48,6 +48,14 @@ export interface DashboardData {
   my_assets?: { total: number }
   warehouse?: { low_stock: number; expiring: number; documents_month: number }
   requisitions?: { awaiting_action: number; open: number; mine_open: number }
+  software?: {
+    devices: number
+    protected: number
+    unprotected: number
+    outdated: number
+    missing_required: number
+    licenses_expiring: number
+  }
 }
 
 export async function fetchDashboard(organizationId: number | null): Promise<DashboardData> {

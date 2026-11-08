@@ -77,7 +77,8 @@
     "repairs": "Ремонт",
     "relations": "Связи (CMDB)",
     "files": "Файлы",
-    "documents": "Документы"
+    "documents": "Документы",
+    "software": "Программы"
   },
   "status": {
     "in_stock": "На складе",

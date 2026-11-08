@@ -42,7 +42,8 @@
       "stock_low": "Minimal qoldiq",
       "stock_expiring": "Yaroqlilik muddati tugashi",
       "requisition_action": "Talabnoma: sizdan harakat kutilmoqda",
-      "requisition_update": "Talabnoma holati o'zgardi"
+      "requisition_update": "Talabnoma holati o'zgardi",
+      "license_expiring": "Litsenziya muddati"
     }
   }
 }

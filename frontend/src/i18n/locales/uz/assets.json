@@ -77,7 +77,8 @@
     "repairs": "Ta'mir",
     "relations": "Bog'lanishlar (CMDB)",
     "files": "Fayllar",
-    "documents": "Hujjatlar"
+    "documents": "Hujjatlar",
+    "software": "Dasturlar"
   },
   "status": {
     "in_stock": "Omborda",

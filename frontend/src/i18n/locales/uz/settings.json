@@ -6,7 +6,8 @@
     "security": "Xavfsizlik",
     "files": "Fayllar",
     "notifications": "Bildirishnomalar",
-    "requisitions": "Talabnomalar"
+    "requisitions": "Talabnomalar",
+    "software": "Dasturlar"
   },
   "keys": {
     "general": {
@@ -52,6 +53,10 @@
     "requisitions.head_approval": {
       "label": "Tashkilot rahbari tasdig'i",
       "hint": "Yoqilgan bo'lsa, talabnoma avval quyi tashkilot rahbariga boradi (tashkilotda tasdiqlovchi bo'lmasa bosqich o'tkazib yuboriladi)"
+    },
+    "software.av_outdated_days": {
+      "label": "Antivirus bazalari eskirgan hisoblanadigan muddat (kun)",
+      "hint": "Bazalar shundan eski bo'lsa, holat «eskirgan»"
     }
   },
   "public": "Ommaviy",

@@ -26,6 +26,7 @@ const EVENTS = [
   'access_changed',
   'settings_updated',
   'role_permissions_changed',
+  'secret_revealed',
 ]
 const ENTITIES = [
   'organization',

@@ -35,6 +35,7 @@ import { PageHeader } from '@/components/PageHeader'
 import { NotFoundPage } from '@/features/errors/NotFoundPage'
 import { fileUrl } from '@/features/exports/api'
 import { formatSize } from '@/features/helpdesk/files'
+import { AssetSoftwareTab } from '@/features/software/AssetSoftwareTab'
 import { useCan } from '@/hooks/usePermissions'
 import { formatDate, formatDateTime, formatMoney } from '@/lib/format'
 import * as a from './api'
@@ -367,6 +368,7 @@ export function AssetDetailPage() {
   const [dialog, setDialog] = useState<AssetDialog | null>(null)
   const [editing, setEditing] = useState(false)
   const remove = useAssetMutation(() => a.deleteAsset(id))
+  const canSoftware = useCan(['software.view', 'software.install', 'software.manage'], 'any')
 
   if (query.error instanceof ApiError && query.error.status === 404) return <NotFoundPage />
   if (query.error) return <ErrorState error={query.error} onRetry={() => void query.refetch()} />
@@ -467,6 +469,7 @@ export function AssetDetailPage() {
               <Tabs.Tab value="relations">{t('sections.relations')}</Tabs.Tab>
               <Tabs.Tab value="files">{t('sections.files')}</Tabs.Tab>
               <Tabs.Tab value="documents">{t('sections.documents')}</Tabs.Tab>
+              {canSoftware && <Tabs.Tab value="software">{t('sections.software')}</Tabs.Tab>}
             </Tabs.List>
             <Tabs.Panel value="details">
               <DetailsTab asset={asset} />
@@ -489,6 +492,11 @@ export function AssetDetailPage() {
             <Tabs.Panel value="documents">
               <DocumentsTab asset={asset} />
             </Tabs.Panel>
+            {canSoftware && (
+              <Tabs.Panel value="software">
+                <AssetSoftwareTab assetId={asset.id} />
+              </Tabs.Panel>
+            )}
           </Tabs>
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 4 }}>

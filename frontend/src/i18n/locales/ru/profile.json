@@ -42,7 +42,8 @@
       "stock_low": "Минимальный остаток",
       "stock_expiring": "Истечение срока годности",
       "requisition_action": "Заявка: ожидается ваше действие",
-      "requisition_update": "Изменился статус заявки"
+      "requisition_update": "Изменился статус заявки",
+      "license_expiring": "Срок лицензии"
     }
   }
 }

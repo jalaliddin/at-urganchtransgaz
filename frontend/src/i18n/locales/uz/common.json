@@ -81,7 +81,8 @@
     "requisition_returned": "{{number}} talabnomasi qayta ishlashga qaytarildi",
     "requisition_partially_fulfilled": "{{number}}: resurslar qisman ajratildi",
     "requisition_fulfilled": "{{number}}: resurslar ajratildi — qabul qiling",
-    "requisition_received": "{{number}}: resurslar qabul qilindi"
+    "requisition_received": "{{number}}: resurslar qabul qilindi",
+    "license_expiring": "{{software}} litsenziyasi tugayapti ({{date}})"
   },
   "languages": {
     "uz": "O'zbekcha",
@@ -109,7 +110,10 @@
     "warehouse": "Ombor",
     "stock_document": "Ombor hujjati",
     "stock_count": "Ombor inventarizatsiyasi",
-    "requisition": "Talabnoma"
+    "requisition": "Talabnoma",
+    "software": "Dastur",
+    "software_license": "Dastur litsenziyasi",
+    "software_policy": "Majburiy dastur"
   },
   "saved": "Saqlandi"
 }

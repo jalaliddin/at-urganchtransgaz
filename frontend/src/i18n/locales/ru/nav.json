@@ -5,7 +5,8 @@
     "administration": "Администрирование",
     "helpdesk": "Обслуживание",
     "assets": "ИТ-активы",
-    "warehouse": "Склад и заявки"
+    "warehouse": "Склад и заявки",
+    "software": "Программы и антивирус"
   },
   "items": {
     "dashboard": "Панель управления",
@@ -38,7 +39,12 @@
     "stockDocuments": "Складские документы",
     "stockMovements": "Журнал движения",
     "stockCounts": "Инвентаризация склада",
-    "warehouseSettings": "Настройки склада"
+    "warehouseSettings": "Настройки склада",
+    "software": "Каталог программ",
+    "licenses": "Лицензии",
+    "compliance": "Соответствие",
+    "agents": "Агенты",
+    "softwareImport": "Импорт CSV"
   },
   "header": {
     "search": "Поиск",

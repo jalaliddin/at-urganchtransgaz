@@ -24,6 +24,7 @@ export const MAIL_TYPES = [
   'stock_expiring',
   'requisition_action',
   'requisition_update',
+  'license_expiring',
 ] as const
 
 /** In-app notifications always arrive; here the user chooses which ones also come by e-mail. */

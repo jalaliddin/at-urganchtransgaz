@@ -31,6 +31,12 @@ import { TransferDetailPage } from '@/features/assets/TransferDetailPage'
 import { TransfersPage } from '@/features/assets/TransfersPage'
 import { RequisitionDetailPage } from '@/features/requisitions/RequisitionDetailPage'
 import { RequisitionsPage } from '@/features/requisitions/RequisitionsPage'
+import { AgentsPage } from '@/features/software/AgentsPage'
+import { CompliancePage } from '@/features/software/CompliancePage'
+import { ImportPage } from '@/features/software/ImportPage'
+import { LicensesPage } from '@/features/software/LicensesPage'
+import { SoftwareDetailPage } from '@/features/software/SoftwareDetailPage'
+import { SoftwarePage } from '@/features/software/SoftwarePage'
 import { BalancesPage } from '@/features/warehouse/BalancesPage'
 import { CountPage } from '@/features/warehouse/CountPage'
 import { CountsPage } from '@/features/warehouse/CountsPage'
@@ -154,6 +160,25 @@ export const routes: RouteObject[] = [
                       { path: ':id', element: <AssetDetailPage />, handle: { crumb: 'assets:crumb' } },
                     ],
                   },
+                ],
+              },
+              {
+                path: 'software',
+                element: (
+                  <RequirePermission permission={['software.view', 'software.install', 'software.manage']} />
+                ),
+                handle: { crumb: 'nav:items.software' },
+                children: [
+                  { index: true, element: <SoftwarePage /> },
+                  { path: 'licenses', element: <LicensesPage />, handle: { crumb: 'nav:items.licenses' } },
+                  {
+                    path: 'compliance',
+                    element: <CompliancePage />,
+                    handle: { crumb: 'nav:items.compliance' },
+                  },
+                  { path: 'agents', element: <AgentsPage />, handle: { crumb: 'nav:items.agents' } },
+                  { path: 'import', element: <ImportPage />, handle: { crumb: 'nav:items.softwareImport' } },
+                  { path: ':id', element: <SoftwareDetailPage />, handle: { crumb: 'software:crumb' } },
                 ],
               },
               {

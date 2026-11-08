@@ -18,6 +18,7 @@ export function DashboardPage() {
   const { t: ta } = useTranslation('assets')
   const { t: tw } = useTranslation('warehouse')
   const { t: tr } = useTranslation('requisitions')
+  const { t: ts } = useTranslation('software')
   const me = useCurrentUser()
   const { organizationId: orgContextId } = useOrgContext()
   const query = useQuery({
@@ -123,6 +124,26 @@ export function DashboardPage() {
         label={tw('dashboard.expiring')}
         value={data.warehouse.expiring}
         href="/warehouse?filter[expiring]=1"
+      />
+    ),
+    data.software && data.software.devices > 0 && (
+      <StatTile
+        key="software-av"
+        label={ts('dashboard.protected')}
+        value={data.software.protected}
+        detail={ts('dashboard.unprotected', {
+          devices: data.software.devices,
+          count: data.software.unprotected,
+        })}
+        href="/software/compliance?filter[problem]=unprotected"
+      />
+    ),
+    data.software && data.software.licenses_expiring > 0 && (
+      <StatTile
+        key="software-licenses"
+        label={ts('dashboard.licenses')}
+        value={data.software.licenses_expiring}
+        href="/software/licenses?filter[expiring]=1"
       />
     ),
     data.my_tickets && (

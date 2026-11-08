@@ -5,7 +5,8 @@
     "administration": "Boshqaruv",
     "helpdesk": "Xizmat ko'rsatish",
     "assets": "IT aktivlar",
-    "warehouse": "Ombor va talabnomalar"
+    "warehouse": "Ombor va talabnomalar",
+    "software": "Dasturlar va antivirus"
   },
   "items": {
     "dashboard": "Boshqaruv paneli",
@@ -38,7 +39,12 @@
     "stockDocuments": "Ombor hujjatlari",
     "stockMovements": "Harakatlar jurnali",
     "stockCounts": "Ombor inventarizatsiyasi",
-    "warehouseSettings": "Ombor sozlamalari"
+    "warehouseSettings": "Ombor sozlamalari",
+    "software": "Dasturlar katalogi",
+    "licenses": "Litsenziyalar",
+    "compliance": "Muvofiqlik",
+    "agents": "Agentlar",
+    "softwareImport": "CSV import"
   },
   "header": {
     "search": "Qidirish",

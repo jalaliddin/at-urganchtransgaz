@@ -1,0 +1,196 @@
+{
+  "title": "Dasturlar katalogi",
+  "description": "Dasturlar, antivirus mahsulotlari, tanilmagan nomlar va majburiy dasturlar",
+  "crumb": "Dastur",
+  "tabs": {
+    "catalog": "Katalog",
+    "unrecognized": "Tanilmagan nomlar",
+    "policies": "Majburiy dasturlar"
+  },
+  "catalog": {
+    "empty": "Katalog bo'sh",
+    "search": "Nomi yoki ishlab chiqaruvchi",
+    "antivirus": "Antivirus",
+    "inactive": "Faol emas",
+    "add": "Dastur qo'shish",
+    "edit": "Dasturni tahrirlash",
+    "isAntivirus": "Antivirus/EDR mahsuloti",
+    "active": "Faol"
+  },
+  "fields": {
+    "category": "Toifa",
+    "name": "Dastur",
+    "vendor": "Ishlab chiqaruvchi",
+    "licenseType": "Litsenziya turi",
+    "devices": "Qurilmalar",
+    "note": "Izoh",
+    "description": "Tavsif"
+  },
+  "categories": {
+    "os": "Operatsion tizim",
+    "office": "Ofis dasturlari",
+    "antivirus": "Antivirus/EDR",
+    "browser": "Brauzer",
+    "security": "Xavfsizlik",
+    "utility": "Yordamchi dastur",
+    "development": "Dasturlash",
+    "business": "Biznes/buxgalteriya",
+    "other": "Boshqa"
+  },
+  "licenseTypes": {
+    "freeware": "Bepul",
+    "open_source": "Ochiq kodli",
+    "commercial": "Tijoriy (doimiy)",
+    "subscription": "Obuna",
+    "oem": "OEM"
+  },
+  "unrecognized": {
+    "hint": "Agent yoki CSV yuborgan, lekin katalogda yo'q nomlar. Katalogga qo'shsangiz, shu nomdagi barcha qurilma yozuvlari bog'lanadi.",
+    "empty": "Tanilmagan nomlar yo'q",
+    "add": "Katalogga qo'shish",
+    "linked": "{{count}} ta qurilma yozuvi katalogga bog'landi"
+  },
+  "policies": {
+    "hint": "Bu yerdagi dasturlar tegishli qurilmalarda bo'lishi shart. Yo'qlari muvofiqlik hisobotida ko'rinadi.",
+    "deleteConfirm": "«{{name}}» majburiy ro'yxatdan olib tashlansinmi?",
+    "organization": "Tashkilot",
+    "category": "Aktiv toifasi",
+    "add": "Majburiy dastur qo'shish",
+    "all": "Barcha tashkilotlar",
+    "computers": "Kompyuter va serverlar",
+    "organizationHint": "Tashkilot (bo'sh — barchasi)"
+  },
+  "detail": {
+    "versions": "Versiyalar ({{count}} ta qurilma)",
+    "noVersion": "versiya ko'rsatilmagan",
+    "devices": "{{count}} ta qurilma",
+    "notInstalled": "Sizning qurilmalaringizda o'rnatilmagan"
+  },
+  "licenses": {
+    "title": "Litsenziyalar",
+    "description": "O'rinlar, foydalanilgan va bo'sh joylar, tugash sanalari",
+    "usage": "{{used}} / {{seats}}",
+    "empty": "Litsenziya yo'q",
+    "freeSeats": "bo'sh: {{count}}",
+    "edit": "Litsenziyani tahrirlash",
+    "add": "Litsenziya qo'shish",
+    "owner": "Egasi (tashkilot)",
+    "number": "Raqam / shartnoma",
+    "seats": "O'rinlar",
+    "validFrom": "Boshlanish",
+    "expiresAt": "Tugash sanasi",
+    "supplier": "Yetkazib beruvchi",
+    "cost": "Qiymati (so'm)",
+    "key": "Litsenziya kaliti",
+    "keyKeep": "Bo'sh qoldirsangiz, mavjud kalit saqlanadi",
+    "keyHint": "Shifrlangan holda saqlanadi",
+    "reveal": "Kalitni ko'rsatish",
+    "deleteConfirm": "Litsenziya o'chirilsinmi?",
+    "revealAudited": "Kalitni ko'rish audit jurnaliga yozildi.",
+    "expiringOnly": "Faqat muddati yaqinlari"
+  },
+  "antivirus": {
+    "status": {
+      "updated": "Yangilangan",
+      "installed": "O'rnatilgan",
+      "outdated": "Eskirgan",
+      "not_installed": "O'rnatilmagan",
+      "unknown": "Noma'lum"
+    },
+    "title": "Antivirus",
+    "report": "Holatni kiritish",
+    "state": "Holat",
+    "state_installed": "O'rnatilgan",
+    "state_not_installed": "O'rnatilmagan",
+    "product": "Mahsulot",
+    "definitions": "Bazalar yangilangan",
+    "lastScan": "Oxirgi tekshiruv",
+    "reported": "Ma'lumot vaqti"
+  },
+  "sources": {
+    "manual": "Qo'lda",
+    "csv": "CSV import",
+    "agent": "Agent"
+  },
+  "installations": {
+    "add": "Dastur qo'shish",
+    "fromCatalog": "Katalogdan",
+    "otherName": "Yoki boshqa nom",
+    "otherNameHint": "Katalogda bo'lmasa — keyin katalogga bog'lash mumkin",
+    "version": "Versiya",
+    "license": "Litsenziya",
+    "title": "O'rnatilgan dasturlar",
+    "inventoried": "Oxirgi inventarizatsiya: {{date}}",
+    "empty": "Dastur qayd etilmagan",
+    "name": "Dastur",
+    "source": "Manba",
+    "unrecognized": "katalogda yo'q"
+  },
+  "agents": {
+    "tokenTitle": "Agent tokeni",
+    "tokenOnce": "Token faqat hozir ko'rsatiladi. Uni nusxalab, agent sozlamasiga kiriting — keyin qayta ko'rib bo'lmaydi.",
+    "copied": "Nusxalandi",
+    "copy": "Nusxalash",
+    "usage": "Agent POST /api/v1/agent/checkin manziliga «Authorization: Bearer <token>» sarlavhasi bilan yuboradi.",
+    "title": "Inventarizatsiya agenti",
+    "active": "Faol",
+    "revoked": "Bekor qilingan",
+    "platform": "Platforma",
+    "lastCheckin": "Oxirgi aloqa",
+    "never": "hali bo'lmagan",
+    "version": "Versiya",
+    "reissueConfirm": "Yangi token chiqariladi, eskisi darhol ishlamay qoladi. Davom etasizmi?",
+    "reissue": "Yangi token",
+    "revokeConfirm": "Agent va uning tokeni bekor qilinadi. Davom etasizmi?",
+    "revoke": "Bekor qilish",
+    "none": "Bu qurilmaga agent ulanmagan.",
+    "register": "Agentni ro'yxatdan o'tkazish",
+    "defaultName": "Inventarizatsiya agenti",
+    "listTitle": "Agentlar",
+    "listDescription": "Qurilmalarga ulangan inventarizatsiya agentlari va ularning oxirgi aloqasi",
+    "empty": "Agent yo'q",
+    "emptyHint": "Agent aktiv kartasidagi «Dasturlar» bo'limida ro'yxatdan o'tkaziladi.",
+    "name": "Nomi",
+    "state": "Holat"
+  },
+  "compliance": {
+    "title": "Muvofiqlik",
+    "description": "Antivirus holati va majburiy dasturlar — tashkilotlar va qurilmalar kesimida",
+    "organization": "Tashkilot",
+    "devices": "Qurilmalar",
+    "missing": "Majburiy dastur yo'q",
+    "noDevices": "Nazoratdagi qurilma yo'q",
+    "deviceList": "Qurilmalar",
+    "noProblems": "Muammoli qurilma yo'q",
+    "problem": "Muammo turi",
+    "problems": {
+      "all": "Hammasi",
+      "unprotected": "Himoyasiz",
+      "outdated": "Bazalari eskirgan",
+      "missing_required": "Majburiy dastur yo'q"
+    },
+    "device": "Qurilma",
+    "inventoried": "Oxirgi inventarizatsiya"
+  },
+  "import": {
+    "title": "CSV import",
+    "description": "Qurilmalardagi dasturlar yoki antivirus holatini fayldan yuklash",
+    "type": "Import turi",
+    "types": {
+      "installations": "O'rnatilgan dasturlar",
+      "antivirus": "Antivirus holati"
+    },
+    "format": "Birinchi qator — ustun nomlari; ajratuvchi vergul yoki nuqtali vergul. Namuna:",
+    "file": "CSV fayl",
+    "run": "Yuklash",
+    "result": "{{total}} qatordan {{imported}} tasi yuklandi",
+    "noErrors": "Xato yo'q",
+    "line": "Qator",
+    "error": "Xato"
+  },
+  "dashboard": {
+    "protected": "Antivirus bilan himoyalangan",
+    "unprotected": "{{devices}} ta qurilmadan · himoyasiz: {{count}}",
+    "licenses": "Muddati yaqin litsenziyalar"
+  }
+}
