@@ -63,6 +63,21 @@ o'zgartirgach, bu yerda belgilanadi.
 | Q28 | Ishdan bo'shagan xodim aktivlari | Avtomatik qaytarilmaydi; tashkilot AT mas'ullariga ro'yxat bilan xabar yuboriladi | ❓ |
 | Q29 | Dalolatnoma shakli | Tizim shakli (o'zbek tilida): tashkilotlar, aktivlar ro'yxati, imzo joylari. Korxona shabloni bo'lsa, almashtirish mumkin | ❓ |
 
+## 4-bosqich (Ombor va talabnomalar) bo'yicha ochiq savollar
+
+| # | Savol | Standart yechim (amalda) | Holat |
+|---|---|---|---|
+| Q30 | Ombor va katalogni kim yuritadi? | `warehouse.manage` — standart bo'yicha markaziy AT rahbari; quyi tashkilot omborini ham markaz ochadi (rollar sozlanadi) | ❓ |
+| Q31 | "Saqlash joyi" darajasi | Ombor = saqlash joyi (+ 3-bosqich joylashuvi); javon/katak darajasi yuritilmaydi | ❓ |
+| Q32 | Material baholash usuli | Partiya ichida o'rtacha narx, chiqim FIFO (eng yaqin muddat, keyin eng eski partiya); har bir harakatda narx saqlanadi | ❓ |
+| Q33 | Inventarizatsiya vaqtida kirim-chiqim | Taqiqlanadi (409) — sanoq yopilguncha yoki bekor qilinguncha; hisobdagi miqdor sanoqchiga ko'rinadi | ❓ |
+| Q34 | Minimal qoldiq va muddat ogohlantirishi kimga? | Ombor tashkilotidagi `warehouse.receive` egalari va ombor mas'uli; muddat — 30 kun oldin, har kuni 08:05 | ❓ |
+| Q35 | Tashkilot rahbari tasdig'i | Standart yoqilgan (`requisitions.head_approval`); tashkilotda tasdiqlovchi bo'lmasa bosqich o'tkazib yuboriladi (tarixda qayd) | ❓ |
+| Q36 | Markaziy AT rahbari tashkilot bosqichida tasdiqlay oladimi? | Yo'q — `requisitions.approve_org` faqat quyi tashkilot rahbarida; markaziy rahbar o'z bosqichida qaror qiladi | ❓ |
+| Q37 | Qabulni kim tasdiqlaydi? | Talabnoma yaratuvchisi yoki o'sha tashkilotning AT mas'uli (`requisitions.create`, asosiy tashkiloti shu) | ❓ |
+| Q38 | Noto'g'ri ajratishni bekor qilish | Ajratish bekor qilinmaydi; tuzatish ombor qaytarish hujjati yoki aktiv ko'chirishi orqali | ❓ |
+| Q39 | Ombordan ajratish: chiqim yoki ko'chirish? | Standart — so'ragan tashkilotga chiqim; ajratuvchi uning omborini tanlasa — ko'chirish | ❓ |
+
 ## Infratuzilma bo'yicha savollar
 
 | # | Savol | Standart yechim | Holat |

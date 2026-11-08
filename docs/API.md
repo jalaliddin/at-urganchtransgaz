@@ -277,7 +277,47 @@ himoyalangan.
 | GET | `/employees/{id}/assets` | `assets.view` |
 | POST | `/exports` `{type: "assets"}` | `assets.export` |
 
-## 10. Misol
+## 10. 4-bosqich endpointlari (Ombor va talabnomalar)
+
+### Ombor
+
+| Metod | Yo'l | Ruxsat / izoh |
+|---|---|---|
+| GET | `/units`, `/material-categories`, `/materials`, `/warehouses` | `warehouse.view` yoki talabnoma ishtirokchisi (`requisitions.create/review/fulfill`); omborlar — tashkilot doirasi |
+| POST/PUT/DELETE | `/units`, `/material-categories`, `/materials`, `/warehouses` | `warehouse.manage`; ishlatilayotgan yozuv — 409 |
+| GET | `/stock-balances` | `warehouse.view` — ombor + material kesimida qoldiq, qiymat, minimal, eng yaqin muddat va partiyalar; filtr: `warehouse`, `material`, `category`, `organization`, `search`, `low`, `expiring` |
+| GET | `/stock-availability?warehouse_id&material_id` | `warehouse.view` — FIFO tartibidagi partiyalar va jami (qator muharriri uchun) |
+| GET / POST | `/stock-documents` | ro'yxat — `warehouse.view` (filtr: `type` vergul, `warehouse`, `material`, `organization`, `date_from`, `date_to`, `search`); joylash: `receipt`/`return` — `warehouse.receive`, `issue` — `warehouse.issue` (`reason` majburiy), `transfer` — `warehouse.transfer` (ikkala ombor doirada), `adjustment` — `warehouse.manage` (`reason` majburiy) |
+| GET | `/stock-documents/{id}` | qatorlar, harakatlar, chiqimga qaytarishlar; doiradan tashqarida — 404 |
+| POST | `/stock-documents/{id}/file` | joylagan tomon — skan hujjat (fayl `/files/{uuid}`) |
+| GET | `/stock-movements` | `warehouse.view` — jurnal; filtr: `warehouse`, `material`, `document`, `type`, `date_from`, `date_to` |
+| GET / POST | `/stock-counts`, `/stock-counts/{id}` | boshlash — `warehouse.inventory` (bitta ombor uchun bitta ochiq sanoq, aks holda 409) |
+| PATCH / POST | `/stock-counts/{id}/lines` | sanalgan miqdorlar (`{lines: [{id, counted_quantity}]}`) / hisobda yo'q partiya qo'shish |
+| POST | `/stock-counts/{id}/close`, `/cancel` | yopish — hamma qator sanalgan bo'lishi kerak; farqlar bitta tuzatish hujjatiga |
+| POST | `/exports` `{type: "stock_balances" \| "stock_movements"}` | `warehouse.export` |
+
+Xatolar: `insufficient_stock` (422, `shortages: [{material_id, material, batch, available, requested}]`),
+`warehouse_counting` (409 — omborda ochiq inventarizatsiya).
+
+### Talabnomalar
+
+| Metod | Yo'l | Ruxsat / izoh |
+|---|---|---|
+| GET | `/requisitions` | `requisitions.view` yoki `create`; filtr: `tab` (`mine`, `action` — mening navbatim), `status` (vergul), `organization`, `search`. Qoralamani faqat yaratuvchi ko'radi |
+| POST / PUT / DELETE | `/requisitions[/{id}]` | yaratish — `requisitions.create` (doiradagi tashkilot uchun); tahrir/o'chirish — faqat yaratuvchi, faqat `draft` |
+| POST | `/requisitions/{id}/submit` | yaratuvchi: `draft` → `org_approval` (rahbar tasdig'i yoqilgan va tashkilotda tasdiqlovchi bor) yoki `submitted` |
+| POST | `/requisitions/{id}/org-decision` `{decision, comment}` | `requisitions.approve_org` (o'z talabnomasi emas): approved → `submitted`, rejected → `rejected`, returned → `draft`; rad/qaytarishda izoh majburiy |
+| POST | `/requisitions/{id}/take`, `/request-info`, `/provide-info` | ko'rib chiqish — `requisitions.review`; ma'lumot berish — so'rovchi tomoni |
+| POST | `/requisitions/{id}/decision` `{decision, comment, items: [{id, approved_quantity}]}` | `requisitions.approve` (o'z talabnomasi emas), `submitted`/`central_review` dan; miqdorni faqat kamaytirish mumkin |
+| POST | `/requisitions/{id}/ready`, `/allocations`, `/complete` | `requisitions.fulfill`; ajratish: `{item_id, type: stock\|asset\|note, quantity, warehouse_id, target_warehouse_id?, material_id?, batch?, asset_id?, note?}` — tasdiqlangan qoldiqdan oshmaydi |
+| POST | `/requisitions/{id}/receive` | so'rovchi tomoni: `fulfilled` → `received`; boshqa tashkilotdan kelayotgan aktivlar shu paytda qabul qilinadi |
+| POST | `/requisitions/{id}/close` | `requisitions.approve` yoki `fulfill`: `received` → `closed` |
+| POST | `/requisitions/{id}/comments`, `/attachments` | ishtirokchilar, yakunlanmagan talabnomada |
+| POST | `/exports` `{type: "requisitions"}` | `requisitions.export` |
+
+Javobdagi `can` obyekti har bir amal uchun joriy foydalanuvchi huquqini beradi (tugmalar shu bo'yicha ko'rsatiladi).
+
+## 11. Misol
 
 ```http
 POST /api/v1/employees HTTP/1.1

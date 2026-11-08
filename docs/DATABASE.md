@@ -382,7 +382,60 @@ erDiagram
 | `asset_transfers` (+ `asset_transfer_items`) | `number` `TR-YYYY-NNNNN`, `from_/to_organization_id`, `status` (draft → sent → received / cancelled), `act_file_id` (dalolatnoma PDF), kim/qachon |
 | `inventory_sessions` (+ `inventory_items`) | tashkilot (+ quyi tashkilotlar), `status` (open/closed), hisoblagichlar; item: `inventory_number`, `expected`, `found_at`, `asset_id?` |
 
-## 7. Keyingi bosqichlar jadvallari (reja)
+## 7. 4-bosqich jadvallari (Ombor va talabnomalar)
+
+```mermaid
+erDiagram
+    units ||--o{ materials : ""
+    material_categories ||--o{ materials : ""
+    organizations ||--o{ warehouses : ""
+    locations ||--o{ warehouses : "ixtiyoriy"
+    warehouses ||--o{ stock_balances : "partiyalar"
+    materials ||--o{ stock_balances : ""
+    stock_documents ||--o{ stock_document_lines : ""
+    stock_documents ||--o{ stock_movements : "jurnal"
+    stock_balances ||--o{ stock_movements : ""
+    warehouses ||--o{ stock_counts : ""
+    stock_counts ||--o{ stock_count_lines : ""
+    stock_counts ||--o| stock_documents : "tuzatish"
+    warehouses ||--o{ stock_alerts : ""
+    organizations ||--o{ requisitions : ""
+    requisitions ||--o{ requisition_items : ""
+    requisitions ||--o{ requisition_approvals : ""
+    requisitions ||--o{ requisition_histories : ""
+    requisitions ||--o{ requisition_comments : ""
+    requisitions ||--o{ requisition_attachments : ""
+    requisition_items ||--o{ requisition_fulfillments : ""
+    requisition_fulfillments }o--o| stock_documents : "material"
+    requisition_fulfillments }o--o| assets : "aktiv"
+    requisition_fulfillments }o--o| asset_transfers : "boshqa tashkilotdan"
+```
+
+| Jadval | Asosiy ustunlar / qoidalar |
+|---|---|
+| `units`, `material_categories` | seed (`config/warehouse.php`): dona, quti, pachka, metr, kg, litr, komplekt; spec §5.9 dagi 6 toifa. `code` unique, `name`, `name_ru`, `is_active`, `sort_order` |
+| `materials` | `code` unique (bo'sh bo'lsa `MT-NNNNN`), `name`, `category_id`, `unit_id`, `track_batches`, `track_expiry` (faqat partiya bilan), `min_quantity` DECIMAL(18,3). Qoldig'i bor materialda partiya/muddat belgilarini o'zgartirib bo'lmaydi |
+| `warehouses` | `organization_id` (doira), `name` (tashkilot ichida unique), `code`, `location_id?`, `responsible_user_id?`, `is_active` |
+| `stock_balances` | **partiya (lot)**: `warehouse_id, material_id, batch` UNIQUE (`batch=''` — partiyasiz material), `expires_at`, `quantity` DECIMAL(18,3) **CHECK (quantity >= 0)**, `unit_cost` (partiya ichida o'rtacha), `received_at` (FIFO tartibi). Faqat `StockService` o'zgartiradi |
+| `stock_documents` | `number` `RC/IS/RT/TF/AD-YYYY-NNNNN`, `type` (receipt, issue, return, transfer, adjustment), `organization_id` (manba ombor tashkiloti), `warehouse_id`, `target_warehouse_id` + `target_organization_id` (ko'chirish), `document_date`, `supplier`, `supplier_document`, `recipient_organization_id`, `recipient_employee_id`, `asset_id` (qurilma), `reason`, `related_document_id` (qaytarish → chiqim), `stock_count_id`, `requisition_id`, `file_id` (skan hujjat), `total_amount`. Joylangandan keyin o'zgarmaydi |
+| `stock_document_lines` | foydalanuvchi kiritgan qatorlar: `material_id`, `batch?` (chiqimda bo'sh = FIFO), `expires_at`, `quantity` (faqat tuzatishda ishorali), `unit_cost`, `amount` |
+| `stock_movements` | **yagona jurnal**: har bir partiya o'zgarishi — `document_id`, `line_id`, `warehouse_id`, `material_id`, `balance_id`, `batch`, `quantity` (±), `unit_cost`, `balance_after`, `created_by`, `created_at` |
+| `stock_counts` (+ `stock_count_lines`) | `number` `SC-YYYY-NNNNN`, `status` (open, closed, cancelled), `open_key` (ochiq paytda = ombor id, UNIQUE — bitta ochiq sanoq), boshlanganda partiyalar surati (`expected_quantity`, `unit_cost`), `counted_quantity`; yopilganda farqlar bitta tuzatish hujjatiga (`adjustment_document_id`) |
+| `stock_alerts` | `type` (low_stock, expiring), `warehouse_id`, `material_id`, `batch`, `expires_at`, `quantity`, `open_key` (ochiq epizodda UNIQUE, keyin NULL) — bir epizodga bitta bildirishnoma |
+| `requisitions` | `number` `RQ-YYYY-NNNNN`, `organization_id`, `title`, `description`, `status` (draft, submitted, org_approval, central_review, info_requested, approved, rejected, ready_for_allocation, partially_fulfilled, fulfilled, received, closed), `needed_by`, `requester_id`, `recipient_employee_id`, `reviewer_id`, `approved_by/at`, `rejection_reason`, `received_by/at`, `closed_by/at` |
+| `requisition_items` | `kind` (equipment, network, consumable, sim, internet, software, repair, other), `material_id?`, `asset_category_id?`, `name`, `quantity`, `approved_quantity` (rahbar kamaytirishi mumkin), `fulfilled_quantity`, `unit_id` |
+| `requisition_approvals` | `stage` (org_head, central_head), `decision` (approved, rejected, returned), `user_id`, `comment` |
+| `requisition_histories` | append-only: created, updated, submitted, approval_skipped, org_approved, org_rejected, returned, taken, info_requested, info_provided, approved, rejected, ready, allocated, completed, received, closed, file_added; `from_status`, `to_status`, `comment`, `payload` |
+| `requisition_comments`, `requisition_attachments` | izohlar; fayllar (`stored_files`, private, FileAccess) |
+| `requisition_fulfillments` | `item_id`, `type` (stock, asset, note), `quantity`, `stock_document_id?` (chiqim yoki ko'chirish), `asset_id?`, `asset_transfer_id?` (aktiv boshqa tashkilotdan kelsa), `note`, `fulfilled_by` |
+
+**Parallel operatsiyalar.** Har bir hujjat bitta tranzaksiyada: ishtirok etuvchi omborlar `SELECT … FOR UPDATE` bilan
+id tartibida qulflanadi (bitta omborda ketma-ketlik, deadlock yo'q), partiyalar ham `FOR UPDATE` bilan o'qiladi, kamayish
+faqat `quantity >= so'ralgan` tekshiruvidan keyin; oxirgi himoya — DB `CHECK`. Talabnoma ajratishi talabnoma qatorini
+qulflaydi (tasdiqlangan qoldiqdan oshmaydi). FIFO: avval eng yaqin muddat, keyin eng eski partiya; har bir harakatda narx
+saqlanadi — baholash usulini keyin almashtirish mumkin.
+
+## 8. Keyingi bosqichlar jadvallari (reja)
 
 Har bir bosqich boshida ushbu bo'lim batafsil sxema bilan yangilanadi.
 Barcha tashkilotga tegishli jadvallar `organization_id` ustuniga va
@@ -416,12 +469,6 @@ erDiagram
     service_providers ||--o{ service_contracts : ""
     service_contracts ||--o{ service_invoices : ""
     service_invoices ||--o{ service_payments : ""
-    warehouses ||--o{ stock_balances : ""
-    inventory_items ||--o{ stock_balances : ""
-    inventory_items ||--o{ stock_movements : ""
-    requisitions ||--o{ requisition_items : ""
-    requisitions ||--o{ requisition_approvals : ""
-    requisition_items ||--o{ requisition_fulfillments : ""
     task_boards ||--o{ task_columns : ""
     task_columns ||--o{ tasks : ""
     assets ||--o| printers : ""
@@ -434,7 +481,7 @@ erDiagram
 |---|---|
 | 2 — Helpdesk | ✅ §5 da (baho `helpdesk_tickets.rating` ustunida, alohida jadval shart emas) |
 | 3 — Aktivlar | ✅ §6 da |
-| 4 — Ombor, talabnomalar | warehouses, units, inventory_items (`track_batches`, `min_quantity`), stock_balances (`warehouse_id, item_id, batch` UNIQUE, `quantity DECIMAL(18,3)` CHECK ≥ 0), stock_movements (yagona jurnal), stock_receipts, stock_issues, stock_transfers; requisitions, requisition_items, requisition_approvals, requisition_histories, requisition_fulfillments |
+| 4 — Ombor, talabnomalar | ✅ §7 da (materiallar `materials` — `inventory_items` nomi 3-bosqich inventarizatsiyasida band; kirim/chiqim/ko'chirish alohida jadvallar o'rniga yagona `stock_documents`) |
 | 5 — Monitoring, dasturlar | monitoring_policies, network_devices, monitoring_checks (partitsiya/retention), monitoring_events, monitoring_allowlist (CIDR); software_catalog, software_licenses, software_installations, software_policies, antivirus_statuses, device_agents, agent_tokens (hash), agent_checkins |
 | 6 — SIM, xizmatlar | mobile_operators, sim_cards (ICCID shifrlangan), sim_assignments, sim_histories, sim_requests; service_providers, service_contracts, service_services, service_invoices, service_payments |
 | 7 — Kanban va boshqalar | task_boards, task_columns, tasks, task_assignees, task_watchers, task_comments, task_checklists, task_labels, task_label_task, task_recurrences; printers, printer_models, cartridge_models, printer_cartridge_compatibilities, cartridge_movements, printer_counters; kb_articles, changes, problems, maintenance_plans, security_incidents, backup_jobs, backup_checks |

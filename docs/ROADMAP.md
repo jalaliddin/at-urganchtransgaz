@@ -95,13 +95,18 @@ Holat (2026-11-07): bajarildi. QR yorliqlar (telefon kamerasi kartani ochadi), i
 `assets:warranty-check` (har kuni 08:00). Spec: `docs/superpowers/specs/2026-11-07-phase3-assets-design.md`,
 ochiq savollar: Q23–Q29.
 
-## 4-bosqich — Ombor va talabnomalar ⏳
+## 4-bosqich — Ombor va talabnomalar ✅
 
 - Material katalogi, o'lchov birliklari, omborlar
 - Kirim, chiqim, qaytarish, omborlararo ko'chirish — tranzaksiya + row lock,
   manfiy qoldiqqa yo'l qo'yilmaydi; partiya/yaroqlilik muddati; minimal qoldiq
 - Talabnomalar: workflow (draft → ... → yopilgan), tasdiqlash bosqichlari,
   resurs ajratish → aktiv/material hisobiga avtomatik bog'lanish, qabul tasdig'i
+
+Holat (2026-11-08): bajarildi. Yagona harakatlar jurnali, FIFO partiyalar, inventarizatsiya (sanoq vaqtida ombor
+muzlatiladi), minimal qoldiq/muddat ogohlantirishlari (`warehouse:stock-check` har kuni 08:05), Excel/PDF eksport;
+talabnomalarda 12 holat, rahbar va markaziy tasdiq, ombordan/aktivlardan ajratish, qabul tasdig'i.
+Spec: `docs/superpowers/specs/2026-11-08-phase4-warehouse-design.md`, ochiq savollar: Q30–Q39.
 
 ## 5-bosqich — Monitoring va dasturiy ta'minot ⏳
 

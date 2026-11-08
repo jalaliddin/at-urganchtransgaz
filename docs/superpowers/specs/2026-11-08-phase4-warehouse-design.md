@@ -47,7 +47,7 @@ view/export.
 `units, material_categories, materials, warehouses, stock_balances, stock_documents, stock_document_lines,
 stock_movements, stock_counts, stock_count_lines, stock_alerts, requisitions, requisition_items,
 requisition_approvals, requisition_histories, requisition_comments, requisition_attachments,
-requisition_fulfillments`. Columns: `docs/DATABASE.md` §7.
+requisition_fulfillments`. Columns: `docs/DATABASE.md` §7 (Phase 4).
 
 ## 5. Testing & acceptance
 
