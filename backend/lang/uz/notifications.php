@@ -111,4 +111,9 @@ return [
         ],
     ],
     'open_requisition' => 'Talabnomani ochish',
+    'license_expiring' => [
+        'subject' => ':software litsenziyasi tugayapti (:date)',
+        'line' => ':organization: :software litsenziyasi (:number) :date da tugaydi.',
+    ],
+    'open_licenses' => 'Litsenziyalarni ochish',
 ];

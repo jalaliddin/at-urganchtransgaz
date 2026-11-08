@@ -21,6 +21,9 @@ class ExportService
         'stock_balances' => StockBalanceReport::class,
         'stock_movements' => StockMovementReport::class,
         'requisitions' => RequisitionReport::class,
+        'software_compliance' => SoftwareComplianceReport::class,
+        'software_installations' => SoftwareInstallationReport::class,
+        'software_licenses' => SoftwareLicenseReport::class,
     ];
 
     public function report(string $type): ReportDefinition

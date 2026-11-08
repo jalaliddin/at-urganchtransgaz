@@ -78,6 +78,17 @@ o'zgartirgach, bu yerda belgilanadi.
 | Q38 | Noto'g'ri ajratishni bekor qilish | Ajratish bekor qilinmaydi; tuzatish ombor qaytarish hujjati yoki aktiv ko'chirishi orqali | ❓ |
 | Q39 | Ombordan ajratish: chiqim yoki ko'chirish? | Standart — so'ragan tashkilotga chiqim; ajratuvchi uning omborini tanlasa — ko'chirish | ❓ |
 
+## 5-bosqich (Dasturlar, antivirus) bo'yicha ochiq savollar
+
+| # | Savol | Standart yechim (amalda) | Holat |
+|---|---|---|---|
+| Q40 | Qaysi qurilmalar dastur/antivirus nazoratida? | Kompyuter va server toifalari (`config/software.php`) + siyosatda ko'rsatilgan toifalar; hisobdan chiqarilgan va yo'qolganlar kirmaydi | ❓ |
+| Q41 | Antivirus "eskirgan" qachon? | Bazalar 7 kundan eski (sozlamada `software.av_outdated_days`); hisobot 30 kundan eski bo'lsa holat noma'lum | ❓ |
+| Q42 | Litsenziyani kim yuritadi va kalitni kim ko'radi? | `software.manage` (markaziy AT rahbari); kalit shifrlangan, ochish audit qilinadi | ❓ |
+| Q43 | Agent qaysi dasturlarni yuboradi va kim o'rnatadi? | Agent/integratsiya (Windows agent, AD/GPO, antivirus konsoli) keyin ulanadi; API tayyor, token qurilmaga bog'langan | ❓ |
+| Q44 | Litsenziya muddati ogohlantirishi | 30 kun oldin, har kuni 08:10, har litsenziya va sana uchun bir marta | ❓ |
+| Q45 | ICMP tarmoq monitoringi | Foydalanuvchi qarori (2026-11-08): kerak emas, qilinmaydi | ✅ |
+
 ## Infratuzilma bo'yicha savollar
 
 | # | Savol | Standart yechim | Holat |

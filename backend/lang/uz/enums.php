@@ -101,4 +101,16 @@ return [
         'transfer' => "Ko'chirish",
         'adjustment' => 'Tuzatish',
     ],
+    'antivirus_effective' => [
+        'updated' => 'Yangilangan',
+        'installed' => "O'rnatilgan",
+        'outdated' => 'Eskirgan',
+        'not_installed' => "O'rnatilmagan",
+        'unknown' => "Noma'lum",
+    ],
+    'installation_source' => [
+        'manual' => "Qo'lda",
+        'csv' => 'CSV import',
+        'agent' => 'Agent',
+    ],
 ];

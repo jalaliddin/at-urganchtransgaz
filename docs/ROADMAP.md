@@ -108,12 +108,14 @@ muzlatiladi), minimal qoldiq/muddat ogohlantirishlari (`warehouse:stock-check` h
 talabnomalarda 12 holat, rahbar va markaziy tasdiq, ombordan/aktivlardan ajratish, qabul tasdig'i.
 Spec: `docs/superpowers/specs/2026-11-08-phase4-warehouse-design.md`, ochiq savollar: Q30–Q39.
 
-## 5-bosqich — Monitoring va dasturiy ta'minot ⏳
+## 5-bosqich — Dasturiy ta'minot va antivirus ✅
 
-- ICMP monitoring worker (alohida servis, `NET_RAW`, allowlist, parallel, rate limit)
-- Hodisalar (offline → ochish, online → yopish, deduplikatsiya), availability, latency grafigi
-- Dasturlar katalogi, litsenziyalar, o'rnatilgan dasturlar, antivirus holati
-- Agent integratsiyasi modeli (`device_agents`, `agent_tokens`, `agent_checkins`), CSV import
+- ~~ICMP monitoring worker, hodisalar, availability~~ — foydalanuvchi qarori bilan chiqarildi (2026-11-08)
+- Dasturlar katalogi, litsenziyalar (o'rinlar, shifrlangan kalit, muddat ogohlantirishi), majburiy dasturlar siyosati
+- Qurilma kesimida o'rnatilgan dasturlar, antivirus holati, muvofiqlik hisoboti
+- Agent integratsiyasi modeli (`device_agents`, `agent_tokens`, `agent_checkins`, token bilan check-in API), CSV import
+
+Holat (2026-11-08): bajarildi. Spec: `docs/superpowers/specs/2026-11-08-phase5-software-design.md`, ochiq savollar: Q40–Q45.
 
 ## 6-bosqich — SIM, xizmatlar va to'lovlar ⏳
 

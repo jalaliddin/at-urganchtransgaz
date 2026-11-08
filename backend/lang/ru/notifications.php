@@ -111,4 +111,9 @@ return [
         ],
     ],
     'open_requisition' => 'Открыть заявку',
+    'license_expiring' => [
+        'subject' => 'Истекает лицензия :software (:date)',
+        'line' => ':organization: лицензия :software (:number) истекает :date.',
+    ],
+    'open_licenses' => 'Открыть лицензии',
 ];

@@ -221,7 +221,7 @@ Sozlamalar ro'yxati, turi, standart qiymati va validatsiyasi kodda
 
 ## 4. Rollar va ruxsatlar matritsasi
 
-1–4-bosqich ruxsatlari (keyingi bosqichlar o'z modullarini qo'shadi). Ruxsatsiz ham har bir foydalanuvchi o'zi yuborgan arizalarni ko'radi.
+1–5-bosqich ruxsatlari (keyingi bosqichlar o'z modullarini qo'shadi). Ruxsatsiz ham har bir foydalanuvchi o'zi yuborgan arizalarni ko'radi.
 
 | Ruxsat | super-admin | central-it-head | central-it-staff | org-it-responsible | org-head | employee | accountant | auditor |
 |---|---|---|---|---|---|---|---|---|
@@ -264,6 +264,11 @@ Sozlamalar ro'yxati, turi, standart qiymati va validatsiyasi kodda
 | requisitions.approve (markaziy qaror) | ✓ | ✓ | | | | | | |
 | requisitions.fulfill (ajratish) | ✓ | ✓ | ✓ | | | | ✓ | |
 | requisitions.export | ✓ | ✓ | | | | | | ✓ |
+| software.view | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
+| software.install (qurilma dasturlari, antivirus, CSV) | ✓ | ✓ | ✓ | ✓ | | | | |
+| software.manage (katalog, litsenziyalar, siyosatlar) | ✓ | ✓ | | | | | | |
+| software.agents (agent va tokenlar) | ✓ | ✓ | ✓ | | | | | |
+| software.export | ✓ | ✓ | ✓ | ✓ | ✓ | | | ✓ |
 
 Ma'lumot **doirasi** rolga emas, `user_organization_access`ga bog'liq.
 Rollar nomlari: Super Admin, Markaziy AT rahbari, Markaziy AT xodimi,
@@ -446,7 +451,39 @@ faqat `quantity >= so'ralgan` tekshiruvidan keyin; oxirgi himoya — DB `CHECK`.
 qulflaydi (tasdiqlangan qoldiqdan oshmaydi). FIFO: avval eng yaqin muddat, keyin eng eski partiya; har bir harakatda narx
 saqlanadi — baholash usulini keyin almashtirish mumkin.
 
-## 8. Keyingi bosqichlar jadvallari (reja)
+## 8. 5-bosqich jadvallari (Dasturlar, litsenziyalar, antivirus, agentlar)
+
+```mermaid
+erDiagram
+    software ||--o{ software_licenses : ""
+    organizations ||--o{ software_licenses : "egasi"
+    assets ||--o{ software_installations : ""
+    software ||--o{ software_installations : "katalogda bo'lsa"
+    software_licenses ||--o{ software_installations : "o'rin"
+    software ||--o{ software_policies : "majburiy"
+    assets ||--o| antivirus_statuses : ""
+    assets ||--o| device_agents : ""
+    device_agents ||--o{ agent_tokens : ""
+    device_agents ||--o{ agent_checkins : ""
+    software_licenses ||--o{ license_alerts : ""
+```
+
+| Jadval | Asosiy ustunlar / qoidalar |
+|---|---|
+| `software` | katalog: `name`, `normalized_name` (UNIQUE — kichik harf, bo'shliqlar bitta), `vendor`, `category` (os, office, antivirus, browser, security, utility, development, business, other), `license_type` (freeware, open_source, commercial, subscription, oem), `is_antivirus`, `is_active` |
+| `software_licenses` | `software_id`, `organization_id` (egasi, doira), `number`, `license_key` (**shifrlangan**, ro'yxatda faqat niqoblangan; ochish audit qilinadi), `seats` ≥ 1, `valid_from`, `expires_at`, `supplier`, `cost`. Band o'rin = bog'langan o'rnatishlar; qulf ostida tekshiriladi |
+| `software_installations` | qurilmadagi dastur: `asset_id`, `software_id?` (katalogda bo'lmasa NULL — "tanilmagan nom"), `name`, `normalized_name` (`asset_id + normalized_name` UNIQUE), `vendor`, `version`, `source` (manual, csv, agent), `license_id?`, `installed_at`, `last_seen_at` |
+| `software_policies` | majburiy dastur: `software_id`, `organization_id?` (daraxt; NULL — hammasi), `asset_category_id?` (NULL — `config/software.php` dagi kompyuter/server toifalari) |
+| `antivirus_statuses` | qurilmaga bitta: `software_id?`/`product_name`, `state` (installed, not_installed), `definitions_updated_at`, `last_scan_at`, `reported_at`, `source`. Ko'rinadigan holat hisoblanadi: hisobot 30 kundan eski → noma'lum; bazalar `software.av_outdated_days` (7) dan eski → eskirgan; aks holda yangilangan / o'rnatilgan / o'rnatilmagan |
+| `device_agents` | qurilmaga bitta agent: `name`, `platform`, `agent_version`, `is_active`, `last_checkin_at`, `last_ip` |
+| `agent_tokens` | `token_hash` (SHA-256, UNIQUE — ochiq qiymat saqlanmaydi, bir marta ko'rsatiladi), `prefix` (`atg_…`, tanib olish uchun), `last_used_at`, `revoked_at`. Yangi token eskisini bekor qiladi |
+| `agent_checkins` | jurnal: `status` (accepted, rejected), `software_count`, `message`, `ip`, `received_at` |
+| `license_alerts` | `license_id + expires_at` UNIQUE — muddat ogohlantirishi bir marta |
+| `assets.software_inventoried_at` | oxirgi dastur inventarizatsiyasi (agent yoki CSV) |
+
+ICMP tarmoq monitoringi (spec §5.6) foydalanuvchi qarori bilan loyihadan chiqarildi (2026-11-08).
+
+## 9. Keyingi bosqichlar jadvallari (reja)
 
 Har bir bosqich boshida ushbu bo'lim batafsil sxema bilan yangilanadi.
 Barcha tashkilotga tegishli jadvallar `organization_id` ustuniga va
@@ -467,14 +504,6 @@ erDiagram
     employees ||--o{ asset_assignments : ""
     assets ||--o{ asset_transfers : ""
     assets ||--o{ asset_maintenance : ""
-    assets ||--o| network_devices : "monitoring"
-    network_devices ||--o{ monitoring_checks : ""
-    network_devices ||--o{ monitoring_events : ""
-    assets ||--o| device_agents : ""
-    device_agents ||--o{ agent_checkins : ""
-    assets ||--o{ software_installations : ""
-    software_catalog ||--o{ software_installations : ""
-    software_catalog ||--o{ software_licenses : ""
     mobile_operators ||--o{ sim_cards : ""
     sim_cards ||--o{ sim_assignments : ""
     service_providers ||--o{ service_contracts : ""
@@ -493,6 +522,6 @@ erDiagram
 | 2 — Helpdesk | ✅ §5 da (baho `helpdesk_tickets.rating` ustunida, alohida jadval shart emas) |
 | 3 — Aktivlar | ✅ §6 da |
 | 4 — Ombor, talabnomalar | ✅ §7 da (materiallar `materials` — `inventory_items` nomi 3-bosqich inventarizatsiyasida band; kirim/chiqim/ko'chirish alohida jadvallar o'rniga yagona `stock_documents`) |
-| 5 — Monitoring, dasturlar | monitoring_policies, network_devices, monitoring_checks (partitsiya/retention), monitoring_events, monitoring_allowlist (CIDR); software_catalog, software_licenses, software_installations, software_policies, antivirus_statuses, device_agents, agent_tokens (hash), agent_checkins |
+| 5 — Dasturlar, antivirus | ✅ §8 da (ICMP monitoring jadvallari foydalanuvchi qarori bilan chiqarildi) |
 | 6 — SIM, xizmatlar | mobile_operators, sim_cards (ICCID shifrlangan), sim_assignments, sim_histories, sim_requests; service_providers, service_contracts, service_services, service_invoices, service_payments |
 | 7 — Kanban va boshqalar | task_boards, task_columns, tasks, task_assignees, task_watchers, task_comments, task_checklists, task_labels, task_label_task, task_recurrences; printers, printer_models, cartridge_models, printer_cartridge_compatibilities, cartridge_movements, printer_counters; kb_articles, changes, problems, maintenance_plans, security_incidents, backup_jobs, backup_checks |

@@ -2,6 +2,7 @@
 
 namespace App\Services\Dashboard;
 
+use App\Enums\AntivirusEffective;
 use App\Enums\EmployeeStatus;
 use App\Enums\RequisitionStatus;
 use App\Enums\TicketStatus;
@@ -11,12 +12,14 @@ use App\Models\AuditLog;
 use App\Models\Employee;
 use App\Models\Organization;
 use App\Models\Requisition;
+use App\Models\SoftwareLicense;
 use App\Models\StockDocument;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Services\Assets\AssetStats;
 use App\Services\Helpdesk\TicketStats;
 use App\Services\Requisitions\RequisitionQueries;
+use App\Services\Software\ComplianceService;
 use App\Services\Warehouse\StockQueries;
 use App\Support\OrganizationSubtree;
 use Carbon\CarbonImmutable;
@@ -114,6 +117,20 @@ class DashboardService
                 'awaiting_action' => $action->count(),
                 'open' => $visible()->whereNotIn('status', [RequisitionStatus::Draft->value, RequisitionStatus::Rejected->value, RequisitionStatus::Closed->value])->count(),
                 'mine_open' => $visible()->where('requester_id', $user->id)->whereNotIn('status', [RequisitionStatus::Rejected->value, RequisitionStatus::Closed->value])->count(),
+            ];
+        }
+
+        if ($user->canAny(['software.view', 'software.install', 'software.manage'])) {
+            $devices = app(ComplianceService::class)->devices($user, $organizationId !== null ? ['organization' => $organizationId] : []);
+            $until = CarbonImmutable::now((string) config('app.display_timezone'))->addDays((int) config('software.license_notice_days'))->toDateString();
+            $widgets['software'] = [
+                'devices' => $devices->count(),
+                'protected' => $devices->filter(fn (array $d) => $d['antivirus']->isProtected())->count(),
+                'unprotected' => $devices->reject(fn (array $d) => $d['antivirus']->isProtected())->count(),
+                'outdated' => $devices->filter(fn (array $d) => $d['antivirus'] === AntivirusEffective::Outdated)->count(),
+                'missing_required' => $devices->filter(fn (array $d) => $d['missing'] !== [])->count(),
+                'licenses_expiring' => SoftwareLicense::query()->whereNotNull('expires_at')->where('expires_at', '<=', $until)
+                    ->when($organizationId !== null, fn ($q) => $q->whereIn('organization_id', OrganizationSubtree::ids((int) $organizationId) ?: [0]))->count(),
             ];
         }
 

@@ -101,4 +101,16 @@ return [
         'transfer' => 'Перемещение',
         'adjustment' => 'Корректировка',
     ],
+    'antivirus_effective' => [
+        'updated' => 'Обновлён',
+        'installed' => 'Установлен',
+        'outdated' => 'Устарел',
+        'not_installed' => 'Не установлен',
+        'unknown' => 'Неизвестно',
+    ],
+    'installation_source' => [
+        'manual' => 'Вручную',
+        'csv' => 'Импорт CSV',
+        'agent' => 'Агент',
+    ],
 ];

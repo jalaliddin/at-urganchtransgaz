@@ -317,7 +317,45 @@ Xatolar: `insufficient_stock` (422, `shortages: [{material_id, material, batch, 
 
 Javobdagi `can` obyekti har bir amal uchun joriy foydalanuvchi huquqini beradi (tugmalar shu bo'yicha ko'rsatiladi).
 
-## 11. Misol
+## 11. 5-bosqich endpointlari (Dasturlar, litsenziyalar, antivirus, agentlar)
+
+| Metod | Yo'l | Ruxsat / izoh |
+|---|---|---|
+| GET | `/software`, `/software/{id}` | `software.view/install/manage` — katalog (`search`, `filter[category]`, `filter[antivirus]`); kartada qurilmalaringizdagi versiyalar va litsenziyalar |
+| POST/PUT/DELETE | `/software` | `software.manage`; nom normallashtirilgan holda unique; ishlatilayotgan dastur — 409 |
+| GET / POST | `/software-unrecognized`, `/software/{id}/adopt` `{name}` | katalogda yo'q nomlar (qurilmalar soni bilan) / shu nomdagi barcha yozuvlarni katalogga bog'lash (`software.manage`) |
+| GET/POST/PUT/DELETE | `/software-licenses` | o'qish — doira; yozish — `software.manage`. Kalit faqat `license_key_masked`; `used`, `free`; bog'langan litsenziyani o'chirish — 409; o'rinni banddan kam qilish — 422 |
+| POST | `/software-licenses/{id}/reveal` | `software.manage` — ochiq kalit, audit jurnaliga `secret_revealed` |
+| GET | `/assets/{id}/software` | qurilma dasturlari, antivirus (`effective`), agent |
+| POST / PATCH / DELETE | `/assets/{id}/software`, `/software-installations/{id}` | `software.install` — `{software_id \| name, version, vendor, installed_at, license_id}`; bo'sh o'rin bo'lmasa 422 |
+| PUT | `/assets/{id}/antivirus` | `software.install` — `{software_id (antivirus), product_name, state: installed\|not_installed, definitions_updated_at, last_scan_at}` |
+| GET/POST/PUT/DELETE | `/software-policies` | o'qish — doira; yozish — `software.manage` (`organization_id` NULL — hammasi) |
+| GET | `/software-compliance`, `/software-compliance/devices?filter[problem]=missing_required\|unprotected\|outdated` | tashkilotlar kesimida qurilmalar, antivirus holatlari, majburiy dasturi yo'qlar |
+| POST | `/software-imports` `{type: installations\|antivirus, file}` | `software.install` — CSV (`,` yoki `;`), ≤ 5000 qator; javob `{total, imported, errors: [{line, message}]}` |
+| GET | `/device-agents`, `/device-agents/{id}/checkins` | doiradagi qurilmalar agentlari va oxirgi 50 ta check-in |
+| POST | `/assets/{id}/agent`, `/device-agents/{id}/tokens`, `/device-agents/{id}/revoke` | `software.agents` — javobdagi `token` faqat shu safar ko'rsatiladi; yangi token eskisini bekor qiladi |
+| POST | `/exports` `{type: "software_compliance" \| "software_installations" \| "software_licenses"}` | `software.export` (litsenziya kaliti hech qachon eksport qilinmaydi) |
+
+### Agent API
+
+```http
+POST /api/v1/agent/checkin HTTP/1.1
+Authorization: Bearer atg_...
+Content-Type: application/json
+
+{
+  "platform": "Windows 11 Pro", "agent_version": "1.0.0",
+  "software": [{"name": "Microsoft Office 2021", "version": "16.0", "vendor": "Microsoft", "installed_at": "2024-02-01"}],
+  "antivirus": {"product": "Kaspersky Endpoint Security", "state": "installed",
+                "definitions_updated_at": "2026-11-08T03:00:00Z", "last_scan_at": "2026-11-07T22:00:00Z"}
+}
+```
+
+Token qaysi qurilmaga berilgan bo'lsa, faqat o'sha qurilma yangilanadi. Agent manbali, endi kelmagan yozuvlar o'chadi;
+qo'lda yoki CSV bilan kiritilganlar qoladi. Noto'g'ri yoki bekor qilingan token — 401, tokenga daqiqasiga 30 so'rov
+(429). Har bir urinish `agent_checkins` ga yoziladi.
+
+## 12. Misol
 
 ```http
 POST /api/v1/employees HTTP/1.1
