@@ -42,7 +42,7 @@ view/invoice/pay/export. Providers are global reference data (read with any `sim
 
 ## 4. Data
 
-`service_providers`, `sim_cards`, `sim_assignments`, `sim_histories`, `service_contracts`, `services`,
+`service_providers`, `sim_cards`, `sim_assignments`, `sim_histories`, `service_contracts`, `it_services` (not `services`: clashes with the `App\Services` namespace),
 `service_invoices`, `service_payments`, `service_alerts`; `requisition_fulfillments.sim_card_id`. Columns:
 `docs/DATABASE.md` §9 (Phase 6).
 

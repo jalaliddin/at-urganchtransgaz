@@ -144,6 +144,14 @@ return [
         'public' => false,
     ],
 
+    // Reminder this many days before a service payment is due.
+    'services.due_notice_days' => [
+        'type' => 'integer',
+        'default' => 5,
+        'rules' => ['required', 'integer', 'min:1', 'max:60'],
+        'public' => false,
+    ],
+
     'notifications.mail_enabled' => [
         'type' => 'boolean',
         'default' => true,

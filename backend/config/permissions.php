@@ -28,6 +28,8 @@ return [
         'warehouse' => ['view', 'receive', 'issue', 'transfer', 'inventory', 'manage', 'export'],
         'requisitions' => ['view', 'create', 'approve_org', 'review', 'approve', 'fulfill', 'export'],
         'software' => ['view', 'install', 'manage', 'agents', 'export'],
+        'sim' => ['view', 'manage', 'assign', 'export'],
+        'services' => ['view', 'manage', 'invoice', 'approve', 'pay', 'export'],
     ],
 
     'roles' => [
@@ -58,6 +60,8 @@ return [
                 'requisitions.view', 'requisitions.create', 'requisitions.review',
                 'requisitions.approve', 'requisitions.fulfill', 'requisitions.export',
                 'software.view', 'software.install', 'software.manage', 'software.agents', 'software.export',
+                'sim.view', 'sim.manage', 'sim.assign', 'sim.export',
+                'services.view', 'services.manage', 'services.invoice', 'services.approve', 'services.pay', 'services.export',
             ],
         ],
         'central-it-staff' => [
@@ -73,6 +77,8 @@ return [
                 'warehouse.view', 'warehouse.receive', 'warehouse.issue', 'warehouse.transfer', 'warehouse.inventory', 'warehouse.export',
                 'requisitions.view', 'requisitions.review', 'requisitions.fulfill',
                 'software.view', 'software.install', 'software.agents', 'software.export',
+                'sim.view', 'sim.manage', 'sim.assign', 'sim.export',
+                'services.view', 'services.manage', 'services.invoice', 'services.export',
             ],
         ],
         'org-it-responsible' => [
@@ -88,6 +94,8 @@ return [
                 'warehouse.view', 'warehouse.receive', 'warehouse.issue', 'warehouse.transfer', 'warehouse.inventory', 'warehouse.export',
                 'requisitions.view', 'requisitions.create',
                 'software.view', 'software.install', 'software.export',
+                'sim.view', 'sim.assign', 'sim.export',
+                'services.view', 'services.invoice', 'services.export',
             ],
         ],
         'org-head' => [
@@ -100,6 +108,7 @@ return [
                 'warehouse.view', 'warehouse.export',
                 'requisitions.view', 'requisitions.approve_org',
                 'software.view', 'software.export',
+                'sim.view', 'sim.export', 'services.view', 'services.export',
             ],
         ],
         'employee' => [
@@ -117,6 +126,7 @@ return [
                 'warehouse.view', 'warehouse.receive', 'warehouse.issue', 'warehouse.inventory', 'warehouse.export',
                 'requisitions.view', 'requisitions.fulfill',
                 'software.view',
+                'sim.view', 'sim.export', 'services.view', 'services.invoice', 'services.pay', 'services.export',
             ],
         ],
         'auditor' => [
@@ -130,6 +140,7 @@ return [
                 'warehouse.view', 'warehouse.export',
                 'requisitions.view', 'requisitions.export',
                 'software.view', 'software.export',
+                'sim.view', 'sim.export', 'services.view', 'services.export',
             ],
         ],
     ],

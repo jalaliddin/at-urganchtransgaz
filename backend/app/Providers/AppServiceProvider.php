@@ -15,6 +15,7 @@ use App\Models\Document;
 use App\Models\DocumentVersion;
 use App\Models\Employee;
 use App\Models\InventorySession;
+use App\Models\ItService;
 use App\Models\Location;
 use App\Models\Manufacturer;
 use App\Models\Material;
@@ -24,6 +25,11 @@ use App\Models\OrganizationItResponsible;
 use App\Models\ReportExport;
 use App\Models\Requisition;
 use App\Models\Role;
+use App\Models\ServiceContract;
+use App\Models\ServiceInvoice;
+use App\Models\ServicePayment;
+use App\Models\ServiceProvider as TelecomProvider;
+use App\Models\SimCard;
 use App\Models\Software;
 use App\Models\SoftwareLicense;
 use App\Models\SoftwarePolicy;
@@ -122,6 +128,12 @@ class AppServiceProvider extends ServiceProvider
             'software' => Software::class,
             'software_license' => SoftwareLicense::class,
             'software_policy' => SoftwarePolicy::class,
+            'service_provider' => TelecomProvider::class,
+            'sim_card' => SimCard::class,
+            'service_contract' => ServiceContract::class,
+            'it_service' => ItService::class,
+            'service_invoice' => ServiceInvoice::class,
+            'service_payment' => ServicePayment::class,
         ]);
     }
 
