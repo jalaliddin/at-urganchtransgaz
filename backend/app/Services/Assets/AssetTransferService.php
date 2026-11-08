@@ -112,6 +112,15 @@ class AssetTransferService
     {
         $this->assertSide($by, $transfer->to_organization_id);
 
+        return $this->receiveFor($transfer, $by, $note);
+    }
+
+    /**
+     * Receives without the receiving-side permission check: the caller already holds
+     * the authority (a requisition's receipt confirmation by the requesting side).
+     */
+    public function receiveFor(AssetTransfer $transfer, User $by, ?string $note): AssetTransfer
+    {
         return DB::transaction(function () use ($transfer, $by, $note): AssetTransfer {
             $this->lockIn($transfer, TransferStatus::Sent);
             $from = $transfer->fromOrganization->name;

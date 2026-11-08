@@ -194,6 +194,10 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
         Route::post('provide-info', [RequisitionActionController::class, 'provideInfo'])->name('provide-info');
         Route::post('decision', [RequisitionActionController::class, 'decide'])->name('decision');
         Route::post('ready', [RequisitionActionController::class, 'ready'])->name('ready');
+        Route::post('allocations', [RequisitionActionController::class, 'allocate'])->name('allocations');
+        Route::post('complete', [RequisitionActionController::class, 'complete'])->name('complete');
+        Route::post('receive', [RequisitionActionController::class, 'receive'])->name('receive');
+        Route::post('close', [RequisitionActionController::class, 'close'])->name('close');
         Route::post('comments', [RequisitionActionController::class, 'comment'])->name('comments');
         Route::post('attachments', [RequisitionActionController::class, 'attach'])->name('attachments');
     });

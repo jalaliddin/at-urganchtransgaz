@@ -3,17 +3,20 @@
 namespace App\Services\Dashboard;
 
 use App\Enums\EmployeeStatus;
+use App\Enums\RequisitionStatus;
 use App\Enums\TicketStatus;
 use App\Http\Resources\Audit\AuditLogResource;
 use App\Models\Asset;
 use App\Models\AuditLog;
 use App\Models\Employee;
 use App\Models\Organization;
+use App\Models\Requisition;
 use App\Models\StockDocument;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Services\Assets\AssetStats;
 use App\Services\Helpdesk\TicketStats;
+use App\Services\Requisitions\RequisitionQueries;
 use App\Services\Warehouse\StockQueries;
 use App\Support\OrganizationSubtree;
 use Carbon\CarbonImmutable;
@@ -99,6 +102,18 @@ class DashboardService
                 'low_stock' => $stock->lowCount($user, $organizationId),
                 'expiring' => $stock->expiringLots($user, $organizationId),
                 'documents_month' => $documents->count(),
+            ];
+        }
+
+        if ($user->canAny(['requisitions.view', 'requisitions.create'])) {
+            $visible = fn () => Requisition::query()->visibleTo($user)
+                ->when($organizationId !== null, fn ($q) => $q->whereIn('organization_id', OrganizationSubtree::ids((int) $organizationId) ?: [0]));
+            $action = $visible();
+            RequisitionQueries::awaitingAction($action, $user);
+            $widgets['requisitions'] = [
+                'awaiting_action' => $action->count(),
+                'open' => $visible()->whereNotIn('status', [RequisitionStatus::Draft->value, RequisitionStatus::Rejected->value, RequisitionStatus::Closed->value])->count(),
+                'mine_open' => $visible()->where('requester_id', $user->id)->whereNotIn('status', [RequisitionStatus::Rejected->value, RequisitionStatus::Closed->value])->count(),
             ];
         }
 

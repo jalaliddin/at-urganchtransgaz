@@ -20,6 +20,7 @@ class ExportService
         'assets' => AssetReport::class,
         'stock_balances' => StockBalanceReport::class,
         'stock_movements' => StockMovementReport::class,
+        'requisitions' => RequisitionReport::class,
     ];
 
     public function report(string $type): ReportDefinition

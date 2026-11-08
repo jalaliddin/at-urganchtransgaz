@@ -102,4 +102,12 @@ return [
     'requisition_quantity_invalid' => 'Утверждённое количество должно быть от 0 до запрошенного.',
     'requisition_nothing_approved' => 'Нужно утвердить количество хотя бы по одной строке.',
     'requisition_comment_required' => 'Напишите комментарий.',
+    'requisition_item_invalid' => 'Строка не относится к этой заявке.',
+    'allocation_exceeds' => 'Количество должно быть больше 0 и не больше остатка :remaining.',
+    'allocation_material_required' => 'Для выделения со склада выберите материал.',
+    'allocation_target_invalid' => 'Склад-получатель должен принадлежать организации заявки.',
+    'allocation_asset_unavailable' => 'Актив недоступен: он должен быть на складе или в резерве, не в перемещении и не выделен другой заявке.',
+    'allocation_note_required' => 'Опишите, что выделено.',
+    'requisition_issue_reason' => 'По заявке :number',
+    'requisition_received_note' => 'Получено по заявке :number',
 ];

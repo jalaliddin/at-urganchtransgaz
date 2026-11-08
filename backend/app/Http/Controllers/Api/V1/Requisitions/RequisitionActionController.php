@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1\Requisitions;
 
+use App\Enums\FulfillmentType;
 use App\Enums\RequisitionDecision;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Requisitions\RequisitionResource;
 use App\Models\Requisition;
 use App\Models\User;
+use App\Models\Warehouse;
 use App\Rules\SafeUpload;
+use App\Services\Requisitions\RequisitionFulfilment;
 use App\Services\Requisitions\RequisitionService;
 use App\Services\Requisitions\RequisitionWorkflow;
 use App\Support\ApiResponse;
@@ -23,7 +26,47 @@ class RequisitionActionController extends Controller
         private readonly RequisitionWorkflow $workflow,
         private readonly RequisitionService $service,
         private readonly RequisitionController $cards,
+        private readonly RequisitionFulfilment $fulfilment,
     ) {}
+
+    public function allocate(Request $request, Requisition $requisition): JsonResponse
+    {
+        $user = $this->user($request);
+        abort_unless($this->workflow->roleAllows('allocate', $requisition, $user), 403);
+        $data = $request->validate([
+            'item_id' => ['required', 'integer'],
+            'type' => ['required', Rule::enum(FulfillmentType::class)],
+            'quantity' => ['nullable', 'numeric', 'decimal:0,3', 'gt:0', 'max:1000000'],
+            'warehouse_id' => ['required_if:type,stock', 'nullable', 'integer', function (string $attribute, mixed $value, \Closure $fail): void {
+                if ($value !== null && ! Warehouse::query()->whereKey((int) $value)->exists()) {
+                    $fail(__('messages.warehouse_not_accessible'));
+                }
+            }],
+            'target_warehouse_id' => ['nullable', 'integer', 'different:warehouse_id'],
+            'material_id' => ['nullable', 'integer', Rule::exists('materials', 'id')],
+            'batch' => ['nullable', 'string', 'max:100'],
+            'asset_id' => ['required_if:type,asset', 'nullable', 'integer'],
+            'note' => ['nullable', 'string', 'max:2000'],
+        ]);
+        $this->fulfilment->allocate($requisition, $data, $user);
+
+        return $this->cards->detail($requisition, $user, 201);
+    }
+
+    public function complete(Request $request, Requisition $requisition): JsonResponse
+    {
+        return $this->card($this->fulfilment->complete($requisition, $this->commentText($request), $this->user($request)), $request);
+    }
+
+    public function receive(Request $request, Requisition $requisition): JsonResponse
+    {
+        return $this->card($this->fulfilment->receive($requisition, $this->commentText($request), $this->user($request)), $request);
+    }
+
+    public function close(Request $request, Requisition $requisition): JsonResponse
+    {
+        return $this->card($this->fulfilment->close($requisition, $this->user($request)), $request);
+    }
 
     public function submit(Request $request, Requisition $requisition): JsonResponse
     {

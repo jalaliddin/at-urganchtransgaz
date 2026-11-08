@@ -79,4 +79,20 @@ return [
             'user' => 'Foydalanuvchi',
         ],
     ],
+    'requisitions' => [
+        'title' => 'Talabnomalar',
+        'columns' => [
+            'number' => 'Raqam',
+            'created_at' => 'Yaratilgan',
+            'organization' => 'Tashkilot',
+            'title' => 'Mavzu',
+            'status' => 'Holat',
+            'requester' => 'Yaratgan',
+            'items' => 'Qatorlar',
+            'needed_by' => 'Kerakli sana',
+            'submitted_at' => 'Yuborilgan',
+            'approved_at' => 'Tasdiqlangan',
+            'received_at' => 'Qabul qilingan',
+        ],
+    ],
 ];

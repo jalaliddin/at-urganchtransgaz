@@ -79,4 +79,20 @@ return [
             'user' => 'Пользователь',
         ],
     ],
+    'requisitions' => [
+        'title' => 'Заявки',
+        'columns' => [
+            'number' => 'Номер',
+            'created_at' => 'Создана',
+            'organization' => 'Организация',
+            'title' => 'Тема',
+            'status' => 'Статус',
+            'requester' => 'Автор',
+            'items' => 'Строк',
+            'needed_by' => 'Нужно к',
+            'submitted_at' => 'Отправлена',
+            'approved_at' => 'Утверждена',
+            'received_at' => 'Получена',
+        ],
+    ],
 ];

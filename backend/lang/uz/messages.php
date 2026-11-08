@@ -102,4 +102,12 @@ return [
     'requisition_quantity_invalid' => "Tasdiqlangan miqdor 0 dan so'ralgan miqdorgacha bo'lishi kerak.",
     'requisition_nothing_approved' => 'Kamida bitta qator uchun miqdor tasdiqlanishi kerak.',
     'requisition_comment_required' => 'Izoh yozing.',
+    'requisition_item_invalid' => 'Qator bu talabnomaga tegishli emas.',
+    'allocation_exceeds' => 'Ajratiladigan miqdor 0 dan katta va qolgan :remaining dan oshmasligi kerak.',
+    'allocation_material_required' => 'Ombordan ajratish uchun materialni tanlang.',
+    'allocation_target_invalid' => "Qabul qiluvchi ombor talabnoma tashkilotiga tegishli bo'lishi kerak.",
+    'allocation_asset_unavailable' => "Aktiv mavjud emas: u omborda yoki zaxirada bo'lishi, ko'chirilmayotgan va boshqa talabnomaga ajratilmagan bo'lishi kerak.",
+    'allocation_note_required' => 'Nima ajratilganini yozing.',
+    'requisition_issue_reason' => ":number talabnomasi bo'yicha",
+    'requisition_received_note' => ":number talabnomasi bo'yicha qabul qilindi",
 ];
