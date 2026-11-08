@@ -49,6 +49,9 @@ use App\Http\Controllers\Api\V1\Users\UserOrganizationAccessController;
 use App\Http\Controllers\Api\V1\Users\UserPasswordResetController;
 use App\Http\Controllers\Api\V1\Users\UserRolesController;
 use App\Http\Controllers\Api\V1\Users\UserStatusController;
+use App\Http\Controllers\Api\V1\Warehouse\MaterialController;
+use App\Http\Controllers\Api\V1\Warehouse\WarehouseCatalogController;
+use App\Http\Controllers\Api\V1\Warehouse\WarehouseController;
 use Illuminate\Support\Facades\Route;
 
 // API v1 routes (prefix api/v1 is set in bootstrap/app.php).
@@ -148,6 +151,18 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::put('asset-models/{assetModel}', [AssetCatalogController::class, 'updateModel'])->name('asset-models.update');
     Route::delete('asset-models/{assetModel}', [AssetCatalogController::class, 'destroyModel'])->name('asset-models.destroy');
     Route::apiResource('locations', LocationController::class)->except(['show']);
+
+    // Phase 4: warehouse catalog
+    Route::get('units', [WarehouseCatalogController::class, 'units'])->name('units.index');
+    Route::post('units', [WarehouseCatalogController::class, 'storeUnit'])->name('units.store');
+    Route::put('units/{unit}', [WarehouseCatalogController::class, 'updateUnit'])->name('units.update');
+    Route::delete('units/{unit}', [WarehouseCatalogController::class, 'destroyUnit'])->name('units.destroy');
+    Route::get('material-categories', [WarehouseCatalogController::class, 'categories'])->name('material-categories.index');
+    Route::post('material-categories', [WarehouseCatalogController::class, 'storeCategory'])->name('material-categories.store');
+    Route::put('material-categories/{materialCategory}', [WarehouseCatalogController::class, 'updateCategory'])->name('material-categories.update');
+    Route::delete('material-categories/{materialCategory}', [WarehouseCatalogController::class, 'destroyCategory'])->name('material-categories.destroy');
+    Route::apiResource('materials', MaterialController::class);
+    Route::apiResource('warehouses', WarehouseController::class)->except(['show']);
 
     Route::get('asset-transfers', [AssetTransferController::class, 'index'])->name('asset-transfers.index');
     Route::post('asset-transfers', [AssetTransferController::class, 'store'])->name('asset-transfers.store');

@@ -159,6 +159,7 @@ class AppServiceProvider extends ServiceProvider
             ->make(AssetTransferService::class)->canDownload($user, $file));
 
         Gate::define('assets.use', fn (User $user): bool => $user->canAny(['assets.view', 'assets.create', 'assets.inventory']));
+        Gate::define('warehouse.catalog', fn (User $user): bool => $user->canAny(['warehouse.view', 'requisitions.create', 'requisitions.review', 'requisitions.fulfill']));
         Gate::define('helpdesk.use', fn (User $user): bool => $user->canAny(['helpdesk.view', 'helpdesk.create', 'helpdesk.manage']));
         Gate::define('viewApiDocs', fn (?User $user): bool => $user?->isSuperAdmin() ?? false);
     }

@@ -65,4 +65,27 @@ final class ApiResponse
             ],
         );
     }
+
+    /**
+     * Paginated list whose rows are mapped by $map (plain-array resources).
+     *
+     * @template TModel
+     *
+     * @param  LengthAwarePaginator<int, TModel>  $page
+     * @param  callable(TModel): array<string, mixed>  $map
+     */
+    public static function page(LengthAwarePaginator $page, callable $map): JsonResponse
+    {
+        return self::data(
+            collect($page->items())->map($map)->values(),
+            meta: [
+                'current_page' => $page->currentPage(),
+                'per_page' => $page->perPage(),
+                'total' => $page->total(),
+                'last_page' => $page->lastPage(),
+                'from' => $page->firstItem(),
+                'to' => $page->lastItem(),
+            ],
+        );
+    }
 }

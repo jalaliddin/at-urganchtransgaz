@@ -70,4 +70,9 @@ return [
     'asset_disposal_pending' => "Bu aktivni hisobdan chiqarish so'rovi allaqachon ko'rib chiqilmoqda.",
     'inventory_open_exists' => 'Bu tashkilot uchun ochiq inventarizatsiya bor. Avval uni yakunlang.',
     'inventory_closed' => 'Inventarizatsiya yakunlangan.',
+    'warehouse_catalog_in_use' => "Bu yozuvdan foydalanilmoqda (material, qoldiq, hujjat yoki talabnoma bor). Avval ularni o'zgartiring.",
+    'expiry_needs_batches' => "Yaroqlilik muddati partiya bo'yicha yuritiladi: avval partiya hisobini yoqing.",
+    'material_tracking_locked' => "Materialning qoldig'i bor: partiya va muddat hisobini endi o'zgartirib bo'lmaydi.",
+    'warehouse_location_invalid' => "Joylashuv omborning tashkilotiga tegishli bo'lishi kerak.",
+    'warehouse_responsible_invalid' => "Mas'ul foydalanuvchi bu tashkilotga kira olishi kerak.",
 ];
