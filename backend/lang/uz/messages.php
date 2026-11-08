@@ -129,5 +129,5 @@ return [
     'import_name_required' => "Dastur nomi bo'sh.",
     'import_state_invalid' => "Holat installed yoki not_installed bo'lishi kerak.",
     'import_date_invalid' => "Sana noto'g'ri: :value (YYYY-MM-DD yoki DD.MM.YYYY).",
-    'import_date_future' => "Sana kelajakda: :value.",
+    'import_date_future' => 'Sana kelajakda: :value.',
 ];

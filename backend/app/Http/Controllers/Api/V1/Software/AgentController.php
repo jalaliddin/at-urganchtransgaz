@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\V1\Software;
 
 use App\Enums\AntivirusState;
 use App\Http\Controllers\Controller;
-use Carbon\CarbonImmutable;
 use App\Models\Asset;
 use App\Models\DeviceAgent;
 use App\Models\User;
@@ -12,6 +11,7 @@ use App\Services\Software\AgentCheckinService;
 use App\Services\Software\AgentService;
 use App\Support\ApiResponse;
 use App\Support\Pagination;
+use Carbon\CarbonImmutable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
