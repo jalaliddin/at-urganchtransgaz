@@ -53,8 +53,8 @@ class MaterialCatalog
      */
     private function checkTracking(array $data, ?Material $material): void
     {
-        $batches = (bool) ($data['track_batches'] ?? $material?->track_batches ?? false);
-        $expiry = (bool) ($data['track_expiry'] ?? $material?->track_expiry ?? false);
+        $batches = (bool) ($data['track_batches'] ?? $material->track_batches ?? false);
+        $expiry = (bool) ($data['track_expiry'] ?? $material->track_expiry ?? false);
         if ($expiry && ! $batches) {
             throw ValidationException::withMessages(['track_batches' => __('messages.expiry_needs_batches')]);
         }
