@@ -61,7 +61,8 @@ class StockDocument extends Model
     }
 
     /**
-     * Documents whose source or target warehouse belongs to $user's organizations.
+     * Documents whose source or target warehouse belongs to $user's organizations, and
+     * issues to one of them (read-only for the recipient: only the posting side acts).
      *
      * @param  Builder<self>  $query
      */
@@ -74,7 +75,8 @@ class StockDocument extends Model
         $ids = $scope->organizationIds();
         $ids === []
             ? $query->whereRaw('1 = 0')
-            : $query->where(fn ($q) => $q->whereIn('organization_id', $ids)->orWhereIn('target_organization_id', $ids));
+            : $query->where(fn ($q) => $q->whereIn('organization_id', $ids)->orWhereIn('target_organization_id', $ids)
+                ->orWhereIn('recipient_organization_id', $ids));
     }
 
     public function resolveRouteBinding($value, $field = null): ?Model

@@ -63,7 +63,7 @@ class RequisitionFulfilment
             $item->forceFill(['fulfilled_quantity' => Decimal::add($item->fulfilled_quantity, $quantity)])->save();
             $fulfillment = RequisitionFulfillment::create([
                 'requisition_id' => $requisition->id, 'item_id' => $item->id, 'type' => $type, 'quantity' => $quantity,
-                'fulfilled_by' => $by->id, ...$link,
+                'fulfilled_by' => $by->id, 'note' => trim((string) ($data['note'] ?? '')) ?: null, ...$link,
             ]);
 
             $before = $requisition->status;

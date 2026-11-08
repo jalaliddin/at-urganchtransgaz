@@ -77,7 +77,7 @@ class StockLedger
 
     /**
      * Picks lots for a decrease: the named batch, or FIFO — earliest expiry first
-     * (lots without expiry last), then the oldest receipt.
+     * (lots without expiry last, expired lots skipped), then the oldest receipt.
      *
      * @return list<array{0: StockBalance, 1: string}>
      */
@@ -85,6 +85,9 @@ class StockLedger
     {
         $lots = StockBalance::query()->where('warehouse_id', $warehouseId)->where('material_id', $material->id)
             ->when($batch !== null, fn ($q) => $q->where('batch', $batch))
+            // Automatic picking never hands out expired lots; naming the batch still can (write-off).
+            ->when($batch === null, fn ($q) => $q->where(fn ($w) => $w->whereNull('expires_at')
+                ->orWhere('expires_at', '>=', CarbonImmutable::now((string) config('app.display_timezone'))->toDateString())))
             ->where('quantity', '>', 0)
             ->orderByRaw('expires_at IS NULL')->orderBy('expires_at')->orderBy('received_at')->orderBy('id')
             ->lockForUpdate()->get();

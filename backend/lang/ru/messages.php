@@ -110,4 +110,7 @@ return [
     'allocation_note_required' => 'Опишите, что выделено.',
     'requisition_issue_reason' => 'По заявке :number',
     'requisition_received_note' => 'Получено по заявке :number',
+    'return_wrong_warehouse' => 'Возврат оформляется на склад, с которого был расход.',
+    'transfer_linked_to_requisition' => 'Это перемещение везёт актив, выделенный по заявке: отменить его нельзя. После получения при необходимости переместите актив обратно.',
+    'requisition_delete_submitted' => 'Отправленную заявку нельзя удалить: её история сохраняется. Исправьте и отправьте снова.',
 ];

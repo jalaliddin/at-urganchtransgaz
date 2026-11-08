@@ -199,12 +199,11 @@ export function StockDocumentDrawer({
     if (!warehouseId) local.warehouse_id = t('validation:required')
     if (type === 'transfer' && !targetId) local.target_warehouse_id = t('validation:required')
     if ((type === 'issue' || type === 'adjustment') && !reason.trim()) local.reason = t('validation:required')
-    const filled = lines.filter((l) => l.material || l.quantity)
-    filled.forEach((l, i) => {
+    // Every line is sent, so server errors (lines.N.*) point at the line the user sees.
+    lines.forEach((l, i) => {
       if (!l.material) local[`lines.${i}.material_id`] = t('validation:required')
       if (!l.quantity || Number(l.quantity) === 0) local[`lines.${i}.quantity`] = t('validation:required')
     })
-    if (filled.length === 0) local.lines = t('lines.required')
     setErrors(local)
     setShortages([])
     if (Object.keys(local).length > 0 || !warehouseId) return
@@ -222,7 +221,7 @@ export function StockDocumentDrawer({
         asset_id: type === 'issue' ? assetId : null,
         related_document_id: type === 'return' ? relatedId : null,
         reason: reason || null,
-        lines: filled.map((l) => ({
+        lines: lines.map((l) => ({
           material_id: l.material?.id ?? 0,
           quantity: l.quantity,
           batch: l.batch || null,

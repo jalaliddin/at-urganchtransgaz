@@ -142,7 +142,7 @@ export interface StockDocumentDetail extends StockDocument {
   lines: StockDocumentLine[]
   movements: StockMovementRow[]
   returns: { id: number; number: string; document_date: string }[]
-  can: { attach_file: boolean }
+  can: { attach_file: boolean; return: boolean }
 }
 
 export interface JournalRow {

@@ -4,6 +4,7 @@ namespace App\Services\Requisitions;
 
 use App\Enums\RequisitionAction;
 use App\Enums\RequisitionStatus;
+use App\Exceptions\InvalidTransitionException;
 use App\Models\Material;
 use App\Models\Requisition;
 use App\Models\RequisitionAttachment;
@@ -74,6 +75,10 @@ class RequisitionService
     {
         DB::transaction(function () use ($requisition, $by): void {
             $this->workflow->lockFor('delete', $requisition, $by);
+            // Once submitted, its approvals and history must stay (spec: every step is kept).
+            if ($requisition->submitted_at !== null) {
+                throw new InvalidTransitionException(__('messages.requisition_delete_submitted'));
+            }
             $files = RequisitionAttachment::query()->where('requisition_id', $requisition->id)->with('file')->get();
             $requisition->delete();
             $files->each(fn (RequisitionAttachment $a) => $this->files->delete($a->file));

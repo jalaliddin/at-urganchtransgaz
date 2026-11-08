@@ -42,7 +42,8 @@ class StockDocumentController extends Controller
         }
         if ($request->filled('filter.organization')) {
             $ids = OrganizationSubtree::ids($request->integer('filter.organization'));
-            $query->where(fn ($q) => $q->whereIn('organization_id', $ids)->orWhereIn('target_organization_id', $ids));
+            $query->where(fn ($q) => $q->whereIn('organization_id', $ids)->orWhereIn('target_organization_id', $ids)
+                ->orWhereIn('recipient_organization_id', $ids));
         }
         if ($request->filled('filter.date_from')) {
             $query->whereDate('document_date', '>=', (string) $request->input('filter.date_from'));
@@ -110,7 +111,11 @@ class StockDocumentController extends Controller
         return ApiResponse::data([
             ...StockResource::documentDetail($document),
             'returns' => $returns,
-            'can' => ['attach_file' => $user->can($document->type->permission()) && $user->canAccessOrganization($document->organization_id)],
+            'can' => [
+                'attach_file' => $user->can($document->type->permission()) && $user->canAccessOrganization($document->organization_id),
+                'return' => $document->type === StockDocumentType::Issue && $user->can('warehouse.receive')
+                    && $user->canAccessOrganization($document->organization_id),
+            ],
         ], $status);
     }
 

@@ -71,6 +71,10 @@ class RequisitionWorkflow
 
     public function can(string $action, Requisition $requisition, User $user): bool
     {
+        if ($action === 'delete' && $requisition->submitted_at !== null) {
+            return false;
+        }
+
         return in_array($requisition->status, self::FROM[$action] ?? [], true) && $this->roleAllows($action, $requisition, $user);
     }
 

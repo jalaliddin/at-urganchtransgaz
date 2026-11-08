@@ -6,6 +6,7 @@ use App\Exceptions\DomainConflictException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Warehouse\WarehouseCatalogResource;
 use App\Models\Location;
+use App\Models\StockCount;
 use App\Models\StockDocument;
 use App\Models\User;
 use App\Models\Warehouse;
@@ -62,7 +63,8 @@ class WarehouseController extends Controller
     {
         Gate::authorize('warehouse.manage');
         $used = $warehouse->balances()->exists()
-            || StockDocument::query()->where('warehouse_id', $warehouse->id)->orWhere('target_warehouse_id', $warehouse->id)->exists();
+            || StockDocument::query()->where('warehouse_id', $warehouse->id)->orWhere('target_warehouse_id', $warehouse->id)->exists()
+            || StockCount::query()->withoutGlobalScopes()->where('warehouse_id', $warehouse->id)->exists();
         if ($used) {
             throw new DomainConflictException(__('messages.warehouse_catalog_in_use'));
         }

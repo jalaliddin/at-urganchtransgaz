@@ -117,17 +117,26 @@ function AddLineModal({ countId, onClose }: { countId: number; onClose: () => vo
   )
 }
 
-function CountTable({ count }: { count: StockCountDetail }) {
+type Draft = Record<number, string>
+
+const pending = (draft: Draft) =>
+  Object.entries(draft).map(([id, v]) => ({ id: Number(id), counted_quantity: v === '' ? null : v }))
+
+function CountTable({
+  count,
+  draft,
+  setDraft,
+}: {
+  count: StockCountDetail
+  draft: Draft
+  setDraft: (update: (d: Draft) => Draft) => void
+}) {
   const { t } = useTranslation('warehouse')
   const phone = useMediaQuery('(max-width: 48em)')
-  const [draft, setDraft] = useState<Record<number, string>>({})
   const save = useWarehouseMutation((lines: { id: number; counted_quantity: string | null }[]) =>
     recordCount(count.id, lines),
   )
-  const dirty = Object.entries(draft).map(([id, v]) => ({
-    id: Number(id),
-    counted_quantity: v === '' ? null : v,
-  }))
+  const dirty = pending(draft)
   const rows = count.lines.map((l) => {
     const value = draft[l.id] ?? l.counted_quantity ?? ''
     const diff = value === '' ? null : Number(value) - Number(l.expected_quantity)
@@ -231,7 +240,7 @@ function CountTable({ count }: { count: StockCountDetail }) {
             onClick={() =>
               save.mutate(dirty, {
                 onSuccess: () => {
-                  setDraft({})
+                  setDraft(() => ({}))
                   notifications.show({ color: 'green', message: t('counts.saved') })
                 },
                 onError: (e) => notifications.show({ color: 'red', message: toApiError(e).message }),
@@ -250,7 +259,13 @@ export function CountPage() {
   const { t } = useTranslation(['warehouse', 'common'])
   const id = Number(useParams().id)
   const query = useCount(id)
-  const close = useWarehouseMutation(() => closeCount(id))
+  const [draft, setDraft] = useState<Draft>({})
+  // Unsaved entries are saved first, so the adjustment uses what the user sees.
+  const close = useWarehouseMutation(async () => {
+    const lines = pending(draft)
+    if (lines.length > 0) await recordCount(id, lines)
+    return closeCount(id)
+  })
   const cancel = useWarehouseMutation(() => cancelCount(id))
   const [adding, setAdding] = useState(false)
 
@@ -306,7 +321,7 @@ export function CountPage() {
                       confirmLabel: t('counts.close'),
                     })
                   )
-                    close.mutate(undefined, { onError: fail })
+                    close.mutate(undefined, { onSuccess: () => setDraft({}), onError: fail })
                 }}
               >
                 {t('counts.close')}
@@ -342,7 +357,7 @@ export function CountPage() {
             </Anchor>
           </Text>
         )}
-        <CountTable count={count} />
+        <CountTable count={count} draft={draft} setDraft={setDraft} />
       </Stack>
       {adding && <AddLineModal countId={count.id} onClose={() => setAdding(false)} />}
     </>

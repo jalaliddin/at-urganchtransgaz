@@ -19,7 +19,8 @@
     "copy": "Nusxa olish",
     "copied": "Nusxa olindi",
     "open": "Ochish",
-    "reset": "Tozalash"
+    "reset": "Tozalash",
+    "add": "Qo'shish"
   },
   "states": {
     "loading": "Yuklanmoqda…",

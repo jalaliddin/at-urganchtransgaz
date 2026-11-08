@@ -5,10 +5,12 @@ namespace App\Services\Assets;
 use App\Enums\AssetEventAction;
 use App\Enums\AssetStatus;
 use App\Enums\TransferStatus;
+use App\Exceptions\DomainConflictException;
 use App\Exceptions\InvalidTransitionException;
 use App\Models\Asset;
 use App\Models\AssetTransfer;
 use App\Models\AssetTransferItem;
+use App\Models\RequisitionFulfillment;
 use App\Models\StoredFile;
 use App\Models\User;
 use App\Notifications\Assets\AssetTransferIncomingNotification;
@@ -147,6 +149,10 @@ class AssetTransferService
     public function cancel(AssetTransfer $transfer, User $by): AssetTransfer
     {
         $this->assertSide($by, $transfer->from_organization_id);
+        // An asset allocated to a requisition travels until the requesting side confirms receipt.
+        if (RequisitionFulfillment::query()->where('asset_transfer_id', $transfer->id)->exists()) {
+            throw new DomainConflictException(__('messages.transfer_linked_to_requisition'));
+        }
 
         return DB::transaction(function () use ($transfer, $by): AssetTransfer {
             $this->lockIn($transfer, null);

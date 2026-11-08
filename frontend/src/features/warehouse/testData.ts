@@ -74,7 +74,7 @@ export function makeDocument(overrides: Partial<StockDocumentDetail> = {}): Stoc
     lines: [],
     movements: [],
     returns: [],
-    can: { attach_file: true },
+    can: { attach_file: true, return: true },
     ...overrides,
   }
 }

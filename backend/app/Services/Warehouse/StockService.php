@@ -57,7 +57,7 @@ class StockService
         $document = DB::transaction(function () use ($type, $header, $prepared, $by): StockDocument {
             [$source, $target] = $this->lockWarehouses($type, $header);
             $this->assertNotCounting([$source->id, $target?->id], isset($header['stock_count_id']) ? (int) $header['stock_count_id'] : null);
-            $issueCosts = $type === StockDocumentType::Return ? $this->checkReturn($header, $prepared) : [];
+            $issueCosts = $type === StockDocumentType::Return ? $this->checkReturn($header, $prepared, $source) : [];
 
             $year = CarbonImmutable::now((string) config('app.display_timezone'))->year;
             $document = StockDocument::create([
@@ -216,7 +216,7 @@ class StockService
     }
 
     /**
-     * A return linked to an issue may bring back at most what that issue gave out
+     * A return linked to an issue goes back into the issue's warehouse and may bring back at most what that issue gave out
      * (minus earlier returns), at the issue's cost. The issue row is locked so two
      * returns of it cannot both pass.
      *
@@ -224,7 +224,7 @@ class StockService
      * @param  list<array{material: Material, quantity: string, batch: string|null, expires_at: string|null, unit_cost: string|null, note: string|null}>  $prepared
      * @return array<int, string> unit cost per material id
      */
-    private function checkReturn(array $header, array $prepared): array
+    private function checkReturn(array $header, array $prepared, Warehouse $warehouse): array
     {
         if (empty($header['related_document_id'])) {
             return [];
@@ -232,6 +232,9 @@ class StockService
         $issue = StockDocument::query()->lockForUpdate()->find((int) $header['related_document_id']);
         if ($issue === null || $issue->type !== StockDocumentType::Issue) {
             throw ValidationException::withMessages(['related_document_id' => __('messages.return_needs_issue')]);
+        }
+        if ($issue->warehouse_id !== $warehouse->id) {
+            throw ValidationException::withMessages(['warehouse_id' => __('messages.return_wrong_warehouse')]);
         }
 
         $issued = StockMovement::query()->withoutGlobalScopes()->where('document_id', $issue->id)

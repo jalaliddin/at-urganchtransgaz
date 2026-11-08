@@ -9,8 +9,6 @@ import { ErrorState } from '@/components/ErrorState'
 import { PageHeader } from '@/components/PageHeader'
 import { NotFoundPage } from '@/features/errors/NotFoundPage'
 import { fileUrl } from '@/features/exports/api'
-import { useMe } from '@/features/auth/queries'
-import { hasPermission } from '@/hooks/usePermissions'
 import { formatDate, formatDateTime, formatMoney } from '@/lib/format'
 import { attachDocumentFile } from './api'
 import { useDocument, useWarehouseMutation } from './queries'
@@ -34,7 +32,6 @@ export function StockDocumentPage() {
   const { t } = useTranslation(['warehouse', 'common'])
   const id = Number(useParams().id)
   const navigate = useNavigate()
-  const { data: me } = useMe()
   const query = useDocument(id)
   const upload = useWarehouseMutation((file: File) => attachDocumentFile(id, file))
   const [returning, setReturning] = useState(false)
@@ -43,7 +40,7 @@ export function StockDocumentPage() {
   if (query.error) return <ErrorState error={query.error} onRetry={() => void query.refetch()} />
   const doc = query.data
   if (!doc) return null
-  const canReturn = doc.type === 'issue' && me !== undefined && hasPermission(me, 'warehouse.receive')
+  const canReturn = doc.can.return
 
   return (
     <>
