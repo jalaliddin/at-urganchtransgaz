@@ -9,10 +9,13 @@ use App\Models\Asset;
 use App\Models\AuditLog;
 use App\Models\Employee;
 use App\Models\Organization;
+use App\Models\StockDocument;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Services\Assets\AssetStats;
 use App\Services\Helpdesk\TicketStats;
+use App\Services\Warehouse\StockQueries;
+use App\Support\OrganizationSubtree;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -82,6 +85,21 @@ class DashboardService
             ];
         } elseif ($user->employee_id !== null) {
             $widgets['my_assets'] = ['total' => Asset::query()->withoutGlobalScopes()->where('holder_employee_id', $user->employee_id)->count()];
+        }
+
+        if ($user->can('warehouse.view')) {
+            $stock = app(StockQueries::class);
+            $monthStart = CarbonImmutable::now((string) config('app.display_timezone'))->startOfMonth()->toDateString();
+            $documents = StockDocument::query()->visibleTo($user)->where('document_date', '>=', $monthStart);
+            if ($organizationId !== null) {
+                $ids = OrganizationSubtree::ids($organizationId);
+                $documents->where(fn ($q) => $q->whereIn('organization_id', $ids)->orWhereIn('target_organization_id', $ids));
+            }
+            $widgets['warehouse'] = [
+                'low_stock' => $stock->lowCount($user, $organizationId),
+                'expiring' => $stock->expiringLots($user, $organizationId),
+                'documents_month' => $documents->count(),
+            ];
         }
 
         if ($user->can('audit.view')) {

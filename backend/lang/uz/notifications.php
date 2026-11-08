@@ -55,4 +55,13 @@ return [
         'subject' => ':organization: :count ta aktiv kafolati tugayapti',
         'line' => ':organization tashkilotida :count ta aktivning kafolati :days kun ichida tugaydi.',
     ],
+    'stock_low' => [
+        'subject' => ':warehouse: :material minimal qoldiqdan kam',
+        'line' => ':warehouse omborida :material qoldig\'i :quantity :unit (minimal — :minimum :unit).',
+    ],
+    'stock_expiring' => [
+        'subject' => ':count ta partiyaning yaroqlilik muddati tugayapti',
+        'line' => ':count ta partiyaning yaroqlilik muddati :days kun ichida tugaydi:',
+    ],
+    'open_warehouse' => 'Omborni ochish',
 ];

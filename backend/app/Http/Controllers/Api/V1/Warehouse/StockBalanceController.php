@@ -8,26 +8,27 @@ use App\Models\Material;
 use App\Models\StockBalance;
 use App\Models\User;
 use App\Models\Warehouse;
+use App\Services\Warehouse\StockQueries;
 use App\Support\ApiResponse;
 use App\Support\Decimal;
-use App\Support\OrganizationSubtree;
 use App\Support\Pagination;
-use Carbon\CarbonImmutable;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 
 /** Balances per warehouse and material (with their lots) and live availability for the line editor. */
 class StockBalanceController extends Controller
 {
+    public function __construct(private readonly StockQueries $queries) {}
+
     public function index(Request $request): JsonResponse
     {
         Gate::authorize('warehouse.view');
-        $page = $this->grouped($request, $this->user($request))->paginate(Pagination::perPage($request))->withQueryString();
+        $filters = (array) $request->input('filter', []);
+        $page = $this->queries->grouped($this->user($request), array_intersect_key($filters, array_flip(StockQueries::FILTERS)))
+            ->paginate(Pagination::perPage($request))->withQueryString();
 
         /** @var Collection<int, \stdClass> $rows */
         $rows = collect($page->items());
@@ -79,50 +80,6 @@ class StockBalanceController extends Controller
         $total = $lots->reduce(fn (string $sum, StockBalance $b) => Decimal::add($sum, $b->quantity), '0.000');
 
         return ApiResponse::data(['total' => $total, 'lots' => $lots->map(fn ($b) => StockResource::lot($b))->values()]);
-    }
-
-    private function grouped(Request $request, User $user): Builder
-    {
-        $query = DB::table('stock_balances as b')
-            ->join('materials as m', 'm.id', '=', 'b.material_id')
-            ->join('warehouses as w', 'w.id', '=', 'b.warehouse_id')
-            ->groupBy('b.warehouse_id', 'b.material_id', 'm.name', 'm.min_quantity')
-            ->selectRaw('b.warehouse_id, b.material_id, m.min_quantity, SUM(b.quantity) AS quantity, SUM(b.quantity * b.unit_cost) AS value,
-                MIN(CASE WHEN b.quantity > 0 THEN b.expires_at END) AS nearest_expiry')
-            ->orderBy('m.name')->orderBy('b.warehouse_id');
-
-        $scope = $user->accessScope();
-        if (! $scope->isUnrestricted()) {
-            $query->whereIn('w.organization_id', $scope->organizationIds() ?: [0]);
-        }
-        if ($request->filled('filter.warehouse')) {
-            $query->where('b.warehouse_id', $request->integer('filter.warehouse'));
-        }
-        if ($request->filled('filter.material')) {
-            $query->where('b.material_id', $request->integer('filter.material'));
-        }
-        if ($request->filled('filter.category')) {
-            $query->where('m.category_id', $request->integer('filter.category'));
-        }
-        if ($request->filled('filter.organization')) {
-            $query->whereIn('w.organization_id', OrganizationSubtree::ids($request->integer('filter.organization')) ?: [0]);
-        }
-        $search = trim((string) $request->input('filter.search', ''));
-        if ($search !== '') {
-            $query->where(fn ($q) => $q->where('m.name', 'like', "%{$search}%")->orWhere('m.code', 'like', "%{$search}%"));
-        }
-
-        if ($request->boolean('filter.low')) {
-            $query->havingRaw('(m.min_quantity > 0 AND SUM(b.quantity) < m.min_quantity)');
-        } else {
-            $query->havingRaw('(SUM(b.quantity) > 0 OR m.min_quantity > 0)');
-        }
-        if ($request->boolean('filter.expiring')) {
-            $until = CarbonImmutable::now((string) config('app.display_timezone'))->addDays((int) config('warehouse.expiry_notice_days'))->toDateString();
-            $query->havingRaw('MIN(CASE WHEN b.quantity > 0 THEN b.expires_at END) <= ?', [$until]);
-        }
-
-        return $query;
     }
 
     private function user(Request $request): User

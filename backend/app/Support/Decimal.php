@@ -80,4 +80,10 @@ final class Decimal
     {
         return str_starts_with($value, '-') ? substr($value, 1) : '-'.$value;
     }
+
+    /** "3.500" → "3.5", "4.000" → "4" (for messages). */
+    public static function plain(string $value): string
+    {
+        return str_contains($value, '.') ? rtrim(rtrim($value, '0'), '.') : $value;
+    }
 }

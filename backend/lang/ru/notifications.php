@@ -55,4 +55,13 @@ return [
         'subject' => ':organization: истекает гарантия :count активов',
         'line' => 'В организации :organization гарантия :count активов истекает в течение :days дней.',
     ],
+    'stock_low' => [
+        'subject' => ':warehouse: :material ниже минимального остатка',
+        'line' => 'Остаток :material на складе :warehouse — :quantity :unit (минимум — :minimum :unit).',
+    ],
+    'stock_expiring' => [
+        'subject' => 'Истекает срок годности у партий: :count',
+        'line' => 'Срок годности :count партий истекает в течение :days дней:',
+    ],
+    'open_warehouse' => 'Открыть склад',
 ];

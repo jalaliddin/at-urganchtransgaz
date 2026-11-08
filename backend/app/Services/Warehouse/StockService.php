@@ -43,6 +43,7 @@ class StockService
         private readonly StockLedger $ledger,
         private readonly NumberSequence $numbers,
         private readonly AuditLogger $audit,
+        private readonly StockAlerts $alerts,
     ) {}
 
     /**
@@ -78,6 +79,18 @@ class StockService
                 $total = Decimal::add($total, $this->apply($type, $document, $row, $index, $source, $target, $issueCosts, $by), 2);
             }
             $document->forceFill(['total_amount' => $total])->save();
+
+            $pairs = [];
+            foreach ($prepared as $row) {
+                foreach (array_filter([$source->id, $target?->id]) as $warehouseId) {
+                    $pairs["{$warehouseId}:{$row['material']->id}"] = [$warehouseId, $row['material']->id];
+                }
+            }
+            DB::afterCommit(function () use ($pairs): void {
+                foreach ($pairs as [$warehouseId, $materialId]) {
+                    $this->alerts->syncLowStock($warehouseId, $materialId);
+                }
+            });
 
             $this->audit->record(AuditEvent::Created, $document, [], [
                 'number' => $document->number, 'type' => $type->value, 'warehouse_id' => $source->id,

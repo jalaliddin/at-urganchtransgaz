@@ -18,6 +18,8 @@ class ExportService
     public const REPORTS = [
         'helpdesk_tickets' => TicketReport::class,
         'assets' => AssetReport::class,
+        'stock_balances' => StockBalanceReport::class,
+        'stock_movements' => StockMovementReport::class,
     ];
 
     public function report(string $type): ReportDefinition

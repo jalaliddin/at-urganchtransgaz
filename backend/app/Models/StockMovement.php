@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Concerns\BelongsToOrganization;
 use App\Models\Scopes\OrganizationScope;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -48,6 +49,21 @@ class StockMovement extends Model
             'balance_after' => 'decimal:3',
             'created_at' => 'immutable_datetime',
         ];
+    }
+
+    /**
+     * Movements of warehouses in $user's organizations (explicit; for jobs without auth).
+     *
+     * @param  Builder<self>  $query
+     */
+    public function scopeVisibleTo(Builder $query, User $user): void
+    {
+        $query->withoutGlobalScope(OrganizationScope::class);
+        $scope = $user->accessScope();
+        if (! $scope->isUnrestricted()) {
+            $ids = $scope->organizationIds();
+            $ids === [] ? $query->whereRaw('1 = 0') : $query->whereIn($query->qualifyColumn('organization_id'), $ids);
+        }
     }
 
     /** @return BelongsTo<StockDocument, $this> */
