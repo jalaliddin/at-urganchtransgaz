@@ -11,6 +11,7 @@ use App\Models\SimCard;
 use App\Models\User;
 use App\Rules\AccessibleOrganization;
 use App\Services\Audit\AuditLogger;
+use App\Services\Documents\DocumentLinkTargets;
 use App\Services\Sim\SimCards;
 use App\Support\ApiResponse;
 use App\Support\OrganizationSubtree;
@@ -81,6 +82,13 @@ class SimCardController extends Controller
         $audit->record(AuditEvent::SecretRevealed, $simCard, [], ['field' => 'iccid']);
 
         return ApiResponse::data(['iccid' => $simCard->iccid]);
+    }
+
+    public function documents(Request $request, SimCard $simCard, DocumentLinkTargets $targets): JsonResponse
+    {
+        Gate::authorize('sim.use');
+
+        return ApiResponse::data($targets->linkedDocuments('sim_card', $simCard->id, $this->user($request)));
     }
 
     /** @param  Builder<SimCard>  $query */

@@ -52,6 +52,8 @@ use App\Http\Controllers\Api\V1\Software\ImportController;
 use App\Http\Controllers\Api\V1\Software\InstallationController;
 use App\Http\Controllers\Api\V1\Software\LicenseController;
 use App\Http\Controllers\Api\V1\Software\SoftwareController;
+use App\Http\Controllers\Api\V1\Telecom\ContractController;
+use App\Http\Controllers\Api\V1\Telecom\ItServiceController;
 use App\Http\Controllers\Api\V1\Telecom\ProviderController;
 use App\Http\Controllers\Api\V1\Telecom\SimActionController;
 use App\Http\Controllers\Api\V1\Telecom\SimCardController;
@@ -231,6 +233,10 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
         }
     });
     Route::get('employees/{employee}/sim-cards', [SimActionController::class, 'employeeCards'])->whereNumber('employee')->name('employees.sim-cards');
+    Route::get('sim-cards/{simCard}/documents', [SimCardController::class, 'documents'])->whereNumber('simCard')->name('sim-cards.documents');
+    Route::apiResource('service-contracts', ContractController::class)->parameters(['service-contracts' => 'serviceContract'])->whereNumber('serviceContract');
+    Route::get('service-contracts/{serviceContract}/documents', [ContractController::class, 'documents'])->whereNumber('serviceContract')->name('service-contracts.documents');
+    Route::apiResource('it-services', ItServiceController::class)->parameters(['it-services' => 'itService'])->whereNumber('itService');
 
     // Phase 4: requisitions
     Route::apiResource('requisitions', RequisitionController::class)->whereNumber('requisition');

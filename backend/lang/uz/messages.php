@@ -143,4 +143,7 @@ return [
     'sim_invalid_transition' => 'Bu amal :status holatidagi SIM-karta uchun mumkin emas.',
     'allocation_sim_unavailable' => "SIM-karta bo'sh emas yoki boshqa talabnomaga ajratilgan.",
     'allocation_sim_kind' => 'SIM-karta faqat "SIM-karta" turidagi bandga ajratiladi.',
+    'contract_in_use' => "Shartnomaga xizmatlar bog'langan.",
+    'service_billed' => "Xizmat bo'yicha hisob-faktura yoki to'lov bor: o'chirish o'rniga faolsizlantiring.",
+    'service_contract_mismatch' => 'Shartnoma shu tashkilot va provayderga tegishli emas.',
 ];

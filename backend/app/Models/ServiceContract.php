@@ -45,12 +45,15 @@ class ServiceContract extends Model
         ];
     }
 
-    /** Active = not terminated and not past its end date. */
-    public function isActive(?CarbonImmutable $today = null): bool
+    /** terminated (termination date reached) → expired (past its end date) → active. */
+    public function statusOn(?CarbonImmutable $today = null): string
     {
-        $today ??= CarbonImmutable::today((string) config('app.display_timezone'));
+        $today = ($today ?? CarbonImmutable::today((string) config('app.display_timezone')))->startOfDay();
+        if ($this->terminated_at !== null && $this->terminated_at->lte($today)) {
+            return 'terminated';
+        }
 
-        return $this->terminated_at === null && ($this->valid_to === null || $this->valid_to->gte($today->startOfDay()));
+        return $this->valid_to !== null && $this->valid_to->lt($today) ? 'expired' : 'active';
     }
 
     /** @return BelongsTo<ServiceProvider, $this> */
