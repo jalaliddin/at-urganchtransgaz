@@ -221,7 +221,7 @@ Sozlamalar ro'yxati, turi, standart qiymati va validatsiyasi kodda
 
 ## 4. Rollar va ruxsatlar matritsasi
 
-1–3-bosqich ruxsatlari (keyingi bosqichlar o'z modullarini qo'shadi). Ruxsatsiz ham har bir foydalanuvchi o'zi yuborgan arizalarni ko'radi.
+1–4-bosqich ruxsatlari (keyingi bosqichlar o'z modullarini qo'shadi). Ruxsatsiz ham har bir foydalanuvchi o'zi yuborgan arizalarni ko'radi.
 
 | Ruxsat | super-admin | central-it-head | central-it-staff | org-it-responsible | org-head | employee | accountant | auditor |
 |---|---|---|---|---|---|---|---|---|
@@ -253,6 +253,17 @@ Sozlamalar ro'yxati, turi, standart qiymati va validatsiyasi kodda
 | assets.create / update / assign / transfer | ✓ | ✓ | ✓ | ✓ | | | | |
 | assets.inventory | ✓ | ✓ | ✓ | ✓ | | | ✓ | |
 | assets.delete / dispose (tasdiqlash) / manage_catalog | ✓ | ✓ | | | | | | |
+| warehouse.view / export | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
+| warehouse.receive / issue / inventory | ✓ | ✓ | ✓ | ✓ | | | ✓ | |
+| warehouse.transfer | ✓ | ✓ | ✓ | ✓ | | | | |
+| warehouse.manage (katalog, omborlar, qo'lda tuzatish) | ✓ | ✓ | | | | | | |
+| requisitions.view | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
+| requisitions.create | ✓ | ✓ | | ✓ | | | | |
+| requisitions.approve_org (tashkilot rahbari bosqichi) | ✓ | | | | ✓ | | | |
+| requisitions.review | ✓ | ✓ | ✓ | | | | | |
+| requisitions.approve (markaziy qaror) | ✓ | ✓ | | | | | | |
+| requisitions.fulfill (ajratish) | ✓ | ✓ | ✓ | | | | ✓ | |
+| requisitions.export | ✓ | ✓ | | | | | | ✓ |
 
 Ma'lumot **doirasi** rolga emas, `user_organization_access`ga bog'liq.
 Rollar nomlari: Super Admin, Markaziy AT rahbari, Markaziy AT xodimi,
