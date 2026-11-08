@@ -110,8 +110,11 @@ export function BalancesPage() {
                 <Text size="sm" fw={500}>
                   {r.material.name}
                 </Text>
-                <Text size="xs" c="dimmed" ff="monospace">
-                  {r.material.code} · {r.material.category}
+                <Text size="xs" c="dimmed">
+                  <Text span size="xs" ff="monospace">
+                    {r.material.code}
+                  </Text>{' '}
+                  · {r.material.category}
                 </Text>
               </Stack>
             ),

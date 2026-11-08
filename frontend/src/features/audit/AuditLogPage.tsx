@@ -35,6 +35,15 @@ const ENTITIES = [
   'role',
   'organization_it_responsible',
   'system_setting',
+  'asset_category',
+  'manufacturer',
+  'asset_model',
+  'location',
+  'unit',
+  'material_category',
+  'material',
+  'warehouse',
+  'stock_document',
 ]
 
 function Meta({ label, children }: { label: string; children: ReactNode }) {

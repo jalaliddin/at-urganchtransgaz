@@ -1,4 +1,4 @@
-import { Badge, type MantineColor } from '@mantine/core'
+import { Badge, Group, Text, type MantineColor } from '@mantine/core'
 import {
   IconAlertTriangle,
   IconArrowBackUp,
@@ -51,19 +51,16 @@ export function CountStatusBadge({ status }: { status: StockCountStatus }) {
   )
 }
 
+/** Inline marker (not a badge) so it never truncates in a narrow quantity column. */
 export function LowStockBadge() {
   const { t } = useTranslation('warehouse')
   return (
-    <Badge
-      color="red"
-      variant="light"
-      radius="sm"
-      tt="none"
-      fw={500}
-      leftSection={<IconAlertTriangle size={12} aria-hidden />}
-    >
-      {t('balances.low')}
-    </Badge>
+    <Group gap={4} wrap="nowrap" c="red.7">
+      <IconAlertTriangle size={12} aria-hidden />
+      <Text size="xs" fw={500} c="red.7" style={{ whiteSpace: 'nowrap' }}>
+        {t('balances.low')}
+      </Text>
+    </Group>
   )
 }
 

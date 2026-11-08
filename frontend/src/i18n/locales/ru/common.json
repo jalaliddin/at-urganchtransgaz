@@ -97,7 +97,18 @@
     "role": "Роль",
     "organization_it_responsible": "Назначение ответственного за ИТ",
     "user_organization_access": "Доступ",
-    "system_setting": "Настройка"
+    "system_setting": "Настройка",
+    "asset_category": "Категория актива",
+    "manufacturer": "Производитель",
+    "asset_model": "Модель актива",
+    "location": "Расположение",
+    "unit": "Единица измерения",
+    "material_category": "Категория материала",
+    "material": "Материал",
+    "warehouse": "Склад",
+    "stock_document": "Складской документ",
+    "stock_count": "Инвентаризация склада",
+    "requisition": "Заявка"
   },
   "saved": "Сохранено"
 }

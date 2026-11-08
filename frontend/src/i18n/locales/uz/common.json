@@ -97,7 +97,18 @@
     "role": "Rol",
     "organization_it_responsible": "AT mas'uli biriktiruvi",
     "user_organization_access": "Kirish doirasi",
-    "system_setting": "Sozlama"
+    "system_setting": "Sozlama",
+    "asset_category": "Aktiv toifasi",
+    "manufacturer": "Ishlab chiqaruvchi",
+    "asset_model": "Aktiv modeli",
+    "location": "Joylashuv",
+    "unit": "O'lchov birligi",
+    "material_category": "Material toifasi",
+    "material": "Material",
+    "warehouse": "Ombor",
+    "stock_document": "Ombor hujjati",
+    "stock_count": "Ombor inventarizatsiyasi",
+    "requisition": "Talabnoma"
   },
   "saved": "Saqlandi"
 }

@@ -13,6 +13,7 @@ import {
   TextInput,
 } from '@mantine/core'
 import { DateInput } from '@mantine/dates'
+import { useMediaQuery } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
 import { IconCheck, IconLock, IconPlus, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
@@ -118,6 +119,7 @@ function AddLineModal({ countId, onClose }: { countId: number; onClose: () => vo
 
 function CountTable({ count }: { count: StockCountDetail }) {
   const { t } = useTranslation('warehouse')
+  const phone = useMediaQuery('(max-width: 48em)')
   const [draft, setDraft] = useState<Record<number, string>>({})
   const save = useWarehouseMutation((lines: { id: number; counted_quantity: string | null }[]) =>
     recordCount(count.id, lines),
@@ -126,27 +128,76 @@ function CountTable({ count }: { count: StockCountDetail }) {
     id: Number(id),
     counted_quantity: v === '' ? null : v,
   }))
+  const rows = count.lines.map((l) => {
+    const value = draft[l.id] ?? l.counted_quantity ?? ''
+    const diff = value === '' ? null : Number(value) - Number(l.expected_quantity)
+    return { line: l, value, diff }
+  })
+  const diffText = (diff: number | null) =>
+    diff === null ? '—' : `${diff > 0 ? '+' : ''}${qty(String(diff))}`
+  const diffColor = (diff: number | null) =>
+    diff === null || diff === 0 ? undefined : diff < 0 ? 'red' : 'green.8'
+  const input = (l: StockCountDetail['lines'][number], value: string) =>
+    count.can.manage ? (
+      <NumberInput
+        aria-label={`${t('counts.counted')}: ${l.material.name}${l.batch ? ` ${l.batch}` : ''}`}
+        min={0}
+        decimalScale={3}
+        hideControls
+        inputMode="decimal"
+        value={value === '' ? '' : Number(value)}
+        onChange={(v) => setDraft((d) => ({ ...d, [l.id]: String(v) }))}
+        styles={{ input: { textAlign: 'right' } }}
+      />
+    ) : (
+      <Text ta="right" ff="monospace" size="sm">
+        {qty(l.counted_quantity)}
+      </Text>
+    )
 
   return (
     <Card withBorder p={0}>
-      <Table.ScrollContainer minWidth={640}>
-        <Table verticalSpacing="xs">
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>{t('fields.material')}</Table.Th>
-              <Table.Th>{t('lines.batch')}</Table.Th>
-              <Table.Th ta="right">{t('counts.expected')}</Table.Th>
-              <Table.Th ta="right" w={160}>
-                {t('counts.counted')}
-              </Table.Th>
-              <Table.Th ta="right">{t('counts.difference')}</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>
-            {count.lines.map((l) => {
-              const value = draft[l.id] ?? l.counted_quantity ?? ''
-              const diff = value === '' ? null : Number(value) - Number(l.expected_quantity)
-              return (
+      {phone ? (
+        <Stack gap={0}>
+          {rows.map(({ line: l, value, diff }) => (
+            <Stack
+              key={l.id}
+              gap={6}
+              p="sm"
+              style={{ borderBottom: '1px solid var(--mantine-color-default-border)' }}
+            >
+              <Text size="sm" fw={500}>
+                {l.material.name}
+              </Text>
+              <Text size="xs" c="dimmed">
+                {l.batch ? `${t('lines.batch')}: ${l.batch} · ` : ''}
+                {t('counts.expected')}: {qty(l.expected_quantity)} {l.material.unit}
+              </Text>
+              <Group gap="sm" wrap="nowrap" align="center">
+                <div style={{ flex: 1 }}>{input(l, value)}</div>
+                <Text size="sm" ff="monospace" c={diffColor(diff)} w={72} ta="right">
+                  {diffText(diff)}
+                </Text>
+              </Group>
+            </Stack>
+          ))}
+        </Stack>
+      ) : (
+        <Table.ScrollContainer minWidth={640}>
+          <Table verticalSpacing="xs">
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>{t('fields.material')}</Table.Th>
+                <Table.Th>{t('lines.batch')}</Table.Th>
+                <Table.Th ta="right">{t('counts.expected')}</Table.Th>
+                <Table.Th ta="right" w={160}>
+                  {t('counts.counted')}
+                </Table.Th>
+                <Table.Th ta="right">{t('counts.difference')}</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
+              {rows.map(({ line: l, value, diff }) => (
                 <Table.Tr key={l.id}>
                   <Table.Td>
                     <Text size="sm">{l.material.name}</Text>
@@ -161,41 +212,22 @@ function CountTable({ count }: { count: StockCountDetail }) {
                   <Table.Td ta="right" ff="monospace">
                     {qty(l.expected_quantity)}
                   </Table.Td>
-                  <Table.Td>
-                    {count.can.manage ? (
-                      <NumberInput
-                        aria-label={`${t('counts.counted')}: ${l.material.name}${l.batch ? ` ${l.batch}` : ''}`}
-                        min={0}
-                        decimalScale={3}
-                        hideControls
-                        value={value === '' ? '' : Number(value)}
-                        onChange={(v) => setDraft((d) => ({ ...d, [l.id]: String(v) }))}
-                        styles={{ input: { textAlign: 'right' } }}
-                      />
-                    ) : (
-                      <Text ta="right" ff="monospace" size="sm">
-                        {qty(l.counted_quantity)}
-                      </Text>
-                    )}
-                  </Table.Td>
-                  <Table.Td
-                    ta="right"
-                    ff="monospace"
-                    c={diff === null || diff === 0 ? undefined : diff < 0 ? 'red' : 'green.8'}
-                  >
-                    {diff === null ? '—' : `${diff > 0 ? '+' : ''}${qty(String(diff))}`}
+                  <Table.Td>{input(l, value)}</Table.Td>
+                  <Table.Td ta="right" ff="monospace" c={diffColor(diff)}>
+                    {diffText(diff)}
                   </Table.Td>
                 </Table.Tr>
-              )
-            })}
-          </Table.Tbody>
-        </Table>
-      </Table.ScrollContainer>
+              ))}
+            </Table.Tbody>
+          </Table>
+        </Table.ScrollContainer>
+      )}
       {count.can.manage && (
         <Group justify="flex-end" p="md">
           <Button
             disabled={dirty.length === 0}
             loading={save.isPending}
+            fullWidth={phone}
             onClick={() =>
               save.mutate(dirty, {
                 onSuccess: () => {
