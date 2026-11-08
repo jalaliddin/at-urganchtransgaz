@@ -46,6 +46,7 @@ use App\Http\Controllers\Api\V1\Roles\RoleController;
 use App\Http\Controllers\Api\V1\Search\SearchController;
 use App\Http\Controllers\Api\V1\Settings\PublicSettingsController;
 use App\Http\Controllers\Api\V1\Settings\SettingsController;
+use App\Http\Controllers\Api\V1\Software\AgentController;
 use App\Http\Controllers\Api\V1\Software\ComplianceController;
 use App\Http\Controllers\Api\V1\Software\InstallationController;
 use App\Http\Controllers\Api\V1\Software\LicenseController;
@@ -62,6 +63,7 @@ use App\Http\Controllers\Api\V1\Warehouse\StockDocumentController;
 use App\Http\Controllers\Api\V1\Warehouse\StockMovementController;
 use App\Http\Controllers\Api\V1\Warehouse\WarehouseCatalogController;
 use App\Http\Controllers\Api\V1\Warehouse\WarehouseController;
+use App\Http\Middleware\AuthenticateAgent;
 use Illuminate\Support\Facades\Route;
 
 // API v1 routes (prefix api/v1 is set in bootstrap/app.php).
@@ -70,6 +72,9 @@ Route::middleware('throttle:public')->group(function (): void {
     Route::get('health', HealthController::class)->name('health');
     Route::get('settings/public', PublicSettingsController::class)->name('settings.public');
 });
+
+// Inventory agents authenticate with their own bearer token (not a user session).
+Route::post('agent/checkin', [AgentController::class, 'checkin'])->middleware([AuthenticateAgent::class, 'throttle:agent'])->name('agent.checkin');
 
 Route::post('auth/login', [LoginController::class, 'store'])->middleware('throttle:login')->name('auth.login');
 
@@ -201,6 +206,11 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::delete('software-policies/{softwarePolicy}', [ComplianceController::class, 'destroyPolicy'])->whereNumber('softwarePolicy')->name('software-policies.destroy');
     Route::get('software-compliance', [ComplianceController::class, 'summary'])->name('software-compliance');
     Route::get('software-compliance/devices', [ComplianceController::class, 'devices'])->name('software-compliance.devices');
+    Route::get('device-agents', [AgentController::class, 'index'])->name('device-agents.index');
+    Route::post('assets/{asset}/agent', [AgentController::class, 'store'])->whereNumber('asset')->name('assets.agent');
+    Route::post('device-agents/{deviceAgent}/tokens', [AgentController::class, 'token'])->whereNumber('deviceAgent')->name('device-agents.token');
+    Route::post('device-agents/{deviceAgent}/revoke', [AgentController::class, 'revoke'])->whereNumber('deviceAgent')->name('device-agents.revoke');
+    Route::get('device-agents/{deviceAgent}/checkins', [AgentController::class, 'checkins'])->whereNumber('deviceAgent')->name('device-agents.checkins');
     Route::get('assets/{asset}/software', [InstallationController::class, 'index'])->whereNumber('asset')->name('assets.software');
     Route::post('assets/{asset}/software', [InstallationController::class, 'store'])->whereNumber('asset')->name('assets.software.store');
     Route::patch('software-installations/{softwareInstallation}', [InstallationController::class, 'update'])->whereNumber('softwareInstallation')->name('software-installations.update');

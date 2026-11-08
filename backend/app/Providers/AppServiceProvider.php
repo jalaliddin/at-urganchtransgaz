@@ -190,6 +190,8 @@ class AppServiceProvider extends ServiceProvider
             ->by($request->user()?->getAuthIdentifier() ?: $request->ip()));
 
         RateLimiter::for('exports', fn (Request $request) => Limit::perMinute(10)->by((string) ($request->user()?->getAuthIdentifier() ?? $request->ip())));
+        // Agents: per token (hash of the bearer value, never the value itself).
+        RateLimiter::for('agent', fn (Request $request) => Limit::perMinute(30)->by('agent|'.hash('sha256', (string) $request->bearerToken())));
         RateLimiter::for('public', fn (Request $request) => Limit::perMinute(60)->by($request->ip()));
 
         RateLimiter::for('password-reset', fn (Request $request) => Limit::perMinute(5)->by($request->ip()));

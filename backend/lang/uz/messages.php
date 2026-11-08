@@ -121,4 +121,5 @@ return [
     'license_seats_below_used' => "O'rinlar soni band qilinganlardan (:used) kam bo'lishi mumkin emas.",
     'license_in_use' => 'Litsenziya qurilmalarga biriktirilgan. Avval ularni ajrating.',
     'not_an_antivirus' => 'Tanlangan dastur katalogda antivirus deb belgilanmagan.',
+    'agent_exists' => "Bu qurilmada agent allaqachon ro'yxatdan o'tgan. Yangi token chiqaring.",
 ];
