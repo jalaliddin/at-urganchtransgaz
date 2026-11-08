@@ -89,4 +89,7 @@ return [
     'return_needs_issue' => "Qaytarish faqat chiqim hujjatiga bog'lanadi.",
     'return_material_not_issued' => "Bu material tanlangan chiqim hujjatida yo'q.",
     'return_exceeds_issue' => "Bu chiqim bo'yicha ko'pi bilan :available qaytarish mumkin.",
+    'warehouse_not_accessible' => 'Ombor topilmadi yoki sizning tashkilotlaringizga tegishli emas.',
+    'recipient_employee_invalid' => "Xodim qabul qiluvchi tashkilotga tegishli bo'lishi kerak.",
+    'recipient_asset_invalid' => "Qurilma qabul qiluvchi tashkilotning aktivi bo'lishi kerak.",
 ];

@@ -50,6 +50,9 @@ use App\Http\Controllers\Api\V1\Users\UserPasswordResetController;
 use App\Http\Controllers\Api\V1\Users\UserRolesController;
 use App\Http\Controllers\Api\V1\Users\UserStatusController;
 use App\Http\Controllers\Api\V1\Warehouse\MaterialController;
+use App\Http\Controllers\Api\V1\Warehouse\StockBalanceController;
+use App\Http\Controllers\Api\V1\Warehouse\StockDocumentController;
+use App\Http\Controllers\Api\V1\Warehouse\StockMovementController;
 use App\Http\Controllers\Api\V1\Warehouse\WarehouseCatalogController;
 use App\Http\Controllers\Api\V1\Warehouse\WarehouseController;
 use Illuminate\Support\Facades\Route;
@@ -163,6 +166,13 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::delete('material-categories/{materialCategory}', [WarehouseCatalogController::class, 'destroyCategory'])->name('material-categories.destroy');
     Route::apiResource('materials', MaterialController::class);
     Route::apiResource('warehouses', WarehouseController::class)->except(['show']);
+    Route::get('stock-documents', [StockDocumentController::class, 'index'])->name('stock-documents.index');
+    Route::post('stock-documents', [StockDocumentController::class, 'store'])->name('stock-documents.store');
+    Route::get('stock-documents/{stockDocument}', [StockDocumentController::class, 'show'])->whereNumber('stockDocument')->name('stock-documents.show');
+    Route::post('stock-documents/{stockDocument}/file', [StockDocumentController::class, 'attachFile'])->whereNumber('stockDocument')->name('stock-documents.file');
+    Route::get('stock-balances', [StockBalanceController::class, 'index'])->name('stock-balances.index');
+    Route::get('stock-availability', [StockBalanceController::class, 'availability'])->name('stock-availability');
+    Route::get('stock-movements', [StockMovementController::class, 'index'])->name('stock-movements.index');
 
     Route::get('asset-transfers', [AssetTransferController::class, 'index'])->name('asset-transfers.index');
     Route::post('asset-transfers', [AssetTransferController::class, 'store'])->name('asset-transfers.store');

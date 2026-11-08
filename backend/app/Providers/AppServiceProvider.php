@@ -158,6 +158,15 @@ class AppServiceProvider extends ServiceProvider
         $files->register(fn (User $user, StoredFile $file): ?bool => $this->app
             ->make(AssetTransferService::class)->canDownload($user, $file));
 
+        $files->register(function (User $user, StoredFile $file): ?bool {
+            $documentId = StockDocument::query()->where('file_id', $file->id)->value('id');
+            if ($documentId === null) {
+                return null;
+            }
+
+            return $user->can('warehouse.view') && StockDocument::query()->visibleTo($user)->whereKey($documentId)->exists();
+        });
+
         Gate::define('assets.use', fn (User $user): bool => $user->canAny(['assets.view', 'assets.create', 'assets.inventory']));
         Gate::define('warehouse.catalog', fn (User $user): bool => $user->canAny(['warehouse.view', 'requisitions.create', 'requisitions.review', 'requisitions.fulfill']));
         Gate::define('helpdesk.use', fn (User $user): bool => $user->canAny(['helpdesk.view', 'helpdesk.create', 'helpdesk.manage']));
