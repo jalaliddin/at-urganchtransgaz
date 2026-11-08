@@ -146,4 +146,11 @@ return [
     'contract_in_use' => "Shartnomaga xizmatlar bog'langan.",
     'service_billed' => "Xizmat bo'yicha hisob-faktura yoki to'lov bor: o'chirish o'rniga faolsizlantiring.",
     'service_contract_mismatch' => 'Shartnoma shu tashkilot va provayderga tegishli emas.',
+    'invoice_below_paid' => "Summa to'langan summadan (:paid) kam bo'lishi mumkin emas.",
+    'invoice_not_entered' => 'Avval hisob-faktura summasini kiriting.',
+    'invoice_already_approved' => 'Hisob-faktura allaqachon tasdiqlangan.',
+    'invoice_not_approved' => "To'lov faqat markaz tasdiqlagan hisob-fakturaga kiritiladi.",
+    'payment_exceeds' => "To'lov qolgan summadan (:remaining) oshmasligi kerak.",
+    'invoice_regular_kept' => "Davriy hisob o'chirilmaydi: xizmat ko'rsatilmagan bo'lsa, summani 0 deb kiriting.",
+    'invoice_has_payments' => "Hisob-fakturada to'lovlar bor.",
 ];

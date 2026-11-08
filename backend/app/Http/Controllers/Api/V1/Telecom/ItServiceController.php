@@ -11,6 +11,7 @@ use App\Models\ItService;
 use App\Models\ServiceContract;
 use App\Models\ServiceInvoice;
 use App\Rules\AccessibleOrganization;
+use App\Services\Telecom\BillingService;
 use App\Support\ApiResponse;
 use App\Support\OrganizationSubtree;
 use App\Support\Pagination;
@@ -25,6 +26,8 @@ use Illuminate\Validation\ValidationException;
 class ItServiceController extends Controller
 {
     private const RELATIONS = ['provider', 'organization', 'contract'];
+
+    public function __construct(private readonly BillingService $billing) {}
 
     public function index(Request $request): JsonResponse
     {
@@ -75,7 +78,10 @@ class ItServiceController extends Controller
         ]);
         $this->checkContract($data['contract_id'] ?? null, (int) $data['organization_id'], (int) $data['provider_id']);
 
-        return $this->card(ItService::query()->create($data), 201);
+        $service = ItService::query()->create($data);
+        $this->billing->generateFor($service->refresh(), BillingService::today());
+
+        return $this->card($service, 201);
     }
 
     public function update(Request $request, ItService $itService): JsonResponse
@@ -91,8 +97,9 @@ class ItServiceController extends Controller
         $this->checkContract(array_key_exists('contract_id', $data) ? $data['contract_id'] : $itService->contract_id,
             $itService->organization_id, (int) ($data['provider_id'] ?? $itService->provider_id));
         $itService->update($data);
+        $this->billing->generateFor($itService->refresh(), BillingService::today());
 
-        return $this->card($itService->refresh());
+        return $this->card($itService);
     }
 
     /** Only while nothing was invoiced or paid; generated empty periods go with it. Otherwise deactivate it. */

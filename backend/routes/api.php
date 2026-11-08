@@ -53,6 +53,7 @@ use App\Http\Controllers\Api\V1\Software\InstallationController;
 use App\Http\Controllers\Api\V1\Software\LicenseController;
 use App\Http\Controllers\Api\V1\Software\SoftwareController;
 use App\Http\Controllers\Api\V1\Telecom\ContractController;
+use App\Http\Controllers\Api\V1\Telecom\InvoiceController;
 use App\Http\Controllers\Api\V1\Telecom\ItServiceController;
 use App\Http\Controllers\Api\V1\Telecom\ProviderController;
 use App\Http\Controllers\Api\V1\Telecom\SimActionController;
@@ -237,6 +238,15 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::apiResource('service-contracts', ContractController::class)->parameters(['service-contracts' => 'serviceContract'])->whereNumber('serviceContract');
     Route::get('service-contracts/{serviceContract}/documents', [ContractController::class, 'documents'])->whereNumber('serviceContract')->name('service-contracts.documents');
     Route::apiResource('it-services', ItServiceController::class)->parameters(['it-services' => 'itService'])->whereNumber('itService');
+    Route::post('it-services/{itService}/invoices', [InvoiceController::class, 'storeExtra'])->whereNumber('itService')->name('it-services.invoices');
+    Route::apiResource('service-invoices', InvoiceController::class)->except('store')->parameters(['service-invoices' => 'serviceInvoice'])->whereNumber('serviceInvoice');
+    Route::prefix('service-invoices/{serviceInvoice}')->whereNumber('serviceInvoice')->name('service-invoices.')->group(function (): void {
+        Route::post('approve', [InvoiceController::class, 'approve'])->name('approve');
+        Route::post('payments', [InvoiceController::class, 'pay'])->name('payments');
+        Route::post('file', [InvoiceController::class, 'attachFile'])->name('file');
+    });
+    Route::delete('service-payments/{servicePayment}', [InvoiceController::class, 'destroyPayment'])->whereNumber('servicePayment')->name('service-payments.destroy');
+    Route::post('service-payments/{servicePayment}/file', [InvoiceController::class, 'attachPaymentFile'])->whereNumber('servicePayment')->name('service-payments.file');
 
     // Phase 4: requisitions
     Route::apiResource('requisitions', RequisitionController::class)->whereNumber('requisition');

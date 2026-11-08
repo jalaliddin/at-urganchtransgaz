@@ -189,6 +189,18 @@ class AppServiceProvider extends ServiceProvider
         $files->register(fn (User $user, StoredFile $file): ?bool => $this->app
             ->make(RequisitionService::class)->canDownload($user, $file));
 
+        // Invoice and payment scans: anyone working with services of the invoice's organization.
+        $files->register(function (User $user, StoredFile $file): ?bool {
+            $organizationId = ServiceInvoice::query()->withoutGlobalScopes()->where('file_id', $file->id)->value('organization_id')
+                ?? ServiceInvoice::query()->withoutGlobalScopes()
+                    ->whereIn('id', ServicePayment::query()->select('invoice_id')->where('file_id', $file->id))->value('organization_id');
+            if ($organizationId === null) {
+                return null;
+            }
+
+            return Gate::forUser($user)->allows('services.use') && $user->canAccessOrganization((int) $organizationId);
+        });
+
         Gate::define('assets.use', fn (User $user): bool => $user->canAny(['assets.view', 'assets.create', 'assets.inventory']));
         Gate::define('warehouse.catalog', fn (User $user): bool => $user->canAny(['warehouse.view', 'requisitions.create', 'requisitions.review', 'requisitions.fulfill']));
         Gate::define('software.use', fn (User $user): bool => $user->canAny(['software.view', 'software.install', 'software.manage']));
