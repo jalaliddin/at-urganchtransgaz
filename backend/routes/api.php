@@ -51,6 +51,7 @@ use App\Http\Controllers\Api\V1\Users\UserRolesController;
 use App\Http\Controllers\Api\V1\Users\UserStatusController;
 use App\Http\Controllers\Api\V1\Warehouse\MaterialController;
 use App\Http\Controllers\Api\V1\Warehouse\StockBalanceController;
+use App\Http\Controllers\Api\V1\Warehouse\StockCountController;
 use App\Http\Controllers\Api\V1\Warehouse\StockDocumentController;
 use App\Http\Controllers\Api\V1\Warehouse\StockMovementController;
 use App\Http\Controllers\Api\V1\Warehouse\WarehouseCatalogController;
@@ -173,6 +174,13 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::get('stock-balances', [StockBalanceController::class, 'index'])->name('stock-balances.index');
     Route::get('stock-availability', [StockBalanceController::class, 'availability'])->name('stock-availability');
     Route::get('stock-movements', [StockMovementController::class, 'index'])->name('stock-movements.index');
+    Route::get('stock-counts', [StockCountController::class, 'index'])->name('stock-counts.index');
+    Route::post('stock-counts', [StockCountController::class, 'store'])->name('stock-counts.store');
+    Route::get('stock-counts/{stockCount}', [StockCountController::class, 'show'])->whereNumber('stockCount')->name('stock-counts.show');
+    Route::patch('stock-counts/{stockCount}/lines', [StockCountController::class, 'record'])->whereNumber('stockCount')->name('stock-counts.record');
+    Route::post('stock-counts/{stockCount}/lines', [StockCountController::class, 'addLine'])->whereNumber('stockCount')->name('stock-counts.add-line');
+    Route::post('stock-counts/{stockCount}/close', [StockCountController::class, 'close'])->whereNumber('stockCount')->name('stock-counts.close');
+    Route::post('stock-counts/{stockCount}/cancel', [StockCountController::class, 'cancel'])->whereNumber('stockCount')->name('stock-counts.cancel');
 
     Route::get('asset-transfers', [AssetTransferController::class, 'index'])->name('asset-transfers.index');
     Route::post('asset-transfers', [AssetTransferController::class, 'store'])->name('asset-transfers.store');

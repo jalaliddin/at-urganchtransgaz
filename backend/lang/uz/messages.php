@@ -92,4 +92,10 @@ return [
     'warehouse_not_accessible' => 'Ombor topilmadi yoki sizning tashkilotlaringizga tegishli emas.',
     'recipient_employee_invalid' => "Xodim qabul qiluvchi tashkilotga tegishli bo'lishi kerak.",
     'recipient_asset_invalid' => "Qurilma qabul qiluvchi tashkilotning aktivi bo'lishi kerak.",
+    'stock_count_open_exists' => 'Bu omborda ochiq inventarizatsiya bor. Avval uni yakunlang yoki bekor qiling.',
+    'stock_count_closed' => 'Inventarizatsiya yakunlangan yoki bekor qilingan.',
+    'stock_count_line_invalid' => 'Qator bu inventarizatsiyaga tegishli emas.',
+    'stock_count_line_exists' => "Bu material va partiya ro'yxatda allaqachon bor.",
+    'stock_count_uncounted' => 'Hali sanalmagan qatorlar bor: :count ta.',
+    'stock_count_reason' => 'Inventarizatsiya natijasi (:number)',
 ];
