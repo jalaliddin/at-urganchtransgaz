@@ -192,6 +192,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('assets.use', fn (User $user): bool => $user->canAny(['assets.view', 'assets.create', 'assets.inventory']));
         Gate::define('warehouse.catalog', fn (User $user): bool => $user->canAny(['warehouse.view', 'requisitions.create', 'requisitions.review', 'requisitions.fulfill']));
         Gate::define('software.use', fn (User $user): bool => $user->canAny(['software.view', 'software.install', 'software.manage']));
+        Gate::define('sim.use', fn (User $user): bool => $user->canAny(['sim.view', 'sim.assign', 'sim.manage']));
+        Gate::define('services.use', fn (User $user): bool => $user->canAny(['services.view', 'services.manage', 'services.invoice', 'services.approve', 'services.pay']));
+        Gate::define('telecom.use', fn (User $user): bool => Gate::forUser($user)->any(['sim.use', 'services.use']));
+        Gate::define('telecom.providers', fn (User $user): bool => $user->canAny(['sim.manage', 'services.manage']));
         Gate::define('helpdesk.use', fn (User $user): bool => $user->canAny(['helpdesk.view', 'helpdesk.create', 'helpdesk.manage']));
         Gate::define('viewApiDocs', fn (?User $user): bool => $user?->isSuperAdmin() ?? false);
     }

@@ -130,4 +130,10 @@ return [
     'import_state_invalid' => 'Статус должен быть installed или not_installed.',
     'import_date_invalid' => 'Неверная дата: :value (YYYY-MM-DD или DD.MM.YYYY).',
     'import_date_future' => 'Дата в будущем: :value.',
+    'sim_phone_invalid' => 'Неверный номер телефона (например: +998 90 123 45 67).',
+    'sim_phone_taken' => 'SIM-карта с этим номером уже зарегистрирована.',
+    'sim_iccid_invalid' => 'ICCID должен состоять из 18–22 цифр.',
+    'sim_iccid_taken' => 'Этот ICCID уже зарегистрирован.',
+    'sim_in_use' => 'SIM-карта использовалась: удалить нельзя, отмените её.',
+    'provider_in_use' => 'Провайдер используется в SIM-картах, договорах или услугах.',
 ];

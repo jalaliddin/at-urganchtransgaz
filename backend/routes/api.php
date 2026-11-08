@@ -52,6 +52,8 @@ use App\Http\Controllers\Api\V1\Software\ImportController;
 use App\Http\Controllers\Api\V1\Software\InstallationController;
 use App\Http\Controllers\Api\V1\Software\LicenseController;
 use App\Http\Controllers\Api\V1\Software\SoftwareController;
+use App\Http\Controllers\Api\V1\Telecom\ProviderController;
+use App\Http\Controllers\Api\V1\Telecom\SimCardController;
 use App\Http\Controllers\Api\V1\Users\UserController;
 use App\Http\Controllers\Api\V1\Users\UserOrganizationAccessController;
 use App\Http\Controllers\Api\V1\Users\UserPasswordResetController;
@@ -217,6 +219,11 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::post('assets/{asset}/software', [InstallationController::class, 'store'])->whereNumber('asset')->name('assets.software.store');
     Route::patch('software-installations/{softwareInstallation}', [InstallationController::class, 'update'])->whereNumber('softwareInstallation')->name('software-installations.update');
     Route::delete('software-installations/{softwareInstallation}', [InstallationController::class, 'destroy'])->whereNumber('softwareInstallation')->name('software-installations.destroy');
+
+    // Phase 6: SIM cards, providers, services and payments
+    Route::apiResource('service-providers', ProviderController::class)->except('show')->parameters(['service-providers' => 'serviceProvider'])->whereNumber('serviceProvider');
+    Route::apiResource('sim-cards', SimCardController::class)->parameters(['sim-cards' => 'simCard'])->whereNumber('simCard');
+    Route::post('sim-cards/{simCard}/reveal', [SimCardController::class, 'reveal'])->whereNumber('simCard')->name('sim-cards.reveal');
 
     // Phase 4: requisitions
     Route::apiResource('requisitions', RequisitionController::class)->whereNumber('requisition');

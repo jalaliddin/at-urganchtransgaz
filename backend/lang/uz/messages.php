@@ -130,4 +130,10 @@ return [
     'import_state_invalid' => "Holat installed yoki not_installed bo'lishi kerak.",
     'import_date_invalid' => "Sana noto'g'ri: :value (YYYY-MM-DD yoki DD.MM.YYYY).",
     'import_date_future' => 'Sana kelajakda: :value.',
+    'sim_phone_invalid' => "Telefon raqami noto'g'ri (masalan: +998 90 123 45 67).",
+    'sim_phone_taken' => "Bu raqamli SIM-karta allaqachon ro'yxatda.",
+    'sim_iccid_invalid' => "ICCID 18–22 ta raqamdan iborat bo'lishi kerak.",
+    'sim_iccid_taken' => "Bu ICCID allaqachon ro'yxatda.",
+    'sim_in_use' => "SIM-karta ishlatilgan: o'chirib bo'lmaydi, bekor qiling.",
+    'provider_in_use' => 'Provayder SIM-karta, shartnoma yoki xizmatda ishlatilgan.',
 ];
