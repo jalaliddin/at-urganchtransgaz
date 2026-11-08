@@ -4,7 +4,8 @@
     "structure": "Оргструктура",
     "administration": "Администрирование",
     "helpdesk": "Обслуживание",
-    "assets": "ИТ-активы"
+    "assets": "ИТ-активы",
+    "warehouse": "Склад и заявки"
   },
   "items": {
     "dashboard": "Панель управления",
@@ -31,7 +32,13 @@
     "disposals": "Списание",
     "assetSettings": "Справочники",
     "assetReport": "Отчёт по активам",
-    "assetLabels": "QR-этикетки"
+    "assetLabels": "QR-этикетки",
+    "requisitions": "Заявки",
+    "warehouse": "Остатки на складах",
+    "stockDocuments": "Складские документы",
+    "stockMovements": "Журнал движения",
+    "stockCounts": "Инвентаризация склада",
+    "warehouseSettings": "Настройки склада"
   },
   "header": {
     "search": "Поиск",

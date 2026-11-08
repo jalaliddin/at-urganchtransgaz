@@ -7,6 +7,8 @@ export class ApiError extends Error {
   readonly code: string
   readonly fieldErrors: Record<string, string[]>
   readonly requestId?: string
+  /** Extra keys of the error body (e.g. `shortages` on insufficient_stock). */
+  readonly details: Record<string, unknown>
 
   constructor(options: {
     status: number
@@ -14,6 +16,7 @@ export class ApiError extends Error {
     message: string
     fieldErrors?: Record<string, string[]>
     requestId?: string
+    details?: Record<string, unknown>
   }) {
     super(options.message)
     this.name = 'ApiError'
@@ -21,6 +24,7 @@ export class ApiError extends Error {
     this.code = options.code
     this.fieldErrors = options.fieldErrors ?? {}
     this.requestId = options.requestId
+    this.details = options.details ?? {}
   }
 }
 
@@ -47,6 +51,7 @@ export function toApiError(error: unknown): ApiError {
             : i18n.t('common:errors.generic'),
       fieldErrors: isFieldErrors(body.errors) ? body.errors : {},
       requestId: typeof body.request_id === 'string' ? body.request_id : undefined,
+      details: body as Record<string, unknown>,
     })
   }
 

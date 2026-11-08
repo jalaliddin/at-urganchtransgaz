@@ -29,6 +29,13 @@ import { LookupPage } from '@/features/assets/LookupPage'
 import { MyAssetsPage } from '@/features/assets/MyAssetsPage'
 import { TransferDetailPage } from '@/features/assets/TransferDetailPage'
 import { TransfersPage } from '@/features/assets/TransfersPage'
+import { BalancesPage } from '@/features/warehouse/BalancesPage'
+import { CountPage } from '@/features/warehouse/CountPage'
+import { CountsPage } from '@/features/warehouse/CountsPage'
+import { MovementsPage } from '@/features/warehouse/MovementsPage'
+import { StockDocumentPage } from '@/features/warehouse/StockDocumentPage'
+import { StockDocumentsPage } from '@/features/warehouse/StockDocumentsPage'
+import { WarehouseSettingsPage } from '@/features/warehouse/WarehouseSettingsPage'
 import { TicketsPage } from '@/features/helpdesk/TicketsPage'
 import { NotFoundPage } from '@/features/errors/NotFoundPage'
 import { OrganizationDetailPage } from '@/features/organizations/OrganizationDetailPage'
@@ -144,6 +151,40 @@ export const routes: RouteObject[] = [
                       },
                       { path: ':id', element: <AssetDetailPage />, handle: { crumb: 'assets:crumb' } },
                     ],
+                  },
+                ],
+              },
+              {
+                path: 'warehouse',
+                element: <RequirePermission permission="warehouse.view" />,
+                handle: { crumb: 'nav:items.warehouse' },
+                children: [
+                  { index: true, element: <BalancesPage /> },
+                  {
+                    path: 'documents',
+                    handle: { crumb: 'nav:items.stockDocuments' },
+                    children: [
+                      { index: true, element: <StockDocumentsPage /> },
+                      { path: ':id', element: <StockDocumentPage />, handle: { crumb: 'warehouse:crumb' } },
+                    ],
+                  },
+                  {
+                    path: 'movements',
+                    element: <MovementsPage />,
+                    handle: { crumb: 'nav:items.stockMovements' },
+                  },
+                  {
+                    path: 'counts',
+                    handle: { crumb: 'nav:items.stockCounts' },
+                    children: [
+                      { index: true, element: <CountsPage /> },
+                      { path: ':id', element: <CountPage />, handle: { crumb: 'warehouse:countCrumb' } },
+                    ],
+                  },
+                  {
+                    path: 'settings',
+                    element: <WarehouseSettingsPage />,
+                    handle: { crumb: 'nav:items.warehouseSettings' },
                   },
                 ],
               },

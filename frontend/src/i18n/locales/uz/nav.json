@@ -4,7 +4,8 @@
     "structure": "Tashkiliy tuzilma",
     "administration": "Boshqaruv",
     "helpdesk": "Xizmat ko'rsatish",
-    "assets": "IT aktivlar"
+    "assets": "IT aktivlar",
+    "warehouse": "Ombor va talabnomalar"
   },
   "items": {
     "dashboard": "Boshqaruv paneli",
@@ -31,7 +32,13 @@
     "disposals": "Hisobdan chiqarish",
     "assetSettings": "Ma'lumotnomalar",
     "assetReport": "Aktivlar hisoboti",
-    "assetLabels": "QR yorliqlar"
+    "assetLabels": "QR yorliqlar",
+    "requisitions": "Talabnomalar",
+    "warehouse": "Ombor qoldiqlari",
+    "stockDocuments": "Ombor hujjatlari",
+    "stockMovements": "Harakatlar jurnali",
+    "stockCounts": "Ombor inventarizatsiyasi",
+    "warehouseSettings": "Ombor sozlamalari"
   },
   "header": {
     "search": "Qidirish",
