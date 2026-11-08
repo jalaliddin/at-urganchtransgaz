@@ -24,6 +24,8 @@ trait CreatesTelecom
     /** @param  array<string, mixed>  $attributes */
     protected function simIn(Organization $organization, array $attributes = []): SimCard
     {
+        $iccid = $attributes['iccid'] ?? '8999801'.fake()->unique()->numerify('############');
+        unset($attributes['iccid']);
         $card = new SimCard([
             'organization_id' => $organization->id,
             'provider_id' => $this->operator()->id,
@@ -31,7 +33,7 @@ trait CreatesTelecom
             'status' => SimStatus::InStock,
             ...$attributes,
         ]);
-        $card->setIccid($attributes['iccid'] ?? '8999801'.fake()->unique()->numerify('############'));
+        $card->setIccid($iccid);
         $card->save();
 
         return $card;

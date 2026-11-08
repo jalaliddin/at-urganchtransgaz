@@ -7,4 +7,5 @@ enum FulfillmentType: string
     case Stock = 'stock';
     case Asset = 'asset';
     case Note = 'note';
+    case Sim = 'sim';
 }

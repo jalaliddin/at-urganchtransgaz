@@ -20,13 +20,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int|null $stock_document_id
  * @property int|null $asset_id
  * @property int|null $asset_transfer_id
+ * @property int|null $sim_card_id
  * @property string|null $note
  * @property int|null $fulfilled_by
  * @property CarbonImmutable $created_at
  */
 class RequisitionFulfillment extends Model
 {
-    protected $fillable = ['requisition_id', 'item_id', 'type', 'quantity', 'stock_document_id', 'asset_id', 'asset_transfer_id', 'note', 'fulfilled_by'];
+    protected $fillable = ['requisition_id', 'item_id', 'type', 'quantity', 'stock_document_id', 'asset_id', 'asset_transfer_id', 'sim_card_id', 'note', 'fulfilled_by'];
 
     protected function casts(): array
     {
@@ -60,6 +61,12 @@ class RequisitionFulfillment extends Model
     public function assetTransfer(): BelongsTo
     {
         return $this->belongsTo(AssetTransfer::class);
+    }
+
+    /** @return BelongsTo<SimCard, $this> */
+    public function simCard(): BelongsTo
+    {
+        return $this->belongsTo(SimCard::class)->withoutGlobalScope(OrganizationScope::class);
     }
 
     /** @return BelongsTo<User, $this> */

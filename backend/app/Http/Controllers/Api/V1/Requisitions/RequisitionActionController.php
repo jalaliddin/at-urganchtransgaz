@@ -46,6 +46,7 @@ class RequisitionActionController extends Controller
             'material_id' => ['nullable', 'integer', Rule::exists('materials', 'id')],
             'batch' => ['nullable', 'string', 'max:100'],
             'asset_id' => ['required_if:type,asset', 'nullable', 'integer'],
+            'sim_card_id' => ['required_if:type,sim', 'nullable', 'integer'],
             'note' => ['nullable', 'string', 'max:2000'],
         ]);
         $this->fulfilment->allocate($requisition, $data, $user);

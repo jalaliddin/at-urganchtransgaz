@@ -20,7 +20,7 @@ final class RequisitionResource
         'organization', 'requester', 'recipientEmployee', 'reviewer', 'approver',
         'items.material', 'items.unit', 'items.assetCategory',
         'approvals.user', 'histories.user', 'comments.user', 'attachments.file', 'attachments.uploader',
-        'fulfillments.stockDocument', 'fulfillments.asset', 'fulfillments.assetTransfer', 'fulfillments.fulfiller',
+        'fulfillments.stockDocument', 'fulfillments.asset', 'fulfillments.assetTransfer', 'fulfillments.simCard', 'fulfillments.fulfiller',
     ];
 
     /** @return array<string, mixed> */
@@ -80,6 +80,7 @@ final class RequisitionResource
                 'stock_document' => $f->stockDocument ? ['id' => $f->stockDocument->id, 'number' => $f->stockDocument->number, 'type' => $f->stockDocument->type->value] : null,
                 'asset' => $f->asset ? ['id' => $f->asset->id, 'inventory_number' => $f->asset->inventory_number, 'name' => $f->asset->name] : null,
                 'asset_transfer' => $f->assetTransfer ? ['id' => $f->assetTransfer->id, 'number' => $f->assetTransfer->number, 'status' => $f->assetTransfer->status->value] : null,
+                'sim_card' => $f->simCard ? ['id' => $f->simCard->id, 'phone_number' => $f->simCard->phone_number] : null,
                 'user' => self::user($f->fulfiller), 'created_at' => $f->created_at->toIso8601String(),
             ])->values(),
             'can' => $can,

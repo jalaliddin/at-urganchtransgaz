@@ -53,6 +53,7 @@ use App\Http\Controllers\Api\V1\Software\InstallationController;
 use App\Http\Controllers\Api\V1\Software\LicenseController;
 use App\Http\Controllers\Api\V1\Software\SoftwareController;
 use App\Http\Controllers\Api\V1\Telecom\ProviderController;
+use App\Http\Controllers\Api\V1\Telecom\SimActionController;
 use App\Http\Controllers\Api\V1\Telecom\SimCardController;
 use App\Http\Controllers\Api\V1\Users\UserController;
 use App\Http\Controllers\Api\V1\Users\UserOrganizationAccessController;
@@ -224,6 +225,12 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::apiResource('service-providers', ProviderController::class)->except('show')->parameters(['service-providers' => 'serviceProvider'])->whereNumber('serviceProvider');
     Route::apiResource('sim-cards', SimCardController::class)->parameters(['sim-cards' => 'simCard'])->whereNumber('simCard');
     Route::post('sim-cards/{simCard}/reveal', [SimCardController::class, 'reveal'])->whereNumber('simCard')->name('sim-cards.reveal');
+    Route::prefix('sim-cards/{simCard}')->whereNumber('simCard')->name('sim-cards.')->group(function (): void {
+        foreach (['assign', 'return', 'block', 'unblock', 'transfer', 'cancel', 'replace'] as $action) {
+            Route::post($action, [SimActionController::class, $action])->name($action);
+        }
+    });
+    Route::get('employees/{employee}/sim-cards', [SimActionController::class, 'employeeCards'])->whereNumber('employee')->name('employees.sim-cards');
 
     // Phase 4: requisitions
     Route::apiResource('requisitions', RequisitionController::class)->whereNumber('requisition');

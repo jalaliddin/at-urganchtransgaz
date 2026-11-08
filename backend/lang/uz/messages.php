@@ -136,4 +136,11 @@ return [
     'sim_iccid_taken' => "Bu ICCID allaqachon ro'yxatda.",
     'sim_in_use' => "SIM-karta ishlatilgan: o'chirib bo'lmaydi, bekor qiling.",
     'provider_in_use' => 'Provayder SIM-karta, shartnoma yoki xizmatda ishlatilgan.',
+    'sim_holder_required' => "Xodim yoki bo'limni tanlang.",
+    'sim_employee_other_organization' => 'Xodim SIM-karta tashkilotida ishlamaydi.',
+    'sim_department_other_organization' => "Bo'lim SIM-karta tashkilotiga tegishli emas.",
+    'sim_same_organization' => 'SIM-karta allaqachon shu tashkilotda.',
+    'sim_invalid_transition' => 'Bu amal :status holatidagi SIM-karta uchun mumkin emas.',
+    'allocation_sim_unavailable' => "SIM-karta bo'sh emas yoki boshqa talabnomaga ajratilgan.",
+    'allocation_sim_kind' => 'SIM-karta faqat "SIM-karta" turidagi bandga ajratiladi.',
 ];

@@ -5,6 +5,7 @@ namespace App\Services\Requisitions;
 use App\Enums\AssetStatus;
 use App\Enums\FulfillmentType;
 use App\Enums\RequisitionAction;
+use App\Enums\RequisitionItemKind;
 use App\Enums\RequisitionStatus as S;
 use App\Enums\StockDocumentType;
 use App\Enums\TransferStatus;
@@ -13,9 +14,11 @@ use App\Models\AssetTransfer;
 use App\Models\Requisition;
 use App\Models\RequisitionFulfillment;
 use App\Models\RequisitionItem;
+use App\Models\SimCard;
 use App\Models\User;
 use App\Models\Warehouse;
 use App\Services\Assets\AssetTransferService;
+use App\Services\Sim\SimLifecycle;
 use App\Services\Warehouse\StockService;
 use App\Support\Decimal;
 use Carbon\CarbonImmutable;
@@ -37,9 +40,10 @@ class RequisitionFulfilment
         private readonly RequisitionNotifier $notifier,
         private readonly StockService $stock,
         private readonly AssetTransferService $transfers,
+        private readonly SimLifecycle $sims,
     ) {}
 
-    /** @param  array<string, mixed>  $data  item_id, type, quantity, warehouse_id, target_warehouse_id, material_id, batch, asset_id, note */
+    /** @param  array<string, mixed>  $data  item_id, type, quantity, warehouse_id, target_warehouse_id, material_id, batch, asset_id, sim_card_id, note */
     public function allocate(Requisition $requisition, array $data, User $by): RequisitionFulfillment
     {
         return DB::transaction(function () use ($requisition, $data, $by): RequisitionFulfillment {
@@ -49,7 +53,10 @@ class RequisitionFulfilment
                 throw ValidationException::withMessages(['item_id' => __('messages.requisition_item_invalid')]);
             }
             $type = FulfillmentType::from((string) $data['type']);
-            $quantity = $type === FulfillmentType::Asset ? '1.000' : Decimal::of($data['quantity'] ?? '0');
+            if ($type === FulfillmentType::Sim && $item->kind !== RequisitionItemKind::Sim) {
+                throw ValidationException::withMessages(['type' => __('messages.allocation_sim_kind')]);
+            }
+            $quantity = in_array($type, [FulfillmentType::Asset, FulfillmentType::Sim], true) ? '1.000' : Decimal::of($data['quantity'] ?? '0');
             if (Decimal::cmp($quantity, '0') <= 0 || Decimal::cmp($quantity, $item->remaining()) > 0) {
                 throw ValidationException::withMessages(['quantity' => __('messages.allocation_exceeds', ['remaining' => Decimal::plain($item->remaining())])]);
             }
@@ -58,6 +65,7 @@ class RequisitionFulfilment
                 FulfillmentType::Stock => $this->fromStock($requisition, $item, $quantity, $data, $by),
                 FulfillmentType::Asset => $this->fromAssets($requisition, (int) ($data['asset_id'] ?? 0), $by),
                 FulfillmentType::Note => $this->asNote($data),
+                FulfillmentType::Sim => $this->fromSims($requisition, (int) ($data['sim_card_id'] ?? 0), $by),
             };
 
             $item->forceFill(['fulfilled_quantity' => Decimal::add($item->fulfilled_quantity, $quantity)])->save();
@@ -186,6 +194,26 @@ class RequisitionFulfilment
         $this->transfers->send($transfer, $by);
 
         return ['asset_id' => $asset->id, 'asset_transfer_id' => $transfer->id];
+    }
+
+    /**
+     * A free SIM card of the fulfiller's scope that no other open requisition was given; it moves to the
+     * requisition's organization at once (no receipt step: the card itself is the delivery).
+     *
+     * @return array<string, mixed>
+     */
+    private function fromSims(Requisition $requisition, int $cardId, User $by): array
+    {
+        $card = SimCard::query()->withoutGlobalScopes()->lockForUpdate()->find($cardId);
+        $promised = $card !== null && RequisitionFulfillment::query()->where('sim_card_id', $card->id)
+            ->whereIn('requisition_id', Requisition::query()->withoutGlobalScopes()->select('id')->whereNotIn('status', [S::Received->value, S::Closed->value]))
+            ->exists();
+        if ($card === null || ! $by->canAccessOrganization($card->organization_id) || ! $card->status->isAvailable() || $promised) {
+            throw ValidationException::withMessages(['sim_card_id' => __('messages.allocation_sim_unavailable')]);
+        }
+        $this->sims->allocate($card, $requisition, $by);
+
+        return ['sim_card_id' => $card->id];
     }
 
     /**

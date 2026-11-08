@@ -136,4 +136,11 @@ return [
     'sim_iccid_taken' => 'Этот ICCID уже зарегистрирован.',
     'sim_in_use' => 'SIM-карта использовалась: удалить нельзя, отмените её.',
     'provider_in_use' => 'Провайдер используется в SIM-картах, договорах или услугах.',
+    'sim_holder_required' => 'Выберите сотрудника или отдел.',
+    'sim_employee_other_organization' => 'Сотрудник не работает в организации SIM-карты.',
+    'sim_department_other_organization' => 'Отдел не относится к организации SIM-карты.',
+    'sim_same_organization' => 'SIM-карта уже в этой организации.',
+    'sim_invalid_transition' => 'Действие недоступно для SIM-карты в статусе «:status».',
+    'allocation_sim_unavailable' => 'SIM-карта занята или выделена по другой заявке.',
+    'allocation_sim_kind' => 'SIM-карта выделяется только по позиции типа «SIM-карта».',
 ];
