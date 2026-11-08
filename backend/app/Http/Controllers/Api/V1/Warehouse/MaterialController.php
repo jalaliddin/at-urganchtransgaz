@@ -24,7 +24,7 @@ class MaterialController extends Controller
     public function index(Request $request): JsonResponse
     {
         Gate::authorize('warehouse.catalog');
-        $search = trim((string) $request->input('filter.search', ''));
+        $search = trim((string) $request->input('search', ''));
         $query = Material::query()->with(['category', 'unit'])
             ->when($search !== '', fn ($q) => $q->where(fn ($w) => $w->where('name', 'like', "%{$search}%")->orWhere('code', 'like', "%{$search}%")))
             ->when($request->filled('filter.category'), fn ($q) => $q->where('category_id', $request->integer('filter.category')))

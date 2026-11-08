@@ -26,7 +26,7 @@ class StockBalanceController extends Controller
     public function index(Request $request): JsonResponse
     {
         Gate::authorize('warehouse.view');
-        $filters = (array) $request->input('filter', []);
+        $filters = [...(array) $request->input('filter', []), 'search' => $request->input('search')];
         $page = $this->queries->grouped($this->user($request), array_intersect_key($filters, array_flip(StockQueries::FILTERS)))
             ->paginate(Pagination::perPage($request))->withQueryString();
 

@@ -38,7 +38,7 @@ class RequisitionController extends Controller
         if ($request->filled('filter.organization')) {
             $query->whereIn('organization_id', OrganizationSubtree::ids($request->integer('filter.organization')) ?: [0]);
         }
-        $search = trim((string) $request->input('filter.search', ''));
+        $search = trim((string) $request->input('search', ''));
         if ($search !== '') {
             $query->where(fn ($q) => $q->where('number', 'like', "%{$search}%")->orWhere('title', 'like', "%{$search}%"));
         }

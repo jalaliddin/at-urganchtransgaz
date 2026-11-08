@@ -88,7 +88,7 @@ class WarehouseCatalogTest extends TestCase
         $this->material(['name' => 'A4 qog\'oz', 'code' => 'A4', 'category_id' => MaterialCategory::where('code', 'paper')->value('id')]);
         $this->material(['name' => 'Eski kartrij', 'is_active' => false]);
 
-        $this->getJson('/api/v1/materials?filter[search]=ce285')->assertOk()->assertJsonCount(1, 'data')->assertJsonPath('data.0.code', 'CE285A');
+        $this->getJson('/api/v1/materials?search=ce285')->assertOk()->assertJsonCount(1, 'data')->assertJsonPath('data.0.code', 'CE285A');
         $this->getJson('/api/v1/materials?filter[category]='.MaterialCategory::where('code', 'paper')->value('id'))->assertJsonCount(1, 'data');
         $this->getJson('/api/v1/materials?filter[active]=1')->assertJsonCount(2, 'data');
         $this->getJson('/api/v1/materials')->assertJsonPath('meta.total', 3);

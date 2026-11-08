@@ -50,7 +50,7 @@ class StockDocumentController extends Controller
         if ($request->filled('filter.date_to')) {
             $query->whereDate('document_date', '<=', (string) $request->input('filter.date_to'));
         }
-        $search = trim((string) $request->input('filter.search', ''));
+        $search = trim((string) $request->input('search', ''));
         if ($search !== '') {
             $query->where(fn ($q) => $q->where('number', 'like', "%{$search}%")->orWhere('supplier', 'like', "%{$search}%")
                 ->orWhere('supplier_document', 'like', "%{$search}%")->orWhere('reason', 'like', "%{$search}%"));
