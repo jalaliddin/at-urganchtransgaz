@@ -47,7 +47,10 @@ final class ApiExceptionRenderer
                 $e->getMessage() !== '' ? $e->getMessage() : __('messages.invalid_transition'), 'invalid_transition', 422,
             ),
             $e instanceof DomainConflictException => ApiResponse::error(
-                $e->getMessage() !== '' ? $e->getMessage() : __('messages.conflict'), 'conflict', 409,
+                $e->getMessage() !== '' ? $e->getMessage() : __('messages.conflict'), $e->errorCode(), 409,
+            ),
+            $e instanceof InsufficientStockException => ApiResponse::error(
+                $e->getMessage(), 'insufficient_stock', 422, [], ['shortages' => $e->shortages],
             ),
             $e instanceof HttpExceptionInterface => $this->http($e),
             default => $this->serverError($e, $request),
