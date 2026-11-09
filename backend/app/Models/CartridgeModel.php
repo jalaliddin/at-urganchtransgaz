@@ -46,7 +46,11 @@ class CartridgeModel extends Model
         return $this->belongsTo(Material::class);
     }
 
-    /** Printer models (asset models of the printer category) this cartridge fits. @return BelongsToMany<AssetModel, $this> */
+    /**
+     * Printer models (asset models of the printer category) this cartridge fits.
+     *
+     * @return BelongsToMany<AssetModel, $this>
+     */
     public function printerModels(): BelongsToMany
     {
         return $this->belongsToMany(AssetModel::class, 'printer_cartridge_compatibilities', 'cartridge_model_id', 'asset_model_id');

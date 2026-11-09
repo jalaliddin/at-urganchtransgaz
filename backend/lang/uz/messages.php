@@ -165,4 +165,6 @@ return [
     'task_label_invalid' => 'Yorliq bu doskaga tegishli emas.',
     'recurrence_column_open' => "Takrorlanuvchi topshiriq ochiq ustunga qo'yiladi.",
     'column_used_by_recurrence' => "Ustunga takrorlanuvchi topshiriq bog'langan: avval uni o'zgartiring.",
+    'cartridge_in_use' => "Bu kartrij modeli almashtirishlarda ishlatilgan — uni o'chirib bo'lmaydi, faolsizlantiring.",
+    'cartridge_material_locked' => "Kartrij almashtirishlarda ishlatilgan — uning omboridagi materialini almashtirib bo'lmaydi.",
 ];

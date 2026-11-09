@@ -39,6 +39,7 @@ use App\Http\Controllers\Api\V1\Notifications\NotificationController;
 use App\Http\Controllers\Api\V1\Organizations\ItResponsibleController;
 use App\Http\Controllers\Api\V1\Organizations\OrganizationController;
 use App\Http\Controllers\Api\V1\Organizations\OrganizationTreeController;
+use App\Http\Controllers\Api\V1\Printers\CartridgeModelController;
 use App\Http\Controllers\Api\V1\Requisitions\RequisitionActionController;
 use App\Http\Controllers\Api\V1\Requisitions\RequisitionController;
 use App\Http\Controllers\Api\V1\Roles\PermissionController;
@@ -259,6 +260,10 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::delete('task-recurrences/{taskRecurrence}', [RecurrenceController::class, 'destroy'])->whereNumber('taskRecurrence')->name('task-recurrences.destroy');
     Route::post('tickets/{ticket}/tasks', [TaskController::class, 'fromTicket'])->whereNumber('ticket')->name('tickets.tasks.store');
     Route::get('tickets/{ticket}/tasks', [TaskController::class, 'ticketTasks'])->whereNumber('ticket')->name('tickets.tasks');
+
+    // Phase 7.2: printers and cartridges
+    Route::apiResource('cartridge-models', CartridgeModelController::class)->except('show')->parameters(['cartridge-models' => 'cartridgeModel'])->whereNumber('cartridgeModel');
+    Route::get('printer-models', [CartridgeModelController::class, 'printerModels'])->name('printer-models.index');
 
     // Phase 6: SIM cards, providers, services and payments
     Route::apiResource('service-providers', ProviderController::class)->except('show')->parameters(['service-providers' => 'serviceProvider'])->whereNumber('serviceProvider');

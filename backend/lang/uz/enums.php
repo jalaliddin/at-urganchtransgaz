@@ -203,7 +203,7 @@ return [
         'cyan' => 'Havorang (cyan)',
         'magenta' => 'Qizil-binafsha (magenta)',
         'yellow' => 'Sariq',
-        'tricolor' => "Uch rangli",
+        'tricolor' => 'Uch rangli',
         'other' => 'Boshqa',
     ],
     'replacement_source' => [
