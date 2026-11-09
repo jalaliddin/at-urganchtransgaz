@@ -10,6 +10,7 @@ use App\Models\TaskColumn;
 use App\Models\TaskLabel;
 use App\Models\User;
 use App\Rules\AccessibleOrganization;
+use App\Services\Helpdesk\HelpdeskRecipients;
 use App\Services\Tasks\BoardService;
 use App\Support\ApiResponse;
 use App\Support\OrganizationSubtree;
@@ -45,6 +46,15 @@ class TaskBoardController extends Controller
         Gate::authorize('tasks.view');
 
         return $this->card($taskBoard);
+    }
+
+    /** People who can open the board: candidates for responsible person and watchers. */
+    public function members(TaskBoard $taskBoard, HelpdeskRecipients $recipients): JsonResponse
+    {
+        Gate::authorize('tasks.view');
+        $users = $recipients->withPermission('tasks.view', $taskBoard->organization_id);
+
+        return ApiResponse::data($users->map(fn (User $u) => TaskResource::user($u))->values());
     }
 
     public function store(Request $request): JsonResponse

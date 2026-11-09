@@ -96,4 +96,15 @@ class BoardTest extends TestCase
         $this->deleteJson("/api/v1/task-labels/{$label}")->assertOk();
         $this->deleteJson("/api/v1/task-boards/{$board->id}")->assertOk();
     }
+
+    public function test_members_are_the_people_who_can_open_the_board(): void
+    {
+        $board = $this->boardIn($this->org);
+        $staff = $this->makeUser(Roles::CENTRAL_IT_STAFF, $this->org);
+        $this->makeUser(Roles::EMPLOYEE, $this->org);
+        $this->makeUser(Roles::CENTRAL_IT_STAFF, Organization::factory()->create());
+
+        $ids = array_column($this->actingAs($this->it)->getJson("/api/v1/task-boards/{$board->id}/members")->assertOk()->json('data'), 'id');
+        $this->assertEqualsCanonicalizing([$this->it->id, $staff->id], $ids);
+    }
 }

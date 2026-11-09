@@ -237,6 +237,7 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::post('task-boards/{taskBoard}/labels', [TaskBoardController::class, 'storeLabel'])->whereNumber('taskBoard')->name('task-boards.labels.store');
     Route::put('task-labels/{taskLabel}', [TaskBoardController::class, 'updateLabel'])->whereNumber('taskLabel')->name('task-labels.update');
     Route::delete('task-labels/{taskLabel}', [TaskBoardController::class, 'destroyLabel'])->whereNumber('taskLabel')->name('task-labels.destroy');
+    Route::get('task-boards/{taskBoard}/members', [TaskBoardController::class, 'members'])->whereNumber('taskBoard')->name('task-boards.members');
     Route::get('task-boards/{taskBoard}/cards', [TaskController::class, 'cards'])->whereNumber('taskBoard')->name('task-boards.cards');
     Route::post('task-boards/{taskBoard}/tasks', [TaskController::class, 'store'])->whereNumber('taskBoard')->name('task-boards.tasks.store');
     Route::get('tasks', [TaskController::class, 'index'])->name('tasks.index');
