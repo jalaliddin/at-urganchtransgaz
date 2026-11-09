@@ -152,6 +152,14 @@ return [
         'public' => false,
     ],
 
+    // Tickets of one category and organization within 30 days that make a recurring-problem candidate.
+    'problems.recurrence_threshold' => [
+        'type' => 'integer',
+        'default' => 3,
+        'rules' => ['required', 'integer', 'min:2', 'max:50'],
+        'public' => false,
+    ],
+
     'notifications.mail_enabled' => [
         'type' => 'boolean',
         'default' => true,

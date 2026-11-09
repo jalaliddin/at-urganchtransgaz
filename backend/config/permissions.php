@@ -32,6 +32,10 @@ return [
         'services' => ['view', 'manage', 'invoice', 'approve', 'pay', 'export'],
         'tasks' => ['view', 'create', 'manage', 'workload', 'export'],
         'printers' => ['view', 'service', 'manage', 'export'],
+        'kb' => ['view', 'internal', 'write', 'manage'],
+        'problems' => ['view', 'manage', 'export'],
+        'changes' => ['view', 'create', 'approve', 'manage', 'export'],
+        'maintenance' => ['view', 'manage', 'perform', 'export'],
     ],
 
     'roles' => [
@@ -66,6 +70,10 @@ return [
                 'services.view', 'services.manage', 'services.invoice', 'services.approve', 'services.pay', 'services.export',
                 'tasks.view', 'tasks.create', 'tasks.manage', 'tasks.workload', 'tasks.export',
                 'printers.view', 'printers.service', 'printers.manage', 'printers.export',
+                'kb.view', 'kb.internal', 'kb.write', 'kb.manage',
+                'problems.view', 'problems.manage', 'problems.export',
+                'changes.view', 'changes.create', 'changes.approve', 'changes.manage', 'changes.export',
+                'maintenance.view', 'maintenance.manage', 'maintenance.perform', 'maintenance.export',
             ],
         ],
         'central-it-staff' => [
@@ -85,6 +93,10 @@ return [
                 'services.view', 'services.manage', 'services.invoice', 'services.export',
                 'tasks.view', 'tasks.create', 'tasks.export',
                 'printers.view', 'printers.service', 'printers.export',
+                'kb.view', 'kb.internal', 'kb.write',
+                'problems.view', 'problems.manage', 'problems.export',
+                'changes.view', 'changes.create', 'changes.manage', 'changes.export',
+                'maintenance.view', 'maintenance.manage', 'maintenance.perform', 'maintenance.export',
             ],
         ],
         'org-it-responsible' => [
@@ -104,6 +116,10 @@ return [
                 'services.view', 'services.invoice', 'services.export',
                 'tasks.view', 'tasks.create', 'tasks.manage', 'tasks.export',
                 'printers.view', 'printers.service', 'printers.export',
+                'kb.view', 'kb.internal', 'kb.write',
+                'problems.view', 'problems.manage', 'problems.export',
+                'changes.view', 'changes.create', 'changes.export',
+                'maintenance.view', 'maintenance.manage', 'maintenance.perform', 'maintenance.export',
             ],
         ],
         'org-head' => [
@@ -119,12 +135,13 @@ return [
                 'sim.view', 'sim.export', 'services.view', 'services.export',
                 'tasks.view',
                 'printers.view', 'printers.export',
+                'kb.view', 'problems.view', 'changes.view', 'maintenance.view',
             ],
         ],
         'employee' => [
             'display_name' => 'Oddiy xodim',
             'description' => 'Helpdesk arizasi yuboradi, o\'z arizalari va aktivlarini ko\'radi.',
-            'permissions' => ['dashboard.view', 'helpdesk.create'],
+            'permissions' => ['dashboard.view', 'helpdesk.create', 'kb.view'],
         ],
         'accountant' => [
             'display_name' => 'Buxgalter / moddiy javobgar shaxs',
@@ -138,6 +155,7 @@ return [
                 'software.view',
                 'sim.view', 'sim.export', 'services.view', 'services.invoice', 'services.pay', 'services.export',
                 'printers.view', 'printers.export',
+                'kb.view',
             ],
         ],
         'auditor' => [
@@ -154,6 +172,8 @@ return [
                 'sim.view', 'sim.export', 'services.view', 'services.export',
                 'tasks.view', 'tasks.workload', 'tasks.export',
                 'printers.view', 'printers.export',
+                'kb.view', 'kb.internal',
+                'problems.view', 'problems.export', 'changes.view', 'changes.export', 'maintenance.view', 'maintenance.export',
             ],
         ],
     ],

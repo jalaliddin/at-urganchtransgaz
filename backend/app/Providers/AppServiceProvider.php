@@ -12,18 +12,22 @@ use App\Models\AssetTransfer;
 use App\Models\AuditLog;
 use App\Models\CartridgeModel;
 use App\Models\CartridgeReplacement;
+use App\Models\Change;
 use App\Models\Department;
 use App\Models\Document;
 use App\Models\DocumentVersion;
 use App\Models\Employee;
 use App\Models\InventorySession;
 use App\Models\ItService;
+use App\Models\KbArticle;
 use App\Models\Location;
+use App\Models\MaintenancePlan;
 use App\Models\Manufacturer;
 use App\Models\Material;
 use App\Models\MaterialCategory;
 use App\Models\Organization;
 use App\Models\OrganizationItResponsible;
+use App\Models\Problem;
 use App\Models\ReportExport;
 use App\Models\Requisition;
 use App\Models\Role;
@@ -145,6 +149,10 @@ class AppServiceProvider extends ServiceProvider
             'task_recurrence' => TaskRecurrence::class,
             'cartridge_model' => CartridgeModel::class,
             'cartridge_replacement' => CartridgeReplacement::class,
+            'kb_article' => KbArticle::class,
+            'problem' => Problem::class,
+            'change' => Change::class,
+            'maintenance_plan' => MaintenancePlan::class,
         ]);
     }
 

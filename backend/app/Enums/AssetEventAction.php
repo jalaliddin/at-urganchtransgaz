@@ -20,4 +20,6 @@ enum AssetEventAction: string
     case AttachmentAdded = 'attachment_added';
     case AttachmentRemoved = 'attachment_removed';
     case InventoryFound = 'inventory_found';
+    case ChangeImplemented = 'change_implemented';
+    case PreventiveDone = 'preventive_done';
 }
