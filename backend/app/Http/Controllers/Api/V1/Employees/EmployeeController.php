@@ -38,6 +38,8 @@ class EmployeeController extends Controller
         $page = QueryBuilder::for($base)
             ->allowedFilters([
                 AllowedFilter::custom('organization', new OrganizationSubtreeFilter),
+                // Only this organization, without its children (e.g. holders of a SIM card of that organization).
+                AllowedFilter::exact('organization_exact', 'organization_id'),
                 AllowedFilter::exact('department', 'department_id'),
                 AllowedFilter::exact('status'),
             ])

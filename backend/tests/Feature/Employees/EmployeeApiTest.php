@@ -115,6 +115,17 @@ class EmployeeApiTest extends TestCase
         $this->assertSame([$inDepartment->id], $this->ids($this->getJson("/api/v1/employees?filter[department]={$department->id}")));
     }
 
+    public function test_exact_organization_filter_leaves_out_child_organizations(): void
+    {
+        $child = Organization::factory()->childOf($this->a)->create();
+        $own = Employee::factory()->for($this->a)->create();
+        $inChild = Employee::factory()->for($child)->create();
+        $this->actingAs($this->makeUser(Roles::CENTRAL_IT_HEAD, $this->root, true));
+
+        $this->assertEqualsCanonicalizing([$own->id, $inChild->id], $this->ids($this->getJson("/api/v1/employees?filter[organization]={$this->a->id}")));
+        $this->assertSame([$own->id], $this->ids($this->getJson("/api/v1/employees?filter[organization_exact]={$this->a->id}")));
+    }
+
     public function test_search_matches_uzbek_apostrophe_variants(): void
     {
         $gulomov = Employee::factory()->for($this->a)->create(['last_name' => 'Gʻulomov']);

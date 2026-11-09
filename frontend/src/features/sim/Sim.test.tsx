@@ -50,8 +50,9 @@ describe('SimDetailPage', () => {
     server.use(
       http.get('*/api/v1/sim-cards/5', () => HttpResponse.json({ data: card })),
       http.get('*/api/v1/sim-cards/5/documents', () => HttpResponse.json({ data: [] })),
-      http.get('*/api/v1/employees', () =>
-        HttpResponse.json(
+      http.get('*/api/v1/employees', ({ request }) => {
+        expect(new URL(request.url).searchParams.get('filter[organization_exact]')).toBe('6')
+        return HttpResponse.json(
           page([
             {
               id: 8,
@@ -61,8 +62,8 @@ describe('SimDetailPage', () => {
               department: null,
             },
           ]),
-        ),
-      ),
+        )
+      }),
       http.get('*/api/v1/departments', () => HttpResponse.json(page([]))),
       http.post('*/api/v1/sim-cards/5/assign', async ({ request }) => {
         body = await request.json()

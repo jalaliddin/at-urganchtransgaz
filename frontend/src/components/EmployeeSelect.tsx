@@ -10,12 +10,21 @@ interface Props extends Omit<SelectProps, 'data' | 'value' | 'onChange' | 'searc
   onChange: (value: number | null) => void
   /** Limit to this organization's subtree. */
   organizationId?: number | null
+  /** Only the organization itself, without its child organizations. */
+  exactOrganization?: boolean
   /** Receives the chosen employee record (null when cleared). */
   onEmployeeChange?: (employee: Employee | null) => void
 }
 
 /** Server-searched employee picker (name, personnel number or phone); scoped by the API. */
-export function EmployeeSelect({ value, onChange, organizationId, onEmployeeChange, ...props }: Props) {
+export function EmployeeSelect({
+  value,
+  onChange,
+  organizationId,
+  exactOrganization = false,
+  onEmployeeChange,
+  ...props
+}: Props) {
   const [search, setSearch] = useState('')
   const [debounced] = useDebouncedValue(search, 300)
   const params: Record<string, string | number> = {
@@ -23,7 +32,8 @@ export function EmployeeSelect({ value, onChange, organizationId, onEmployeeChan
     'filter[status]': 'active,on_leave,business_trip',
   }
   if (debounced.trim()) params.search = debounced.trim()
-  if (organizationId) params['filter[organization]'] = organizationId
+  if (organizationId)
+    params[exactOrganization ? 'filter[organization_exact]' : 'filter[organization]'] = organizationId
 
   const list = useQuery({
     queryKey: ['employees', 'options', params],

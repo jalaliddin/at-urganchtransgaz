@@ -93,6 +93,7 @@ export function SimActionModal({
             <EmployeeSelect
               label={t('fields.employee')}
               organizationId={card.organization.id}
+              exactOrganization
               value={employeeId}
               onChange={setEmployeeId}
               error={errors.employee_id}
