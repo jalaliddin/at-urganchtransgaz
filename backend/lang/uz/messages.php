@@ -163,4 +163,5 @@ return [
     'task_organization_invalid' => "Tashkilot doska tashkiloti yoki uning quyi tashkiloti bo'lishi kerak.",
     'task_user_cannot_see_board' => "Bu foydalanuvchi doskani ko'ra olmaydi.",
     'task_label_invalid' => 'Yorliq bu doskaga tegishli emas.',
+    'recurrence_column_open' => "Takrorlanuvchi topshiriq ochiq ustunga qo'yiladi.",
 ];

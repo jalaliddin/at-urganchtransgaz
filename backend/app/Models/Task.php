@@ -73,7 +73,7 @@ class Task extends Model
     {
         $today ??= CarbonImmutable::today((string) config('app.display_timezone'));
 
-        return $this->completed_at === null && $this->due_date !== null && $this->due_date->lt($today);
+        return $this->completed_at === null && $this->due_date !== null && $this->due_date->toDateString() < $today->toDateString();
     }
 
     public function resolveRouteBinding($value, $field = null): ?Model

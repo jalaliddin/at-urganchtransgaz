@@ -15,12 +15,14 @@ use App\Models\TaskComment;
 use App\Models\TaskHistory;
 use App\Models\TaskLabel;
 use App\Models\User;
+use App\Notifications\Tasks\TaskNotification;
 use App\Services\Files\FileStore;
 use App\Services\Support\NumberSequence;
 use App\Support\OrganizationSubtree;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -42,7 +44,7 @@ class TaskService
      * @param  array<string, mixed>  $data  title, description, column_id, organization_id, project, assignee_id, priority,
      *                                      start_date, due_date, label_ids, watcher_ids, ticket_id, recurrence_id, occurrence_date
      */
-    public function create(TaskBoard $board, array $data, User $by): Task
+    public function create(TaskBoard $board, array $data, ?User $by): Task
     {
         return DB::transaction(function () use ($board, $data, $by): Task {
             $board = $this->boards->lock($board);
@@ -65,6 +67,7 @@ class TaskService
             $task->labels()->sync($this->labelIds($board, $data['label_ids'] ?? []));
             $task->watchers()->sync($this->eligibleMany($board, $data['watcher_ids'] ?? []));
             $this->record($task, TaskEvent::Created, $by, ['column' => $column->name]);
+            $this->notifyAssigned($task, $by);
 
             return $task;
         });
@@ -100,6 +103,7 @@ class TaskService
                 if ($assignee !== $t->assignee_id) {
                     $t->forceFill(['assignee_id' => $assignee])->save();
                     $this->record($t, TaskEvent::Assigned, $by, ['assignee' => $assignee === null ? null : User::query()->withoutGlobalScopes()->whereKey($assignee)->value('name')]);
+                    $this->notifyAssigned($t, $by);
                 }
             }
         });
@@ -185,6 +189,8 @@ class TaskService
             $this->boards->writable($this->boards->lock($task->board));
             $comment = TaskComment::query()->create(['task_id' => $task->id, 'user_id' => $by->id, 'body' => $body]);
             $this->record($task, TaskEvent::Commented, $by);
+            $recipients = $task->watchers()->get()->push($task->assignee)->filter()->unique('id')->reject(fn (User $u) => $u->id === $by->id);
+            Notification::send($recipients, new TaskNotification('commented', $task->id, $task->number, $task->title, $by->name));
 
             return $comment;
         });
@@ -219,6 +225,15 @@ class TaskService
     public function canEdit(Task $task, User $user): bool
     {
         return $user->can('tasks.manage') || $task->assignee_id === $user->id || $task->created_by === $user->id;
+    }
+
+    /** The new responsible person hears about it (not when they assigned themselves). */
+    private function notifyAssigned(Task $task, ?User $by): void
+    {
+        $assignee = $task->assignee_id === null ? null : User::query()->withoutGlobalScopes()->find($task->assignee_id);
+        if ($assignee !== null && $assignee->id !== $by?->id) {
+            $assignee->notify(new TaskNotification('assigned', $task->id, $task->number, $task->title, (string) $by?->name));
+        }
     }
 
     /** @param  array<string, mixed>  $payload */

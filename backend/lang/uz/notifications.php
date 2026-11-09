@@ -132,4 +132,23 @@ return [
         'line' => ':organization: :provider bilan :number shartnomasi :date da tugaydi.',
     ],
     'open_contract' => 'Shartnomani ochish',
+    'task' => [
+        'assigned' => [
+            'subject' => ":number topshirig'i sizga biriktirildi",
+            'line' => ":actor sizga «:title» topshirig'ini biriktirdi.",
+        ],
+        'commented' => [
+            'subject' => ":number topshirig'iga izoh",
+            'line' => ":actor «:title» topshirig'iga izoh qoldirdi.",
+        ],
+        'due_soon' => [
+            'subject' => ":number topshirig'i muddati ertaga (:date)",
+            'line' => "«:title» topshirig'ining muddati :date.",
+        ],
+        'overdue' => [
+            'subject' => ":number topshirig'i muddati o'tdi (:date)",
+            'line' => "«:title» topshirig'i :date gacha bajarilishi kerak edi.",
+        ],
+    ],
+    'open_task' => 'Topshiriqni ochish',
 ];

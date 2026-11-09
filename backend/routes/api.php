@@ -52,6 +52,7 @@ use App\Http\Controllers\Api\V1\Software\ImportController;
 use App\Http\Controllers\Api\V1\Software\InstallationController;
 use App\Http\Controllers\Api\V1\Software\LicenseController;
 use App\Http\Controllers\Api\V1\Software\SoftwareController;
+use App\Http\Controllers\Api\V1\Tasks\RecurrenceController;
 use App\Http\Controllers\Api\V1\Tasks\TaskBoardController;
 use App\Http\Controllers\Api\V1\Tasks\TaskController;
 use App\Http\Controllers\Api\V1\Telecom\ContractController;
@@ -250,6 +251,10 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     });
     Route::patch('task-checklist-items/{taskChecklistItem}', [TaskController::class, 'updateChecklist'])->whereNumber('taskChecklistItem')->name('task-checklist-items.update');
     Route::delete('task-checklist-items/{taskChecklistItem}', [TaskController::class, 'destroyChecklist'])->whereNumber('taskChecklistItem')->name('task-checklist-items.destroy');
+    Route::get('task-boards/{taskBoard}/recurrences', [RecurrenceController::class, 'index'])->whereNumber('taskBoard')->name('task-boards.recurrences');
+    Route::post('task-boards/{taskBoard}/recurrences', [RecurrenceController::class, 'store'])->whereNumber('taskBoard')->name('task-boards.recurrences.store');
+    Route::put('task-recurrences/{taskRecurrence}', [RecurrenceController::class, 'update'])->whereNumber('taskRecurrence')->name('task-recurrences.update');
+    Route::delete('task-recurrences/{taskRecurrence}', [RecurrenceController::class, 'destroy'])->whereNumber('taskRecurrence')->name('task-recurrences.destroy');
     Route::post('tickets/{ticket}/tasks', [TaskController::class, 'fromTicket'])->whereNumber('ticket')->name('tickets.tasks.store');
     Route::get('tickets/{ticket}/tasks', [TaskController::class, 'ticketTasks'])->whereNumber('ticket')->name('tickets.tasks');
 

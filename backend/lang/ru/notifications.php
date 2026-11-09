@@ -132,4 +132,23 @@ return [
         'line' => ':organization: договор :number с :provider заканчивается :date.',
     ],
     'open_contract' => 'Открыть договор',
+    'task' => [
+        'assigned' => [
+            'subject' => 'Задача :number назначена вам',
+            'line' => ':actor назначил(а) вам задачу «:title».',
+        ],
+        'commented' => [
+            'subject' => 'Комментарий к задаче :number',
+            'line' => ':actor оставил(а) комментарий к задаче «:title».',
+        ],
+        'due_soon' => [
+            'subject' => 'Срок задачи :number завтра (:date)',
+            'line' => 'Срок задачи «:title» — :date.',
+        ],
+        'overdue' => [
+            'subject' => 'Задача :number просрочена (:date)',
+            'line' => 'Задачу «:title» нужно было выполнить до :date.',
+        ],
+    ],
+    'open_task' => 'Открыть задачу',
 ];
