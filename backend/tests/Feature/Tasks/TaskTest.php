@@ -173,4 +173,17 @@ class TaskTest extends TestCase
         $foreignTicket = $this->ticketBy($this->makeStaff(Roles::EMPLOYEE, Organization::factory()->create()));
         $this->postJson("/api/v1/tickets/{$foreignTicket->id}/tasks", ['board_id' => $this->board->id])->assertNotFound();
     }
+
+    public function test_a_task_stays_editable_when_its_people_lost_access(): void
+    {
+        $watcher = $this->makeUser(Roles::CENTRAL_IT_STAFF, $this->org, true);
+        $task = $this->taskOn($this->board, $this->it, ['assignee_id' => $this->staff->id, 'watcher_ids' => [$watcher->id]]);
+        $this->staff->update(['is_active' => false]);
+        $watcher->update(['is_active' => false]);
+
+        $this->actingAs($this->it)->putJson("/api/v1/tasks/{$task->id}", ['title' => 'Yangi nom', 'assignee_id' => $this->staff->id, 'watcher_ids' => [$watcher->id]])
+            ->assertOk()->assertJsonPath('data.title', 'Yangi nom');
+        $newcomer = $this->makeUser(Roles::EMPLOYEE, $this->org);
+        $this->putJson("/api/v1/tasks/{$task->id}", ['watcher_ids' => [$watcher->id, $newcomer->id]])->assertStatus(422)->assertJsonValidationErrors('watcher_ids');
+    }
 }

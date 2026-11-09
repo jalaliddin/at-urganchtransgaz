@@ -91,7 +91,10 @@ class TaskService
             }
             if (array_key_exists('watcher_ids', $data)) {
                 $before = $t->watchers()->pluck('users.id')->map(fn ($id) => (int) $id)->sort()->values()->all();
-                $after = $this->eligibleMany($board, (array) $data['watcher_ids']);
+                $submitted = array_values(array_unique(array_map('intval', array_filter((array) $data['watcher_ids'], fn ($id) => $id !== null))));
+                // Only newcomers are checked: someone who later lost access must not block editing the task.
+                $this->eligibleMany($board, array_values(array_diff($submitted, $before)));
+                $after = $submitted;
                 sort($after);
                 if ($before !== $after) {
                     $t->watchers()->sync($after);
@@ -99,7 +102,8 @@ class TaskService
                 }
             }
             if (array_key_exists('assignee_id', $data)) {
-                $assignee = $this->eligible($board, $data['assignee_id'], 'assignee_id');
+                $submitted = $data['assignee_id'] === null || $data['assignee_id'] === '' ? null : (int) $data['assignee_id'];
+                $assignee = $submitted === $t->assignee_id ? $submitted : $this->eligible($board, $submitted, 'assignee_id');
                 if ($assignee !== $t->assignee_id) {
                     $t->forceFill(['assignee_id' => $assignee])->save();
                     $this->record($t, TaskEvent::Assigned, $by, ['assignee' => $assignee === null ? null : User::query()->withoutGlobalScopes()->whereKey($assignee)->value('name')]);

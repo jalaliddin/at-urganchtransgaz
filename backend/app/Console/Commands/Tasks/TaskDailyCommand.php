@@ -4,6 +4,7 @@ namespace App\Console\Commands\Tasks;
 
 use App\Models\Task;
 use App\Models\TaskBoard;
+use App\Models\TaskLabel;
 use App\Models\TaskRecurrence;
 use App\Models\User;
 use App\Notifications\Tasks\TaskNotification;
@@ -57,20 +58,21 @@ class TaskDailyCommand extends Command
         if ($board === null || $board->is_archived) {
             return false;
         }
-        $data = [
-            'title' => $recurrence->title, 'description' => $recurrence->description, 'column_id' => $recurrence->column_id,
-            'organization_id' => $recurrence->organization_id, 'priority' => $recurrence->priority, 'label_ids' => $recurrence->label_ids ?? [],
-            'due_date' => $recurrence->due_in_days === null ? null : $occurrence->addDays($recurrence->due_in_days),
-            'recurrence_id' => $recurrence->id, 'occurrence_date' => $occurrence,
-        ];
+        // Labels deleted since, or a responsible person who can no longer work on the board, never drop the occurrence.
+        $labels = TaskLabel::query()->where('board_id', $board->id)->whereIn('id', $recurrence->label_ids ?? [])->pluck('id')->map(fn ($id) => (int) $id)->all();
+        try {
+            $assignee = $tasks->eligible($board, $recurrence->assignee_id, 'assignee_id');
+        } catch (ValidationException) {
+            $assignee = null;
+        }
         $by = $recurrence->created_by === null ? null : User::query()->withoutGlobalScopes()->find($recurrence->created_by);
         try {
-            try {
-                $tasks->create($board, [...$data, 'assignee_id' => $recurrence->assignee_id], $by);
-            } catch (ValidationException) {
-                // The responsible person can no longer open the board: the task is created unassigned.
-                $tasks->create($board, $data, $by);
-            }
+            $tasks->create($board, [
+                'title' => $recurrence->title, 'description' => $recurrence->description, 'column_id' => $recurrence->column_id,
+                'organization_id' => $recurrence->organization_id, 'priority' => $recurrence->priority, 'label_ids' => $labels,
+                'assignee_id' => $assignee, 'due_date' => $recurrence->due_in_days === null ? null : $occurrence->addDays($recurrence->due_in_days),
+                'recurrence_id' => $recurrence->id, 'occurrence_date' => $occurrence,
+            ], $by);
 
             return true;
         } catch (UniqueConstraintViolationException) {

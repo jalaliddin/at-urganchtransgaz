@@ -8,6 +8,7 @@ use App\Http\Resources\Tasks\TaskResource;
 use App\Models\TaskBoard;
 use App\Models\TaskColumn;
 use App\Models\TaskLabel;
+use App\Models\TaskRecurrence;
 use App\Models\User;
 use App\Rules\AccessibleOrganization;
 use App\Services\Helpdesk\HelpdeskRecipients;
@@ -152,7 +153,16 @@ class TaskBoardController extends Controller
     {
         Gate::authorize('tasks.manage');
         $this->boards->writable(TaskBoard::query()->withoutGlobalScopes()->findOrFail($taskLabel->board_id));
-        $taskLabel->delete();
+        DB::transaction(function () use ($taskLabel): void {
+            // Recurrences keep label ids in JSON: drop the deleted one there too.
+            foreach (TaskRecurrence::query()->where('board_id', $taskLabel->board_id)->get() as $recurrence) {
+                $ids = array_values(array_filter($recurrence->label_ids ?? [], fn ($id) => (int) $id !== $taskLabel->id));
+                if ($ids !== ($recurrence->label_ids ?? [])) {
+                    $recurrence->forceFill(['label_ids' => $ids])->save();
+                }
+            }
+            $taskLabel->delete();
+        });
 
         return ApiResponse::message(__('messages.deleted'));
     }

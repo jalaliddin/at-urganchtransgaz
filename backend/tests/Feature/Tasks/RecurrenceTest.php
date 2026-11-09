@@ -135,4 +135,21 @@ class RecurrenceTest extends TestCase
         Notification::assertSentTo($watcher, TaskNotification::class, fn ($n) => $n->event === 'commented');
         Notification::assertNotSentTo($this->staff, TaskNotification::class, fn ($n) => $n->event === 'commented');
     }
+
+    public function test_a_deleted_label_does_not_stop_the_routine(): void
+    {
+        $this->actingAs($this->it);
+        $label = $this->postJson("/api/v1/task-boards/{$this->board->id}/labels", ['name' => 'Zaxira'])->json('data.id');
+        $keep = $this->postJson("/api/v1/task-boards/{$this->board->id}/labels", ['name' => 'Server'])->json('data.id');
+        $this->postJson("/api/v1/task-boards/{$this->board->id}/recurrences", ['title' => 'Zaxirani tekshirish', 'frequency' => 'daily',
+            'label_ids' => [$label, $keep], 'assignee_id' => $this->staff->id])->assertCreated();
+        $this->deleteJson("/api/v1/task-labels/{$label}")->assertOk();
+        $this->staff->update(['is_active' => false]);
+
+        $this->artisan('tasks:daily')->assertSuccessful();
+        $task = Task::query()->where('title', 'Zaxirani tekshirish')->sole();
+        $this->assertSame([$keep], $task->labels()->pluck('task_labels.id')->map(fn ($id) => (int) $id)->all());
+        $this->assertNull($task->assignee_id);
+        $this->assertSame([$keep], TaskRecurrence::query()->where('title', 'Zaxirani tekshirish')->value('label_ids'));
+    }
 }

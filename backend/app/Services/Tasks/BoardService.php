@@ -7,6 +7,7 @@ use App\Exceptions\DomainConflictException;
 use App\Models\Task;
 use App\Models\TaskBoard;
 use App\Models\TaskColumn;
+use App\Models\TaskRecurrence;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -47,6 +48,8 @@ class BoardService
             if (Task::query()->where('board_id', $board->id)->exists()) {
                 throw new DomainConflictException(__('messages.board_has_tasks'));
             }
+            // Recurrences point at columns (restrict): they go first, then columns and labels cascade.
+            TaskRecurrence::query()->where('board_id', $board->id)->delete();
             $board->delete();
         });
     }
@@ -67,9 +70,12 @@ class BoardService
     {
         return DB::transaction(function () use ($column, $data): TaskColumn {
             $this->writable($this->lock($column->board));
+            $column = TaskColumn::query()->lockForUpdate()->findOrFail($column->id);
             $category = isset($data['category']) ? ColumnCategory::from((string) $data['category']) : $column->category;
             if ($category !== $column->category) {
-                if (Task::query()->where('column_id', $column->id)->exists()) {
+                // A recurrence's column must stay open, or its tasks would be born finished.
+                if (Task::query()->where('column_id', $column->id)->exists()
+                    || TaskRecurrence::query()->where('column_id', $column->id)->exists()) {
                     throw ValidationException::withMessages(['category' => __('messages.column_category_in_use')]);
                 }
                 $this->keepsOpenAndDone($column->board_id, $column->id, $category, 'category');
@@ -86,6 +92,9 @@ class BoardService
             $this->writable($this->lock($column->board));
             if (Task::query()->where('column_id', $column->id)->lockForUpdate()->exists()) {
                 throw new DomainConflictException(__('messages.column_not_empty'));
+            }
+            if (TaskRecurrence::query()->where('column_id', $column->id)->exists()) {
+                throw new DomainConflictException(__('messages.column_used_by_recurrence'));
             }
             $this->keepsOpenAndDone($column->board_id, $column->id, null, 'column');
             $column->delete();

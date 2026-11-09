@@ -110,4 +110,16 @@ class BoardTest extends TestCase
         $this->assertFalse($members->firstWhere('id', $viewer->id)['can_be_assignee']);
         $this->assertTrue($members->firstWhere('id', $staff->id)['can_be_assignee']);
     }
+
+    public function test_a_column_or_board_used_by_a_recurrence_is_handled_without_errors(): void
+    {
+        $board = $this->boardIn($this->org);
+        $this->actingAs($this->it);
+        $waiting = $this->postJson("/api/v1/task-boards/{$board->id}/columns", ['name' => 'Kutilmoqda', 'category' => 'open'])->json('data.id');
+        $this->postJson("/api/v1/task-boards/{$board->id}/recurrences", ['title' => 'Zaxira', 'frequency' => 'daily', 'column_id' => $waiting])->assertCreated();
+
+        $this->deleteJson("/api/v1/task-columns/{$waiting}")->assertStatus(409);
+        $this->putJson("/api/v1/task-columns/{$waiting}", ['category' => 'done'])->assertStatus(422)->assertJsonValidationErrors('category');
+        $this->deleteJson("/api/v1/task-boards/{$board->id}")->assertOk();
+    }
 }
