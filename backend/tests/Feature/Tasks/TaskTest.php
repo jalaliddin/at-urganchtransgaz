@@ -144,6 +144,10 @@ class TaskTest extends TestCase
         $this->assertCount(2, $backlog['cards']);
         $card = collect($backlog['cards'])->firstWhere('id', $task->id);
         $this->assertSame([2, 1, 1, true], [$card['checklist_total'], $card['checklist_done'], $card['comments_count'], $card['is_overdue']]);
+        $this->assertTrue($card['can_move']);
+        $this->actingAs($this->makeUser(Roles::CENTRAL_IT_STAFF, $this->org, true));
+        $this->assertFalse(collect($this->getJson("/api/v1/task-boards/{$this->board->id}/cards")->json('data.columns.0.cards'))->firstWhere('id', $task->id)['can_move']);
+        $this->actingAs($this->it);
         $this->assertSame(0, count($columns->firstWhere('name', 'Bajarildi')['cards']));
         $this->assertSame(1, $columns->firstWhere('name', 'Bajarildi')['hidden_done']);
         $this->assertCount(1, $this->getJson("/api/v1/task-boards/{$this->board->id}/cards?filter[mine]=1")->json('data.columns.0.cards'));

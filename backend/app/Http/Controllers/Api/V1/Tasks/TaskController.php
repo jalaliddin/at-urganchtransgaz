@@ -44,11 +44,14 @@ class TaskController extends Controller
         $this->filter($cards, $request, $user);
         $cards = $cards->orderBy('position')->get()->groupBy('column_id');
 
-        return ApiResponse::data(['columns' => $columns->map(function (TaskColumn $c) use ($cards, $recent) {
+        $writable = ! $taskBoard->is_archived;
+
+        return ApiResponse::data(['columns' => $columns->map(function (TaskColumn $c) use ($cards, $recent, $user, $writable) {
             $all = $cards->get($c->id, collect());
             $shown = $c->category->finishes() ? $all->filter(fn (Task $t) => $t->completed_at === null || $t->completed_at->gte($recent)) : $all;
 
-            return [...TaskResource::column($c), 'cards' => $shown->map(fn (Task $t) => TaskResource::card($t))->values(), 'hidden_done' => $all->count() - $shown->count()];
+            return [...TaskResource::column($c), 'hidden_done' => $all->count() - $shown->count(),
+                'cards' => $shown->map(fn (Task $t) => [...TaskResource::card($t), 'can_move' => $writable && $this->tasks->canEdit($t, $user)])->values()];
         })->values()]);
     }
 
