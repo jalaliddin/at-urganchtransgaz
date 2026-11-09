@@ -57,6 +57,7 @@ class PrinterRegistryTest extends TestCase
             ->assertJsonPath('data.0.model.id', $this->m404->id)->assertJsonPath('data.0.ip_address', '10.10.1.25');
         $this->getJson("/api/v1/printers/{$computer->id}")->assertNotFound();
         $this->getJson("/api/v1/printers/{$centerPrinter->id}")->assertNotFound();
+        $this->getJson("/api/v1/assets/{$branchPrinter->id}")->assertOk()->assertJsonPath('data.category.code', 'printer');
 
         $this->actingAs($this->head);
         $this->assertEqualsCanonicalizing([$branchPrinter->id, $centerPrinter->id], array_column($this->getJson('/api/v1/printers')->json('data'), 'id'));

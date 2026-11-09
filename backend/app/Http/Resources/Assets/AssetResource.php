@@ -30,7 +30,7 @@ class AssetResource extends JsonResource
             'inventory_number' => $a->inventory_number,
             'name' => $a->name,
             'status' => $a->status->value,
-            'category' => $a->category ? ['id' => $a->category->id, 'name' => $a->category->localizedName(), 'is_networked' => $a->category->is_networked] : null,
+            'category' => $a->category ? ['id' => $a->category->id, 'code' => $a->category->code, 'name' => $a->category->localizedName(), 'is_networked' => $a->category->is_networked] : null,
             'manufacturer' => $ref($a->manufacturer),
             'model' => $ref($a->model),
             'organization' => $ref($a->organization),
