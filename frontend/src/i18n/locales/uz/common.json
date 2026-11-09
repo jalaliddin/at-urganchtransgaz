@@ -87,7 +87,13 @@
       "due_soon": "To'lov muddati yaqin: {{service}} ({{date}})",
       "overdue": "To'lov muddati o'tdi: {{service}} ({{date}})"
     },
-    "contract_expiring": "{{number}} shartnomasi tugayapti ({{date}})"
+    "contract_expiring": "{{number}} shartnomasi tugayapti ({{date}})",
+    "task": {
+      "assigned": "{{number}}: «{{title}}» sizga biriktirildi",
+      "commented": "{{number}}: {{actor}} izoh qoldirdi",
+      "due_soon": "{{number}}: muddat ertaga ({{date}})",
+      "overdue": "{{number}}: muddat o'tdi ({{date}})"
+    }
   },
   "languages": {
     "uz": "O'zbekcha",
@@ -124,7 +130,10 @@
     "service_contract": "Shartnoma",
     "it_service": "Xizmat",
     "service_invoice": "Hisob-faktura",
-    "service_payment": "To'lov"
+    "service_payment": "To'lov",
+    "task_board": "Topshiriqlar doskasi",
+    "task": "Topshiriq",
+    "task_recurrence": "Takrorlanuvchi topshiriq"
   },
   "saved": "Saqlandi"
 }

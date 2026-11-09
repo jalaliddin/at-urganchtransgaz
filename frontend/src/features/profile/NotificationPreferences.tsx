@@ -27,6 +27,9 @@ export const MAIL_TYPES = [
   'license_expiring',
   'service_payment_due',
   'contract_expiring',
+  'task_assigned',
+  'task_commented',
+  'task_due',
 ] as const
 
 /** In-app notifications always arrive; here the user chooses which ones also come by e-mail. */

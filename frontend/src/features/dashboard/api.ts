@@ -56,6 +56,7 @@ export interface DashboardData {
     missing_required: number
     licenses_expiring: number
   }
+  tasks?: { my_open: number; my_overdue: number; overdue: number }
   sim?: {
     total: number
     by_status: { in_stock: number; active: number; blocked: number; returned: number }

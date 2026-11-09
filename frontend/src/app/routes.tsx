@@ -43,6 +43,11 @@ import { SimCardsPage } from '@/features/sim/SimCardsPage'
 import { SimDetailPage } from '@/features/sim/SimDetailPage'
 import { SimReportPage } from '@/features/sim/SimReportPage'
 import { AgentsPage } from '@/features/software/AgentsPage'
+import { BoardPage } from '@/features/tasks/BoardPage'
+import { BoardsPage } from '@/features/tasks/BoardsPage'
+import { MyTasksPage } from '@/features/tasks/MyTasksPage'
+import { TaskPage } from '@/features/tasks/TaskPage'
+import { WorkloadPage } from '@/features/tasks/WorkloadPage'
 import { CompliancePage } from '@/features/software/CompliancePage'
 import { ImportPage } from '@/features/software/ImportPage'
 import { LicensesPage } from '@/features/software/LicensesPage'
@@ -190,6 +195,23 @@ export const routes: RouteObject[] = [
                   { path: 'agents', element: <AgentsPage />, handle: { crumb: 'nav:items.agents' } },
                   { path: 'import', element: <ImportPage />, handle: { crumb: 'nav:items.softwareImport' } },
                   { path: ':id', element: <SoftwareDetailPage />, handle: { crumb: 'software:crumb' } },
+                ],
+              },
+              {
+                path: 'tasks',
+                element: <RequirePermission permission="tasks.view" />,
+                handle: { crumb: 'nav:items.taskBoards' },
+                children: [
+                  { index: true, element: <BoardsPage /> },
+                  { path: 'my', element: <MyTasksPage />, handle: { crumb: 'nav:items.myTasks' } },
+                  {
+                    path: 'workload',
+                    element: <RequirePermission permission="tasks.workload" />,
+                    handle: { crumb: 'nav:items.workload' },
+                    children: [{ index: true, element: <WorkloadPage /> }],
+                  },
+                  { path: 'boards/:id', element: <BoardPage />, handle: { crumb: 'tasks:crumbs.board' } },
+                  { path: ':id', element: <TaskPage />, handle: { crumb: 'tasks:crumbs.task' } },
                 ],
               },
               {

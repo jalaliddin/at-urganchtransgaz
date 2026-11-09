@@ -87,7 +87,13 @@
       "due_soon": "Скоро срок оплаты: {{service}} ({{date}})",
       "overdue": "Оплата просрочена: {{service}} ({{date}})"
     },
-    "contract_expiring": "Договор {{number}} заканчивается ({{date}})"
+    "contract_expiring": "Договор {{number}} заканчивается ({{date}})",
+    "task": {
+      "assigned": "{{number}}: вам назначена «{{title}}»",
+      "commented": "{{number}}: комментарий от {{actor}}",
+      "due_soon": "{{number}}: срок завтра ({{date}})",
+      "overdue": "{{number}}: срок прошёл ({{date}})"
+    }
   },
   "languages": {
     "uz": "O'zbekcha",
@@ -124,7 +130,10 @@
     "service_contract": "Договор",
     "it_service": "Услуга",
     "service_invoice": "Счёт",
-    "service_payment": "Оплата"
+    "service_payment": "Оплата",
+    "task_board": "Доска задач",
+    "task": "Задача",
+    "task_recurrence": "Повторяющаяся задача"
   },
   "saved": "Сохранено"
 }

@@ -21,6 +21,7 @@ export function DashboardPage() {
   const { t: tr } = useTranslation('requisitions')
   const { t: ts } = useTranslation('software')
   const { t: tsim } = useTranslation('sim')
+  const { t: ttask } = useTranslation('tasks')
   const { t: tsv } = useTranslation('services')
   const me = useCurrentUser()
   const { organizationId: orgContextId } = useOrgContext()
@@ -147,6 +148,15 @@ export function DashboardPage() {
         label={ts('dashboard.licenses')}
         value={data.software.licenses_expiring}
         href="/software/licenses?filter[expiring]=1"
+      />
+    ),
+    data.tasks && (data.tasks.my_open > 0 || data.tasks.overdue > 0) && (
+      <StatTile
+        key="tasks"
+        label={ttask('dashboard.mine')}
+        value={data.tasks.my_open}
+        detail={ttask('dashboard.overdue', { mine: data.tasks.my_overdue, all: data.tasks.overdue })}
+        href="/tasks/my"
       />
     ),
     data.sim && data.sim.total > 0 && (

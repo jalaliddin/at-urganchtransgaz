@@ -45,7 +45,10 @@
       "requisition_update": "Изменился статус заявки",
       "license_expiring": "Срок лицензии",
       "service_payment_due": "Срок оплаты услуг",
-      "contract_expiring": "Окончание договора"
+      "contract_expiring": "Окончание договора",
+      "task_assigned": "Назначение задачи",
+      "task_commented": "Комментарий к задаче",
+      "task_due": "Срок задачи"
     }
   }
 }

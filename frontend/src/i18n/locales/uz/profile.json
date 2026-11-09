@@ -45,7 +45,10 @@
       "requisition_update": "Talabnoma holati o'zgardi",
       "license_expiring": "Litsenziya muddati",
       "service_payment_due": "Xizmat to'lovi muddati",
-      "contract_expiring": "Shartnoma tugashi"
+      "contract_expiring": "Shartnoma tugashi",
+      "task_assigned": "Topshiriq biriktirilganda",
+      "task_commented": "Topshiriqqa izoh",
+      "task_due": "Topshiriq muddati"
     }
   }
 }

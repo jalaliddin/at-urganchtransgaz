@@ -15,7 +15,8 @@
     "requisitions": "Talabnomalar",
     "software": "Dasturlar va antivirus",
     "sim": "SIM-kartalar",
-    "services": "Aloqa xizmatlari va to'lovlar"
+    "services": "Aloqa xizmatlari va to'lovlar",
+    "tasks": "Topshiriqlar (Kanban)"
   },
   "actions": {
     "view": "Ko'rish",
@@ -43,7 +44,8 @@
     "install": "O'rnatishlarni yuritish",
     "agents": "Agentlar",
     "invoice": "Hisob-fakturalarni kiritish",
-    "pay": "To'lovlarni kiritish"
+    "pay": "To'lovlarni kiritish",
+    "workload": "Yuklamani ko'rish"
   },
   "selectAll": "Barchasi"
 }

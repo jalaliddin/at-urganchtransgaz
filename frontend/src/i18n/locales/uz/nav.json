@@ -7,7 +7,8 @@
     "assets": "IT aktivlar",
     "warehouse": "Ombor va talabnomalar",
     "software": "Dasturlar va antivirus",
-    "telecom": "Aloqa va xizmatlar"
+    "telecom": "Aloqa va xizmatlar",
+    "tasks": "Topshiriqlar"
   },
   "items": {
     "dashboard": "Boshqaruv paneli",
@@ -52,7 +53,10 @@
     "invoices": "To'lovlar",
     "contracts": "Shartnomalar",
     "serviceCosts": "Xarajatlar tahlili",
-    "providers": "Operatorlar va provayderlar"
+    "providers": "Operatorlar va provayderlar",
+    "taskBoards": "Doskalar",
+    "myTasks": "Mening topshiriqlarim",
+    "workload": "Yuklama"
   },
   "header": {
     "search": "Qidirish",

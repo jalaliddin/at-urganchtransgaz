@@ -1,0 +1,174 @@
+{
+  "crumbs": {
+    "board": "Doska",
+    "task": "Topshiriq"
+  },
+  "overdue": "Kechikdi",
+  "priority": {
+    "low": "Past",
+    "normal": "O'rtacha",
+    "high": "Yuqori",
+    "urgent": "Shoshilinch"
+  },
+  "category": {
+    "open": "Ochiq",
+    "done": "Bajarildi",
+    "cancelled": "Bekor qilindi"
+  },
+  "fields": {
+    "title": "Nomi",
+    "description": "Tavsif",
+    "column": "Ustun",
+    "assignee": "Mas'ul",
+    "priority": "Ustuvorlik",
+    "startDate": "Boshlanish",
+    "dueDate": "Muddat",
+    "project": "Loyiha / yo'nalish",
+    "organization": "Tashkilot",
+    "labels": "Yorliqlar",
+    "watchers": "Kuzatuvchilar"
+  },
+  "form": {
+    "add": "Yangi topshiriq",
+    "edit": "Topshiriqni tahrirlash",
+    "organizationHint": "Bo'sh bo'lsa — doska tashkiloti"
+  },
+  "boards": {
+    "title": "Topshiriqlar doskalari",
+    "description": "AT xodimlari ishini rejalash va kuzatish",
+    "add": "Yangi doska",
+    "name": "Doska nomi",
+    "columnsHint": "Doska standart ustunlar bilan yaratiladi: Backlog, Rejalashtirilgan, Jarayonda, Tekshiruvda, Bajarildi, Bekor qilindi. Keyin ularni o'zgartirish mumkin.",
+    "active": "Faol",
+    "archived": "Arxiv",
+    "empty": "Doska yo'q",
+    "open": "Ochiq: {{count}}",
+    "overdue": "Kechikkan: {{count}}"
+  },
+  "board": {
+    "settings": "Sozlamalar",
+    "search": "Nomi, raqami yoki loyiha",
+    "mine": "Menga biriktirilgan",
+    "overdueOnly": "Faqat kechikkanlar",
+    "moveTo": "Ko'chirish",
+    "hiddenDone": "Yana {{count}} ta eski topshiriq ro'yxatda"
+  },
+  "detail": {
+    "moveTo": "Ustun",
+    "board": "Doska",
+    "ticket": "Ariza",
+    "checklist": "Checklist",
+    "newItem": "Yangi band",
+    "files": "Fayllar",
+    "attach": "Fayl biriktirish",
+    "noFiles": "Fayl yo'q",
+    "comments": "Izohlar",
+    "comment": "Izoh yozing",
+    "send": "Izoh qo'shish",
+    "history": "Tarix",
+    "deleteConfirm": "Topshiriqni o'chirasizmi?"
+  },
+  "events": {
+    "created": "Yaratildi",
+    "updated": "O'zgartirildi",
+    "moved": "Ko'chirildi",
+    "assigned": "Mas'ul o'zgardi",
+    "completed": "Bajarildi",
+    "reopened": "Qayta ochildi",
+    "checklist_changed": "Checklist o'zgardi",
+    "commented": "Izoh qo'shildi",
+    "file_added": "Fayl biriktirildi",
+    "watchers_changed": "Kuzatuvchilar o'zgardi"
+  },
+  "settings": {
+    "columns": "Ustunlar",
+    "labels": "Yorliqlar",
+    "board": "Doska",
+    "columnName": "Ustun nomi",
+    "category": "Turi",
+    "wip": "Limit",
+    "up": "Yuqoriga",
+    "down": "Pastga",
+    "newColumn": "Yangi ustun nomi",
+    "columnsHint": "\"Bajarildi\" turidagi ustunga o'tgan topshiriq bajarilgan hisoblanadi. Doskada kamida bitta ochiq va bitta \"Bajarildi\" ustuni qoladi; topshiriqli ustunni o'chirib yoki turini o'zgartirib bo'lmaydi.",
+    "noLabels": "Yorliq yo'q",
+    "newLabel": "Yangi yorliq",
+    "color": "Rang",
+    "archived": "Arxivlangan",
+    "archivedHint": "Arxivdagi doska faqat o'qish uchun ochiladi",
+    "deleteBoard": "Doskani o'chirish",
+    "deleteConfirm": "Doskani o'chirasizmi? Topshiriqlari bo'lsa, o'chirib bo'lmaydi."
+  },
+  "colors": {
+    "gray": "Kulrang",
+    "red": "Qizil",
+    "orange": "To'q sariq",
+    "yellow": "Sariq",
+    "green": "Yashil",
+    "teal": "Moviy-yashil",
+    "blue": "Ko'k",
+    "indigo": "To'q ko'k",
+    "violet": "Binafsha",
+    "pink": "Pushti"
+  },
+  "recurrences": {
+    "title": "Takrorlanuvchi",
+    "empty": "Takrorlanuvchi topshiriq yo'q",
+    "add": "Yangi takrorlanuvchi topshiriq",
+    "frequency": "Davriylik",
+    "interval": "Har nechta",
+    "weekday": "Hafta kuni",
+    "monthDay": "Oy kuni",
+    "dueIn": "Muddat (kun)",
+    "active": "Faol",
+    "save": "Qo'shish",
+    "next": "keyingisi {{date}}",
+    "daily_one": "har kuni",
+    "daily_other": "har {{count}} kunda",
+    "weeklyOn_one": "har {{day}}",
+    "weeklyOn_other": "har {{count}} haftada, {{day}}",
+    "monthlyOn_one": "har oyning {{day}}-kuni",
+    "monthlyOn_other": "har {{count}} oyda, {{day}}-kuni"
+  },
+  "frequency": {
+    "daily": "Har kuni",
+    "weekly": "Har hafta",
+    "monthly": "Har oy"
+  },
+  "weekdays": {
+    "1": "Dushanba",
+    "2": "Seshanba",
+    "3": "Chorshanba",
+    "4": "Payshanba",
+    "5": "Juma",
+    "6": "Shanba",
+    "7": "Yakshanba"
+  },
+  "my": {
+    "title": "Mening topshiriqlarim",
+    "description": "Siz mas'ul bo'lgan topshiriqlar",
+    "empty": "Ochiq topshiriq yo'q",
+    "withDone": "Bajarilganlar bilan"
+  },
+  "workload": {
+    "title": "Yuklama",
+    "description": "AT xodimlari va tashkilotlar kesimida topshiriqlar",
+    "byPerson": "Xodimlar",
+    "byOrganization": "Tashkilotlar",
+    "open": "Ochiq",
+    "overdue": "Kechikkan",
+    "due_week": "7 kun ichida",
+    "done_30": "30 kunda bajarilgan",
+    "unassigned": "Mas'ulsiz"
+  },
+  "ticket": {
+    "title": "Topshiriqlar",
+    "create": "Topshiriq yaratish",
+    "board": "Doska",
+    "empty": "Bu ariza bo'yicha topshiriq yo'q"
+  },
+  "dashboard": {
+    "mine": "Mening ochiq topshiriqlarim",
+    "overdue": "kechikkan: {{mine}} (jami {{all}})"
+  }
+}

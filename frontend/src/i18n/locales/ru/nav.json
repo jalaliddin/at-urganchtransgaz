@@ -7,7 +7,8 @@
     "assets": "ИТ-активы",
     "warehouse": "Склад и заявки",
     "software": "Программы и антивирус",
-    "telecom": "Связь и услуги"
+    "telecom": "Связь и услуги",
+    "tasks": "Задачи"
   },
   "items": {
     "dashboard": "Панель управления",
@@ -52,7 +53,10 @@
     "invoices": "Оплаты",
     "contracts": "Договоры",
     "serviceCosts": "Анализ расходов",
-    "providers": "Операторы и провайдеры"
+    "providers": "Операторы и провайдеры",
+    "taskBoards": "Доски",
+    "myTasks": "Мои задачи",
+    "workload": "Нагрузка"
   },
   "header": {
     "search": "Поиск",
