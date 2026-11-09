@@ -117,11 +117,14 @@ Spec: `docs/superpowers/specs/2026-11-08-phase4-warehouse-design.md`, ochiq savo
 
 Holat (2026-11-08): bajarildi. Spec: `docs/superpowers/specs/2026-11-08-phase5-software-design.md`, ochiq savollar: Q40–Q45.
 
-## 6-bosqich — SIM, xizmatlar va to'lovlar ⏳
+## 6-bosqich — SIM, xizmatlar va to'lovlar ✅
 
-- Operatorlar, SIM reyestri (ICCID himoyasi), SIM talabnomalari va tasdiqlash
-- Provayderlar, shartnomalar, xizmatlar, hisob-fakturalar, to'lovlar, muddat eslatmalari
-- Xarajatlar tahlili va hisobotlar
+- Operatorlar, SIM reyestri (ICCID shifrlangan, niqoblangan), biriktirish/qaytarish/bloklash/ko'chirish/almashtirish
+  tarixi, SIM talabnomalari (4-bosqich workflow'i orqali)
+- Provayderlar, shartnomalar, xizmatlar, davriy hisob-fakturalar, markaziy tasdiq, to'lovlar, muddat eslatmalari
+- SIM hisobot (operator × tashkilot), xarajatlar tahlili (oy bo'yicha), eksportlar, dashboard
+
+Holat (2026-11-09): bajarildi. Spec: `docs/superpowers/specs/2026-11-08-phase6-sim-services-design.md`, ochiq savollar: Q46–Q54.
 
 ## 7-bosqich — Kanban, printerlar va qolgan modullar ⏳
 

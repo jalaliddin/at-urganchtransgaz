@@ -89,6 +89,20 @@ o'zgartirgach, bu yerda belgilanadi.
 | Q44 | Litsenziya muddati ogohlantirishi | 30 kun oldin, har kuni 08:10, har litsenziya va sana uchun bir marta | ❓ |
 | Q45 | ICMP tarmoq monitoringi | Foydalanuvchi qarori (2026-11-08): kerak emas, qilinmaydi | ✅ |
 
+## 6-bosqich (SIM, xizmatlar, to'lovlar) bo'yicha ochiq savollar
+
+| # | Savol | Standart yechim (amalda) | Holat |
+|---|---|---|---|
+| Q46 | SIM-kartani kim ro'yxatga oladi va ko'chiradi? | `sim.manage` (markaziy AT); quyi tashkilot AT mas'uli xodimga biriktiradi, qaytaradi, vaqtincha bloklaydi (`sim.assign`) | ❓ |
+| Q47 | SIM so'rovi qanday yuboriladi? | 4-bosqich talabnomasi ("SIM-karta" bandi); ajratilganda karta darhol so'ragan tashkilotga o'tadi (alohida qabul bosqichisiz) | ❓ |
+| Q48 | ICCID kimga ko'rinadi? | Hammaga oxirgi 4 raqam; to'liq — `sim.manage`, ochish audit qilinadi | ❓ |
+| Q49 | Hisob davri va to'lov muddati | Kalendar oy/chorak/yil; muddat — davrning birinchi oyidagi `due_day` (standart 10); har hisobda qo'lda o'zgartiriladi | ❓ |
+| Q50 | Xizmat o'rtada qo'shilsa | Kuzatish boshlanishidan (boshlanish sanasi yoki ro'yxatga olingan kun) oldin muddati o'tgan davr ochilmaydi; kerak bo'lsa qo'shimcha xarajat sifatida kiritiladi | ❓ |
+| Q51 | Markaziy tasdiq | Kiritilgan hisob-fakturani `services.approve` (markaziy AT rahbari) tasdiqlaydi; to'lov faqat tasdiqlangandan keyin; summa o'zgarsa qayta tasdiq | ❓ |
+| Q52 | Oldindan (avans) to'lov | Qabul qilinmaydi: to'lov qoldiqdan oshmaydi | ❓ |
+| Q53 | To'lov eslatmalari kimga? | Muddatga 5 kun qolganda — tashkilotning o'z hisob-faktura/to'lov xodimlari; muddati o'tganda — ular va markaziy tasdiqlovchilar | ❓ |
+| Q54 | Xarajatlar qaysi oyga yoziladi? | Hisob davri boshlangan oyga (reja, hisob-faktura va to'lov bir xil qoidada) | ❓ |
+
 ## Infratuzilma bo'yicha savollar
 
 | # | Savol | Standart yechim | Holat |

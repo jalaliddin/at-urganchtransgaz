@@ -116,4 +116,20 @@ return [
         'line' => ':organization: лицензия :software (:number) истекает :date.',
     ],
     'open_licenses' => 'Открыть лицензии',
+    'service_payment' => [
+        'due_soon' => [
+            'subject' => 'Скоро срок оплаты: :service (:date)',
+            'line' => ':organization: :provider — по услуге «:service» нужно оплатить :amount сум до :date.',
+        ],
+        'overdue' => [
+            'subject' => 'Оплата просрочена: :service (:date)',
+            'line' => ':organization: :provider — по услуге «:service» :amount сум нужно было оплатить :date.',
+        ],
+    ],
+    'open_invoice' => 'Открыть счёт',
+    'contract_expiring' => [
+        'subject' => 'Договор :number заканчивается (:date)',
+        'line' => ':organization: договор :number с :provider заканчивается :date.',
+    ],
+    'open_contract' => 'Открыть договор',
 ];

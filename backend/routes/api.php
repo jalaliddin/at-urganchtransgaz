@@ -58,6 +58,7 @@ use App\Http\Controllers\Api\V1\Telecom\ItServiceController;
 use App\Http\Controllers\Api\V1\Telecom\ProviderController;
 use App\Http\Controllers\Api\V1\Telecom\SimActionController;
 use App\Http\Controllers\Api\V1\Telecom\SimCardController;
+use App\Http\Controllers\Api\V1\Telecom\TelecomReportController;
 use App\Http\Controllers\Api\V1\Users\UserController;
 use App\Http\Controllers\Api\V1\Users\UserOrganizationAccessController;
 use App\Http\Controllers\Api\V1\Users\UserPasswordResetController;
@@ -245,6 +246,8 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
         Route::post('payments', [InvoiceController::class, 'pay'])->name('payments');
         Route::post('file', [InvoiceController::class, 'attachFile'])->name('file');
     });
+    Route::get('sim-report', [TelecomReportController::class, 'sims'])->name('sim-report');
+    Route::get('service-costs', [TelecomReportController::class, 'costs'])->name('service-costs');
     Route::delete('service-payments/{servicePayment}', [InvoiceController::class, 'destroyPayment'])->whereNumber('servicePayment')->name('service-payments.destroy');
     Route::post('service-payments/{servicePayment}/file', [InvoiceController::class, 'attachPaymentFile'])->whereNumber('servicePayment')->name('service-payments.file');
 

@@ -116,4 +116,20 @@ return [
         'line' => ':organization: :software litsenziyasi (:number) :date da tugaydi.',
     ],
     'open_licenses' => 'Litsenziyalarni ochish',
+    'service_payment' => [
+        'due_soon' => [
+            'subject' => "To'lov muddati yaqin: :service (:date)",
+            'line' => ":organization: :provider — :service bo'yicha :amount so'm :date gacha to'lanishi kerak.",
+        ],
+        'overdue' => [
+            'subject' => "To'lov muddati o'tdi: :service (:date)",
+            'line' => ":organization: :provider — :service bo'yicha :amount so'm :date da to'lanishi kerak edi.",
+        ],
+    ],
+    'open_invoice' => 'Hisob-fakturani ochish',
+    'contract_expiring' => [
+        'subject' => ':number shartnomasi tugayapti (:date)',
+        'line' => ':organization: :provider bilan :number shartnomasi :date da tugaydi.',
+    ],
+    'open_contract' => 'Shartnomani ochish',
 ];

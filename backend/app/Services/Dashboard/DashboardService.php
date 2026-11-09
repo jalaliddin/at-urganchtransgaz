@@ -20,11 +20,13 @@ use App\Services\Assets\AssetStats;
 use App\Services\Helpdesk\TicketStats;
 use App\Services\Requisitions\RequisitionQueries;
 use App\Services\Software\ComplianceService;
+use App\Services\Telecom\TelecomReports;
 use App\Services\Warehouse\StockQueries;
 use App\Support\OrganizationSubtree;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Phase 1 dashboard metrics. A widget is present only when the user holds its
@@ -132,6 +134,13 @@ class DashboardService
                 'licenses_expiring' => SoftwareLicense::query()->whereNotNull('expires_at')->where('expires_at', '<=', $until)
                     ->when($organizationId !== null, fn ($q) => $q->whereIn('organization_id', OrganizationSubtree::ids((int) $organizationId) ?: [0]))->count(),
             ];
+        }
+
+        if (Gate::forUser($user)->allows('sim.use')) {
+            $widgets['sim'] = app(TelecomReports::class)->simWidget($user, $organizationId);
+        }
+        if (Gate::forUser($user)->allows('services.use')) {
+            $widgets['services'] = app(TelecomReports::class)->servicesWidget($user, $organizationId);
         }
 
         if ($user->can('audit.view')) {

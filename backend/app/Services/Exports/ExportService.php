@@ -24,6 +24,9 @@ class ExportService
         'software_compliance' => SoftwareComplianceReport::class,
         'software_installations' => SoftwareInstallationReport::class,
         'software_licenses' => SoftwareLicenseReport::class,
+        'sim_cards' => SimCardReport::class,
+        'service_invoices' => ServiceInvoiceReport::class,
+        'service_costs' => ServiceCostReport::class,
     ];
 
     public function report(string $type): ReportDefinition

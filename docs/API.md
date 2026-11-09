@@ -356,7 +356,35 @@ qo'lda yoki CSV bilan kiritilganlar qoladi. Noto'g'ri yoki bekor qilingan token 
 (429). Har bir urinish `agent_checkins` ga yoziladi. Antivirus sanalari kelajakda (1 kundan ortiq) bo'lsa — 422
 (aks holda qurilma doim "yangilangan" ko'rinib qolardi); CSV importida bunday qator xato sifatida qaytadi.
 
-## 12. Misol
+## 12. 6-bosqich endpointlari (SIM-kartalar, xizmatlar va to'lovlar)
+
+| Metod | Yo'l | Ruxsat / izoh |
+|---|---|---|
+| GET/POST/PUT/DELETE | `/service-providers` (`filter[mobile]`, `filter[active]`) | o'qish — istalgan `sim.*`/`services.*`; yozish — `sim.manage` yoki `services.manage`; ishlatilgan provayder — 409 |
+| GET/POST/PUT/DELETE | `/sim-cards`, `/sim-cards/{id}` | o'qish — `sim.view/assign/manage` (doira); yozish — `sim.manage`. `filter[search]` (raqam qismi yoki to'liq ICCID), `filter[provider]`, `filter[status]`, `filter[organization]`, `filter[employee]`. Raqam `998XXXXXXXXX` ga keltiriladi; ICCID faqat `iccid_masked`; kartada `assignments`, `history`. O'chirish faqat ishlatilmagan omborda turgan karta uchun (aks holda 409) |
+| POST | `/sim-cards/{id}/reveal` | `sim.manage` — ochiq ICCID, audit `secret_revealed` |
+| POST | `/sim-cards/{id}/assign` `{employee_id?, department_id?, assigned_at?, note?}`, `/return` `{returned_at?}`, `/block` `{reason?}`, `/unblock` | `sim.assign` yoki `sim.manage`; xodim/bo'lim karta tashkilotidan; noto'g'ri holat — 422 `invalid_transition` |
+| POST | `/sim-cards/{id}/transfer` `{organization_id}`, `/cancel` `{reason?}`, `/replace` `{iccid, reason?}` | `sim.manage`; ko'chirish faqat bo'sh (in_stock/returned) karta va doiradagi tashkilotga |
+| GET | `/employees/{id}/sim-cards`, `/sim-cards/{id}/documents` | xodimdagi kartalar; kartaga bog'langan hujjatlar |
+| POST | `/requisitions/{id}/allocations` `{item_id, type: "sim", sim_card_id}` | 4-bosqich ajratishi: faqat "sim" turidagi bandga, bo'sh va boshqa ochiq talabnomaga berilmagan karta; karta talabnoma tashkilotiga o'tadi |
+| GET/POST/PUT/DELETE | `/service-contracts` (`filter[status]=active\|expired\|terminated\|expiring`), `/service-contracts/{id}/documents` | o'qish — `services.*` (doira); yozish — `services.manage`; xizmati bor shartnoma — 409 |
+| GET/POST/PUT/DELETE | `/it-services` (`filter[type]`, `filter[provider]`, `filter[contract]`, `filter[active]`, `filter[search]`) | yozish — `services.manage`; shartnoma shu tashkilot va provayderniki bo'lishi shart; yaratilganda joriy va keyingi davr hisoblari ochiladi; hisob-faktura/to'lovi bor xizmat — 409 |
+| GET | `/service-invoices` (`filter[status]` yoki `open`, `filter[period]=YYYY-MM`, `filter[organization]`, `filter[provider]`, `filter[type]`, `filter[service]`, `filter[due_from/due_to]`, `filter[approval]=pending\|approved`) | ro'yxat + `summary {planned, invoiced, paid}` |
+| PUT | `/service-invoices/{id}` `{invoice_number, invoice_date, amount, due_date, note}` | `services.invoice`; summa to'langandan kam bo'lmaydi; summa o'zgarsa tasdiq bekor bo'ladi |
+| POST | `/it-services/{id}/invoices` `{description, amount, due_date, invoice_date?, invoice_number?}` | `services.invoice` — qo'shimcha xarajat |
+| POST | `/service-invoices/{id}/approve` | `services.approve` — markaziy tasdiq |
+| POST / DELETE | `/service-invoices/{id}/payments` `{amount, paid_at, document_number?}`, `/service-payments/{id}` | `services.pay` — faqat tasdiqlangan hisob-fakturaga, qoldiqdan oshmaydi (422) |
+| POST | `/service-invoices/{id}/file`, `/service-payments/{id}/file` | skan (`file`, SafeUpload); yuklab olish `/files/{uuid}` — xizmatlar bilan ishlaydigan, tashkilot doirasidagi foydalanuvchi |
+| DELETE | `/service-invoices/{id}` | `services.manage` — faqat to'lovsiz qo'shimcha xarajat (davriy hisob — 409, xizmat bo'lmagan bo'lsa summa 0 kiritiladi) |
+| GET | `/sim-report` (`filter[organization]`, `filter[provider]`) | tashkilot × operator: jami, holatlar, oylik to'lov |
+| GET | `/service-costs?year=&group_by=organization\|provider\|type` | 12 oy bo'yicha reja / hisob-faktura / to'langan (davr boshlanish oyi bo'yicha) |
+| POST | `/exports` `{type: "sim_cards" \| "service_invoices" \| "service_costs"}` | `sim.export` / `services.export` (ICCID faqat oxirgi 4 raqam) |
+
+Har kuni 08:15 `services:billing`: davrlar ochiladi, holatlar sanaga ko'ra yangilanadi, eslatmalar (bir marta):
+to'lov muddatiga `services.due_notice_days` (5) kun qolganda — tashkilotning o'z hisob-faktura/to'lov xodimlariga;
+muddati o'tganda — ularga va markaziy tasdiqlovchilarga; shartnoma tugashiga 30 kun qolganda — `services.manage` egalariga.
+
+## 13. Misol
 
 ```http
 POST /api/v1/employees HTTP/1.1

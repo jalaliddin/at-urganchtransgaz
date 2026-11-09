@@ -483,7 +483,38 @@ erDiagram
 
 ICMP tarmoq monitoringi (spec §5.6) foydalanuvchi qarori bilan loyihadan chiqarildi (2026-11-08).
 
-## 9. Keyingi bosqichlar jadvallari (reja)
+## 9. 6-bosqich jadvallari (SIM-kartalar, xizmatlar va to'lovlar)
+
+```mermaid
+erDiagram
+    service_providers ||--o{ sim_cards : "operator"
+    organizations ||--o{ sim_cards : "egasi"
+    sim_cards ||--o{ sim_assignments : ""
+    employees ||--o{ sim_assignments : ""
+    sim_cards ||--o{ sim_histories : ""
+    service_providers ||--o{ service_contracts : ""
+    organizations ||--o{ service_contracts : ""
+    service_contracts ||--o{ it_services : ""
+    service_providers ||--o{ it_services : ""
+    it_services ||--o{ service_invoices : ""
+    service_invoices ||--o{ service_payments : ""
+    requisition_fulfillments }o--o| sim_cards : "talabnoma"
+```
+
+| Jadval | Asosiy ustunlar / qoidalar |
+|---|---|
+| `service_providers` | operatorlar va provayderlar yagona ro'yxati: `name` (UNIQUE), `tin`, `phone`, `email`, `address`, `is_mobile_operator` (SIM uchun), `is_active`. Uzmobile, Beeline, Ucell, Mobiuz seeder bilan (barcha muhitlarda, tahrirlar saqlanadi) |
+| `sim_cards` | `organization_id` (egasi, doira), `provider_id`, `phone_number` (`998XXXXXXXXX`), `phone_key` (bekor qilinmagan kartada = raqam, UNIQUE — bitta raqamga bitta jonli karta), `iccid` (**shifrlangan**), `iccid_hash` (HMAC, UNIQUE, qidiruv uchun), `iccid_last4`, `tariff`, `account_number`, `monthly_fee`, `department_id?`, `employee_id?`, `status` (in_stock, active, blocked, cancelled, returned), `previous_status` (blokdan chiqishda), `allocated_at`, `returned_at` |
+| `sim_assignments` | foydalanish davrlari: `employee_id?`, `department_id?`, `assigned_at`, `returned_at`, kim berdi/qaytardi |
+| `sim_histories` | har hodisa: `event` (registered, updated, assigned, returned, blocked, unblocked, transferred, allocated, cancelled, replaced), `payload` (ICCID faqat oxirgi 4 raqam), `requisition_id?`, `user_id` |
+| `service_contracts` | `organization_id`, `provider_id`, `number` (provayder ichida UNIQUE), `subject`, `signed_at`, `valid_from`, `valid_to`, `terminated_at`, `amount`. Holat hisoblanadi: terminated → expired → active |
+| `it_services` | xizmat (`services` nomi `App\Services` bilan to'qnashadi): `organization_id`, `provider_id`, `contract_id?` (shu tashkilot va provayderniki), `type` (internet, telephony, mobile, data_center, software, other), `name`, `address`, `identifier`, `tariff`, `fee` (bir hisob davri uchun), `billing_cycle` (monthly, quarterly, yearly), `due_day` 1–28, `started_at`, `ended_at`, `is_active` |
+| `service_invoices` | `service_id`, `organization_id`, `kind` (regular — davr uchun avtomatik; extra — qo'shimcha xarajat), `period_start/end` (kalendar oy/chorak/yil), `period_key` (`xizmat:davr`, UNIQUE — davr bir marta), `planned_amount`, `invoice_number`, `invoice_date`, `amount`, `due_date`, `paid_amount`, `status` (planned, awaiting_invoice, due, partially_paid, paid, overdue — `InvoiceStatus::derive` bilan hisoblanib saqlanadi), `approved_by/at`, `file_id` |
+| `service_payments` | `invoice_id`, `amount` (CHECK > 0), `paid_at`, `document_number`, `file_id`. Faqat tasdiqlangan hisob-fakturaga, qoldiqdan oshmaydi (hisob-faktura qatori qulf ostida) |
+| `service_alerts` | `type + alertable + alert_date` UNIQUE — to'lov muddati / muddati o'tgan / shartnoma tugashi eslatmasi bir marta |
+| `requisition_fulfillments.sim_card_id` | talabnoma bo'yicha ajratilgan SIM-karta |
+
+## 10. Keyingi bosqichlar jadvallari (reja)
 
 Har bir bosqich boshida ushbu bo'lim batafsil sxema bilan yangilanadi.
 Barcha tashkilotga tegishli jadvallar `organization_id` ustuniga va
@@ -523,5 +554,5 @@ erDiagram
 | 3 — Aktivlar | ✅ §6 da |
 | 4 — Ombor, talabnomalar | ✅ §7 da (materiallar `materials` — `inventory_items` nomi 3-bosqich inventarizatsiyasida band; kirim/chiqim/ko'chirish alohida jadvallar o'rniga yagona `stock_documents`) |
 | 5 — Dasturlar, antivirus | ✅ §8 da (ICMP monitoring jadvallari foydalanuvchi qarori bilan chiqarildi) |
-| 6 — SIM, xizmatlar | mobile_operators, sim_cards (ICCID shifrlangan), sim_assignments, sim_histories, sim_requests; service_providers, service_contracts, service_services, service_invoices, service_payments |
+| 6 — SIM, xizmatlar | ✅ §9 da (operatorlar `service_providers` ichida, `service_services` o'rniga `it_services`, SIM so'rovlari 4-bosqich talabnomalari orqali) |
 | 7 — Kanban va boshqalar | task_boards, task_columns, tasks, task_assignees, task_watchers, task_comments, task_checklists, task_labels, task_label_task, task_recurrences; printers, printer_models, cartridge_models, printer_cartridge_compatibilities, cartridge_movements, printer_counters; kb_articles, changes, problems, maintenance_plans, security_incidents, backup_jobs, backup_checks |
