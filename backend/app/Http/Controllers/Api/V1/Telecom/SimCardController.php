@@ -97,9 +97,11 @@ class SimCardController extends Controller
         if ($request->filled('filter.provider')) {
             $query->where('provider_id', $request->integer('filter.provider'));
         }
-        $status = SimStatus::tryFrom((string) $request->input('filter.status'));
-        if ($status !== null) {
-            $query->where('status', $status->value);
+        // One status or several, comma separated (e.g. "in_stock,returned" for free cards).
+        $statuses = array_values(array_filter(array_map(
+            fn (string $v) => SimStatus::tryFrom(trim($v))?->value, explode(',', (string) $request->input('filter.status')))));
+        if ($statuses !== []) {
+            $query->whereIn('status', $statuses);
         }
         if ($request->filled('filter.organization')) {
             $query->whereIn('organization_id', OrganizationSubtree::ids($request->integer('filter.organization')) ?: [0]);
