@@ -52,6 +52,7 @@ use App\Http\Controllers\Api\V1\Software\ImportController;
 use App\Http\Controllers\Api\V1\Software\InstallationController;
 use App\Http\Controllers\Api\V1\Software\LicenseController;
 use App\Http\Controllers\Api\V1\Software\SoftwareController;
+use App\Http\Controllers\Api\V1\Tasks\TaskBoardController;
 use App\Http\Controllers\Api\V1\Telecom\ContractController;
 use App\Http\Controllers\Api\V1\Telecom\InvoiceController;
 use App\Http\Controllers\Api\V1\Telecom\ItServiceController;
@@ -224,6 +225,16 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::post('assets/{asset}/software', [InstallationController::class, 'store'])->whereNumber('asset')->name('assets.software.store');
     Route::patch('software-installations/{softwareInstallation}', [InstallationController::class, 'update'])->whereNumber('softwareInstallation')->name('software-installations.update');
     Route::delete('software-installations/{softwareInstallation}', [InstallationController::class, 'destroy'])->whereNumber('softwareInstallation')->name('software-installations.destroy');
+
+    // Phase 7.1: Kanban
+    Route::apiResource('task-boards', TaskBoardController::class)->parameters(['task-boards' => 'taskBoard'])->whereNumber('taskBoard');
+    Route::post('task-boards/{taskBoard}/columns', [TaskBoardController::class, 'storeColumn'])->whereNumber('taskBoard')->name('task-boards.columns.store');
+    Route::post('task-boards/{taskBoard}/columns/order', [TaskBoardController::class, 'orderColumns'])->whereNumber('taskBoard')->name('task-boards.columns.order');
+    Route::put('task-columns/{taskColumn}', [TaskBoardController::class, 'updateColumn'])->whereNumber('taskColumn')->name('task-columns.update');
+    Route::delete('task-columns/{taskColumn}', [TaskBoardController::class, 'destroyColumn'])->whereNumber('taskColumn')->name('task-columns.destroy');
+    Route::post('task-boards/{taskBoard}/labels', [TaskBoardController::class, 'storeLabel'])->whereNumber('taskBoard')->name('task-boards.labels.store');
+    Route::put('task-labels/{taskLabel}', [TaskBoardController::class, 'updateLabel'])->whereNumber('taskLabel')->name('task-labels.update');
+    Route::delete('task-labels/{taskLabel}', [TaskBoardController::class, 'destroyLabel'])->whereNumber('taskLabel')->name('task-labels.destroy');
 
     // Phase 6: SIM cards, providers, services and payments
     Route::apiResource('service-providers', ProviderController::class)->except('show')->parameters(['service-providers' => 'serviceProvider'])->whereNumber('serviceProvider');

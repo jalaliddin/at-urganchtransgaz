@@ -36,4 +36,16 @@ class TaskColumn extends Model
     {
         return $this->hasMany(Task::class, 'column_id')->orderBy('position');
     }
+
+    /** Reachable only through a board the user can see. */
+    public function resolveRouteBinding($value, $field = null): ?Model
+    {
+        $model = static::query()->where($field ?? 'id', $value)->firstOrFail();
+        $user = request()->user();
+        if ($user instanceof User && ! TaskBoard::query()->visibleTo($user)->whereKey($model->getAttribute('board_id'))->exists()) {
+            abort(404);
+        }
+
+        return $model;
+    }
 }
