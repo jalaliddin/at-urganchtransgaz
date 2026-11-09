@@ -167,4 +167,7 @@ return [
     'column_used_by_recurrence' => "Ustunga takrorlanuvchi topshiriq bog'langan: avval uni o'zgartiring.",
     'cartridge_in_use' => "Bu kartrij modeli almashtirishlarda ishlatilgan — uni o'chirib bo'lmaydi, faolsizlantiring.",
     'cartridge_material_locked' => "Kartrij almashtirishlarda ishlatilgan — uning omboridagi materialini almashtirib bo'lmaydi.",
+    'counter_below_previous' => "Hisoblagich oldingi ko'rsatkichdan kam bo'lmasligi kerak (:date sanada :total). Hisoblagich nolga tushgan bo'lsa, \"qayta boshlangan\" belgisini qo'ying.",
+    'counter_above_next' => "Hisoblagich keyingi ko'rsatkichdan oshmasligi kerak (:date sanada :total).",
+    'counter_delete_breaks_order' => "Bu ko'rsatkichni o'chirsangiz, keyingi ko'rsatkich oldingisidan kam bo'lib qoladi. Avval keyingi ko'rsatkichni o'chiring.",
 ];

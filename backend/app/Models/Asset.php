@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * An IT asset (CMDB item). Its history lives in asset_events.
@@ -147,5 +148,15 @@ class Asset extends Model
     public function assignments(): HasMany
     {
         return $this->hasMany(AssetAssignment::class);
+    }
+
+    /**
+     * Printer profile (Phase 7.2), only for assets in the printer category.
+     *
+     * @return HasOne<Printer, $this>
+     */
+    public function printer(): HasOne
+    {
+        return $this->hasOne(Printer::class);
     }
 }

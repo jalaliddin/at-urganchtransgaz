@@ -40,6 +40,7 @@ use App\Http\Controllers\Api\V1\Organizations\ItResponsibleController;
 use App\Http\Controllers\Api\V1\Organizations\OrganizationController;
 use App\Http\Controllers\Api\V1\Organizations\OrganizationTreeController;
 use App\Http\Controllers\Api\V1\Printers\CartridgeModelController;
+use App\Http\Controllers\Api\V1\Printers\PrinterController;
 use App\Http\Controllers\Api\V1\Requisitions\RequisitionActionController;
 use App\Http\Controllers\Api\V1\Requisitions\RequisitionController;
 use App\Http\Controllers\Api\V1\Roles\PermissionController;
@@ -264,6 +265,14 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     // Phase 7.2: printers and cartridges
     Route::apiResource('cartridge-models', CartridgeModelController::class)->except('show')->parameters(['cartridge-models' => 'cartridgeModel'])->whereNumber('cartridgeModel');
     Route::get('printer-models', [CartridgeModelController::class, 'printerModels'])->name('printer-models.index');
+    Route::get('printers', [PrinterController::class, 'index'])->name('printers.index');
+    Route::prefix('printers/{printer}')->whereNumber('printer')->name('printers.')->group(function (): void {
+        Route::get('/', [PrinterController::class, 'show'])->name('show');
+        Route::put('/', [PrinterController::class, 'update'])->name('update');
+        Route::get('counters', [PrinterController::class, 'counters'])->name('counters.index');
+        Route::post('counters', [PrinterController::class, 'storeCounter'])->name('counters.store');
+    });
+    Route::delete('printer-counters/{printerCounter}', [PrinterController::class, 'destroyCounter'])->whereNumber('printerCounter')->name('printer-counters.destroy');
 
     // Phase 6: SIM cards, providers, services and payments
     Route::apiResource('service-providers', ProviderController::class)->except('show')->parameters(['service-providers' => 'serviceProvider'])->whereNumber('serviceProvider');
