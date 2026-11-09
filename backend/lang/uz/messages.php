@@ -176,4 +176,9 @@ return [
     'report_period_too_long' => 'Davr :months oydan oshmasligi kerak.',
     'kb_article_was_published' => "Maqola e'lon qilingan edi — uni o'chirib bo'lmaydi, arxivlang.",
     'ticket_not_accessible' => "Bu ariza topilmadi yoki sizga ko'rinmaydi.",
+    'problem_closed' => "Muammo yopilgan — uni o'zgartirib bo'lmaydi.",
+    'problem_field_required' => "Bu holat uchun ushbu maydonni to'ldiring.",
+    'problem_assignee_invalid' => "Mas'ul muammolar bilan ishlay oladigan va shu tashkilotga kira oladigan faol foydalanuvchi bo'lishi kerak.",
+    'problem_ticket_invalid' => "Faqat sizga ko'rinadigan va muammo tashkiloti doirasidagi arizalarni bog'lash mumkin.",
+    'kb_article_not_accessible' => "Bilimlar bazasi maqolasi topilmadi yoki sizga ko'rinmaydi.",
 ];

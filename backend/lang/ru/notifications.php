@@ -151,4 +151,49 @@ return [
         ],
     ],
     'open_task' => 'Открыть задачу',
+    'problem' => [
+        'assigned' => [
+            'subject' => 'Вам назначена проблема :number',
+            'line' => ':actor назначил(а) вам проблему «:title».',
+        ],
+        'resolved' => [
+            'subject' => 'Проблема :number решена',
+            'line' => 'Проблема «:title» решена. Связанную заявку можно закрыть.',
+        ],
+    ],
+    'open_problem' => 'Открыть проблему',
+    'change' => [
+        'approval' => [
+            'subject' => 'Изменение :number ждёт согласования',
+            'line' => ':actor отправил(а) на согласование изменение «:title» (:date).',
+        ],
+        'emergency' => [
+            'subject' => 'Экстренное изменение :number',
+            'line' => ':actor зарегистрировал(а) экстренное изменение «:title» (:date).',
+        ],
+        'approved' => [
+            'subject' => 'Изменение :number согласовано',
+            'line' => ':actor согласовал(а) изменение «:title».',
+        ],
+        'rejected' => [
+            'subject' => 'Изменение :number отклонено',
+            'line' => ':actor отклонил(а) изменение «:title».',
+        ],
+        'assigned' => [
+            'subject' => 'Вы исполнитель изменения :number',
+            'line' => ':actor назначил(а) вас исполнителем изменения «:title» (:date).',
+        ],
+    ],
+    'open_change' => 'Открыть изменение',
+    'maintenance' => [
+        'due_soon' => [
+            'subject' => 'Плановое обслуживание: :title (:date)',
+            'line' => 'Плановое обслуживание «:title» для :asset — срок :date.',
+        ],
+        'overdue' => [
+            'subject' => 'Просрочено плановое обслуживание: :title',
+            'line' => 'Плановое обслуживание «:title» для :asset нужно было выполнить до :date.',
+        ],
+    ],
+    'open_maintenance' => 'Открыть плановое обслуживание',
 ];

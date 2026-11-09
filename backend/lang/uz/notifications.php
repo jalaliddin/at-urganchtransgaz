@@ -151,4 +151,49 @@ return [
         ],
     ],
     'open_task' => 'Topshiriqni ochish',
+    'problem' => [
+        'assigned' => [
+            'subject' => ':number muammosi sizga biriktirildi',
+            'line' => ':actor sizga «:title» muammosini biriktirdi.',
+        ],
+        'resolved' => [
+            'subject' => ':number muammosi hal qilindi',
+            'line' => '«:title» muammosi hal qilindi. Unga bog\'langan arizangizni yopish mumkin.',
+        ],
+    ],
+    'open_problem' => 'Muammoni ochish',
+    'change' => [
+        'approval' => [
+            'subject' => ':number o\'zgarishi tasdiqni kutmoqda',
+            'line' => ':actor «:title» o\'zgarishini tasdiqqa yubordi (:date).',
+        ],
+        'emergency' => [
+            'subject' => 'Shoshilinch o\'zgarish :number',
+            'line' => ':actor «:title» shoshilinch o\'zgarishini ro\'yxatga oldi (:date).',
+        ],
+        'approved' => [
+            'subject' => ':number o\'zgarishi tasdiqlandi',
+            'line' => ':actor «:title» o\'zgarishini tasdiqladi.',
+        ],
+        'rejected' => [
+            'subject' => ':number o\'zgarishi rad etildi',
+            'line' => ':actor «:title» o\'zgarishini rad etdi.',
+        ],
+        'assigned' => [
+            'subject' => ':number o\'zgarishini bajarish sizga topshirildi',
+            'line' => ':actor sizni «:title» o\'zgarishining ijrochisi qilib belgiladi (:date).',
+        ],
+    ],
+    'open_change' => 'O\'zgarishni ochish',
+    'maintenance' => [
+        'due_soon' => [
+            'subject' => 'Rejali xizmat: :title (:date)',
+            'line' => ':asset uchun «:title» rejali xizmati muddati :date.',
+        ],
+        'overdue' => [
+            'subject' => 'Rejali xizmat muddati o\'tdi: :title',
+            'line' => ':asset uchun «:title» rejali xizmati :date gacha bajarilishi kerak edi.',
+        ],
+    ],
+    'open_maintenance' => 'Rejali xizmatlarni ochish',
 ];
