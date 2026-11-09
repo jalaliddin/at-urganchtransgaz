@@ -5,6 +5,7 @@ import { ErrorState } from '@/components/ErrorState'
 import { PageHeader } from '@/components/PageHeader'
 import { useCurrentUser } from '@/features/auth/queries'
 import { useOrgContext } from '@/hooks/useOrgContext'
+import { formatMoney } from '@/lib/format'
 import { fetchDashboard } from './api'
 import { CoverageMeter } from './widgets/CoverageMeter'
 import { EmployeesByStatus } from './widgets/EmployeesByStatus'
@@ -19,6 +20,8 @@ export function DashboardPage() {
   const { t: tw } = useTranslation('warehouse')
   const { t: tr } = useTranslation('requisitions')
   const { t: ts } = useTranslation('software')
+  const { t: tsim } = useTranslation('sim')
+  const { t: tsv } = useTranslation('services')
   const me = useCurrentUser()
   const { organizationId: orgContextId } = useOrgContext()
   const query = useQuery({
@@ -144,6 +147,56 @@ export function DashboardPage() {
         label={ts('dashboard.licenses')}
         value={data.software.licenses_expiring}
         href="/software/licenses?filter[expiring]=1"
+      />
+    ),
+    data.sim && data.sim.total > 0 && (
+      <StatTile
+        key="sim"
+        label={tsim('dashboard.cards')}
+        value={data.sim.total}
+        detail={[
+          tsim('dashboard.active', { count: data.sim.by_status.active }),
+          ...data.sim.by_operator.slice(0, 3).map((o) => `${o.provider.name}: ${o.count}`),
+        ].join(', ')}
+        href="/sim/report"
+      />
+    ),
+    data.services && (
+      <StatTile
+        key="services-month"
+        label={tsv('dashboard.month')}
+        value={Math.round(Number(data.services.month_planned))}
+        detail={tsv('dashboard.paid', { amount: formatMoney(data.services.month_paid) })}
+        href="/services/invoices"
+      />
+    ),
+    data.services && data.services.overdue + data.services.due_soon > 0 && (
+      <StatTile
+        key="services-due"
+        label={tsv('dashboard.due')}
+        value={data.services.due_soon}
+        detail={tsv('dashboard.overdue', { count: data.services.overdue })}
+        href={
+          data.services.overdue > 0
+            ? '/services/invoices?filter[status]=overdue'
+            : '/services/invoices?filter[status]=open'
+        }
+      />
+    ),
+    data.services && data.services.awaiting_approval > 0 && (
+      <StatTile
+        key="services-approval"
+        label={tsv('dashboard.approval')}
+        value={data.services.awaiting_approval}
+        href="/services/invoices?filter[approval]=pending"
+      />
+    ),
+    data.services && data.services.contracts_expiring > 0 && (
+      <StatTile
+        key="services-contracts"
+        label={tsv('dashboard.contracts')}
+        value={data.services.contracts_expiring}
+        href="/services/contracts?filter[status]=expiring"
       />
     ),
     data.my_tickets && (

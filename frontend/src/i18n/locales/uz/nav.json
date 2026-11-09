@@ -6,7 +6,8 @@
     "helpdesk": "Xizmat ko'rsatish",
     "assets": "IT aktivlar",
     "warehouse": "Ombor va talabnomalar",
-    "software": "Dasturlar va antivirus"
+    "software": "Dasturlar va antivirus",
+    "telecom": "Aloqa va xizmatlar"
   },
   "items": {
     "dashboard": "Boshqaruv paneli",
@@ -44,7 +45,14 @@
     "licenses": "Litsenziyalar",
     "compliance": "Muvofiqlik",
     "agents": "Agentlar",
-    "softwareImport": "CSV import"
+    "softwareImport": "CSV import",
+    "simCards": "SIM-kartalar",
+    "simReport": "SIM hisobot",
+    "itServices": "Xizmatlar",
+    "invoices": "To'lovlar",
+    "contracts": "Shartnomalar",
+    "serviceCosts": "Xarajatlar tahlili",
+    "providers": "Operatorlar va provayderlar"
   },
   "header": {
     "search": "Qidirish",

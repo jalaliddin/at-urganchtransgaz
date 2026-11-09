@@ -1,0 +1,109 @@
+{
+  "title": "SIM-kartalar",
+  "description": "Mobil aloqa SIM-kartalari: kimda, qaysi tarifda va qanday holatda",
+  "empty": "SIM-karta topilmadi",
+  "crumb": "SIM-karta",
+  "reveal": "ICCID ni ko'rsatish",
+  "revealAudited": "Ko'rish audit jurnaliga yozildi.",
+  "documents": "Hujjatlar",
+  "filters": {
+    "search": "Raqam, ICCID yoki abonent raqami"
+  },
+  "form": {
+    "add": "SIM-karta qo'shish",
+    "edit": "SIM-kartani tahrirlash",
+    "iccidHint": "Kartadagi 18–22 raqam; saqlangach faqat oxirgi 4 tasi ko'rinadi",
+    "deleteConfirm": "SIM-kartani o'chirasizmi? Bu faqat xato kiritilgan karta uchun."
+  },
+  "fields": {
+    "organization": "Tashkilot",
+    "operator": "Operator",
+    "phone": "Telefon raqami",
+    "iccid": "ICCID",
+    "tariff": "Tarif",
+    "account": "Abonent / shartnoma raqami",
+    "monthlyFee": "Oylik to'lov",
+    "note": "Izoh",
+    "status": "Holat",
+    "holder": "Kimda",
+    "employee": "Xodim",
+    "department": "Bo'lim",
+    "allocatedAt": "Ajratilgan sana",
+    "returnedAt": "Qaytarilgan sana"
+  },
+  "status": {
+    "in_stock": "Omborda",
+    "active": "Faol",
+    "blocked": "Vaqtincha bloklangan",
+    "returned": "Qaytarilgan",
+    "cancelled": "Bekor qilingan"
+  },
+  "actions": {
+    "assign": "Biriktirish",
+    "return": "Qaytarib olish",
+    "block": "Bloklash",
+    "unblock": "Blokdan chiqarish",
+    "transfer": "Boshqa tashkilotga",
+    "cancel": "Bekor qilish",
+    "replace": "Kartani almashtirish",
+    "holderRequired": "Xodim yoki bo'limni tanlang",
+    "reason": "Sabab",
+    "cancelWarning": "Bekor qilingan karta qayta ishlatilmaydi; raqam bo'shaydi.",
+    "departmentHint": "Xodim tanlansa, uning bo'limi olinadi",
+    "target": "Qaysi tashkilotga",
+    "newIccid": "Yangi kartaning ICCID raqami",
+    "done": {
+      "assign": "SIM-karta biriktirildi",
+      "return": "SIM-karta qaytarib olindi",
+      "block": "SIM-karta bloklandi",
+      "unblock": "SIM-karta blokdan chiqarildi",
+      "transfer": "SIM-karta o'tkazildi",
+      "cancel": "SIM-karta bekor qilindi",
+      "replace": "Karta almashtirildi"
+    }
+  },
+  "assignments": {
+    "title": "Kimlarda bo'lgan",
+    "empty": "Hali hech kimga biriktirilmagan",
+    "current": "Hozir"
+  },
+  "history": {
+    "title": "Tarix",
+    "replaced": "Eski karta …{{old}}, yangi …{{new}}",
+    "requisition": "Talabnoma {{number}}",
+    "openRequisition": "Talabnomani ochish",
+    "fields": {
+      "provider_id": "operator",
+      "phone_number": "raqam",
+      "tariff": "tarif",
+      "account_number": "abonent raqami",
+      "monthly_fee": "oylik to'lov",
+      "note": "izoh"
+    }
+  },
+  "events": {
+    "registered": "Ro'yxatga olindi",
+    "updated": "O'zgartirildi",
+    "assigned": "Biriktirildi",
+    "returned": "Qaytarildi",
+    "blocked": "Bloklandi",
+    "unblocked": "Blokdan chiqarildi",
+    "transferred": "Boshqa tashkilotga o'tkazildi",
+    "allocated": "Talabnoma bo'yicha ajratildi",
+    "cancelled": "Bekor qilindi",
+    "replaced": "Karta almashtirildi"
+  },
+  "report": {
+    "title": "SIM hisobot",
+    "description": "Tashkilot va operator kesimida kartalar soni va oylik to'lov (bekor qilinganlar kirmaydi)",
+    "total": "Jami"
+  },
+  "employee": {
+    "title": "SIM-kartalar",
+    "empty": "Xodimda SIM-karta yo'q"
+  },
+  "dashboard": {
+    "cards": "SIM-kartalar",
+    "active": "faol: {{count}}"
+  }
+}

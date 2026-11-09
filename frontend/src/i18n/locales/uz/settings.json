@@ -57,6 +57,10 @@
     "software.av_outdated_days": {
       "label": "Antivirus bazalari eskirgan hisoblanadigan muddat (kun)",
       "hint": "Bazalar shundan eski bo'lsa, holat «eskirgan»"
+    },
+    "services.due_notice_days": {
+      "label": "To'lov eslatmasi (kun oldin)",
+      "hint": "To'lov muddatiga shuncha kun qolganda tashkilot xodimlariga eslatma yuboriladi"
     }
   },
   "public": "Ommaviy",

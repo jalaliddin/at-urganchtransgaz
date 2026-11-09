@@ -42,6 +42,7 @@ import { AllocateDialog, CommentDialog, DecisionDialog } from './RequisitionDial
 import { RequisitionFormDrawer } from './RequisitionFormDrawer'
 import { useRequisition, useRequisitionMutation } from './queries'
 import type { RequisitionItem } from './types'
+import { formatPhone } from '@/features/sim/types'
 
 type Dialog = 'edit' | 'org' | 'central' | 'request_info' | 'provide_info' | 'complete' | 'receive' | null
 
@@ -260,6 +261,10 @@ export function RequisitionDetailPage() {
                                 ) : f.asset ? (
                                   <Anchor component={Link} to={`/assets/${f.asset.id}`}>
                                     {f.asset.inventory_number}
+                                  </Anchor>
+                                ) : f.sim_card ? (
+                                  <Anchor component={Link} to={`/sim/${f.sim_card.id}`}>
+                                    {formatPhone(f.sim_card.phone_number)}
                                   </Anchor>
                                 ) : (
                                   f.note

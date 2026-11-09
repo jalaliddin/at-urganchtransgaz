@@ -6,7 +6,8 @@
     "helpdesk": "Обслуживание",
     "assets": "ИТ-активы",
     "warehouse": "Склад и заявки",
-    "software": "Программы и антивирус"
+    "software": "Программы и антивирус",
+    "telecom": "Связь и услуги"
   },
   "items": {
     "dashboard": "Панель управления",
@@ -44,7 +45,14 @@
     "licenses": "Лицензии",
     "compliance": "Соответствие",
     "agents": "Агенты",
-    "softwareImport": "Импорт CSV"
+    "softwareImport": "Импорт CSV",
+    "simCards": "SIM-карты",
+    "simReport": "Отчёт по SIM",
+    "itServices": "Услуги",
+    "invoices": "Оплаты",
+    "contracts": "Договоры",
+    "serviceCosts": "Анализ расходов",
+    "providers": "Операторы и провайдеры"
   },
   "header": {
     "search": "Поиск",

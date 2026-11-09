@@ -56,6 +56,20 @@ export interface DashboardData {
     missing_required: number
     licenses_expiring: number
   }
+  sim?: {
+    total: number
+    by_status: { in_stock: number; active: number; blocked: number; returned: number }
+    by_operator: { provider: { id: number; name: string }; count: number }[]
+    monthly_fee: string
+  }
+  services?: {
+    month_planned: string
+    month_paid: string
+    due_soon: number
+    overdue: number
+    awaiting_approval: number
+    contracts_expiring: number
+  }
 }
 
 export async function fetchDashboard(organizationId: number | null): Promise<DashboardData> {

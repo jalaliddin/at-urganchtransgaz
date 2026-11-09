@@ -82,7 +82,12 @@
     "requisition_partially_fulfilled": "{{number}}: ресурсы выделены частично",
     "requisition_fulfilled": "{{number}}: ресурсы выделены — подтвердите получение",
     "requisition_received": "{{number}}: ресурсы получены",
-    "license_expiring": "Истекает лицензия {{software}} ({{date}})"
+    "license_expiring": "Истекает лицензия {{software}} ({{date}})",
+    "service_payment": {
+      "due_soon": "Скоро срок оплаты: {{service}} ({{date}})",
+      "overdue": "Оплата просрочена: {{service}} ({{date}})"
+    },
+    "contract_expiring": "Договор {{number}} заканчивается ({{date}})"
   },
   "languages": {
     "uz": "O'zbekcha",
@@ -113,7 +118,13 @@
     "requisition": "Заявка",
     "software": "Программа",
     "software_license": "Лицензия на ПО",
-    "software_policy": "Обязательная программа"
+    "software_policy": "Обязательная программа",
+    "service_provider": "Провайдер",
+    "sim_card": "SIM-карта",
+    "service_contract": "Договор",
+    "it_service": "Услуга",
+    "service_invoice": "Счёт",
+    "service_payment": "Оплата"
   },
   "saved": "Сохранено"
 }

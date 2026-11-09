@@ -9,7 +9,13 @@
     "audit": "Журнал аудита",
     "settings": "Настройки",
     "helpdesk": "Заявки Helpdesk",
-    "documents": "Документы"
+    "documents": "Документы",
+    "assets": "ИТ-активы",
+    "warehouse": "Склад",
+    "requisitions": "Заявки",
+    "software": "ПО и антивирус",
+    "sim": "SIM-карты",
+    "services": "Услуги связи и оплаты"
   },
   "actions": {
     "view": "Просмотр",
@@ -23,7 +29,21 @@
     "manage": "Управление",
     "process": "Исполнение заявок",
     "assign": "Назначение исполнителя",
-    "export": "Экспорт (Excel/PDF)"
+    "export": "Экспорт (Excel/PDF)",
+    "transfer": "Перемещение",
+    "inventory": "Инвентаризация",
+    "dispose": "Списание",
+    "manage_catalog": "Ведение справочников",
+    "receive": "Приход",
+    "issue": "Расход",
+    "approve_org": "Утверждение руководителем организации",
+    "review": "Рассмотрение",
+    "approve": "Утверждение",
+    "fulfill": "Выделение",
+    "install": "Ведение установок",
+    "agents": "Агенты",
+    "invoice": "Внесение счетов",
+    "pay": "Внесение оплат"
   },
   "selectAll": "Все"
 }

@@ -30,12 +30,22 @@ import { fileUrl } from '@/features/exports/api'
 import { formatSize } from '@/features/helpdesk/files'
 import { useAssets } from '@/features/assets/queries'
 import { useTickets } from '@/features/helpdesk/queries'
+import { useContracts } from '@/features/services/queries'
+import { useSims } from '@/features/sim/queries'
+import { formatPhone } from '@/features/sim/types'
 import { useCan } from '@/hooks/usePermissions'
 import { formatDate, formatDateTime } from '@/lib/format'
 import { DocumentFormModal } from './DocumentFormModal'
 import { useDocument, useDocumentMutations } from './queries'
 
-type LinkType = 'ticket' | 'asset'
+type LinkType = 'ticket' | 'asset' | 'sim_card' | 'service_contract'
+
+const LINK_PATHS: Record<string, string> = {
+  ticket: '/helpdesk',
+  asset: '/assets',
+  sim_card: '/sim',
+  service_contract: '/services/contracts',
+}
 
 const fail = (error: unknown) => notifications.show({ color: 'red', message: toApiError(error).message })
 
@@ -103,21 +113,49 @@ function LinkModal({
   const searching = debounced.length >= 2
   const tickets = useTickets({ search: debounced, per_page: 10 }, type === 'ticket' && searching)
   const assets = useAssets({ search: debounced, per_page: 10 }, type === 'asset' && searching)
-  const options =
-    type === 'ticket'
-      ? (tickets.data?.data ?? []).map((tk) => ({
-          value: String(tk.id),
-          label: `${tk.number} — ${tk.title}`,
-        }))
-      : (assets.data?.data ?? []).map((a) => ({
-          value: String(a.id),
-          label: `${a.inventory_number} — ${a.name}`,
-        }))
+  const sims = useSims({ search: debounced, per_page: 10 }, type === 'sim_card' && searching)
+  const contracts = useContracts(
+    { search: debounced, per_page: 10 },
+    type === 'service_contract' && searching,
+  )
+  const options = {
+    ticket: () =>
+      (tickets.data?.data ?? []).map((tk) => ({ value: String(tk.id), label: `${tk.number} — ${tk.title}` })),
+    asset: () =>
+      (assets.data?.data ?? []).map((a) => ({
+        value: String(a.id),
+        label: `${a.inventory_number} — ${a.name}`,
+      })),
+    sim_card: () =>
+      (sims.data?.data ?? []).map((c) => ({
+        value: String(c.id),
+        label: `${formatPhone(c.phone_number)} — ${c.provider.name}`,
+      })),
+    service_contract: () =>
+      (contracts.data?.data ?? []).map((c) => ({
+        value: String(c.id),
+        label: `${c.number} — ${c.provider.name}`,
+      })),
+  }[type]()
 
   return (
     <Modal opened onClose={onClose} title={t('actions.link')} centered>
       <Stack>
-        {types.length > 1 && (
+        {types.length > 2 && (
+          <Select
+            label={t('linkType')}
+            data={types.map((v) => ({ value: v, label: t(`linkTypes.${v}`) }))}
+            value={type}
+            allowDeselect={false}
+            onChange={(v) => {
+              if (!v) return
+              setType(v as LinkType)
+              setSelected(null)
+              setSearch('')
+            }}
+          />
+        )}
+        {types.length === 2 && (
           <SegmentedControl
             aria-label={t('linkType')}
             value={type}
@@ -165,9 +203,16 @@ export function DocumentDetailPage() {
   const { remove, unlink } = useDocumentMutations(id)
   const canSeeTickets = useCan(['helpdesk.view', 'helpdesk.create'], 'any')
   const canSeeAssets = useCan('assets.view')
+  const canSeeSims = useCan(['sim.view', 'sim.assign', 'sim.manage'], 'any')
+  const canSeeServices = useCan(
+    ['services.view', 'services.manage', 'services.invoice', 'services.approve', 'services.pay'],
+    'any',
+  )
   const linkTypes: LinkType[] = [
     ...(canSeeTickets ? (['ticket'] as const) : []),
     ...(canSeeAssets ? (['asset'] as const) : []),
+    ...(canSeeSims ? (['sim_card'] as const) : []),
+    ...(canSeeServices ? (['service_contract'] as const) : []),
   ]
   const [dialog, setDialog] = useState<'edit' | 'version' | 'link' | null>(null)
 
@@ -301,11 +346,7 @@ export function DocumentDetailPage() {
             )}
             {(doc.links ?? []).map((l) => (
               <Group key={l.id} justify="space-between" wrap="nowrap">
-                <Anchor
-                  component={Link}
-                  to={l.type === 'asset' ? `/assets/${l.target.id}` : `/helpdesk/${l.target.id}`}
-                  size="sm"
-                >
+                <Anchor component={Link} to={`${LINK_PATHS[l.type] ?? '/helpdesk'}/${l.target.id}`} size="sm">
                   {l.target.number} {l.target.title ? `— ${l.target.title}` : ''}
                 </Anchor>
                 {doc.can_manage && (

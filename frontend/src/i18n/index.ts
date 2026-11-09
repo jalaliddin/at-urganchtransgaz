@@ -19,6 +19,8 @@ import ruValidation from './locales/ru/validation.json'
 import ruAssets from './locales/ru/assets.json'
 import ruWarehouse from './locales/ru/warehouse.json'
 import ruRequisitions from './locales/ru/requisitions.json'
+import ruServices from './locales/ru/services.json'
+import ruSim from './locales/ru/sim.json'
 import ruSoftware from './locales/ru/software.json'
 import ruExports from './locales/ru/exports.json'
 import ruDocuments from './locales/ru/documents.json'
@@ -42,6 +44,8 @@ import uzValidation from './locales/uz/validation.json'
 import uzAssets from './locales/uz/assets.json'
 import uzWarehouse from './locales/uz/warehouse.json'
 import uzRequisitions from './locales/uz/requisitions.json'
+import uzServices from './locales/uz/services.json'
+import uzSim from './locales/uz/sim.json'
 import uzSoftware from './locales/uz/software.json'
 import uzExports from './locales/uz/exports.json'
 import uzDocuments from './locales/uz/documents.json'
@@ -74,6 +78,8 @@ export const resources = {
     warehouse: uzWarehouse,
     requisitions: uzRequisitions,
     software: uzSoftware,
+    sim: uzSim,
+    services: uzServices,
     exports: uzExports,
     documents: uzDocuments,
     helpdesk: uzHelpdesk,
@@ -99,6 +105,8 @@ export const resources = {
     warehouse: ruWarehouse,
     requisitions: ruRequisitions,
     software: ruSoftware,
+    sim: ruSim,
+    services: ruServices,
     exports: ruExports,
     documents: ruDocuments,
     helpdesk: ruHelpdesk,

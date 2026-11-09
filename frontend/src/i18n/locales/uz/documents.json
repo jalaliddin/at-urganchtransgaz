@@ -54,6 +54,9 @@
   "linkTarget": "Obyekt (raqam yoki nomi)",
   "linkTypes": {
     "ticket": "Ariza",
-    "asset": "Aktiv"
-  }
+    "asset": "Aktiv",
+    "sim_card": "SIM-karta",
+    "service_contract": "Shartnoma"
+  },
+  "noLinked": "Bog'langan hujjat yo'q"
 }

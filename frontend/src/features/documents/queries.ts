@@ -41,8 +41,13 @@ export function useDocumentMutations(id?: number) {
       onSuccess: invalidate,
     }),
     link: useMutation({
-      mutationFn: ({ type, targetId }: { type: 'ticket' | 'asset'; targetId: number }) =>
-        docs.linkDocument(id ?? 0, type, targetId),
+      mutationFn: ({
+        type,
+        targetId,
+      }: {
+        type: 'ticket' | 'asset' | 'sim_card' | 'service_contract'
+        targetId: number
+      }) => docs.linkDocument(id ?? 0, type, targetId),
       onSuccess: invalidate,
     }),
     unlink: useMutation({

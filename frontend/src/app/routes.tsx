@@ -31,6 +31,17 @@ import { TransferDetailPage } from '@/features/assets/TransferDetailPage'
 import { TransfersPage } from '@/features/assets/TransfersPage'
 import { RequisitionDetailPage } from '@/features/requisitions/RequisitionDetailPage'
 import { RequisitionsPage } from '@/features/requisitions/RequisitionsPage'
+import { ContractDetailPage } from '@/features/services/ContractDetailPage'
+import { ContractsPage } from '@/features/services/ContractsPage'
+import { CostsPage } from '@/features/services/CostsPage'
+import { InvoiceDetailPage } from '@/features/services/InvoiceDetailPage'
+import { InvoicesPage } from '@/features/services/InvoicesPage'
+import { ProvidersPage } from '@/features/services/ProvidersPage'
+import { ServiceDetailPage } from '@/features/services/ServiceDetailPage'
+import { ServicesPage } from '@/features/services/ServicesPage'
+import { SimCardsPage } from '@/features/sim/SimCardsPage'
+import { SimDetailPage } from '@/features/sim/SimDetailPage'
+import { SimReportPage } from '@/features/sim/SimReportPage'
 import { AgentsPage } from '@/features/software/AgentsPage'
 import { CompliancePage } from '@/features/software/CompliancePage'
 import { ImportPage } from '@/features/software/ImportPage'
@@ -179,6 +190,54 @@ export const routes: RouteObject[] = [
                   { path: 'agents', element: <AgentsPage />, handle: { crumb: 'nav:items.agents' } },
                   { path: 'import', element: <ImportPage />, handle: { crumb: 'nav:items.softwareImport' } },
                   { path: ':id', element: <SoftwareDetailPage />, handle: { crumb: 'software:crumb' } },
+                ],
+              },
+              {
+                path: 'sim',
+                element: <RequirePermission permission={['sim.view', 'sim.assign', 'sim.manage']} />,
+                handle: { crumb: 'nav:items.simCards' },
+                children: [
+                  { index: true, element: <SimCardsPage /> },
+                  { path: 'report', element: <SimReportPage />, handle: { crumb: 'nav:items.simReport' } },
+                  { path: ':id', element: <SimDetailPage />, handle: { crumb: 'sim:crumb' } },
+                ],
+              },
+              {
+                path: 'services',
+                element: (
+                  <RequirePermission
+                    permission={[
+                      'services.view',
+                      'services.manage',
+                      'services.invoice',
+                      'services.approve',
+                      'services.pay',
+                      'sim.manage',
+                    ]}
+                  />
+                ),
+                handle: { crumb: 'nav:items.itServices' },
+                children: [
+                  { index: true, element: <ServicesPage /> },
+                  { path: 'contracts', element: <ContractsPage />, handle: { crumb: 'nav:items.contracts' } },
+                  {
+                    path: 'contracts/:id',
+                    element: <ContractDetailPage />,
+                    handle: { crumb: 'services:crumbs.contract' },
+                  },
+                  { path: 'invoices', element: <InvoicesPage />, handle: { crumb: 'nav:items.invoices' } },
+                  {
+                    path: 'invoices/:id',
+                    element: <InvoiceDetailPage />,
+                    handle: { crumb: 'services:crumbs.invoice' },
+                  },
+                  { path: 'costs', element: <CostsPage />, handle: { crumb: 'nav:items.serviceCosts' } },
+                  { path: 'providers', element: <ProvidersPage />, handle: { crumb: 'nav:items.providers' } },
+                  {
+                    path: ':id',
+                    element: <ServiceDetailPage />,
+                    handle: { crumb: 'services:crumbs.service' },
+                  },
                 ],
               },
               {

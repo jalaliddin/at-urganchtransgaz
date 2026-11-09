@@ -82,7 +82,12 @@
     "requisition_partially_fulfilled": "{{number}}: resurslar qisman ajratildi",
     "requisition_fulfilled": "{{number}}: resurslar ajratildi — qabul qiling",
     "requisition_received": "{{number}}: resurslar qabul qilindi",
-    "license_expiring": "{{software}} litsenziyasi tugayapti ({{date}})"
+    "license_expiring": "{{software}} litsenziyasi tugayapti ({{date}})",
+    "service_payment": {
+      "due_soon": "To'lov muddati yaqin: {{service}} ({{date}})",
+      "overdue": "To'lov muddati o'tdi: {{service}} ({{date}})"
+    },
+    "contract_expiring": "{{number}} shartnomasi tugayapti ({{date}})"
   },
   "languages": {
     "uz": "O'zbekcha",
@@ -113,7 +118,13 @@
     "requisition": "Talabnoma",
     "software": "Dastur",
     "software_license": "Dastur litsenziyasi",
-    "software_policy": "Majburiy dastur"
+    "software_policy": "Majburiy dastur",
+    "service_provider": "Provayder",
+    "sim_card": "SIM-karta",
+    "service_contract": "Shartnoma",
+    "it_service": "Xizmat",
+    "service_invoice": "Hisob-faktura",
+    "service_payment": "To'lov"
   },
   "saved": "Saqlandi"
 }

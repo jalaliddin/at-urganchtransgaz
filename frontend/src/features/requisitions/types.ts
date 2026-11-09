@@ -41,7 +41,7 @@ export const ITEM_KINDS: ItemKind[] = [
 ]
 
 export type Decision = 'approved' | 'rejected' | 'returned'
-export type FulfillmentType = 'stock' | 'asset' | 'note'
+export type FulfillmentType = 'stock' | 'asset' | 'note' | 'sim'
 
 export type RequisitionAction =
   | 'edit'
@@ -132,6 +132,7 @@ export interface Requisition extends RequisitionRow {
     stock_document: { id: number; number: string; type: string } | null
     asset: { id: number; inventory_number: string; name: string } | null
     asset_transfer: { id: number; number: string; status: string } | null
+    sim_card: { id: number; phone_number: string } | null
     user: Ref | null
     created_at: string
   }[]

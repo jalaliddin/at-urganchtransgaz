@@ -54,6 +54,9 @@
   "linkTarget": "Объект (номер или название)",
   "linkTypes": {
     "ticket": "Заявка",
-    "asset": "Актив"
-  }
+    "asset": "Актив",
+    "sim_card": "SIM-карта",
+    "service_contract": "Договор"
+  },
+  "noLinked": "Связанных документов нет"
 }

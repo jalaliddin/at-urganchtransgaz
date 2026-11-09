@@ -43,7 +43,9 @@
       "stock_expiring": "Истечение срока годности",
       "requisition_action": "Заявка: ожидается ваше действие",
       "requisition_update": "Изменился статус заявки",
-      "license_expiring": "Срок лицензии"
+      "license_expiring": "Срок лицензии",
+      "service_payment_due": "Срок оплаты услуг",
+      "contract_expiring": "Окончание договора"
     }
   }
 }

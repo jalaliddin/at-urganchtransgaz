@@ -14,6 +14,7 @@ import { NotFoundPage } from '@/features/errors/NotFoundPage'
 import { useCan } from '@/hooks/usePermissions'
 import { formatDate, formatDateTime } from '@/lib/format'
 import { EmployeeAssetsBlock } from '@/features/assets/EmployeeAssetsBlock'
+import { EmployeeSimBlock } from '@/features/sim/EmployeeSimBlock'
 import { EmployeeFormDrawer } from './EmployeeFormDrawer'
 import { useDeleteEmployee, useEmployee } from './queries'
 
@@ -146,6 +147,7 @@ export function EmployeeDetailPage() {
       <Box mt="md">
         <EmployeeAssetsBlock employeeId={employee.id} dismissed={employee.status === 'dismissed'} />
       </Box>
+      <EmployeeSimBlock employeeId={employee.id} />
       <EmployeeFormDrawer opened={editing} employee={employee} onClose={() => setEditing(false)} />
     </>
   )

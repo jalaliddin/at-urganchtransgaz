@@ -9,7 +9,13 @@
     "audit": "Audit jurnali",
     "settings": "Sozlamalar",
     "helpdesk": "Helpdesk arizalari",
-    "documents": "Hujjatlar"
+    "documents": "Hujjatlar",
+    "assets": "IT aktivlar",
+    "warehouse": "Ombor",
+    "requisitions": "Talabnomalar",
+    "software": "Dasturlar va antivirus",
+    "sim": "SIM-kartalar",
+    "services": "Aloqa xizmatlari va to'lovlar"
   },
   "actions": {
     "view": "Ko'rish",
@@ -23,7 +29,21 @@
     "manage": "Boshqarish",
     "process": "Arizalarni bajarish",
     "assign": "Mas'ul tayinlash",
-    "export": "Eksport (Excel/PDF)"
+    "export": "Eksport (Excel/PDF)",
+    "transfer": "Ko'chirish",
+    "inventory": "Inventarizatsiya",
+    "dispose": "Hisobdan chiqarish",
+    "manage_catalog": "Katalogni yuritish",
+    "receive": "Kirim",
+    "issue": "Chiqim",
+    "approve_org": "Tashkilot rahbari tasdig'i",
+    "review": "Ko'rib chiqish",
+    "approve": "Tasdiqlash",
+    "fulfill": "Ajratish",
+    "install": "O'rnatishlarni yuritish",
+    "agents": "Agentlar",
+    "invoice": "Hisob-fakturalarni kiritish",
+    "pay": "To'lovlarni kiritish"
   },
   "selectAll": "Barchasi"
 }

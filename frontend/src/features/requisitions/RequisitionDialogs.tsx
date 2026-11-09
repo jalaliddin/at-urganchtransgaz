@@ -21,6 +21,8 @@ import { qty } from '@/features/warehouse/WarehouseBadges'
 import { allocate, centralDecision, orgDecision } from './api'
 import { useRequisitionMutation } from './queries'
 import type { Decision, FulfillmentType, Requisition, RequisitionItem } from './types'
+import { useSims } from '@/features/sim/queries'
+import { formatPhone } from '@/features/sim/types'
 
 const fieldErrors = (e: unknown) =>
   Object.fromEntries(Object.entries(toApiError(e).fieldErrors).map(([k, v]) => [k, v[0] ?? '']))
@@ -240,6 +242,42 @@ function AssetPicker({
   )
 }
 
+/** Free SIM cards (in stock or returned) the fulfiller can see, searched by number. */
+function SimPicker({
+  value,
+  onChange,
+  error,
+}: {
+  value: number | null
+  onChange: (id: number | null) => void
+  error?: string
+}) {
+  const { t } = useTranslation('requisitions')
+  const [search, setSearch] = useState('')
+  const [debounced] = useDebouncedValue(search, 300)
+  const params: Record<string, string | number> = { per_page: 20, 'filter[status]': 'in_stock,returned' }
+  if (debounced.length >= 2) params.search = debounced
+  const cards = useSims(params)
+  return (
+    <Select
+      label={t('allocate.sim')}
+      description={t('allocate.simHint')}
+      required
+      searchable
+      filter={({ options }) => options}
+      searchValue={search}
+      onSearchChange={setSearch}
+      data={(cards.data?.data ?? []).map((c) => ({
+        value: String(c.id),
+        label: `${formatPhone(c.phone_number)} — ${c.provider.name} (${c.organization.name})`,
+      }))}
+      value={value ? String(value) : null}
+      onChange={(v) => onChange(v ? Number(v) : null)}
+      error={error}
+    />
+  )
+}
+
 /** Allocates one item from stock (issue or transfer into the requester's warehouse), an asset, or a note. */
 export function AllocateDialog({
   requisition,
@@ -251,12 +289,20 @@ export function AllocateDialog({
   onClose: () => void
 }) {
   const { t } = useTranslation(['requisitions', 'validation'])
-  const initialType: FulfillmentType = item.material ? 'stock' : item.kind === 'equipment' ? 'asset' : 'note'
+  const initialType: FulfillmentType = item.material
+    ? 'stock'
+    : item.kind === 'equipment'
+      ? 'asset'
+      : item.kind === 'sim'
+        ? 'sim'
+        : 'note'
+  const types: FulfillmentType[] = item.kind === 'sim' ? ['sim', 'stock', 'note'] : ['stock', 'asset', 'note']
   const [type, setType] = useState<FulfillmentType>(initialType)
   const [warehouseId, setWarehouseId] = useState<number | null>(null)
   const [targetId, setTargetId] = useState<number | null>(null)
   const [materialId, setMaterialId] = useState<number | null>(item.material?.id ?? null)
   const [assetId, setAssetId] = useState<number | null>(null)
+  const [simId, setSimId] = useState<number | null>(null)
   const [quantity, setQuantity] = useState<string>(item.remaining)
   const [note, setNote] = useState('')
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -264,11 +310,12 @@ export function AllocateDialog({
     allocate(requisition.id, {
       item_id: item.id,
       type,
-      quantity: type === 'asset' ? undefined : quantity,
+      quantity: type === 'asset' || type === 'sim' ? undefined : quantity,
       warehouse_id: type === 'stock' ? warehouseId : undefined,
       target_warehouse_id: type === 'stock' ? targetId : undefined,
       material_id: type === 'stock' && !item.material ? materialId : undefined,
       asset_id: type === 'asset' ? assetId : undefined,
+      sim_card_id: type === 'sim' ? simId : undefined,
       note: note || undefined,
     }),
   )
@@ -283,7 +330,7 @@ export function AllocateDialog({
           aria-label={t('allocate.type')}
           value={type}
           onChange={(v) => setType(v as FulfillmentType)}
-          data={(['stock', 'asset', 'note'] as const).map((v) => ({
+          data={types.map((v) => ({
             value: v,
             label: t(`allocate.types.${v}`),
           }))}
@@ -319,7 +366,8 @@ export function AllocateDialog({
           </>
         )}
         {type === 'asset' && <AssetPicker value={assetId} onChange={setAssetId} error={errors.asset_id} />}
-        {type !== 'asset' && (
+        {type === 'sim' && <SimPicker value={simId} onChange={setSimId} error={errors.sim_card_id} />}
+        {type !== 'asset' && type !== 'sim' && (
           <NumberInput
             label={t('allocate.quantity')}
             required
@@ -347,6 +395,7 @@ export function AllocateDialog({
               const local: Record<string, string> = {}
               if (type === 'stock' && !warehouseId) local.warehouse_id = t('validation:required')
               if (type === 'asset' && !assetId) local.asset_id = t('validation:required')
+              if (type === 'sim' && !simId) local.sim_card_id = t('validation:required')
               if (type === 'note' && !note.trim()) local.note = t('validation:required')
               setErrors(local)
               if (Object.keys(local).length > 0) return

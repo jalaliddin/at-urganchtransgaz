@@ -114,7 +114,8 @@
     "types": {
       "stock": "Ombordan",
       "asset": "Aktivlardan",
-      "note": "Boshqa (izoh)"
+      "note": "Boshqa (izoh)",
+      "sim": "SIM-kartalardan"
     },
     "warehouse": "Ombor",
     "target": "Talabnoma tashkilotining ombori",
@@ -124,7 +125,9 @@
     "quantity": "Miqdor",
     "note": "Izoh",
     "noteRequired": "Nima ajratilgani (shartnoma, raqam, xizmat)",
-    "confirm": "Ajratish"
+    "confirm": "Ajratish",
+    "sim": "SIM-karta",
+    "simHint": "Omborda yoki qaytarilgan karta; ajratilganda talabnoma tashkilotiga o'tadi"
   },
   "comments": {
     "title": "Izohlar",
