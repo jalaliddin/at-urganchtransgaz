@@ -17,7 +17,6 @@ use App\Services\Printers\PrinterPages;
 use App\Services\Printers\PrinterRegistry;
 use App\Support\ApiResponse;
 use App\Support\Decimal;
-use App\Support\OrganizationSubtree;
 use App\Support\Pagination;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\JsonResponse;
@@ -40,34 +39,13 @@ class PrinterController extends Controller
     public function index(Request $request): JsonResponse
     {
         Gate::authorize('printers.view');
-        $query = $this->registry->query($this->user($request))->with(self::RELATIONS)->orderBy('assets.inventory_number');
-
-        if ($request->filled('filter.organization')) {
-            $query->whereIn('assets.organization_id', OrganizationSubtree::ids($request->integer('filter.organization')));
-        }
-        if ($request->filled('filter.connection')) {
-            $query->whereHas('printer', fn ($q) => $q->whereIn('connection_type', explode(',', (string) $request->input('filter.connection'))));
-        }
-        if ($request->filled('filter.model')) {
-            $query->where('assets.model_id', $request->integer('filter.model'));
-        }
-        if ($request->filled('filter.status')) {
-            $query->whereIn('assets.status', explode(',', (string) $request->input('filter.status')));
-        }
-        if ($request->filled('filter.cartridge')) {
-            $query->whereIn('assets.model_id', DB::table('printer_cartridge_compatibilities')->select('asset_model_id')
-                ->where('cartridge_model_id', $request->integer('filter.cartridge')));
-        }
-        $search = trim((string) $request->input('search', ''));
-        if ($search !== '') {
-            $query->where(fn ($q) => $q->where('assets.inventory_number', 'like', "%{$search}%")->orWhere('assets.name', 'like', "%{$search}%")
-                ->orWhere('assets.serial_number', 'like', "%{$search}%")->orWhere('assets.ip_address', 'like', "%{$search}%")
-                ->orWhere('assets.hostname', 'like', "%{$search}%"));
-        }
+        $query = $this->registry->filtered($this->user($request), [
+            ...(array) $request->input('filter', []), 'search' => $request->input('search'),
+        ])->with(self::RELATIONS);
 
         $page = $query->paginate(Pagination::perPage($request))->withQueryString();
         $ids = $page->getCollection()->map(fn (Asset $a) => $a->id)->all();
-        [$counters, $replacements] = [$this->lastCounters($ids), $this->lastReplacements($ids)];
+        [$counters, $replacements] = [$this->registry->lastCounters($ids), $this->registry->lastReplacements($ids)];
 
         return ApiResponse::page($page, fn (Asset $a) => PrinterResource::printer($a, $counters[$a->id] ?? null, $replacements[$a->id] ?? null));
     }
@@ -155,8 +133,8 @@ class PrinterController extends Controller
         $today = CarbonImmutable::today((string) config('app.display_timezone'));
 
         return ApiResponse::data([
-            ...PrinterResource::printer($asset, $this->lastCounters([$asset->id])[$asset->id] ?? null,
-                $this->lastReplacements([$asset->id])[$asset->id] ?? null),
+            ...PrinterResource::printer($asset, $this->registry->lastCounters([$asset->id])[$asset->id] ?? null,
+                $this->registry->lastReplacements([$asset->id])[$asset->id] ?? null),
             'department' => $asset->department === null ? null : ['id' => $asset->department->id, 'name' => $asset->department->name],
             'compatibility_defined' => $defined,
             'cartridges' => $cartridges->map(function (CartridgeModel $c) use ($stock): array {
@@ -208,40 +186,6 @@ class PrinterController extends Controller
         }
 
         return $result;
-    }
-
-    /**
-     * @param  list<int>  $ids
-     * @return array<int, array{read_at: string, total: int}>
-     */
-    private function lastCounters(array $ids): array
-    {
-        if ($ids === []) {
-            return [];
-        }
-        $ranked = DB::table('printer_counters')->whereIn('asset_id', $ids)
-            ->selectRaw('asset_id, read_at, total, ROW_NUMBER() OVER (PARTITION BY asset_id ORDER BY read_at DESC, id DESC) AS rn');
-
-        return DB::query()->fromSub($ranked, 'c')->where('rn', 1)->get()
-            ->mapWithKeys(fn ($r) => [(int) $r->asset_id => ['read_at' => (string) $r->read_at, 'total' => (int) $r->total]])->all();
-    }
-
-    /**
-     * @param  list<int>  $ids
-     * @return array<int, array{replaced_at: string, cartridge: string}>
-     */
-    private function lastReplacements(array $ids): array
-    {
-        if ($ids === []) {
-            return [];
-        }
-        $ranked = DB::table('cartridge_replacements')->join('cartridge_models', 'cartridge_models.id', '=', 'cartridge_replacements.cartridge_model_id')
-            ->whereIn('cartridge_replacements.asset_id', $ids)->whereNull('cartridge_replacements.cancelled_at')
-            ->selectRaw('cartridge_replacements.asset_id, cartridge_replacements.replaced_at, cartridge_models.name AS cartridge,
-                ROW_NUMBER() OVER (PARTITION BY cartridge_replacements.asset_id ORDER BY cartridge_replacements.replaced_at DESC, cartridge_replacements.id DESC) AS rn');
-
-        return DB::query()->fromSub($ranked, 'r')->where('rn', 1)->get()
-            ->mapWithKeys(fn ($r) => [(int) $r->asset_id => ['replaced_at' => (string) $r->replaced_at, 'cartridge' => (string) $r->cartridge]])->all();
     }
 
     /** @return array<string, mixed> */

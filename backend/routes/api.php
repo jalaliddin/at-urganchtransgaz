@@ -41,6 +41,7 @@ use App\Http\Controllers\Api\V1\Organizations\OrganizationController;
 use App\Http\Controllers\Api\V1\Organizations\OrganizationTreeController;
 use App\Http\Controllers\Api\V1\Printers\CartridgeModelController;
 use App\Http\Controllers\Api\V1\Printers\PrinterController;
+use App\Http\Controllers\Api\V1\Printers\PrinterReportController;
 use App\Http\Controllers\Api\V1\Printers\ReplacementController;
 use App\Http\Controllers\Api\V1\Requisitions\RequisitionActionController;
 use App\Http\Controllers\Api\V1\Requisitions\RequisitionController;
@@ -275,6 +276,7 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
         Route::get('replacements', [ReplacementController::class, 'history'])->name('replacements.index');
         Route::post('replacements', [ReplacementController::class, 'store'])->name('replacements.store');
     });
+    Route::get('printer-report', PrinterReportController::class)->name('printer-report');
     Route::get('cartridge-replacements', [ReplacementController::class, 'index'])->name('cartridge-replacements.index');
     Route::post('cartridge-replacements/{cartridgeReplacement}/cancel', [ReplacementController::class, 'cancel'])->whereNumber('cartridgeReplacement')->name('cartridge-replacements.cancel');
     Route::delete('printer-counters/{printerCounter}', [PrinterController::class, 'destroyCounter'])->whereNumber('printerCounter')->name('printer-counters.destroy');

@@ -407,7 +407,26 @@ muddati o'tganda — ularga va markaziy tasdiqlovchilarga; shartnoma tugashiga 3
 Har kuni 07:55 `tasks:daily`: takrorlanuvchi topshiriqlar (o'tkazib yuborilgan kunlardan faqat oxirgisi), "ertaga muddat"
 va "kechikdi" eslatmalari (bir marta) mas'ul va kuzatuvchilarga. Biriktirilganda va izoh qo'shilganda ham xabar boradi.
 
-## 14. Misol
+## 14. 7.2-bosqich endpointlari (Printerlar va kartrijlar)
+
+| Metod | Yo'l | Ruxsat / izoh |
+|---|---|---|
+| GET/POST/PUT/DELETE | `/cartridge-models` (`filter[active]`, `filter[kind]`, `filter[printer_model]`, `search`) | o'qish — `printers.view`, yozish — `printers.manage`: `{name, part_number?, kind, color, page_yield?, is_active?, material_id?, printer_model_ids[]}`; `material_id` bo'lmasa material yaratiladi; `stock` — ko'rinadigan omborlardagi qoldiq; ishlatilgan kartrij o'chirilmaydi (409) |
+| GET | `/printer-models` | printer toifasidagi aktiv modellari |
+| GET | `/printers` (`filter[organization]`, `filter[connection]`, `filter[model]`, `filter[status]`, `filter[cartridge]`, `search`) | `printers.view` — reyestr: aktiv ma'lumotlari, profil, oxirgi hisoblagich va almashtirish |
+| GET / PUT | `/printers/{id}` | printer sahifasi: mos kartrijlar (har bir ombordagi qoldiq bilan; model uchun moslik belgilanmagan bo'lsa barcha faol kartrijlar), 12 oylik sahifalar, ta'mir tarixi, `can`; PUT `printers.service` — `{connection_type, is_color, note}`. Printer toifasida bo'lmagan yoki doiradan tashqari aktiv — 404 |
+| GET / POST | `/printers/{id}/counters` | ko'rsatkichlar (`pages` bilan); POST `printers.service` — `{read_at, total, is_reset?, note?}` (tartib buzilsa 422) |
+| DELETE | `/printer-counters/{id}` | `printers.service`; o'chirish tartibni buzsa 422 |
+| GET / POST | `/printers/{id}/replacements` | tarix (`pages_since_previous` — shu kartrijning oldingi almashtirishidan beri sahifalar); POST `printers.service` (+ ombordan bo'lsa `warehouse.issue`) — `{cartridge_model_id, replaced_at, source: warehouse\|other, warehouse_id?, note?, counter?: {total, is_reset?}}`; ombor chiqimi va hisoblagich bitta tranzaksiyada; qoldiq yetmasa 422 `warehouse_id`, sanoq ochiq bo'lsa 409 |
+| GET | `/cartridge-replacements` (`filter[organization\|printer\|cartridge\|source\|date_from\|date_to\|cancelled]`, `search`) | jurnal (yozuvdagi tashkilot bo'yicha doira) |
+| POST | `/cartridge-replacements/{id}/cancel {reason}` | `printers.service` (+ ombordan bo'lsa `warehouse.issue` va ombor doirada) — chiqim omborga qaytariladi, yozuv bekor qilingan bo'lib qoladi; qayta bekor qilish 422 `invalid_transition` |
+| GET | `/printer-report` (`date_from`, `date_to` — standart joriy yil, ko'pi bilan 36 oy; `group_by: organization\|cartridge\|printer`; `organization`) | sarf tahlili: almashtirishlar, xarajat (ombor chiqimlari), sahifalar, bir sahifa narxi, jami va oylar kesimi |
+| POST | `/exports` `{type: "printers" \| "cartridge_replacements" \| "printer_consumption"}` | `printers.export` |
+
+Dashboard: `printers` bloki (`printers.view`) — printerlar soni, shu oydagi almashtirishlar, ombordagi kartrijlar, minimal
+qoldiqdan kam kartrijlar.
+
+## 15. Misol
 
 ```http
 POST /api/v1/employees HTTP/1.1

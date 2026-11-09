@@ -29,6 +29,9 @@ class ExportService
         'service_costs' => ServiceCostReport::class,
         'tasks' => TaskReport::class,
         'task_workload' => TaskWorkloadReport::class,
+        'printers' => PrinterReport::class,
+        'cartridge_replacements' => CartridgeReplacementReport::class,
+        'printer_consumption' => PrinterConsumptionReport::class,
     ];
 
     public function report(string $type): ReportDefinition

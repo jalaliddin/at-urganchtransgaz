@@ -18,6 +18,7 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Services\Assets\AssetStats;
 use App\Services\Helpdesk\TicketStats;
+use App\Services\Printers\PrinterReports;
 use App\Services\Requisitions\RequisitionQueries;
 use App\Services\Software\ComplianceService;
 use App\Services\Tasks\TaskReports;
@@ -139,6 +140,9 @@ class DashboardService
 
         if ($user->can('tasks.view')) {
             $widgets['tasks'] = app(TaskReports::class)->widget($user, $organizationId);
+        }
+        if ($user->can('printers.view')) {
+            $widgets['printers'] = app(PrinterReports::class)->widget($user, $organizationId);
         }
         if (Gate::forUser($user)->allows('sim.use')) {
             $widgets['sim'] = app(TelecomReports::class)->simWidget($user, $organizationId);

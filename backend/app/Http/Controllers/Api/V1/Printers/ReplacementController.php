@@ -11,7 +11,6 @@ use App\Models\Warehouse;
 use App\Services\Printers\CartridgeReplacements;
 use App\Services\Printers\PrinterRegistry;
 use App\Support\ApiResponse;
-use App\Support\OrganizationSubtree;
 use App\Support\Pagination;
 use Carbon\CarbonImmutable;
 use Closure;
@@ -34,32 +33,7 @@ class ReplacementController extends Controller
     {
         Gate::authorize('printers.view');
         $user = $this->user($request);
-        $query = CartridgeReplacement::query()->visibleTo($user);
-        if ($request->filled('filter.organization')) {
-            $query->whereIn('organization_id', OrganizationSubtree::ids($request->integer('filter.organization')));
-        }
-        if ($request->filled('filter.printer')) {
-            $query->where('asset_id', $request->integer('filter.printer'));
-        }
-        if ($request->filled('filter.cartridge')) {
-            $query->where('cartridge_model_id', $request->integer('filter.cartridge'));
-        }
-        if ($request->filled('filter.source')) {
-            $query->whereIn('source', explode(',', (string) $request->input('filter.source')));
-        }
-        if ($request->filled('filter.date_from')) {
-            $query->where('replaced_at', '>=', (string) $request->input('filter.date_from'));
-        }
-        if ($request->filled('filter.date_to')) {
-            $query->where('replaced_at', '<=', (string) $request->input('filter.date_to'));
-        }
-        if ($request->filled('filter.cancelled')) {
-            $request->boolean('filter.cancelled') ? $query->whereNotNull('cancelled_at') : $query->whereNull('cancelled_at');
-        }
-        $search = trim((string) $request->input('search', ''));
-        if ($search !== '') {
-            $query->whereHas('asset', fn ($q) => $q->where('inventory_number', 'like', "%{$search}%")->orWhere('name', 'like', "%{$search}%"));
-        }
+        $query = $this->replacements->journal($user, [...(array) $request->input('filter', []), 'search' => $request->input('search')]);
 
         return $this->page($query, $request, $user);
     }

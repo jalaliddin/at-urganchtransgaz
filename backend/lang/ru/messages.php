@@ -173,4 +173,5 @@ return [
     'cartridge_not_compatible' => 'Этот картридж не подходит к модели принтера. Выберите совместимый или добавьте совместимость в каталоге.',
     'cartridge_replacement_reason' => 'Замена картриджа: :printer (:cartridge)',
     'replacement_already_cancelled' => 'Эта замена уже отменена.',
+    'report_period_too_long' => 'Период не должен превышать :months мес.',
 ];

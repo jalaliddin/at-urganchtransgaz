@@ -13,7 +13,9 @@ use App\Models\CartridgeReplacement;
 use App\Models\User;
 use App\Services\Audit\AuditLogger;
 use App\Services\Warehouse\StockService;
+use App\Support\OrganizationSubtree;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -115,6 +117,46 @@ class CartridgeReplacements
 
             return $locked;
         }, 3);
+    }
+
+    public const FILTERS = ['organization', 'printer', 'cartridge', 'source', 'date_from', 'date_to', 'cancelled', 'search'];
+
+    /**
+     * The replacement journal of the user's organizations (stored organization, design P8).
+     *
+     * @param  array<string, mixed>  $filters
+     * @return Builder<CartridgeReplacement>
+     */
+    public function journal(User $user, array $filters): Builder
+    {
+        $query = CartridgeReplacement::query()->visibleTo($user);
+        if (! empty($filters['organization'])) {
+            $query->whereIn('organization_id', OrganizationSubtree::ids((int) $filters['organization']) ?: [0]);
+        }
+        if (! empty($filters['printer'])) {
+            $query->where('asset_id', (int) $filters['printer']);
+        }
+        if (! empty($filters['cartridge'])) {
+            $query->where('cartridge_model_id', (int) $filters['cartridge']);
+        }
+        if (! empty($filters['source'])) {
+            $query->whereIn('source', explode(',', (string) $filters['source']));
+        }
+        if (! empty($filters['date_from'])) {
+            $query->where('replaced_at', '>=', (string) $filters['date_from']);
+        }
+        if (! empty($filters['date_to'])) {
+            $query->where('replaced_at', '<=', (string) $filters['date_to']);
+        }
+        if (isset($filters['cancelled']) && $filters['cancelled'] !== '') {
+            filter_var($filters['cancelled'], FILTER_VALIDATE_BOOLEAN) ? $query->whereNotNull('cancelled_at') : $query->whereNull('cancelled_at');
+        }
+        $search = trim((string) ($filters['search'] ?? ''));
+        if ($search !== '') {
+            $query->whereHas('asset', fn ($q) => $q->where('inventory_number', 'like', "%{$search}%")->orWhere('name', 'like', "%{$search}%"));
+        }
+
+        return $query;
     }
 
     /**

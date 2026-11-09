@@ -546,7 +546,38 @@ erDiagram
 | `task_recurrences` | `board_id`, `column_id` (ochiq), `organization_id`, `title`, `assignee_id`, `priority`, `label_ids`, `frequency` (daily, weekly, monthly), `interval`, `weekday` 1–7, `month_day` 1–28, `due_in_days`, `next_run_on`, `is_active` |
 | `task_alerts` | `task_id + type + due_date` UNIQUE — "ertaga muddat" va "kechikdi" eslatmasi bir marta |
 
-## 11. Keyingi bosqichlar jadvallari (reja)
+## 11. 7.2-bosqich jadvallari (Printerlar va kartrijlar)
+
+```mermaid
+erDiagram
+    assets ||--o| printers : "printer toifasi"
+    asset_models ||--o{ printer_cartridge_compatibilities : "printer modeli"
+    cartridge_models ||--o{ printer_cartridge_compatibilities : ""
+    materials ||--|| cartridge_models : "ombor materiali"
+    assets ||--o{ cartridge_replacements : ""
+    cartridge_models ||--o{ cartridge_replacements : ""
+    stock_documents ||--o| cartridge_replacements : "chiqim / qaytarish"
+    assets ||--o{ printer_counters : ""
+    cartridge_replacements ||--o| printer_counters : "almashtirishdagi hisoblagich"
+```
+
+| Jadval | Asosiy ustunlar / qoidalar |
+|---|---|
+| `printers` | `asset_id` (PK = `printer` toifasidagi aktiv; birinchi yozuvda yaratiladi), `connection_type` (usb, network, wifi, shared), `is_color`, `note`. Tashkilot, xona, xodim, model, seriya, IP — aktivning o'zida |
+| `cartridge_models` | global katalog: `material_id` (UNIQUE — kartrij qoldig'i, kirimi va chiqimi shu materialniki; tanlanmasa `cartridge` toifasida yangi material yaratiladi), `name`, `part_number` (UNIQUE, ixtiyoriy), `kind` (toner, ink, drum, ribbon, other), `color` (black, cyan, magenta, yellow, tricolor, other), `page_yield`, `is_active`. Almashtirishda ishlatilgan kartrij o'chirilmaydi (409) va materiali o'zgarmaydi |
+| `printer_cartridge_compatibilities` | `asset_model_id` (printer toifasidagi model) + `cartridge_model_id` UNIQUE (§8 `printer_models` o'rniga aktiv modellari) |
+| `cartridge_replacements` | §8 `cartridge_movements`: `organization_id` (o'sha paytdagi printer tashkiloti), `asset_id`, `cartridge_model_id`, `replaced_at`, `source` (warehouse — shu tranzaksiyada 1 dona chiqim `stock_document_id`, FIFO; other — ombordan tashqari, narxsiz), `warehouse_id`, `note`, `performed_by`, `cancelled_at/by`, `cancel_reason`, `return_document_id` (bekor qilinganda chiqim omborga qaytariladi). O'chirilmaydi |
+| `printer_counters` | `organization_id`, `asset_id`, `read_at`, `total`, `is_reset`, `source` (manual, replacement), `replacement_id?`, `note`, `created_by`. Reset bo'lmasa ko'rsatkich oldingisidan kam va keyingisidan ko'p bo'lmaydi; sahifalar = total − oldingi total (reset bo'lsa = total, birinchi ko'rsatkich — boshlang'ich) |
+
+**Parallel operatsiyalar.** Printerning hisoblagich, almashtirish va profil yozuvlari aktiv qatorini `FOR UPDATE` bilan
+qulflaydi (aktiv qatori doim bor; profil qatori birinchi yozuvda yaratiladi). Oldingi/keyingi ko'rsatkich va bekor qilish
+holati qulflab o'qiladi. Qulf tartibi: aktiv → almashtirish → ombor (`StockService`).
+
+**Ruxsatlar.** `printers.view, printers.service, printers.manage, printers.export`. markaziy AT rahbari — hammasi; markaziy AT
+xodimi va quyi tashkilot AT mas'uli — view/service/export; quyi tashkilot rahbari, buxgalter, auditor — view/export; oddiy xodim
+— yo'q. Ombordan almashtirish va uni bekor qilish uchun qo'shimcha `warehouse.issue` kerak.
+
+## 12. Keyingi bosqichlar jadvallari (reja)
 
 Har bir bosqich boshida ushbu bo'lim batafsil sxema bilan yangilanadi.
 Barcha tashkilotga tegishli jadvallar `organization_id` ustuniga va
@@ -587,4 +618,4 @@ erDiagram
 | 4 — Ombor, talabnomalar | ✅ §7 da (materiallar `materials` — `inventory_items` nomi 3-bosqich inventarizatsiyasida band; kirim/chiqim/ko'chirish alohida jadvallar o'rniga yagona `stock_documents`) |
 | 5 — Dasturlar, antivirus | ✅ §8 da (ICMP monitoring jadvallari foydalanuvchi qarori bilan chiqarildi) |
 | 6 — SIM, xizmatlar | ✅ §9 da (operatorlar `service_providers` ichida, `service_services` o'rniga `it_services`, SIM so'rovlari 4-bosqich talabnomalari orqali) |
-| 7 — Kanban va boshqalar | ✅ Kanban §10 da (bitta mas'ul + kuzatuvchilar, `task_assignees` o'rniga `tasks.assignee_id`); qolganlari: printers, printer_models, cartridge_models, printer_cartridge_compatibilities, cartridge_movements, printer_counters; kb_articles, changes, problems, maintenance_plans, security_incidents, backup_jobs, backup_checks |
+| 7 — Kanban va boshqalar | ✅ Kanban §10 da (bitta mas'ul + kuzatuvchilar, `task_assignees` o'rniga `tasks.assignee_id`); printerlar §11 da (`printer_models` o'rniga printer toifasidagi `asset_models`, `cartridge_movements` o'rniga `cartridge_replacements` + `stock_movements`); qolganlari: kb_articles, changes, problems, maintenance_plans, security_incidents, backup_jobs, backup_checks |

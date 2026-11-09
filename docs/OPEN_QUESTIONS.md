@@ -113,6 +113,16 @@ o'zgartirgach, bu yerda belgilanadi.
 | Q58 | Takrorlanuvchi topshiriq tizim ishlamagan kunlar uchun | Faqat eng oxirgi sana uchun bitta topshiriq yaratiladi | ❓ |
 | Q59 | Bajarilgan topshiriqlar doskada qancha turadi? | 30 kun; keyin ro'yxat va hisobotlarda qoladi | ❓ |
 
+## 7.2-bosqich (Printerlar va kartrijlar) bo'yicha ochiq savollar
+
+| # | Savol | Standart yechim (amalda) | Holat |
+|---|---|---|---|
+| Q60 | Printer alohida reyestrmi yoki aktivmi? | `printer` toifasidagi aktiv + printer profili (ulanish turi, rangli); printer modellari — shu toifadagi aktiv modellari | ❓ |
+| Q61 | Kartrij zapravkasi (qayta to'ldirish) qanday hisobga olinadi? | Har bir kartrij alohida kuzatilmaydi: to'ldirilgan kartrij omborga oddiy kirim (yetkazib beruvchi — zapravka korxonasi, narx — xizmat narxi) bo'lib qaytadi | ❓ |
+| Q62 | Ombordan tashqari almashtirish (oldin tashkilotga berilgan, to'g'ridan-to'g'ri sotib olingan) | Ruxsat etiladi (`other` manba): qoldiq o'zgarmaydi, narx hisobga kirmaydi | ❓ |
+| Q63 | Modelga mos kartrijlar ro'yxati belgilanmagan printer | Har qanday faol kartrij qabul qilinadi; ro'yxat bo'lsa — faqat mos kartrij | ❓ |
+| Q64 | Sahifa statistikasi | Faqat qo'lda yoki almashtirishda kiritilgan hisoblagich asosida; davr sahifalari = shu davrdagi ko'rsatkichlar farqlari yig'indisi; SNMP orqali avtomatik o'qish yo'q (ICMP/monitoring chiqarilgan) | ❓ |
+
 ## Infratuzilma bo'yicha savollar
 
 | # | Savol | Standart yechim | Holat |

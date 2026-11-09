@@ -173,4 +173,5 @@ return [
     'cartridge_not_compatible' => "Bu kartrij printer modeliga mos emas. Mos kartrijni tanlang yoki katalogda moslikni qo'shing.",
     'cartridge_replacement_reason' => 'Kartrij almashtirish: :printer (:cartridge)',
     'replacement_already_cancelled' => 'Bu almashtirish allaqachon bekor qilingan.',
+    'report_period_too_long' => 'Davr :months oydan oshmasligi kerak.',
 ];
