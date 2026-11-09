@@ -514,7 +514,39 @@ erDiagram
 | `service_alerts` | `type + alertable + alert_date` UNIQUE — to'lov muddati / muddati o'tgan / shartnoma tugashi eslatmasi bir marta |
 | `requisition_fulfillments.sim_card_id` | talabnoma bo'yicha ajratilgan SIM-karta |
 
-## 10. Keyingi bosqichlar jadvallari (reja)
+## 10. 7.1-bosqich jadvallari (Kanban topshiriqlari)
+
+```mermaid
+erDiagram
+    organizations ||--o{ task_boards : ""
+    task_boards ||--o{ task_columns : ""
+    task_boards ||--o{ task_labels : ""
+    task_columns ||--o{ tasks : ""
+    tasks ||--o{ task_checklist_items : ""
+    tasks ||--o{ task_comments : ""
+    tasks ||--o{ task_attachments : ""
+    tasks ||--o{ task_histories : ""
+    tasks }o--o{ users : "task_watchers"
+    tasks }o--o{ task_labels : "task_label_task"
+    task_boards ||--o{ task_recurrences : ""
+    task_recurrences ||--o{ tasks : "takrorlanish"
+    helpdesk_tickets ||--o{ tasks : "arizadan"
+```
+
+| Jadval | Asosiy ustunlar / qoidalar |
+|---|---|
+| `task_boards` | `organization_id` (doira), `name`, `description`, `is_archived` (arxivdagi doska faqat o'qiladi) |
+| `task_columns` | `board_id`, `name`, `category` (open, done, cancelled — "bajarilgan" va "kechikkan"ni belgilaydi), `position`, `wip_limit?`. Yangi doskaga 6 ta standart ustun; doskada doim kamida bitta ochiq va bitta done ustun; ustun faqat bo'sh bo'lsa o'chiriladi yoki turi o'zgaradi |
+| `tasks` | `number` (`T-YYYY-NNNNN`, UNIQUE), `board_id`, `column_id`, `position` (ustun ichida 1..n, doska qulfi ostida qayta raqamlanadi), `organization_id` (doska tashkiloti yoki quyi tashkiloti), `title`, `description`, `project`, `assignee_id?`, `priority` (low, normal, high, urgent), `start_date`, `due_date`, `completed_at` (done/cancelled ustunga kirganda), `ticket_id?`, `recurrence_id? + occurrence_date` (UNIQUE — takrorlanish sanasi bir marta) |
+| `task_watchers`, `task_label_task` | kuzatuvchilar va yorliqlar (pivot) |
+| `task_labels` | `board_id`, `name` (doska ichida UNIQUE), `color` |
+| `task_checklist_items` | `title`, `is_done`, `position`, `done_by`, `done_at` |
+| `task_comments`, `task_attachments` | izohlar; fayllar (`stored_files`, ko'rinishi topshiriq bilan bir xil) |
+| `task_histories` | `event` (created, updated, moved, assigned, completed, reopened, checklist_changed, commented, file_added, watchers_changed), `payload`, `user_id` |
+| `task_recurrences` | `board_id`, `column_id` (ochiq), `organization_id`, `title`, `assignee_id`, `priority`, `label_ids`, `frequency` (daily, weekly, monthly), `interval`, `weekday` 1–7, `month_day` 1–28, `due_in_days`, `next_run_on`, `is_active` |
+| `task_alerts` | `task_id + type + due_date` UNIQUE — "ertaga muddat" va "kechikdi" eslatmasi bir marta |
+
+## 11. Keyingi bosqichlar jadvallari (reja)
 
 Har bir bosqich boshida ushbu bo'lim batafsil sxema bilan yangilanadi.
 Barcha tashkilotga tegishli jadvallar `organization_id` ustuniga va
@@ -555,4 +587,4 @@ erDiagram
 | 4 — Ombor, talabnomalar | ✅ §7 da (materiallar `materials` — `inventory_items` nomi 3-bosqich inventarizatsiyasida band; kirim/chiqim/ko'chirish alohida jadvallar o'rniga yagona `stock_documents`) |
 | 5 — Dasturlar, antivirus | ✅ §8 da (ICMP monitoring jadvallari foydalanuvchi qarori bilan chiqarildi) |
 | 6 — SIM, xizmatlar | ✅ §9 da (operatorlar `service_providers` ichida, `service_services` o'rniga `it_services`, SIM so'rovlari 4-bosqich talabnomalari orqali) |
-| 7 — Kanban va boshqalar | task_boards, task_columns, tasks, task_assignees, task_watchers, task_comments, task_checklists, task_labels, task_label_task, task_recurrences; printers, printer_models, cartridge_models, printer_cartridge_compatibilities, cartridge_movements, printer_counters; kb_articles, changes, problems, maintenance_plans, security_incidents, backup_jobs, backup_checks |
+| 7 — Kanban va boshqalar | ✅ Kanban §10 da (bitta mas'ul + kuzatuvchilar, `task_assignees` o'rniga `tasks.assignee_id`); qolganlari: printers, printer_models, cartridge_models, printer_cartridge_compatibilities, cartridge_movements, printer_counters; kb_articles, changes, problems, maintenance_plans, security_incidents, backup_jobs, backup_checks |

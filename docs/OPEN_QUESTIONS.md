@@ -103,6 +103,16 @@ o'zgartirgach, bu yerda belgilanadi.
 | Q53 | To'lov eslatmalari kimga? | Muddatga 5 kun qolganda — tashkilotning o'z hisob-faktura/to'lov xodimlari; muddati o'tganda — ular va markaziy tasdiqlovchilar | ❓ |
 | Q54 | Xarajatlar qaysi oyga yoziladi? | Hisob davri boshlangan oyga (reja, hisob-faktura va to'lov bir xil qoidada) | ❓ |
 
+## 7.1-bosqich (Kanban) bo'yicha ochiq savollar
+
+| # | Savol | Standart yechim (amalda) | Holat |
+|---|---|---|---|
+| Q55 | Doskalarni kim yaratadi va sozlaydi? | `tasks.manage` — markaziy AT rahbari va quyi tashkilot AT mas'uli (o'z tashkiloti doirasida) | ❓ |
+| Q56 | Topshiriqda bitta mas'ulmi yoki bir nechta? | Bitta mas'ul + kuzatuvchilar; yuklama mas'ul bo'yicha hisoblanadi | ❓ |
+| Q57 | Kim topshiriqni o'zgartira oladi? | `tasks.manage`, mas'ul yoki yaratuvchi; boshqa AT xodimlari izoh va fayl qo'sha oladi; rahbar/auditor faqat ko'radi | ❓ |
+| Q58 | Takrorlanuvchi topshiriq tizim ishlamagan kunlar uchun | Faqat eng oxirgi sana uchun bitta topshiriq yaratiladi | ❓ |
+| Q59 | Bajarilgan topshiriqlar doskada qancha turadi? | 30 kun; keyin ro'yxat va hisobotlarda qoladi | ❓ |
+
 ## Infratuzilma bo'yicha savollar
 
 | # | Savol | Standart yechim | Holat |

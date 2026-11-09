@@ -27,6 +27,8 @@ class ExportService
         'sim_cards' => SimCardReport::class,
         'service_invoices' => ServiceInvoiceReport::class,
         'service_costs' => ServiceCostReport::class,
+        'tasks' => TaskReport::class,
+        'task_workload' => TaskWorkloadReport::class,
     ];
 
     public function report(string $type): ReportDefinition

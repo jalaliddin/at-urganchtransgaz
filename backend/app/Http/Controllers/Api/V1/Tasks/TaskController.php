@@ -12,6 +12,7 @@ use App\Models\TaskColumn;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Rules\SafeUpload;
+use App\Services\Tasks\TaskReports;
 use App\Services\Tasks\TaskService;
 use App\Support\ApiResponse;
 use App\Support\OrganizationSubtree;
@@ -66,6 +67,14 @@ class TaskController extends Controller
         $page = $query->orderByRaw('due_date IS NULL')->orderBy('due_date')->orderBy('id')->paginate(Pagination::perPage($request))->withQueryString();
 
         return ApiResponse::page($page, fn (Task $t) => TaskResource::card($t));
+    }
+
+    /** Central IT head: load per person and organization. */
+    public function workload(Request $request, TaskReports $reports): JsonResponse
+    {
+        Gate::authorize('tasks.workload');
+
+        return ApiResponse::data($reports->workload($this->user($request), (array) $request->input('filter', [])));
     }
 
     public function store(Request $request, TaskBoard $taskBoard): JsonResponse

@@ -182,4 +182,31 @@ return [
         1 => 'Yanvar', 2 => 'Fevral', 3 => 'Mart', 4 => 'Aprel', 5 => 'May', 6 => 'Iyun',
         7 => 'Iyul', 8 => 'Avgust', 9 => 'Sentabr', 10 => 'Oktabr', 11 => 'Noyabr', 12 => 'Dekabr',
     ],
+    'tasks' => [
+        'title' => 'AT xodimlari topshiriqlari',
+        'columns' => [
+            'number' => 'Raqam',
+            'title' => 'Topshiriq',
+            'board' => 'Doska',
+            'column' => 'Ustun',
+            'organization' => 'Tashkilot',
+            'assignee' => "Mas'ul",
+            'priority' => 'Ustuvorlik',
+            'project' => "Loyiha / yo'nalish",
+            'due_date' => 'Muddat',
+            'overdue' => 'Kechikkan',
+            'completed_at' => 'Bajarilgan',
+        ],
+    ],
+    'task_workload' => [
+        'title' => 'AT xodimlari yuklamasi',
+        'unassigned' => "Mas'ulsiz",
+        'columns' => [
+            'user' => 'Xodim',
+            'open' => 'Ochiq',
+            'overdue' => 'Kechikkan',
+            'due_week' => '7 kun ichida muddati',
+            'done_30' => 'Oxirgi 30 kunda bajarilgan',
+        ],
+    ],
 ];

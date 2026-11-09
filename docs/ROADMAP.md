@@ -128,8 +128,13 @@ Holat (2026-11-09): bajarildi. Spec: `docs/superpowers/specs/2026-11-08-phase6-s
 
 ## 7-bosqich — Kanban, printerlar va qolgan modullar ⏳
 
-- Kanban: boardlar, sozlanadigan ustunlar, drag-and-drop, checklist, yorliqlar,
-  takrorlanuvchi vazifalar, yuklama ko'rinishi, Helpdesk arizasidan topshiriq
+Bosqich 4 ta kichik bosqichga bo'lindi (har biri alohida birlashtiriladi va hisobot beriladi):
+7.1 Kanban ✅, 7.2 printerlar va kartrijlar, 7.3 bilimlar bazasi / Change / Problem / rejali texnik xizmat,
+7.4 xavfsizlik hodisalari, backup jurnali, AT pasporti va kengaytirilgan hisobotlar.
+
+- ✅ 7.1 Kanban: doskalar, sozlanadigan ustunlar, drag-and-drop, checklist, yorliqlar, izoh va fayllar, tarix,
+  takrorlanuvchi vazifalar, yuklama ko'rinishi, Helpdesk arizasidan topshiriq (2026-11-09; spec
+  `docs/superpowers/specs/2026-11-09-phase7-1-kanban-design.md`, ochiq savollar Q55–Q59)
 - Printerlar va kartrijlar (ombor bilan integratsiya), sarf tahlili
 - Knowledge Base, Change/Problem Management, rejali texnik xizmat,
   xavfsizlik hodisalari, backup jurnali, tashkilot AT pasporti

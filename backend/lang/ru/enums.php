@@ -157,4 +157,32 @@ return [
         'paid' => 'Оплачен',
         'overdue' => 'Просрочен',
     ],
+    'task_priority' => [
+        'low' => 'Низкий',
+        'normal' => 'Средний',
+        'high' => 'Высокий',
+        'urgent' => 'Срочный',
+    ],
+    'column_category' => [
+        'open' => 'Открыта',
+        'done' => 'Выполнено',
+        'cancelled' => 'Отменено',
+    ],
+    'recurrence_frequency' => [
+        'daily' => 'Каждый день',
+        'weekly' => 'Каждую неделю',
+        'monthly' => 'Каждый месяц',
+    ],
+    'task_event' => [
+        'created' => 'Создана',
+        'updated' => 'Изменена',
+        'moved' => 'Перемещена',
+        'assigned' => 'Сменён ответственный',
+        'completed' => 'Выполнена',
+        'reopened' => 'Открыта снова',
+        'checklist_changed' => 'Изменён чек-лист',
+        'commented' => 'Комментарий',
+        'file_added' => 'Добавлен файл',
+        'watchers_changed' => 'Изменены наблюдатели',
+    ],
 ];

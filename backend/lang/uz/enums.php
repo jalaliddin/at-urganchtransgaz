@@ -157,4 +157,32 @@ return [
         'paid' => "To'langan",
         'overdue' => "Muddati o'tgan",
     ],
+    'task_priority' => [
+        'low' => 'Past',
+        'normal' => "O'rtacha",
+        'high' => 'Yuqori',
+        'urgent' => 'Shoshilinch',
+    ],
+    'column_category' => [
+        'open' => 'Ochiq',
+        'done' => 'Bajarildi',
+        'cancelled' => 'Bekor qilindi',
+    ],
+    'recurrence_frequency' => [
+        'daily' => 'Har kuni',
+        'weekly' => 'Har hafta',
+        'monthly' => 'Har oy',
+    ],
+    'task_event' => [
+        'created' => 'Yaratildi',
+        'updated' => "O'zgartirildi",
+        'moved' => "Ko'chirildi",
+        'assigned' => "Mas'ul o'zgardi",
+        'completed' => 'Bajarildi',
+        'reopened' => 'Qayta ochildi',
+        'checklist_changed' => "Checklist o'zgardi",
+        'commented' => 'Izoh',
+        'file_added' => 'Fayl biriktirildi',
+        'watchers_changed' => "Kuzatuvchilar o'zgardi",
+    ],
 ];

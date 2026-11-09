@@ -240,6 +240,7 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::get('task-boards/{taskBoard}/cards', [TaskController::class, 'cards'])->whereNumber('taskBoard')->name('task-boards.cards');
     Route::post('task-boards/{taskBoard}/tasks', [TaskController::class, 'store'])->whereNumber('taskBoard')->name('task-boards.tasks.store');
     Route::get('tasks', [TaskController::class, 'index'])->name('tasks.index');
+    Route::get('tasks/workload', [TaskController::class, 'workload'])->name('tasks.workload');
     Route::prefix('tasks/{task}')->whereNumber('task')->name('tasks.')->group(function (): void {
         Route::get('/', [TaskController::class, 'show'])->name('show');
         Route::put('/', [TaskController::class, 'update'])->name('update');

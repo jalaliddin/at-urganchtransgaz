@@ -384,7 +384,29 @@ Har kuni 08:15 `services:billing`: davrlar ochiladi, holatlar sanaga ko'ra yangi
 to'lov muddatiga `services.due_notice_days` (5) kun qolganda — tashkilotning o'z hisob-faktura/to'lov xodimlariga;
 muddati o'tganda — ularga va markaziy tasdiqlovchilarga; shartnoma tugashiga 30 kun qolganda — `services.manage` egalariga.
 
-## 13. Misol
+## 13. 7.1-bosqich endpointlari (Kanban topshiriqlari)
+
+| Metod | Yo'l | Ruxsat / izoh |
+|---|---|---|
+| GET/POST/PUT/DELETE | `/task-boards` (`filter[archived]`, `filter[organization]`) | o'qish — `tasks.view` (doira); yozish — `tasks.manage`. Yangi doskaga 6 ta standart ustun; topshiriqli doska o'chirilmaydi (409), arxivlanadi |
+| POST / PUT / DELETE | `/task-boards/{id}/columns`, `/task-columns/{id}`, `/task-boards/{id}/columns/order {ids}` | `tasks.manage`; doskada doim ochiq va done ustun qoladi (422); ustun bo'sh bo'lsagina o'chadi (409) yoki turi o'zgaradi |
+| POST / PUT / DELETE | `/task-boards/{id}/labels`, `/task-labels/{id}` | `tasks.manage`; nom doska ichida unique |
+| GET | `/task-boards/{id}/cards` (`filter[mine]`, `filter[assignee]`, `filter[label]`, `filter[overdue]`, `filter[organization]`, `search`) | Kanban: ustunlar va kartalar; done/cancelled ustunda oxirgi 30 kunda bajarilganlar (`hidden_done` — qolganlari soni) |
+| GET | `/tasks` (yuqoridagi filtrlar + `filter[board]`, `filter[open]`) | ro'yxat (sahifalangan) |
+| POST | `/task-boards/{id}/tasks` | `tasks.create` — `{title, description, column_id?, organization_id?, project, assignee_id?, priority, start_date, due_date, label_ids, watcher_ids}`; mas'ul va kuzatuvchi doskani ko'ra oladigan foydalanuvchi bo'lishi shart |
+| GET / PUT / DELETE | `/tasks/{id}` | o'zgartirish — `tasks.manage`, mas'ul yoki yaratuvchi; o'chirish — `tasks.manage` yoki izoh/fayli yo'q bo'lsa yaratuvchi; javobda `can {edit, comment, delete}` |
+| POST | `/tasks/{id}/move {column_id, position}` | drag-and-drop: ikkala ustun doska qulfi ostida 1..n qayta raqamlanadi; done/cancelled ustunga o'tsa `completed_at` |
+| POST / PATCH / DELETE | `/tasks/{id}/checklist`, `/task-checklist-items/{id}` | checklist |
+| POST | `/tasks/{id}/comments`, `/tasks/{id}/attachments (files[])` | izoh va fayllar (`tasks.create` yoki tahrirlovchi) |
+| POST / GET | `/tickets/{id}/tasks {board_id, column_id?, assignee_id?, due_date?}` | arizadan topshiriq (nomi, tavsifi, tashkiloti ko'chiriladi), arizaga bog'langan topshiriqlar |
+| GET/POST/PUT/DELETE | `/task-boards/{id}/recurrences`, `/task-recurrences/{id}` | `tasks.manage` — `{title, frequency: daily\|weekly\|monthly, interval, weekday, month_day, due_in_days, start_on, column_id, assignee_id, …}` |
+| GET | `/tasks/workload` (`filter[organization]`, `filter[board]`) | `tasks.workload` — xodim va tashkilot kesimida: ochiq, kechikkan, 7 kun ichida muddati, 30 kunda bajarilgan |
+| POST | `/exports` `{type: "tasks" \| "task_workload"}` | `tasks.export` / `tasks.workload` |
+
+Har kuni 07:55 `tasks:daily`: takrorlanuvchi topshiriqlar (o'tkazib yuborilgan kunlardan faqat oxirgisi), "ertaga muddat"
+va "kechikdi" eslatmalari (bir marta) mas'ul va kuzatuvchilarga. Biriktirilganda va izoh qo'shilganda ham xabar boradi.
+
+## 14. Misol
 
 ```http
 POST /api/v1/employees HTTP/1.1

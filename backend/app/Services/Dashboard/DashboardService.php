@@ -20,6 +20,7 @@ use App\Services\Assets\AssetStats;
 use App\Services\Helpdesk\TicketStats;
 use App\Services\Requisitions\RequisitionQueries;
 use App\Services\Software\ComplianceService;
+use App\Services\Tasks\TaskReports;
 use App\Services\Telecom\TelecomReports;
 use App\Services\Warehouse\StockQueries;
 use App\Support\OrganizationSubtree;
@@ -136,6 +137,9 @@ class DashboardService
             ];
         }
 
+        if ($user->can('tasks.view')) {
+            $widgets['tasks'] = app(TaskReports::class)->widget($user, $organizationId);
+        }
         if (Gate::forUser($user)->allows('sim.use')) {
             $widgets['sim'] = app(TelecomReports::class)->simWidget($user, $organizationId);
         }
