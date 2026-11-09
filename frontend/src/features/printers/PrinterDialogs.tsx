@@ -94,7 +94,6 @@ export function ReplaceModal({ printer, onClose }: { printer: PrinterDetail; onC
           label={t('fields.cartridge')}
           placeholder={t('replace.pickCartridge')}
           searchable
-          data-autofocus
           data={options.map((c) => ({
             value: String(c.id),
             label: `${c.name}${c.part_number ? ` (${c.part_number})` : ''}, ${t('replace.inStock', { count: Number(c.stock ?? 0) })}`,
@@ -159,6 +158,7 @@ export function ReplaceModal({ printer, onClose }: { printer: PrinterDetail; onC
             value={counter}
             onChange={setCounter}
             error={errors['counter.total']}
+            data-autofocus
           />
         </Group>
         {counter !== '' && (

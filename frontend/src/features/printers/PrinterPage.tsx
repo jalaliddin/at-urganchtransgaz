@@ -148,19 +148,16 @@ function History({ printer, onCancel }: { printer: PrinterDetail; onCancel: (r: 
           <Table.Tbody>
             {rows.map((r) => {
               const cancelled = r.cancelled_at !== null
+              const struck = cancelled ? { c: 'dimmed', td: 'line-through' } : {}
               return (
-                <Table.Tr
-                  key={r.id}
-                  c={cancelled ? 'dimmed' : undefined}
-                  td={cancelled ? 'line-through' : undefined}
-                >
-                  <Table.Td>
+                <Table.Tr key={r.id}>
+                  <Table.Td {...struck}>
                     {formatDate(r.replaced_at)}
-                    <Text size="xs" c="dimmed" td="none">
+                    <Text size="xs" c="dimmed" inherit={false}>
                       {r.performed_by?.name}
                     </Text>
                   </Table.Td>
-                  <Table.Td>
+                  <Table.Td {...struck}>
                     <Text size="sm">{r.cartridge.name}</Text>
                     {r.note && (
                       <Text size="xs" c="dimmed">
@@ -168,7 +165,7 @@ function History({ printer, onCancel }: { printer: PrinterDetail; onCancel: (r: 
                       </Text>
                     )}
                   </Table.Td>
-                  <Table.Td>
+                  <Table.Td {...struck}>
                     <Text size="sm">{t(`source.${r.source}`)}</Text>
                     {r.stock_document && (
                       <Anchor component={Link} to={`/warehouse/documents/${r.stock_document.id}`} size="xs">
@@ -181,8 +178,10 @@ function History({ printer, onCancel }: { printer: PrinterDetail; onCancel: (r: 
                       </Text>
                     )}
                   </Table.Td>
-                  <Table.Td ta="right">{r.counter ? formatNumber(r.counter.total) : '—'}</Table.Td>
-                  <Table.Td ta="right">
+                  <Table.Td ta="right" {...struck}>
+                    {r.counter ? formatNumber(r.counter.total) : '—'}
+                  </Table.Td>
+                  <Table.Td ta="right" {...struck}>
                     {r.pages_since_previous === null ? '—' : formatNumber(r.pages_since_previous)}
                     {r.pages_since_previous !== null && r.cartridge.page_yield && (
                       <Text size="xs" c="dimmed">
@@ -190,7 +189,7 @@ function History({ printer, onCancel }: { printer: PrinterDetail; onCancel: (r: 
                       </Text>
                     )}
                   </Table.Td>
-                  <Table.Td ta="right" td="none">
+                  <Table.Td ta="right">
                     {cancelled ? (
                       <Stack gap={2} align="flex-end">
                         <CancelledBadge />
