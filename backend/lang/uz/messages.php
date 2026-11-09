@@ -170,4 +170,7 @@ return [
     'counter_below_previous' => "Hisoblagich oldingi ko'rsatkichdan kam bo'lmasligi kerak (:date sanada :total). Hisoblagich nolga tushgan bo'lsa, \"qayta boshlangan\" belgisini qo'ying.",
     'counter_above_next' => "Hisoblagich keyingi ko'rsatkichdan oshmasligi kerak (:date sanada :total).",
     'counter_delete_breaks_order' => "Bu ko'rsatkichni o'chirsangiz, keyingi ko'rsatkich oldingisidan kam bo'lib qoladi. Avval keyingi ko'rsatkichni o'chiring.",
+    'cartridge_not_compatible' => "Bu kartrij printer modeliga mos emas. Mos kartrijni tanlang yoki katalogda moslikni qo'shing.",
+    'cartridge_replacement_reason' => 'Kartrij almashtirish: :printer (:cartridge)',
+    'replacement_already_cancelled' => 'Bu almashtirish allaqachon bekor qilingan.',
 ];

@@ -6,6 +6,7 @@ use App\Models\Asset;
 use App\Models\AssetMaintenance;
 use App\Models\AssetModel;
 use App\Models\CartridgeModel;
+use App\Models\CartridgeReplacement;
 use App\Models\User;
 
 /** JSON shapes of the printer module (plain arrays, like the other module resources). */
@@ -92,6 +93,37 @@ final class PrinterResource
             'result' => $m->result,
             'cost' => $m->cost,
             'ticket' => $m->ticket === null ? null : ['id' => $m->ticket->id, 'number' => $m->ticket->number],
+        ];
+    }
+
+    /** @return array<string, mixed> */
+    public static function replacement(CartridgeReplacement $r, ?int $pagesSincePrevious, bool $canCancel): array
+    {
+        $document = $r->stockDocument;
+
+        return [
+            'id' => $r->id,
+            'replaced_at' => $r->replaced_at->toDateString(),
+            'printer' => ['id' => $r->asset->id, 'inventory_number' => $r->asset->inventory_number, 'name' => $r->asset->name],
+            'organization' => ['id' => $r->organization->id, 'name' => $r->organization->name],
+            'cartridge' => [
+                'id' => $r->cartridge->id, 'name' => $r->cartridge->name, 'part_number' => $r->cartridge->part_number,
+                'color' => $r->cartridge->color->value, 'page_yield' => $r->cartridge->page_yield,
+            ],
+            'source' => $r->source->value,
+            'warehouse' => $r->warehouse === null ? null : ['id' => $r->warehouse->id, 'name' => $r->warehouse->name],
+            'stock_document' => $document === null ? null : ['id' => $document->id, 'number' => $document->number],
+            'cost' => $document?->total_amount,
+            'counter' => $r->counter === null ? null : ['id' => $r->counter->id, 'total' => $r->counter->total],
+            'pages_since_previous' => $pagesSincePrevious,
+            'note' => $r->note,
+            'performed_by' => self::user($r->performer),
+            'created_at' => $r->created_at->toIso8601String(),
+            'cancelled_at' => $r->cancelled_at?->toIso8601String(),
+            'cancelled_by' => self::user($r->canceller),
+            'cancel_reason' => $r->cancel_reason,
+            'return_document' => $r->returnDocument === null ? null : ['id' => $r->returnDocument->id, 'number' => $r->returnDocument->number],
+            'can_cancel' => $canCancel,
         ];
     }
 }

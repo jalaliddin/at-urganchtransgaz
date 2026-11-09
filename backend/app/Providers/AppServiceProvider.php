@@ -9,8 +9,9 @@ use App\Models\AssetDisposal;
 use App\Models\AssetMaintenance;
 use App\Models\AssetModel;
 use App\Models\AssetTransfer;
-use App\Models\CartridgeModel;
 use App\Models\AuditLog;
+use App\Models\CartridgeModel;
+use App\Models\CartridgeReplacement;
 use App\Models\Department;
 use App\Models\Document;
 use App\Models\DocumentVersion;
@@ -143,6 +144,7 @@ class AppServiceProvider extends ServiceProvider
             'task' => Task::class,
             'task_recurrence' => TaskRecurrence::class,
             'cartridge_model' => CartridgeModel::class,
+            'cartridge_replacement' => CartridgeReplacement::class,
         ]);
     }
 
