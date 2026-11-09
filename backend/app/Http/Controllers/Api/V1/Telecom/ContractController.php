@@ -42,7 +42,7 @@ class ContractController extends Controller
                 CarbonImmutable::parse($today)->addDays((int) config('telecom.contract_notice_days'))->toDateString()]),
             default => null,
         };
-        $search = trim((string) $request->input('filter.search'));
+        $search = trim((string) $request->input('search', $request->input('filter.search')));
         if ($search !== '') {
             $query->where(fn ($w) => $w->where('number', 'like', "%{$search}%")->orWhere('subject', 'like', "%{$search}%"));
         }

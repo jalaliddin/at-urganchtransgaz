@@ -71,6 +71,7 @@ class SimRegistryTest extends TestCase
         $this->assertStringNotContainsString('89998011234567890123', $list->getContent() ?: '');
         $this->getJson('/api/v1/sim-cards?filter[search]=89998011234567890123')->assertOk()->assertJsonCount(1, 'data');
         $this->getJson('/api/v1/sim-cards?filter[search]=1234567')->assertOk()->assertJsonCount(1, 'data');
+        $this->getJson('/api/v1/sim-cards?search=90%20123')->assertOk()->assertJsonCount(1, 'data');
         $this->getJson('/api/v1/sim-cards?filter[search]=7777777')->assertOk()->assertJsonCount(0, 'data');
         $this->getJson("/api/v1/sim-cards?filter[provider]={$beeline->id}&filter[status]=in_stock")->assertOk()->assertJsonCount(1, 'data');
         $this->getJson('/api/v1/sim-cards?filter[status]=returned,in_stock')->assertOk()->assertJsonCount(1, 'data');

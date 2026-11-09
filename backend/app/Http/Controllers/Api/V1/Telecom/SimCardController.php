@@ -109,7 +109,7 @@ class SimCardController extends Controller
         if ($request->filled('filter.employee')) {
             $query->where('employee_id', $request->integer('filter.employee'));
         }
-        $search = trim((string) $request->input('filter.search'));
+        $search = trim((string) $request->input('search', $request->input('filter.search')));
         if ($search !== '') {
             $iccid = SimCard::normalizeIccid($search);
             $digits = preg_replace('/\D+/', '', $search) ?? '';

@@ -48,7 +48,7 @@ class ItServiceController extends Controller
         if ($request->filled('filter.organization')) {
             $query->whereIn('organization_id', OrganizationSubtree::ids($request->integer('filter.organization')) ?: [0]);
         }
-        $search = trim((string) $request->input('filter.search'));
+        $search = trim((string) $request->input('search', $request->input('filter.search')));
         if ($search !== '') {
             $query->where(fn ($w) => $w->where('name', 'like', "%{$search}%")->orWhere('identifier', 'like', "%{$search}%")
                 ->orWhere('address', 'like', "%{$search}%"));
