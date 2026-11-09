@@ -35,6 +35,7 @@ use App\Http\Controllers\Api\V1\Helpdesk\TicketController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketDocumentController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketHistoryController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketLinkController;
+use App\Http\Controllers\Api\V1\Knowledge\ArticleController;
 use App\Http\Controllers\Api\V1\Notifications\NotificationController;
 use App\Http\Controllers\Api\V1\Organizations\ItResponsibleController;
 use App\Http\Controllers\Api\V1\Organizations\OrganizationController;
@@ -277,6 +278,17 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
         Route::post('replacements', [ReplacementController::class, 'store'])->name('replacements.store');
     });
     Route::get('printer-report', PrinterReportController::class)->name('printer-report');
+
+    // Phase 7.3: knowledge base, problems, changes, preventive maintenance
+    Route::get('kb-articles/suggest', [ArticleController::class, 'suggest'])->name('kb-articles.suggest');
+    Route::apiResource('kb-articles', ArticleController::class)->parameters(['kb-articles' => 'kbArticle'])->whereNumber('kbArticle');
+    Route::prefix('kb-articles/{kbArticle}')->whereNumber('kbArticle')->name('kb-articles.')->group(function (): void {
+        Route::post('publish', [ArticleController::class, 'publish'])->name('publish');
+        Route::post('archive', [ArticleController::class, 'archive'])->name('archive');
+        Route::post('vote', [ArticleController::class, 'vote'])->name('vote');
+        Route::post('attachments', [ArticleController::class, 'attach'])->name('attachments.store');
+        Route::delete('attachments/{attachment}', [ArticleController::class, 'detach'])->whereNumber('attachment')->name('attachments.destroy');
+    });
     Route::get('cartridge-replacements', [ReplacementController::class, 'index'])->name('cartridge-replacements.index');
     Route::post('cartridge-replacements/{cartridgeReplacement}/cancel', [ReplacementController::class, 'cancel'])->whereNumber('cartridgeReplacement')->name('cartridge-replacements.cancel');
     Route::delete('printer-counters/{printerCounter}', [PrinterController::class, 'destroyCounter'])->whereNumber('printerCounter')->name('printer-counters.destroy');

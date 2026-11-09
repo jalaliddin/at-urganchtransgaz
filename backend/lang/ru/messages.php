@@ -174,4 +174,6 @@ return [
     'cartridge_replacement_reason' => 'Замена картриджа: :printer (:cartridge)',
     'replacement_already_cancelled' => 'Эта замена уже отменена.',
     'report_period_too_long' => 'Период не должен превышать :months мес.',
+    'kb_article_was_published' => 'Статья уже публиковалась — её нельзя удалить, переместите в архив.',
+    'ticket_not_accessible' => 'Заявка не найдена или недоступна вам.',
 ];

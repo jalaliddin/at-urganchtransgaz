@@ -60,6 +60,7 @@ use App\Services\Assets\AssetTransferService;
 use App\Services\Documents\DocumentService;
 use App\Services\Files\FileAccess;
 use App\Services\Helpdesk\TicketAttachments;
+use App\Services\Knowledge\Articles;
 use App\Services\Requisitions\RequisitionService;
 use App\Services\Tasks\TaskService;
 use App\Support\Access\OrganizationAccessResolver;
@@ -210,6 +211,9 @@ class AppServiceProvider extends ServiceProvider
 
         $files->register(fn (User $user, StoredFile $file): ?bool => $this->app
             ->make(TaskService::class)->canDownload($user, $file));
+
+        $files->register(fn (User $user, StoredFile $file): ?bool => $this->app
+            ->make(Articles::class)->canDownload($user, $file));
 
         // Invoice and payment scans: anyone working with services of the invoice's organization.
         $files->register(function (User $user, StoredFile $file): ?bool {

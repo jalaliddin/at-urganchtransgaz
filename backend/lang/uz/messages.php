@@ -174,4 +174,6 @@ return [
     'cartridge_replacement_reason' => 'Kartrij almashtirish: :printer (:cartridge)',
     'replacement_already_cancelled' => 'Bu almashtirish allaqachon bekor qilingan.',
     'report_period_too_long' => 'Davr :months oydan oshmasligi kerak.',
+    'kb_article_was_published' => "Maqola e'lon qilingan edi — uni o'chirib bo'lmaydi, arxivlang.",
+    'ticket_not_accessible' => "Bu ariza topilmadi yoki sizga ko'rinmaydi.",
 ];
