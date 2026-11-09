@@ -37,6 +37,9 @@ use App\Models\StockCount;
 use App\Models\StockDocument;
 use App\Models\StoredFile;
 use App\Models\SystemSetting;
+use App\Models\Task;
+use App\Models\TaskBoard;
+use App\Models\TaskRecurrence;
 use App\Models\Ticket;
 use App\Models\TicketAttachment;
 use App\Models\TicketCategory;
@@ -134,6 +137,9 @@ class AppServiceProvider extends ServiceProvider
             'it_service' => ItService::class,
             'service_invoice' => ServiceInvoice::class,
             'service_payment' => ServicePayment::class,
+            'task_board' => TaskBoard::class,
+            'task' => Task::class,
+            'task_recurrence' => TaskRecurrence::class,
         ]);
     }
 

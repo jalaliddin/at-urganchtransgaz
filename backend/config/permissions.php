@@ -30,6 +30,7 @@ return [
         'software' => ['view', 'install', 'manage', 'agents', 'export'],
         'sim' => ['view', 'manage', 'assign', 'export'],
         'services' => ['view', 'manage', 'invoice', 'approve', 'pay', 'export'],
+        'tasks' => ['view', 'create', 'manage', 'workload', 'export'],
     ],
 
     'roles' => [
@@ -62,6 +63,7 @@ return [
                 'software.view', 'software.install', 'software.manage', 'software.agents', 'software.export',
                 'sim.view', 'sim.manage', 'sim.assign', 'sim.export',
                 'services.view', 'services.manage', 'services.invoice', 'services.approve', 'services.pay', 'services.export',
+                'tasks.view', 'tasks.create', 'tasks.manage', 'tasks.workload', 'tasks.export',
             ],
         ],
         'central-it-staff' => [
@@ -79,6 +81,7 @@ return [
                 'software.view', 'software.install', 'software.agents', 'software.export',
                 'sim.view', 'sim.manage', 'sim.assign', 'sim.export',
                 'services.view', 'services.manage', 'services.invoice', 'services.export',
+                'tasks.view', 'tasks.create', 'tasks.export',
             ],
         ],
         'org-it-responsible' => [
@@ -96,6 +99,7 @@ return [
                 'software.view', 'software.install', 'software.export',
                 'sim.view', 'sim.assign', 'sim.export',
                 'services.view', 'services.invoice', 'services.export',
+                'tasks.view', 'tasks.create', 'tasks.manage', 'tasks.export',
             ],
         ],
         'org-head' => [
@@ -109,6 +113,7 @@ return [
                 'requisitions.view', 'requisitions.approve_org',
                 'software.view', 'software.export',
                 'sim.view', 'sim.export', 'services.view', 'services.export',
+                'tasks.view',
             ],
         ],
         'employee' => [
@@ -141,6 +146,7 @@ return [
                 'requisitions.view', 'requisitions.export',
                 'software.view', 'software.export',
                 'sim.view', 'sim.export', 'services.view', 'services.export',
+                'tasks.view', 'tasks.workload', 'tasks.export',
             ],
         ],
     ],
