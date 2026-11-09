@@ -7,6 +7,7 @@ import { makeMe } from '@/test/fixtures'
 import { server } from '@/test/server'
 import { renderWithProviders } from '@/test/utils'
 import { BoardPage } from './BoardPage'
+import { TaskFormModal } from './TaskFormModal'
 import { TaskPage } from './TaskPage'
 import { TicketTasksPanel } from './TicketTasksPanel'
 import { WorkloadPage } from './WorkloadPage'
@@ -79,7 +80,7 @@ const detail: TaskDetail = {
 const boardHandlers = [
   http.get('*/api/v1/task-boards/1', () => HttpResponse.json({ data: board })),
   http.get('*/api/v1/task-boards/1/members', () =>
-    HttpResponse.json({ data: [{ id: 4, name: 'Aziz Karimov' }] }),
+    HttpResponse.json({ data: [{ id: 4, name: 'Aziz Karimov', can_be_assignee: true }] }),
   ),
   http.get('*/api/v1/task-boards/1/cards', () =>
     HttpResponse.json({
@@ -154,7 +155,7 @@ describe('TicketTasksPanel', () => {
       http.get('*/api/v1/tickets/5/tasks', () => HttpResponse.json({ data: [] })),
       http.get('*/api/v1/task-boards', () => HttpResponse.json({ data: [board] })),
       http.get('*/api/v1/task-boards/1/members', () =>
-        HttpResponse.json({ data: [{ id: 4, name: 'Aziz Karimov' }] }),
+        HttpResponse.json({ data: [{ id: 4, name: 'Aziz Karimov', can_be_assignee: true }] }),
       ),
       http.post('*/api/v1/tickets/5/tasks', async ({ request }) => {
         body = await request.json()
@@ -209,5 +210,38 @@ describe('WorkloadPage', () => {
     expect(await screen.findByText('Aziz Karimov')).toBeInTheDocument()
     expect(screen.getByText(t('workload.unassigned'))).toBeInTheDocument()
     expect(screen.getByText('Urganch filiali')).toBeInTheDocument()
+  })
+})
+
+describe('TaskFormModal', () => {
+  it('offers only people who can work on tasks as responsible, everyone who sees the board as watchers', async () => {
+    server.use(
+      http.get('*/api/v1/task-boards/1', () => HttpResponse.json({ data: board })),
+      http.get('*/api/v1/task-boards/1/members', () =>
+        HttpResponse.json({
+          data: [
+            { id: 4, name: 'Aziz Karimov', can_be_assignee: true },
+            { id: 9, name: 'Rahbar Olimov', can_be_assignee: false },
+          ],
+        }),
+      ),
+      http.get('*/api/v1/organizations', () =>
+        HttpResponse.json({
+          data: [],
+          meta: { current_page: 1, per_page: 50, total: 0, last_page: 1, from: null, to: null },
+        }),
+      ),
+    )
+    renderWithProviders(<TaskFormModal boardId={1} onClose={() => {}} />, {
+      me: makeMe({ permissions: ['tasks.view', 'tasks.create'] }),
+    })
+
+    const dialog = within(await screen.findByRole('dialog'))
+    await userEvent.click(dialog.getByRole('combobox', { name: new RegExp(`^${t('fields.assignee')}`) }))
+    expect(await screen.findByRole('option', { name: 'Aziz Karimov' })).toBeInTheDocument()
+    expect(screen.queryByRole('option', { name: 'Rahbar Olimov' })).not.toBeInTheDocument()
+    await userEvent.keyboard('{Escape}')
+    await userEvent.click(dialog.getAllByLabelText(t('fields.watchers'))[0]!)
+    expect(await screen.findByRole('option', { name: 'Rahbar Olimov' })).toBeInTheDocument()
   })
 })

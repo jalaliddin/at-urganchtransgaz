@@ -48,7 +48,9 @@ function CreateFromTicket({ ticketId, onClose }: { ticketId: number; onClose: ()
           clearable
           searchable
           disabled={!boardId}
-          data={(members.data ?? []).map((m) => ({ value: String(m.id), label: m.name }))}
+          data={(members.data ?? [])
+            .filter((m) => m.can_be_assignee)
+            .map((m) => ({ value: String(m.id), label: m.name }))}
           value={assignee}
           onChange={setAssignee}
         />

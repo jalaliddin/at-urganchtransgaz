@@ -149,7 +149,9 @@ export function RecurrencesModal({ board, onClose }: { board: BoardDetail; onClo
             label={t('fields.assignee')}
             clearable
             searchable
-            data={(members.data ?? []).map((m) => ({ value: String(m.id), label: m.name }))}
+            data={(members.data ?? [])
+              .filter((m) => m.can_be_assignee)
+              .map((m) => ({ value: String(m.id), label: m.name }))}
             value={assignee}
             onChange={setAssignee}
             error={errors.assignee_id}

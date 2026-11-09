@@ -66,6 +66,9 @@ export function TaskFormModal({
       : s.createTask(boardId, { ...values, column_id: column ? Number(column) : null })
   })
   const people = (members.data ?? []).map((m) => ({ value: String(m.id), label: m.name }))
+  const workers = (members.data ?? [])
+    .filter((m) => m.can_be_assignee)
+    .map((m) => ({ value: String(m.id), label: m.name }))
 
   const submit = () => {
     if (!title.trim()) {
@@ -122,7 +125,7 @@ export function TaskFormModal({
             label={t('fields.assignee')}
             searchable
             clearable
-            data={people}
+            data={workers}
             value={assignee}
             onChange={setAssignee}
             error={errors.assignee_id}

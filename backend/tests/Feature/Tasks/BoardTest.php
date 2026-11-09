@@ -104,7 +104,10 @@ class BoardTest extends TestCase
         $this->makeUser(Roles::EMPLOYEE, $this->org);
         $this->makeUser(Roles::CENTRAL_IT_STAFF, Organization::factory()->create());
 
-        $ids = array_column($this->actingAs($this->it)->getJson("/api/v1/task-boards/{$board->id}/members")->assertOk()->json('data'), 'id');
-        $this->assertEqualsCanonicalizing([$this->it->id, $staff->id], $ids);
+        $viewer = $this->makeUser(Roles::ORG_HEAD, $this->org);
+        $members = collect($this->actingAs($this->it)->getJson("/api/v1/task-boards/{$board->id}/members")->assertOk()->json('data'));
+        $this->assertEqualsCanonicalizing([$this->it->id, $staff->id, $viewer->id], $members->pluck('id')->all());
+        $this->assertFalse($members->firstWhere('id', $viewer->id)['can_be_assignee']);
+        $this->assertTrue($members->firstWhere('id', $staff->id)['can_be_assignee']);
     }
 }

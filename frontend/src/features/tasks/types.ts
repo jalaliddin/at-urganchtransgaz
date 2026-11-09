@@ -3,6 +3,11 @@ export interface Ref {
   name: string
 }
 
+/** Someone who can open a board; only those who can work on tasks may be responsible. */
+export interface Member extends Ref {
+  can_be_assignee: boolean
+}
+
 export type ColumnCategory = 'open' | 'done' | 'cancelled'
 export const PRIORITIES = ['low', 'normal', 'high', 'urgent'] as const
 export type Priority = (typeof PRIORITIES)[number]

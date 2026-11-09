@@ -7,8 +7,8 @@ import type {
   Card,
   Column,
   Label,
+  Member,
   Recurrence,
-  Ref,
   TaskDetail,
   Workload,
 } from './types'
@@ -24,7 +24,7 @@ export const getBoard = (id: number) => data<BoardDetail>(api.get(`/task-boards/
 export const saveBoard = (values: Values, id?: number) =>
   data<BoardDetail>(id ? api.put(`/task-boards/${id}`, values) : api.post('/task-boards', values))
 export const deleteBoard = (id: number) => message(api.delete(`/task-boards/${id}`))
-export const boardMembers = (id: number) => data<Ref[]>(api.get(`/task-boards/${id}/members`))
+export const boardMembers = (id: number) => data<Member[]>(api.get(`/task-boards/${id}/members`))
 export const boardCards = (id: number, params: Params) =>
   data<{ columns: BoardColumn[] }>(api.get(`/task-boards/${id}/cards`, { params }))
 

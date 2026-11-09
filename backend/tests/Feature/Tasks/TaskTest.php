@@ -63,6 +63,10 @@ class TaskTest extends TestCase
 
         $this->postJson($url, ['title' => 'X', 'organization_id' => Organization::factory()->create()->id])->assertStatus(422)->assertJsonValidationErrors('organization_id');
         $this->postJson($url, ['title' => 'X', 'assignee_id' => $this->makeUser(Roles::EMPLOYEE, $this->org)->id])->assertStatus(422)->assertJsonValidationErrors('assignee_id');
+        // A read-only viewer may watch a task but cannot be responsible for it.
+        $viewer = $this->makeUser(Roles::ORG_HEAD, $this->org);
+        $this->postJson($url, ['title' => 'X', 'assignee_id' => $viewer->id])->assertStatus(422)->assertJsonValidationErrors('assignee_id');
+        $this->postJson($url, ['title' => 'Kuzatiladi', 'watcher_ids' => [$viewer->id]])->assertCreated();
         $this->postJson($url, ['title' => 'X', 'assignee_id' => $this->makeUser(Roles::CENTRAL_IT_STAFF, Organization::factory()->create())->id])
             ->assertStatus(422)->assertJsonValidationErrors('assignee_id');
         $other = $this->boardIn($this->org, 'Boshqa');

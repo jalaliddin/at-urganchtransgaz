@@ -23,7 +23,7 @@ repeats by itself; a ticket can become a task; the central IT head sees the work
 | K4 | Overdue = due date before today and the task in an open column; shown on cards, lists, dashboard | §5.11 indicator |
 | K5 | Moving = column + position; positions are renumbered in the target column inside one transaction under the board row lock (no gaps, no duplicates under concurrent drags) | Drag-and-drop correctness |
 | K6 | Checklist items (text, done, position), comments, attachments (FileStore, same visibility as the task), history of every change (created, updated fields, moved, assigned, checklist, comment, file, completed, reopened) | §5.11 |
-| K7 | Responsible person and watchers are active users who hold `tasks.view` and can access the board's organization | Only people who can open the task get it |
+| K7 | Watchers are active users who hold `tasks.view` and can access the board's organization; the responsible person must also hold `tasks.create` (read-only viewers such as auditors cannot be given work) | Only people who can open the task get it |
 | K8 | Recurring tasks: a recurrence on a board (title, description, responsible, priority, labels, target column, frequency daily/weekly/monthly with interval, weekday or month day, due in N days, next date, active). Daily `tasks:daily` creates due occurrences once per recurrence and date (`recurrence_id + occurrence_date` UNIQUE) | §5.11 recurring tasks |
 | K9 | From a Helpdesk ticket: "create task" picks a board; the task copies title/description/organization and keeps the link both ways | §5.11 |
 | K10 | Notifications: assigned to you; comment on a task you are responsible for or watch; due tomorrow and overdue (daily, once per task and due date) | §5.14 |

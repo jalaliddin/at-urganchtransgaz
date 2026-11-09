@@ -48,13 +48,13 @@ class TaskBoardController extends Controller
         return $this->card($taskBoard);
     }
 
-    /** People who can open the board: candidates for responsible person and watchers. */
+    /** People who can open the board (watchers); those who can work on tasks may also be responsible. */
     public function members(TaskBoard $taskBoard, HelpdeskRecipients $recipients): JsonResponse
     {
         Gate::authorize('tasks.view');
         $users = $recipients->withPermission('tasks.view', $taskBoard->organization_id);
 
-        return ApiResponse::data($users->map(fn (User $u) => TaskResource::user($u))->values());
+        return ApiResponse::data($users->map(fn (User $u) => [...(array) TaskResource::user($u), 'can_be_assignee' => $u->can('tasks.create')])->values());
     }
 
     public function store(Request $request): JsonResponse

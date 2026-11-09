@@ -266,14 +266,17 @@ class TaskService
         return $id;
     }
 
-    /** An active user who can open the board (tasks.view + access to its organization). */
-    public function eligible(TaskBoard $board, mixed $userId, string $field): ?int
+    /**
+     * An active user who can open the board (tasks.view + access to its organization); the responsible
+     * person must also be able to work on tasks (tasks.create), a watcher may only read.
+     */
+    public function eligible(TaskBoard $board, mixed $userId, string $field, bool $works = true): ?int
     {
         if ($userId === null || $userId === '') {
             return null;
         }
         $user = User::query()->withoutGlobalScopes()->where('is_active', true)->find((int) $userId);
-        if ($user === null || ! $user->can('tasks.view') || ! $user->canAccessOrganization($board->organization_id)) {
+        if ($user === null || ! $user->can($works ? 'tasks.create' : 'tasks.view') || ! $user->canAccessOrganization($board->organization_id)) {
             throw ValidationException::withMessages([$field => __('messages.task_user_cannot_see_board')]);
         }
 
@@ -286,7 +289,7 @@ class TaskService
      */
     public function eligibleMany(TaskBoard $board, array $ids): array
     {
-        return array_values(array_unique(array_map(fn ($id) => (int) $this->eligible($board, $id, 'watcher_ids'), array_filter($ids, fn ($id) => $id !== null))));
+        return array_values(array_unique(array_map(fn ($id) => (int) $this->eligible($board, $id, 'watcher_ids', false), array_filter($ids, fn ($id) => $id !== null))));
     }
 
     /**
