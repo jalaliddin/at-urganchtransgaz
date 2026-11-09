@@ -48,7 +48,7 @@ class BillingService
             $due = $periodStart->setDay(min($service->due_day, $periodStart->daysInMonth));
             $runs = ($service->started_at === null || $service->started_at->lte($periodEnd))
                 && ($service->ended_at === null || $service->ended_at->gte($periodStart));
-            if (! $runs || $due->lt($tracking)) {
+            if (! $runs || $due->lt($tracking) || $this->overlapsOtherPeriod($service, $periodStart, $periodEnd)) {
                 continue;
             }
             $invoice = ServiceInvoice::query()->withoutGlobalScopes()->firstOrCreate(
@@ -63,6 +63,43 @@ class BillingService
         }
 
         return $created;
+    }
+
+    /**
+     * After a service changed: open periods nobody has touched yet (no invoice, approval or payment) follow the
+     * new fee and due day, or go away when the service no longer runs in them or the billing cycle changed;
+     * then the current and next period are generated again. Entered invoices are the provider's figures and stay.
+     */
+    public function resync(ItService $service, CarbonImmutable $today): void
+    {
+        $untouched = ServiceInvoice::query()->withoutGlobalScopes()->where('service_id', $service->id)
+            ->where('kind', InvoiceKind::Regular->value)->whereNull('amount')->whereNull('approved_at')->where('paid_amount', 0)
+            ->where('period_end', '>=', $today->toDateString())->lockForUpdate()->get();
+        foreach ($untouched as $invoice) {
+            [$start, $end] = $this->periodOf($service->billing_cycle, $invoice->period_start);
+            $runs = $service->is_active
+                && ($service->started_at === null || $service->started_at->lte($invoice->period_end))
+                && ($service->ended_at === null || $service->ended_at->gte($invoice->period_start));
+            if (! $runs || ! $start->equalTo($invoice->period_start) || ! $end->equalTo($invoice->period_end)) {
+                $invoice->delete();
+
+                continue;
+            }
+            $invoice->forceFill([
+                'planned_amount' => $service->fee,
+                'due_date' => $start->setDay(min($service->due_day, $start->daysInMonth)),
+            ])->save();
+            $this->refresh($invoice, $today);
+        }
+        $this->generateFor($service, $today);
+    }
+
+    /** Another regular row of the service already covers part of this period (e.g. after a cycle change). */
+    private function overlapsOtherPeriod(ItService $service, CarbonImmutable $start, CarbonImmutable $end): bool
+    {
+        return ServiceInvoice::query()->withoutGlobalScopes()->where('service_id', $service->id)
+            ->where('kind', InvoiceKind::Regular->value)->where('period_key', '!=', $service->id.':'.$start->toDateString())
+            ->where('period_start', '<=', $end->toDateString())->where('period_end', '>=', $start->toDateString())->exists();
     }
 
     /**

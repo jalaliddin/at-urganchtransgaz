@@ -96,8 +96,10 @@ class ItServiceController extends Controller
         ]);
         $this->checkContract(array_key_exists('contract_id', $data) ? $data['contract_id'] : $itService->contract_id,
             $itService->organization_id, (int) ($data['provider_id'] ?? $itService->provider_id));
-        $itService->update($data);
-        $this->billing->generateFor($itService->refresh(), BillingService::today());
+        DB::transaction(function () use ($itService, $data): void {
+            $itService->update($data);
+            $this->billing->resync($itService->refresh(), BillingService::today());
+        });
 
         return $this->card($itService);
     }

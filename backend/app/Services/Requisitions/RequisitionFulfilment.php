@@ -179,9 +179,7 @@ class RequisitionFulfilment
     private function fromAssets(Requisition $requisition, int $assetId, User $by): array
     {
         $asset = Asset::query()->visibleTo($by)->lockForUpdate()->find($assetId);
-        $promised = $asset !== null && RequisitionFulfillment::query()->where('asset_id', $asset->id)
-            ->whereIn('requisition_id', Requisition::query()->withoutGlobalScopes()->select('id')->whereNotIn('status', [S::Received->value, S::Closed->value]))
-            ->exists();
+        $promised = $asset !== null && RequisitionQueries::promised('asset_id', $asset->id);
         if ($asset === null || ! in_array($asset->status, [AssetStatus::InStock, AssetStatus::Reserve], true) || $asset->transfer_id !== null || $promised) {
             throw ValidationException::withMessages(['asset_id' => __('messages.allocation_asset_unavailable')]);
         }
@@ -205,9 +203,7 @@ class RequisitionFulfilment
     private function fromSims(Requisition $requisition, int $cardId, User $by): array
     {
         $card = SimCard::query()->withoutGlobalScopes()->lockForUpdate()->find($cardId);
-        $promised = $card !== null && RequisitionFulfillment::query()->where('sim_card_id', $card->id)
-            ->whereIn('requisition_id', Requisition::query()->withoutGlobalScopes()->select('id')->whereNotIn('status', [S::Received->value, S::Closed->value]))
-            ->exists();
+        $promised = $card !== null && RequisitionQueries::promised('sim_card_id', $card->id);
         if ($card === null || ! $by->canAccessOrganization($card->organization_id) || ! $card->status->isAvailable() || $promised) {
             throw ValidationException::withMessages(['sim_card_id' => __('messages.allocation_sim_unavailable')]);
         }

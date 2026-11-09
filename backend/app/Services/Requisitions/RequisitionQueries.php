@@ -4,6 +4,7 @@ namespace App\Services\Requisitions;
 
 use App\Enums\RequisitionStatus as S;
 use App\Models\Requisition;
+use App\Models\RequisitionFulfillment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -38,5 +39,19 @@ final class RequisitionQueries
             }
             $q->orWhere(fn ($w) => $w->whereIn('status', [S::InfoRequested->value, S::Fulfilled->value])->where($own));
         });
+    }
+
+    /**
+     * Whether an asset or SIM card was already given to a requisition that is not received or closed yet.
+     * A locking (current) read: called under the object's row lock, it must see allocations committed while
+     * this transaction waited, not its REPEATABLE READ snapshot.
+     *
+     * @param  'asset_id'|'sim_card_id'  $column
+     */
+    public static function promised(string $column, int $id): bool
+    {
+        return RequisitionFulfillment::query()->where($column, $id)
+            ->whereIn('requisition_id', Requisition::query()->withoutGlobalScopes()->select('id')->whereNotIn('status', [S::Received->value, S::Closed->value]))
+            ->lockForUpdate()->value('id') !== null;
     }
 }

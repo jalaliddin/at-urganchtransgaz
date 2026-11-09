@@ -181,4 +181,31 @@ class InvoiceTest extends TestCase
         $this->getJson("/api/v1/service-invoices/{$foreignInvoice->id}")->assertNotFound();
         $this->getJson('/api/v1/service-invoices?filter[approval]=pending')->assertOk()->assertJsonCount(0, 'data');
     }
+
+    public function test_changing_a_service_updates_its_open_periods_and_never_double_bills(): void
+    {
+        $service = $this->serviceIn($this->branch, ['started_at' => '2026-01-01']);
+        app(BillingService::class)->generate(CarbonImmutable::today());
+        $rows = fn () => ServiceInvoice::query()->where('service_id', $service->id)->orderBy('period_start')->get()
+            ->map(fn (ServiceInvoice $i) => [$i->period_start->toDateString(), $i->period_end->toDateString(), $i->planned_amount, $i->due_date->toDateString()])->all();
+        $url = "/api/v1/it-services/{$service->id}";
+
+        $this->actingAs($this->head)->putJson($url, ['fee' => '1600000', 'due_day' => 20])->assertOk();
+        $this->assertSame([
+            ['2026-11-01', '2026-11-30', '1600000.00', '2026-11-20'],
+            ['2026-12-01', '2026-12-31', '1600000.00', '2026-12-20'],
+        ], $rows());
+
+        // An entered invoice is the provider's figure: it stays as it is.
+        $november = ServiceInvoice::query()->where('service_id', $service->id)->where('period_start', '2026-11-01')->firstOrFail();
+        $this->actingAs($this->it)->putJson("/api/v1/service-invoices/{$november->id}", ['amount' => '1600000'])->assertOk();
+        $this->actingAs($this->head)->putJson($url, ['billing_cycle' => 'quarterly'])->assertOk();
+        $this->assertSame([
+            ['2026-11-01', '2026-11-30', '1600000.00', '2026-11-20'],
+            ['2027-01-01', '2027-03-31', '1600000.00', '2027-01-20'],
+        ], $rows());
+
+        $this->putJson($url, ['is_active' => false])->assertOk();
+        $this->assertSame([['2026-11-01', '2026-11-30', '1600000.00', '2026-11-20']], $rows());
+    }
 }
