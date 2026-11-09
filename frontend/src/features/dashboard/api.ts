@@ -57,6 +57,7 @@ export interface DashboardData {
     licenses_expiring: number
   }
   tasks?: { my_open: number; my_overdue: number; overdue: number }
+  printers?: { printers: number; replacements_month: number; cartridges_in_stock: string; low_stock: number }
   sim?: {
     total: number
     by_status: { in_stock: number; active: number; blocked: number; returned: number }

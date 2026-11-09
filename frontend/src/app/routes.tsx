@@ -43,6 +43,11 @@ import { SimCardsPage } from '@/features/sim/SimCardsPage'
 import { SimDetailPage } from '@/features/sim/SimDetailPage'
 import { SimReportPage } from '@/features/sim/SimReportPage'
 import { AgentsPage } from '@/features/software/AgentsPage'
+import { CartridgesPage } from '@/features/printers/CartridgesPage'
+import { ConsumptionPage } from '@/features/printers/ConsumptionPage'
+import { PrinterPage } from '@/features/printers/PrinterPage'
+import { PrintersPage } from '@/features/printers/PrintersPage'
+import { ReplacementsPage } from '@/features/printers/ReplacementsPage'
 import { BoardPage } from '@/features/tasks/BoardPage'
 import { BoardsPage } from '@/features/tasks/BoardsPage'
 import { MyTasksPage } from '@/features/tasks/MyTasksPage'
@@ -212,6 +217,30 @@ export const routes: RouteObject[] = [
                   },
                   { path: 'boards/:id', element: <BoardPage />, handle: { crumb: 'tasks:crumbs.board' } },
                   { path: ':id', element: <TaskPage />, handle: { crumb: 'tasks:crumbs.task' } },
+                ],
+              },
+              {
+                path: 'printers',
+                element: <RequirePermission permission="printers.view" />,
+                handle: { crumb: 'nav:items.printers' },
+                children: [
+                  { index: true, element: <PrintersPage /> },
+                  {
+                    path: 'cartridges',
+                    element: <CartridgesPage />,
+                    handle: { crumb: 'nav:items.cartridges' },
+                  },
+                  {
+                    path: 'replacements',
+                    element: <ReplacementsPage />,
+                    handle: { crumb: 'nav:items.cartridgeReplacements' },
+                  },
+                  {
+                    path: 'report',
+                    element: <ConsumptionPage />,
+                    handle: { crumb: 'nav:items.printerReport' },
+                  },
+                  { path: ':id', element: <PrinterPage />, handle: { crumb: 'printers:crumb' } },
                 ],
               },
               {

@@ -5,7 +5,7 @@ import { ErrorState } from '@/components/ErrorState'
 import { PageHeader } from '@/components/PageHeader'
 import { useCurrentUser } from '@/features/auth/queries'
 import { useOrgContext } from '@/hooks/useOrgContext'
-import { formatMoney } from '@/lib/format'
+import { formatMoney, formatNumber } from '@/lib/format'
 import { fetchDashboard } from './api'
 import { CoverageMeter } from './widgets/CoverageMeter'
 import { EmployeesByStatus } from './widgets/EmployeesByStatus'
@@ -22,6 +22,7 @@ export function DashboardPage() {
   const { t: ts } = useTranslation('software')
   const { t: tsim } = useTranslation('sim')
   const { t: ttask } = useTranslation('tasks')
+  const { t: tprn } = useTranslation('printers')
   const { t: tsv } = useTranslation('services')
   const me = useCurrentUser()
   const { organizationId: orgContextId } = useOrgContext()
@@ -157,6 +158,26 @@ export function DashboardPage() {
         value={data.tasks.my_open}
         detail={ttask('dashboard.overdue', { mine: data.tasks.my_overdue, all: data.tasks.overdue })}
         href="/tasks/my"
+      />
+    ),
+    data.printers && data.printers.printers > 0 && (
+      <StatTile
+        key="printers"
+        label={tprn('dashboard.printers')}
+        value={data.printers.printers}
+        detail={tprn('dashboard.detail', {
+          replaced: data.printers.replacements_month,
+          stock: formatNumber(Number(data.printers.cartridges_in_stock)),
+        })}
+        href="/printers"
+      />
+    ),
+    data.printers && data.printers.low_stock > 0 && (
+      <StatTile
+        key="printers-low"
+        label={tprn('dashboard.lowStock')}
+        value={data.printers.low_stock}
+        href="/printers/cartridges"
       />
     ),
     data.sim && data.sim.total > 0 && (

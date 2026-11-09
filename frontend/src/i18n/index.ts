@@ -23,6 +23,7 @@ import ruServices from './locales/ru/services.json'
 import ruSim from './locales/ru/sim.json'
 import ruSoftware from './locales/ru/software.json'
 import ruTasks from './locales/ru/tasks.json'
+import ruPrinters from './locales/ru/printers.json'
 import ruExports from './locales/ru/exports.json'
 import ruDocuments from './locales/ru/documents.json'
 import ruHelpdesk from './locales/ru/helpdesk.json'
@@ -49,6 +50,7 @@ import uzServices from './locales/uz/services.json'
 import uzSim from './locales/uz/sim.json'
 import uzSoftware from './locales/uz/software.json'
 import uzTasks from './locales/uz/tasks.json'
+import uzPrinters from './locales/uz/printers.json'
 import uzExports from './locales/uz/exports.json'
 import uzDocuments from './locales/uz/documents.json'
 import uzHelpdesk from './locales/uz/helpdesk.json'
@@ -83,6 +85,7 @@ export const resources = {
     sim: uzSim,
     services: uzServices,
     tasks: uzTasks,
+    printers: uzPrinters,
     exports: uzExports,
     documents: uzDocuments,
     helpdesk: uzHelpdesk,
@@ -111,6 +114,7 @@ export const resources = {
     sim: ruSim,
     services: ruServices,
     tasks: ruTasks,
+    printers: ruPrinters,
     exports: ruExports,
     documents: ruDocuments,
     helpdesk: ruHelpdesk,

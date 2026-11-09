@@ -1,0 +1,183 @@
+{
+  "title": "Printerlar",
+  "description": "Printer toifasidagi aktivlar: joyi, ulanishi, kartrijlari va hisoblagichi",
+  "empty": "Printer topilmadi. Printerlar \"Printer, MFP, skaner\" toifasidagi aktiv sifatida qo'shiladi.",
+  "crumb": "Printer",
+  "filters": {
+    "search": "Inventar raqami, nomi, seriya yoki IP",
+    "cartridge": "Mos kartrij"
+  },
+  "fields": {
+    "printer": "Printer",
+    "place": "Joylashuv",
+    "holder": "Biriktirilgan xodim",
+    "connection": "Ulanish turi",
+    "status": "Holati",
+    "lastReplacement": "Oxirgi kartrij",
+    "lastCounter": "Hisoblagich",
+    "cartridge": "Kartrij",
+    "source": "Manba",
+    "warehouse": "Ombor",
+    "replacedAt": "Almashtirilgan sana",
+    "counter": "Hisoblagich",
+    "note": "Izoh",
+    "readAt": "Sana",
+    "total": "Hisoblagich ko'rsatkichi",
+    "isColor": "Rangli bosma",
+    "color": "Rangi",
+    "pageYield": "Resurs (sahifa)",
+    "stock": "Qoldiq",
+    "pagesSince": "Shu kartrij bilan",
+    "pages": "Sahifalar",
+    "ip": "IP / host nomi",
+    "serial": "Seriya raqami",
+    "name": "Nomi",
+    "partNumber": "Artikul",
+    "kind": "Turi",
+    "printerModels": "Mos printer modellari",
+    "material": "Ombordagi material",
+    "active": "Faol",
+    "cost": "Narxi",
+    "performedBy": "Bajardi"
+  },
+  "connection": {
+    "usb": "USB",
+    "network": "Tarmoq (LAN)",
+    "wifi": "Wi-Fi",
+    "shared": "Umumiy (kompyuter orqali)"
+  },
+  "color": {
+    "black": "Qora",
+    "cyan": "Havorang",
+    "magenta": "Qizil-binafsha",
+    "yellow": "Sariq",
+    "tricolor": "Uch rangli",
+    "other": "Boshqa"
+  },
+  "kind": {
+    "toner": "Toner-kartrij",
+    "ink": "Siyohli kartrij",
+    "drum": "Fotobaraban",
+    "ribbon": "Lenta",
+    "other": "Boshqa"
+  },
+  "source": {
+    "warehouse": "Ombordan",
+    "other": "Ombordan tashqari"
+  },
+  "counterSource": {
+    "manual": "Qo'lda",
+    "replacement": "Almashtirishda"
+  },
+  "replacements": {
+    "title": "Kartrij almashtirish jurnali",
+    "description": "Qaysi printerga qaysi kartrij qachon qo'yilgani",
+    "empty": "Almashtirish yozuvlari yo'q",
+    "search": "Printer inventar raqami yoki nomi",
+    "state": "Holati",
+    "activeOnly": "Amaldagilar",
+    "cancelledOnly": "Bekor qilinganlar",
+    "cancelled": "Bekor qilingan"
+  },
+  "replace": {
+    "title": "Kartrij almashtirish",
+    "noCompatibility": "Bu printer modeliga mos kartrijlar katalogda belgilanmagan, shuning uchun barcha faol kartrijlar ko'rsatilmoqda.",
+    "pickCartridge": "Kartrijni tanlang",
+    "inStock": "qoldiq: {{count}}",
+    "noCartridges": "Mos kartrij yo'q",
+    "warehouseHint": "Ombordan 1 dona chiqim hujjati avtomatik yaratiladi.",
+    "noStock": "Siz ko'radigan omborlarda bu kartrij qolmagan",
+    "otherHint": "Ombordan tashqari: tashkilotga oldin berilgan, zapravka qilingan yoki to'g'ridan-to'g'ri sotib olingan kartrij. Qoldiq o'zgarmaydi.",
+    "submit": "Almashtirishni saqlash",
+    "done": "Kartrij almashtirildi"
+  },
+  "counter": {
+    "title": "Hisoblagich kiritish",
+    "last": "Oxirgi: {{total}} ({{date}})",
+    "optional": "Ixtiyoriy",
+    "reset": "Hisoblagich qayta boshlangan",
+    "resetHint": "Masalan, plata almashtirilib hisoblagich nolga tushgan bo'lsa.",
+    "resetBadge": "qayta boshlangan",
+    "done": "Hisoblagich saqlandi",
+    "submit": "Saqlash",
+    "delete": "Ko'rsatkichni o'chirish",
+    "deleteConfirm": "{{date}} sanadagi {{total}} ko'rsatkichi o'chirilsinmi?"
+  },
+  "profile": {
+    "title": "Printer ma'lumotlarini tahrirlash"
+  },
+  "cancel": {
+    "action": "Bekor qilish",
+    "title": "Almashtirishni bekor qilish",
+    "summary": "{{date}} sanadagi \"{{cartridge}}\" almashtirishi bekor qilinadi. Yozuv tarixda bekor qilingan holda qoladi.",
+    "stockBack": "Kartrij \"{{warehouse}}\" omboriga qaytariladi (qaytarish hujjati yaratiladi).",
+    "reason": "Sababi",
+    "submit": "Bekor qilish",
+    "done": "Almashtirish bekor qilindi"
+  },
+  "detail": {
+    "asset": "Aktiv kartochkasi",
+    "profile": "Printer",
+    "color": "Rangli",
+    "mono": "Oq-qora",
+    "cartridges": "Mos kartrijlar",
+    "history": "Kartrij almashtirish tarixi",
+    "counters": "Hisoblagich ko'rsatkichlari",
+    "monthlyPages": "Oylar bo'yicha sahifalar",
+    "repairs": "Nosozlik va ta'mir tarixi",
+    "noCartridges": "Faol kartrij modeli yo'q. Avval kartrij katalogini to'ldiring.",
+    "noReplacements": "Kartrij hali almashtirilmagan",
+    "noCounters": "Hisoblagich ko'rsatkichlari kiritilmagan",
+    "noPages": "Sahifa statistikasi uchun kamida ikkita hisoblagich ko'rsatkichi kerak",
+    "noRepairs": "Ta'mir yozuvlari yo'q",
+    "ofYield": "resurs {{yield}}",
+    "open": "Printer kartochkasi"
+  },
+  "repair": {
+    "open": "Ta'mirda",
+    "closed": "Yakunlangan"
+  },
+  "catalog": {
+    "title": "Kartrij katalogi",
+    "description": "Kartrij va toner modellari, ular mos keladigan printerlar va ombordagi qoldig'i",
+    "add": "Kartrij qo'shish",
+    "edit": "Kartrijni tahrirlash",
+    "empty": "Kartrij modellari yo'q",
+    "search": "Nomi, artikul yoki material kodi",
+    "activeOnly": "Faollari",
+    "inactiveOnly": "Faol emaslari",
+    "inactive": "faol emas",
+    "anyPrinter": "Moslik belgilanmagan",
+    "deleteConfirm": "\"{{name}}\" kartrij modeli o'chirilsinmi?",
+    "modelsHint": "Ro'yxat bo'lsa, bu modellardagi printerlarga faqat mos kartrijlar qo'yiladi.",
+    "noModels": "Printer toifasida model yo'q",
+    "materialHint": "Bo'sh qoldirilsa, ombor katalogida shu nomli material yaratiladi.",
+    "newMaterial": "Yangi material yaratish"
+  },
+  "report": {
+    "title": "Kartrij va printer sarfi",
+    "description": "Almashtirilgan kartrijlar, ularning narxi va bosilgan sahifalar",
+    "from": "Davr boshi",
+    "to": "Davr oxiri",
+    "groupBy": "Guruhlash",
+    "groups": {
+      "organization": "Tashkilot",
+      "cartridge": "Kartrij",
+      "printer": "Printer"
+    },
+    "replacements": "Almashtirishlar",
+    "cost": "Xarajat",
+    "pages": "Sahifalar",
+    "costPerPage": "Bir sahifa narxi",
+    "empty": "Bu davrda ma'lumot yo'q",
+    "total": "Jami",
+    "note": "Xarajat — ombordan berilgan kartrijlar narxi. Sahifalar hisoblagich ko'rsatkichlari farqidan olinadi. Bekor qilingan almashtirishlar hisobga kirmaydi.",
+    "monthly": "Oylar kesimida",
+    "month": "Oy"
+  },
+  "dashboard": {
+    "printers": "Printerlar",
+    "detail": "Shu oy almashtirildi: {{replaced}}, omborda kartrij: {{stock}}",
+    "lowStock": "Kartrij kam qolgan"
+  }
+}

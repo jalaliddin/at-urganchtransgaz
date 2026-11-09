@@ -22,6 +22,7 @@ import {
   IconDownload,
   IconFile,
   IconPencil,
+  IconPrinter,
   IconTrash,
   IconUpload,
 } from '@tabler/icons-react'
@@ -360,7 +361,7 @@ function DocumentsTab({ asset }: { asset: Asset }) {
 }
 
 export function AssetDetailPage() {
-  const { t } = useTranslation(['assets', 'common'])
+  const { t } = useTranslation(['assets', 'common', 'printers'])
   const navigate = useNavigate()
   const id = Number(useParams().id)
   const query = useAsset(id)
@@ -369,6 +370,7 @@ export function AssetDetailPage() {
   const [editing, setEditing] = useState(false)
   const remove = useAssetMutation(() => a.deleteAsset(id))
   const canSoftware = useCan(['software.view', 'software.install', 'software.manage'], 'any')
+  const canPrinters = useCan('printers.view')
 
   if (query.error instanceof ApiError && query.error.status === 404) return <NotFoundPage />
   if (query.error) return <ErrorState error={query.error} onRetry={() => void query.refetch()} />
@@ -412,6 +414,16 @@ export function AssetDetailPage() {
         }
         actions={
           <Group gap="sm">
+            {canPrinters && asset.category?.code === 'printer' && (
+              <Button
+                variant="default"
+                component={Link}
+                to={`/printers/${asset.id}`}
+                leftSection={<IconPrinter size={16} />}
+              >
+                {t('printers:detail.open')}
+              </Button>
+            )}
             {can?.assign && active && asset.status !== 'in_repair' && asset.status !== 'lost' && (
               <Button onClick={() => setDialog('assign')}>{t('actions.assign')}</Button>
             )}

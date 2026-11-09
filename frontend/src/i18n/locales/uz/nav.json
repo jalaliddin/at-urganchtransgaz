@@ -8,7 +8,8 @@
     "warehouse": "Ombor va talabnomalar",
     "software": "Dasturlar va antivirus",
     "telecom": "Aloqa va xizmatlar",
-    "tasks": "Topshiriqlar"
+    "tasks": "Topshiriqlar",
+    "printers": "Printerlar"
   },
   "items": {
     "dashboard": "Boshqaruv paneli",
@@ -56,7 +57,11 @@
     "providers": "Operatorlar va provayderlar",
     "taskBoards": "Doskalar",
     "myTasks": "Mening topshiriqlarim",
-    "workload": "Yuklama"
+    "workload": "Yuklama",
+    "printers": "Printerlar",
+    "cartridgeReplacements": "Kartrij almashtirish",
+    "cartridges": "Kartrij katalogi",
+    "printerReport": "Kartrij sarfi"
   },
   "header": {
     "search": "Qidirish",

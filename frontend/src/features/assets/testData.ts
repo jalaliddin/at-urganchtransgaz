@@ -47,7 +47,7 @@ export function makeAsset(overrides: Partial<Asset> = {}): Asset {
     inventory_number: 'AT-000001',
     name: 'HP ProDesk 400 G7',
     status: 'in_use',
-    category: { id: 2, name: 'Kompyuter, monoblok, noutbuk', is_networked: true },
+    category: { id: 2, code: 'computer', name: 'Kompyuter, monoblok, noutbuk', is_networked: true },
     manufacturer: { id: 1, name: 'HP' },
     model: null,
     organization: { id: 5, name: 'Xorazm GTS' },

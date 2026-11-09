@@ -12,7 +12,7 @@ export interface Asset {
   inventory_number: string
   name: string
   status: AssetStatus
-  category: { id: number; name: string; is_networked: boolean } | null
+  category: { id: number; code: string | null; name: string; is_networked: boolean } | null
   manufacturer: Ref | null
   model: Ref | null
   organization: Ref | null

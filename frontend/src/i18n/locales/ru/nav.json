@@ -8,7 +8,8 @@
     "warehouse": "Склад и заявки",
     "software": "Программы и антивирус",
     "telecom": "Связь и услуги",
-    "tasks": "Задачи"
+    "tasks": "Задачи",
+    "printers": "Принтеры"
   },
   "items": {
     "dashboard": "Панель управления",
@@ -56,7 +57,11 @@
     "providers": "Операторы и провайдеры",
     "taskBoards": "Доски",
     "myTasks": "Мои задачи",
-    "workload": "Нагрузка"
+    "workload": "Нагрузка",
+    "printers": "Принтеры",
+    "cartridgeReplacements": "Замена картриджей",
+    "cartridges": "Каталог картриджей",
+    "printerReport": "Расход картриджей"
   },
   "header": {
     "search": "Поиск",
