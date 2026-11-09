@@ -185,4 +185,33 @@ return [
         'file_added' => 'Fayl biriktirildi',
         'watchers_changed' => "Kuzatuvchilar o'zgardi",
     ],
+    'printer_connection' => [
+        'usb' => 'USB',
+        'network' => 'Tarmoq (LAN)',
+        'wifi' => 'Wi-Fi',
+        'shared' => 'Umumiy (kompyuter orqali)',
+    ],
+    'cartridge_kind' => [
+        'toner' => 'Toner-kartrij',
+        'ink' => 'Siyohli kartrij',
+        'drum' => 'Fotobaraban',
+        'ribbon' => 'Lenta',
+        'other' => 'Boshqa',
+    ],
+    'cartridge_color' => [
+        'black' => 'Qora',
+        'cyan' => 'Havorang (cyan)',
+        'magenta' => 'Qizil-binafsha (magenta)',
+        'yellow' => 'Sariq',
+        'tricolor' => "Uch rangli",
+        'other' => 'Boshqa',
+    ],
+    'replacement_source' => [
+        'warehouse' => 'Ombordan',
+        'other' => 'Ombordan tashqari',
+    ],
+    'counter_source' => [
+        'manual' => "Qo'lda",
+        'replacement' => 'Kartrij almashtirishda',
+    ],
 ];

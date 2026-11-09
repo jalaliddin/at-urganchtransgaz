@@ -100,7 +100,9 @@ class AssetService
         $operational = AssetAssignment::query()->where('asset_id', $asset->id)->exists()
             || DB::table('asset_maintenances')->where('asset_id', $asset->id)->exists()
             || DB::table('asset_disposals')->where('asset_id', $asset->id)->exists()
-            || DB::table('asset_transfer_items')->where('asset_id', $asset->id)->exists();
+            || DB::table('asset_transfer_items')->where('asset_id', $asset->id)->exists()
+            || DB::table('cartridge_replacements')->where('asset_id', $asset->id)->exists()
+            || DB::table('printer_counters')->where('asset_id', $asset->id)->exists();
         if ($operational) {
             throw new DomainConflictException(__('messages.asset_has_history'));
         }

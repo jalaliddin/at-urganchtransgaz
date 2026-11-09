@@ -20,6 +20,9 @@ class AssetCategory extends Model
 {
     use Auditable, HasUserStamps;
 
+    /** Seeded code of the category whose assets form the printer registry (Phase 7.2). */
+    public const PRINTER = 'printer';
+
     protected $fillable = ['code', 'name', 'name_ru', 'is_networked', 'is_active', 'sort_order'];
 
     protected function casts(): array

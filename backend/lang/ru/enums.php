@@ -185,4 +185,33 @@ return [
         'file_added' => 'Добавлен файл',
         'watchers_changed' => 'Изменены наблюдатели',
     ],
+    'printer_connection' => [
+        'usb' => 'USB',
+        'network' => 'Сеть (LAN)',
+        'wifi' => 'Wi-Fi',
+        'shared' => 'Общий (через компьютер)',
+    ],
+    'cartridge_kind' => [
+        'toner' => 'Тонер-картридж',
+        'ink' => 'Струйный картридж',
+        'drum' => 'Фотобарабан',
+        'ribbon' => 'Лента',
+        'other' => 'Другое',
+    ],
+    'cartridge_color' => [
+        'black' => 'Чёрный',
+        'cyan' => 'Голубой (cyan)',
+        'magenta' => 'Пурпурный (magenta)',
+        'yellow' => 'Жёлтый',
+        'tricolor' => 'Трёхцветный',
+        'other' => 'Другое',
+    ],
+    'replacement_source' => [
+        'warehouse' => 'Со склада',
+        'other' => 'Вне склада',
+    ],
+    'counter_source' => [
+        'manual' => 'Вручную',
+        'replacement' => 'При замене картриджа',
+    ],
 ];

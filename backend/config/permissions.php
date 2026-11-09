@@ -31,6 +31,7 @@ return [
         'sim' => ['view', 'manage', 'assign', 'export'],
         'services' => ['view', 'manage', 'invoice', 'approve', 'pay', 'export'],
         'tasks' => ['view', 'create', 'manage', 'workload', 'export'],
+        'printers' => ['view', 'service', 'manage', 'export'],
     ],
 
     'roles' => [
@@ -64,6 +65,7 @@ return [
                 'sim.view', 'sim.manage', 'sim.assign', 'sim.export',
                 'services.view', 'services.manage', 'services.invoice', 'services.approve', 'services.pay', 'services.export',
                 'tasks.view', 'tasks.create', 'tasks.manage', 'tasks.workload', 'tasks.export',
+                'printers.view', 'printers.service', 'printers.manage', 'printers.export',
             ],
         ],
         'central-it-staff' => [
@@ -82,6 +84,7 @@ return [
                 'sim.view', 'sim.manage', 'sim.assign', 'sim.export',
                 'services.view', 'services.manage', 'services.invoice', 'services.export',
                 'tasks.view', 'tasks.create', 'tasks.export',
+                'printers.view', 'printers.service', 'printers.export',
             ],
         ],
         'org-it-responsible' => [
@@ -100,6 +103,7 @@ return [
                 'sim.view', 'sim.assign', 'sim.export',
                 'services.view', 'services.invoice', 'services.export',
                 'tasks.view', 'tasks.create', 'tasks.manage', 'tasks.export',
+                'printers.view', 'printers.service', 'printers.export',
             ],
         ],
         'org-head' => [
@@ -114,6 +118,7 @@ return [
                 'software.view', 'software.export',
                 'sim.view', 'sim.export', 'services.view', 'services.export',
                 'tasks.view',
+                'printers.view', 'printers.export',
             ],
         ],
         'employee' => [
@@ -132,6 +137,7 @@ return [
                 'requisitions.view', 'requisitions.fulfill',
                 'software.view',
                 'sim.view', 'sim.export', 'services.view', 'services.invoice', 'services.pay', 'services.export',
+                'printers.view', 'printers.export',
             ],
         ],
         'auditor' => [
@@ -147,6 +153,7 @@ return [
                 'software.view', 'software.export',
                 'sim.view', 'sim.export', 'services.view', 'services.export',
                 'tasks.view', 'tasks.workload', 'tasks.export',
+                'printers.view', 'printers.export',
             ],
         ],
     ],
