@@ -53,6 +53,7 @@ use App\Http\Controllers\Api\V1\Software\InstallationController;
 use App\Http\Controllers\Api\V1\Software\LicenseController;
 use App\Http\Controllers\Api\V1\Software\SoftwareController;
 use App\Http\Controllers\Api\V1\Tasks\TaskBoardController;
+use App\Http\Controllers\Api\V1\Tasks\TaskController;
 use App\Http\Controllers\Api\V1\Telecom\ContractController;
 use App\Http\Controllers\Api\V1\Telecom\InvoiceController;
 use App\Http\Controllers\Api\V1\Telecom\ItServiceController;
@@ -235,6 +236,22 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
     Route::post('task-boards/{taskBoard}/labels', [TaskBoardController::class, 'storeLabel'])->whereNumber('taskBoard')->name('task-boards.labels.store');
     Route::put('task-labels/{taskLabel}', [TaskBoardController::class, 'updateLabel'])->whereNumber('taskLabel')->name('task-labels.update');
     Route::delete('task-labels/{taskLabel}', [TaskBoardController::class, 'destroyLabel'])->whereNumber('taskLabel')->name('task-labels.destroy');
+    Route::get('task-boards/{taskBoard}/cards', [TaskController::class, 'cards'])->whereNumber('taskBoard')->name('task-boards.cards');
+    Route::post('task-boards/{taskBoard}/tasks', [TaskController::class, 'store'])->whereNumber('taskBoard')->name('task-boards.tasks.store');
+    Route::get('tasks', [TaskController::class, 'index'])->name('tasks.index');
+    Route::prefix('tasks/{task}')->whereNumber('task')->name('tasks.')->group(function (): void {
+        Route::get('/', [TaskController::class, 'show'])->name('show');
+        Route::put('/', [TaskController::class, 'update'])->name('update');
+        Route::delete('/', [TaskController::class, 'destroy'])->name('destroy');
+        Route::post('move', [TaskController::class, 'move'])->name('move');
+        Route::post('checklist', [TaskController::class, 'storeChecklist'])->name('checklist.store');
+        Route::post('comments', [TaskController::class, 'comment'])->name('comments.store');
+        Route::post('attachments', [TaskController::class, 'attach'])->name('attachments.store');
+    });
+    Route::patch('task-checklist-items/{taskChecklistItem}', [TaskController::class, 'updateChecklist'])->whereNumber('taskChecklistItem')->name('task-checklist-items.update');
+    Route::delete('task-checklist-items/{taskChecklistItem}', [TaskController::class, 'destroyChecklist'])->whereNumber('taskChecklistItem')->name('task-checklist-items.destroy');
+    Route::post('tickets/{ticket}/tasks', [TaskController::class, 'fromTicket'])->whereNumber('ticket')->name('tickets.tasks.store');
+    Route::get('tickets/{ticket}/tasks', [TaskController::class, 'ticketTasks'])->whereNumber('ticket')->name('tickets.tasks');
 
     // Phase 6: SIM cards, providers, services and payments
     Route::apiResource('service-providers', ProviderController::class)->except('show')->parameters(['service-providers' => 'serviceProvider'])->whereNumber('serviceProvider');
