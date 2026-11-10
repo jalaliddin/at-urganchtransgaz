@@ -37,6 +37,7 @@ use App\Http\Controllers\Api\V1\Helpdesk\TicketHistoryController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketLinkController;
 use App\Http\Controllers\Api\V1\Itsm\ChangeController;
 use App\Http\Controllers\Api\V1\Itsm\MaintenanceController;
+use App\Http\Controllers\Api\V1\Itsm\PeopleController;
 use App\Http\Controllers\Api\V1\Itsm\ProblemController;
 use App\Http\Controllers\Api\V1\Knowledge\ArticleController;
 use App\Http\Controllers\Api\V1\Notifications\NotificationController;
@@ -308,6 +309,7 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
         }
         Route::post('comments', [ChangeController::class, 'comment'])->name('comments.store');
     });
+    Route::get('itsm/people', PeopleController::class)->name('itsm.people');
     Route::get('maintenance-plans', [MaintenanceController::class, 'plans'])->name('maintenance-plans.index');
     Route::post('maintenance-plans', [MaintenanceController::class, 'storePlan'])->name('maintenance-plans.store');
     Route::get('maintenance-plans/{maintenancePlan}', [MaintenanceController::class, 'showPlan'])->whereNumber('maintenancePlan')->name('maintenance-plans.show');
