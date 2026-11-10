@@ -7,6 +7,7 @@ use App\Exceptions\DomainConflictException;
 use App\Models\Role;
 use App\Services\Audit\AuditLogger;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
 
 class RoleService
@@ -29,7 +30,7 @@ class RoleService
                 'is_system' => false,
             ]);
             $role->save();
-            $role->syncPermissions($data['permissions']);
+            $role->syncPermissions($this->ensureExist($data['permissions']));
             $this->audit->record(AuditEvent::RolePermissionsChanged, $role, ['permissions' => []], ['permissions' => $this->names($data['permissions'])]);
 
             return $role;
@@ -49,7 +50,7 @@ class RoleService
                 $old = $this->names($role->permissions->pluck('name')->all());
                 $new = $this->names($data['permissions']);
                 if ($old !== $new) {
-                    $role->syncPermissions($new);
+                    $role->syncPermissions($this->ensureExist($new));
                     $this->audit->record(AuditEvent::RolePermissionsChanged, $role, ['permissions' => $old], ['permissions' => $new]);
                 }
             }
@@ -71,6 +72,29 @@ class RoleService
 
         DB::transaction(fn () => $role->delete());
         $this->registrar->forgetCachedPermissions();
+    }
+
+    /**
+     * Permissions are declared in code (config/permissions.php, validated against PermissionRegistry). A deploy that
+     * pulled new code but has not run RbacSeeder yet lacks their rows, so the editor would fail with a server error;
+     * the missing rows are created here instead.
+     *
+     * @param  array<int, string>  $names  already validated against the registry
+     * @return list<string>
+     */
+    private function ensureExist(array $names): array
+    {
+        $names = array_values(array_unique($names));
+        $known = Permission::query()->where('guard_name', 'web')->whereIn('name', $names)->pluck('name')->all();
+        $missing = array_diff($names, $known);
+        foreach ($missing as $name) {
+            Permission::findOrCreate($name, 'web');
+        }
+        if ($missing !== []) {
+            $this->registrar->forgetCachedPermissions();
+        }
+
+        return $names;
     }
 
     /**

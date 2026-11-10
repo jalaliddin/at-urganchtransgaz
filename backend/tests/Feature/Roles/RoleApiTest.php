@@ -6,6 +6,8 @@ use App\Models\Organization;
 use App\Models\Role;
 use App\Support\Permissions\Roles;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 use Tests\Concerns\InteractsWithAccess;
 use Tests\TestCase;
 
@@ -30,6 +32,23 @@ class RoleApiTest extends TestCase
 
         $this->putJson("/api/v1/roles/{$id}", ['permissions' => ['dashboard.view']])
             ->assertOk()->assertJsonPath('data.permissions', ['dashboard.view']);
+    }
+
+    public function test_a_permission_the_code_declares_but_the_database_lacks_is_created_when_a_role_takes_it(): void
+    {
+        // A deploy that pulled new code but did not run RbacSeeder: the editor already offers printers.manage.
+        Permission::query()->where('name', 'printers.manage')->delete();
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->actingAs($this->makeUser(Roles::SUPER_ADMIN));
+        $role = Role::findByName(Roles::ORG_IT_RESPONSIBLE, 'web');
+
+        $this->putJson("/api/v1/roles/{$role->id}", ['permissions' => [...$role->permissions->pluck('name')->all(), 'printers.manage']])
+            ->assertOk()->assertJsonFragment(['printers.manage']);
+        $this->postJson('/api/v1/roles', ['name' => 'printer-admin', 'display_name' => 'Printer admin', 'permissions' => ['printers.manage']])
+            ->assertCreated()->assertJsonPath('data.permissions', ['printers.manage']);
+        $this->putJson("/api/v1/roles/{$role->id}", ['permissions' => ['dashboard.view', 'no.such']])
+            ->assertStatus(422)->assertJsonValidationErrors('permissions.1');
+        $this->assertSame(1, Permission::query()->where('name', 'printers.manage')->count());
     }
 
     public function test_validation(): void
