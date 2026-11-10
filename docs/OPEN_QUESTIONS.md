@@ -123,6 +123,16 @@ o'zgartirgach, bu yerda belgilanadi.
 | Q63 | Modelga mos kartrijlar ro'yxati belgilanmagan printer | Har qanday faol kartrij qabul qilinadi; ro'yxat bo'lsa — faqat mos kartrij | ❓ |
 | Q64 | Sahifa statistikasi | Faqat qo'lda yoki almashtirishda kiritilgan hisoblagich asosida; davr sahifalari = shu davrdagi ko'rsatkichlar farqlari yig'indisi; SNMP orqali avtomatik o'qish yo'q (ICMP/monitoring chiqarilgan) | ❓ |
 
+## 7.3-bosqich (Bilimlar bazasi, Problem, Change, rejali xizmat) bo'yicha ochiq savollar
+
+| # | Savol | Standart yechim (amalda) | Holat |
+|---|---|---|---|
+| Q65 | Oddiy xodimlar bilimlar bazasini ko'radimi? | Ha: e'lon qilingan "barcha xodimlar" maqolalari; "faqat AT" maqolalari AT xodimlari va auditorga | ❓ |
+| Q66 | Maqolani kim e'lon qiladi? | Muallifning o'zi (`kb.write`); `kb.manage` istalgan maqolani tahrirlaydi va arxivlaydi; alohida tekshiruv bosqichi yo'q | ❓ |
+| Q67 | Takrorlanuvchi muammo mezoni | Bir kategoriya va tashkilotda 30 kunda 3 va undan ko'p ariza (sozlamada o'zgaradi) | ❓ |
+| Q68 | O'zgarishni kim tasdiqlaydi? | `changes.approve` — markaziy AT rahbari; o'zi yaratgan o'zgarishni tasdiqlay olmaydi; standart va shoshilinch o'zgarishlar oldindan tasdiqlangan (shoshilinchi haqida rahbarga xabar boradi) | ❓ |
+| Q69 | Rejali xizmat muddati o'tib ketsa | O'tib ketgan davrlar yaratilmaydi: keyingi ish rejadagi navbatdagi sanadan, bugundan oldin emas | ❓ |
+
 ## Infratuzilma bo'yicha savollar
 
 | # | Savol | Standart yechim | Holat |

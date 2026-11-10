@@ -426,7 +426,31 @@ va "kechikdi" eslatmalari (bir marta) mas'ul va kuzatuvchilarga. Biriktirilganda
 Dashboard: `printers` bloki (`printers.view`) — printerlar soni, shu oydagi almashtirishlar, ombordagi kartrijlar, minimal
 qoldiqdan kam kartrijlar.
 
-## 15. Misol
+## 15. 7.3-bosqich endpointlari (Bilimlar bazasi, muammolar, o'zgarishlar, rejali texnik xizmat)
+
+| Metod | Yo'l | Ruxsat / izoh |
+|---|---|---|
+| GET | `/kb-articles` (`search`, `filter[type\|category\|audience\|status\|mine]`) | `kb.view` — faqat o'qiy oladigan maqolalar: e'lon qilingan `all` (+ `kb.internal` bilan `it`), o'z qoralamalari (`kb.write`), hammasi (`kb.manage`) |
+| GET | `/kb-articles/suggest?title=&category=` | yangi ariza formasi uchun 5 tagacha e'lon qilingan maqola (sarlavha so'zlari, kategoriya birinchi) |
+| GET / POST / PUT / DELETE | `/kb-articles`, `/kb-articles/{id}` | ko'rish `views` ni oshiradi (muallifdan tashqari); yaratish `kb.write` — `{title, type, category_id?, summary?, body, audience, source_ticket_id?, publish?}`; tahrir/e'lon/arxiv — o'z maqolasi yoki `kb.manage`; o'chirish faqat hech e'lon qilinmagan maqola (aks holda 409) |
+| POST | `/kb-articles/{id}/publish`, `/archive`, `/vote {helpful}`, `/attachments (files[])`; DELETE `/kb-articles/{id}/attachments/{a}` | ovoz — bitta foydalanuvchi bitta ovoz (o'zgartirish mumkin) |
+| GET / POST / PUT | `/problems` (`filter[status\|open\|priority\|organization\|assignee\|category]`, `search`), `/problems/{id}` | `problems.view` / `problems.manage` — `{organization_id, title, description, category_id, priority, assignee_id, ticket_ids[]}`; yopilgan muammo o'zgarmaydi |
+| POST | `/problems/{id}/transition {status, workaround?, root_cause?, resolution?, reason?}` | known_error → workaround, resolved → root_cause + resolution, hal qilinmasdan yopish → reason (422) |
+| POST / DELETE | `/problems/{id}/tickets {ticket_ids[]}`, `/problems/{id}/tickets/{ticket}`; POST `/problems/{id}/comments` | arizalar muammo tashkiloti doirasida |
+| GET | `/problems/candidates`, `/tickets/{id}/problems` | takrorlanuvchi arizalar (30 kun, `problems.recurrence_threshold`); arizaning muammolari |
+| GET / POST / PUT | `/changes` (`filter[status\|type\|category\|risk\|organization\|asset\|implementer\|from\|to]`, `search`), `/changes/{id}` | `changes.view` / `changes.create`; reja faqat `draft` da tahrirlanadi; javobda `conflicts` va `can` |
+| POST | `/changes/{id}/submit\|approve\|reject\|start\|complete\|cancel\|revise\|comments` | submit — reja, oyna va (o'rta/yuqori xavf) qaytarish rejasi shart; standard/emergency darhol `approved`; approve/reject — `changes.approve`, o'zinikini emas, reject sababi bilan; start/complete — ijrochi yoki `changes.manage` (`{success, result}`) |
+| GET / POST / PUT / DELETE | `/maintenance-plans`, `/maintenance-plans/{id}` | `maintenance.view` / `maintenance.manage` — `{organization_id, title, description, checklist[], interval_count, interval_unit: week\|month, start_on, assignee_id, lead_days, is_active, asset_ids[]}`; bajarilgan ishi bor reja o'chirilmaydi (409) |
+| GET | `/maintenance-tasks` (`filter[status\|overdue\|plan\|asset\|organization\|due_from\|due_to\|mine]`, `search`) | ishlar ro'yxati |
+| POST | `/maintenance-tasks/{id}/complete {result, checklist[{done, note}], note?, completed_on?}`, `/skip {reason}` | `maintenance.perform`; keyingi ish avtomatik ochiladi |
+| POST | `/exports` `{type: "problems" \| "changes" \| "maintenance_tasks"}` | `problems.export` / `changes.export` / `maintenance.export` |
+
+Dashboard: `problems` (ochiq, menga biriktirilgan, ma'lum xatolar, takrorlanuvchi arizalar), `changes` (tasdiq kutayotgan,
+shu hafta rejalashtirilgan, bajarilmoqda), `maintenance` (7 kun ichida, muddati o'tgan). Har kuni 07:50
+`maintenance:daily`: ishlarni ochadi, chiqarilgan/olib tashlangan qurilmalar ishlarini bekor qiladi, "muddati yaqin" va
+"muddati o'tdi" eslatmalarini bir marta yuboradi.
+
+## 16. Misol
 
 ```http
 POST /api/v1/employees HTTP/1.1

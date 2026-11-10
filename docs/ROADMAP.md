@@ -129,7 +129,7 @@ Holat (2026-11-09): bajarildi. Spec: `docs/superpowers/specs/2026-11-08-phase6-s
 ## 7-bosqich — Kanban, printerlar va qolgan modullar ⏳
 
 Bosqich 4 ta kichik bosqichga bo'lindi (har biri alohida birlashtiriladi va hisobot beriladi):
-7.1 Kanban ✅, 7.2 printerlar va kartrijlar ✅, 7.3 bilimlar bazasi / Change / Problem / rejali texnik xizmat,
+7.1 Kanban ✅, 7.2 printerlar va kartrijlar ✅, 7.3 bilimlar bazasi / Change / Problem / rejali texnik xizmat ✅,
 7.4 xavfsizlik hodisalari, backup jurnali, AT pasporti va kengaytirilgan hisobotlar.
 
 - ✅ 7.1 Kanban: doskalar, sozlanadigan ustunlar, drag-and-drop, checklist, yorliqlar, izoh va fayllar, tarix,
@@ -138,8 +138,11 @@ Bosqich 4 ta kichik bosqichga bo'lindi (har biri alohida birlashtiriladi va hiso
 - ✅ 7.2 Printerlar va kartrijlar: printer reyestri (aktivlar asosida), kartrij katalogi va mosligi, ombordan almashtirish
   (chiqim avtomatik), bekor qilish (qaytarish), hisoblagich va sahifa statistikasi, sarf tahlili, eksport, dashboard
   (2026-11-09; spec `docs/superpowers/specs/2026-11-09-phase7-2-printers-design.md`, ochiq savollar Q60–Q64)
-- Knowledge Base, Change/Problem Management, rejali texnik xizmat,
-  xavfsizlik hodisalari, backup jurnali, tashkilot AT pasporti
+- ✅ 7.3 Bilimlar bazasi (FAQ, yo'riqnoma, yechim; ariza formasida tavsiyalar), muammolar (asosiy sabab, vaqtinchalik
+  yechim, takrorlanuvchi arizalar), o'zgarishlar (tasdiq, ijro, to'qnashuvlar, aktiv tarixi), rejali texnik xizmat
+  (rejalar, checklist, eslatmalar) (2026-11-10; spec `docs/superpowers/specs/2026-11-09-phase7-3-itsm-design.md`,
+  ochiq savollar Q65–Q69)
+- Xavfsizlik hodisalari, backup jurnali, tashkilot AT pasporti
 - Kengaytirilgan hisobotlar va analitika
 
 ## Keyingi (bosqichlardan tashqari)

@@ -254,4 +254,26 @@ return [
             'cost_per_page' => "Bir sahifa narxi (so'm)",
         ],
     ],
+    'problems' => [
+        'title' => 'Muammolar',
+        'columns' => [
+            'number' => 'Raqam', 'title' => 'Muammo', 'organization' => 'Tashkilot', 'category' => 'Kategoriya', 'priority' => 'Ustuvorlik',
+            'status' => 'Holat', 'assignee' => "Mas'ul", 'tickets' => 'Arizalar', 'created_at' => 'Yaratilgan', 'resolved_at' => 'Hal qilingan',
+            'root_cause' => 'Asosiy sabab',
+        ],
+    ],
+    'changes' => [
+        'title' => "O'zgarishlar",
+        'columns' => [
+            'number' => 'Raqam', 'title' => "O'zgarish", 'organization' => 'Tashkilot', 'type' => 'Turi', 'category' => "Yo'nalish", 'risk' => 'Xavf',
+            'status' => 'Holat', 'planned_start' => 'Reja: boshlanishi', 'planned_end' => 'Reja: tugashi', 'implementer' => 'Ijrochi', 'result' => 'Natija',
+        ],
+    ],
+    'maintenance_tasks' => [
+        'title' => 'Rejali texnik xizmat',
+        'columns' => [
+            'plan' => 'Reja', 'asset' => 'Qurilma', 'organization' => 'Tashkilot', 'due_on' => 'Muddat', 'status' => 'Holat',
+            'completed_on' => 'Bajarilgan', 'completed_by' => 'Bajardi', 'result' => 'Natija', 'note' => 'Izoh',
+        ],
+    ],
 ];

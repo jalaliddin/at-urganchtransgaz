@@ -254,4 +254,26 @@ return [
             'cost_per_page' => 'Стоимость страницы (сум)',
         ],
     ],
+    'problems' => [
+        'title' => 'Проблемы',
+        'columns' => [
+            'number' => 'Номер', 'title' => 'Проблема', 'organization' => 'Организация', 'category' => 'Категория', 'priority' => 'Приоритет',
+            'status' => 'Статус', 'assignee' => 'Ответственный', 'tickets' => 'Заявки', 'created_at' => 'Создана', 'resolved_at' => 'Решена',
+            'root_cause' => 'Корневая причина',
+        ],
+    ],
+    'changes' => [
+        'title' => 'Изменения',
+        'columns' => [
+            'number' => 'Номер', 'title' => 'Изменение', 'organization' => 'Организация', 'type' => 'Тип', 'category' => 'Направление', 'risk' => 'Риск',
+            'status' => 'Статус', 'planned_start' => 'План: начало', 'planned_end' => 'План: окончание', 'implementer' => 'Исполнитель', 'result' => 'Результат',
+        ],
+    ],
+    'maintenance_tasks' => [
+        'title' => 'Плановое техническое обслуживание',
+        'columns' => [
+            'plan' => 'План', 'asset' => 'Устройство', 'organization' => 'Организация', 'due_on' => 'Срок', 'status' => 'Статус',
+            'completed_on' => 'Выполнено', 'completed_by' => 'Выполнил', 'result' => 'Результат', 'note' => 'Примечание',
+        ],
+    ],
 ];

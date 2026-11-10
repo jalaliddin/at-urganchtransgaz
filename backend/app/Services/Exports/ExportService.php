@@ -32,6 +32,9 @@ class ExportService
         'printers' => PrinterReport::class,
         'cartridge_replacements' => CartridgeReplacementReport::class,
         'printer_consumption' => PrinterConsumptionReport::class,
+        'problems' => ProblemReport::class,
+        'changes' => ChangeReport::class,
+        'maintenance_tasks' => MaintenanceTaskReport::class,
     ];
 
     public function report(string $type): ReportDefinition

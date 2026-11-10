@@ -577,7 +577,50 @@ holati qulflab o'qiladi. Qulf tartibi: aktiv → almashtirish → ombor (`StockS
 xodimi va quyi tashkilot AT mas'uli — view/service/export; quyi tashkilot rahbari, buxgalter, auditor — view/export; oddiy xodim
 — yo'q. Ombordan almashtirish va uni bekor qilish uchun qo'shimcha `warehouse.issue` kerak.
 
-## 12. Keyingi bosqichlar jadvallari (reja)
+## 12. 7.3-bosqich jadvallari (Bilimlar bazasi, muammolar, o'zgarishlar, rejali texnik xizmat)
+
+```mermaid
+erDiagram
+    ticket_categories ||--o{ kb_articles : "mavzu"
+    kb_articles ||--o{ kb_article_attachments : ""
+    kb_articles ||--o{ kb_article_votes : ""
+    helpdesk_tickets ||--o{ kb_articles : "manba ariza"
+    organizations ||--o{ problems : ""
+    problems }o--o{ helpdesk_tickets : "problem_tickets"
+    problems ||--o{ problem_histories : ""
+    kb_articles ||--o{ problems : "ma'lum xato"
+    organizations ||--o{ changes : ""
+    changes }o--o{ assets : "change_assets"
+    changes ||--o{ change_histories : ""
+    problems ||--o{ changes : "yechim"
+    organizations ||--o{ maintenance_plans : ""
+    maintenance_plans }o--o{ assets : "maintenance_plan_assets"
+    maintenance_plans ||--o{ maintenance_tasks : ""
+    maintenance_tasks ||--o{ maintenance_alerts : ""
+```
+
+| Jadval | Asosiy ustunlar / qoidalar |
+|---|---|
+| `kb_articles` | global: `number` (`KB-NNNNN`), `title`, `type` (faq, guide, solution), `category_id?` (Helpdesk kategoriyasi), `summary`, `body` (Markdown — SPA o'zi xavfsiz chizadi, HTML yo'q), `audience` (all — barcha xodimlar, it — faqat AT), `status` (draft, published, archived), `published_at` (bir marta e'lon qilingan maqola o'chirilmaydi, arxivlanadi), `views` (muallifdan boshqa o'qishlar), `source_ticket_id?` |
+| `kb_article_attachments`, `kb_article_votes` | fayllar (maqola ko'rinishi bilan bir xil); ovoz `article_id + user_id` UNIQUE (`helpful`) |
+| `problems` | `number` (`PRB-YYYY-NNNNN`), `organization_id` (doira), `title`, `description`, `category_id?`, `priority` (low, normal, high, critical), `status` (new, investigating, known_error, resolved, closed), `assignee_id` (`problems.manage` + tashkilotga kirish), `root_cause`, `workaround` (known_error uchun shart), `resolution` (resolved uchun root_cause bilan shart), `close_reason` (hal qilinmasdan yopilsa shart), `kb_article_id?`, `resolved_at`, `closed_at` |
+| `problem_tickets` | `problem_id + ticket_id` UNIQUE; ariza muammo tashkiloti doirasida va foydalanuvchiga ko'rinadigan bo'lishi shart |
+| `problem_histories`, `change_histories` | `event`, `payload`, `comment` (izohlar ham shu yerda), `user_id` |
+| `changes` | `number` (`CHG-YYYY-NNNNN`), `organization_id`, `title`, `description`, `type` (standard, normal, emergency), `category` (network, server, configuration, software, other), `risk` (low, medium, high), `impact`, `plan`, `backout_plan`, `planned_start/end` (UTC; Toshkent vaqtida kiritiladi), `actual_start/end`, `status` (draft, pending_approval, approved, rejected, in_progress, implemented, failed, cancelled), `implementer_id`, `problem_id?`, `submitted_at`, `decided_by/at`, `decision_comment`, `result` |
+| `change_assets` | `change_id + asset_id` UNIQUE; qurilma o'zgarish tashkiloti doirasida. Amalga oshirilganda har bir qurilmaga `change_implemented` aktiv hodisasi yoziladi |
+| `maintenance_plans` | `organization_id`, `title`, `description`, `checklist` (JSON bosqichlar ro'yxati), `interval_count` + `interval_unit` (week, month), `start_on` (sanalar = start + k×interval, oy oxiri siljimaydi), `assignee_id` (`maintenance.perform`), `lead_days` (eslatma necha kun oldin), `is_active` |
+| `maintenance_plan_assets` | `plan_id + asset_id` UNIQUE (reja tashkiloti doirasidagi qurilmalar) |
+| `maintenance_tasks` | `plan_id`, `organization_id`, `asset_id`, `due_on`, `status` (planned, done, skipped, cancelled), `open_key` (`plan:asset` — har bir qurilmaga bitta ochiq ish, UNIQUE), `completed_on/by`, `result` (ok, issues), `checklist` (har bosqich: `step`, `done`, `note`), `note`; `plan_id + asset_id + due_on` UNIQUE. Bajarilganda `preventive_done` aktiv hodisasi |
+| `maintenance_alerts` | `task_id + type` UNIQUE (due_soon, overdue) — eslatma bir marta |
+
+**Parallel operatsiyalar.** Muammo, o'zgarish va ish holatini o'zgartirish qatorni `FOR UPDATE` bilan qayta o'qiydi
+(ikki qaror bir vaqtda kelsa, ikkinchisi rad etiladi). `maintenance:daily` ikki marta ishlasa ham yangi ish va eslatma
+takrorlanmaydi (`open_key`, `plan+asset+due_on`, `task+type` UNIQUE).
+
+**Ruxsatlar.** `kb.view/internal/write/manage`, `problems.view/manage/export`, `changes.view/create/approve/manage/export`,
+`maintenance.view/manage/perform/export` (rollar bo'yicha taqsimot — spec §3). Oddiy xodim va buxgalter `kb.view` oladi.
+
+## 13. Keyingi bosqichlar jadvallari (reja)
 
 Har bir bosqich boshida ushbu bo'lim batafsil sxema bilan yangilanadi.
 Barcha tashkilotga tegishli jadvallar `organization_id` ustuniga va
@@ -618,4 +661,4 @@ erDiagram
 | 4 — Ombor, talabnomalar | ✅ §7 da (materiallar `materials` — `inventory_items` nomi 3-bosqich inventarizatsiyasida band; kirim/chiqim/ko'chirish alohida jadvallar o'rniga yagona `stock_documents`) |
 | 5 — Dasturlar, antivirus | ✅ §8 da (ICMP monitoring jadvallari foydalanuvchi qarori bilan chiqarildi) |
 | 6 — SIM, xizmatlar | ✅ §9 da (operatorlar `service_providers` ichida, `service_services` o'rniga `it_services`, SIM so'rovlari 4-bosqich talabnomalari orqali) |
-| 7 — Kanban va boshqalar | ✅ Kanban §10 da (bitta mas'ul + kuzatuvchilar, `task_assignees` o'rniga `tasks.assignee_id`); printerlar §11 da (`printer_models` o'rniga printer toifasidagi `asset_models`, `cartridge_movements` o'rniga `cartridge_replacements` + `stock_movements`); qolganlari: kb_articles, changes, problems, maintenance_plans, security_incidents, backup_jobs, backup_checks |
+| 7 — Kanban va boshqalar | ✅ Kanban §10 da (bitta mas'ul + kuzatuvchilar, `task_assignees` o'rniga `tasks.assignee_id`); printerlar §11 da (`printer_models` o'rniga printer toifasidagi `asset_models`, `cartridge_movements` o'rniga `cartridge_replacements` + `stock_movements`); bilimlar bazasi, muammolar, o'zgarishlar va rejali xizmat §12 da; qolganlari: security_incidents, backup_jobs, backup_checks |
