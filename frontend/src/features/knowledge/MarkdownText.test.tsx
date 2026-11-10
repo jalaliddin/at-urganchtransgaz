@@ -32,4 +32,16 @@ describe('MarkdownText', () => {
     expect(screen.getByText(/<script>alert\("x"\)<\/script> oddiy matn/)).toBeInTheDocument()
     expect(screen.getByText('ping 10.0.0.1')).toBeInTheDocument()
   })
+
+  it('keeps underscores inside names and refuses links that leave the app through a backslash', () => {
+    const source = [
+      'config_backup_2024.txt va my_var_name fayllari, bu _muhim_ qadam',
+      '[aldov](/\\evil.example)',
+    ].join('\n')
+    renderWithProviders(<MarkdownText source={source} />)
+
+    expect(screen.getByText(/config_backup_2024\.txt va my_var_name fayllari/)).toBeInTheDocument()
+    expect(screen.getByText('muhim').tagName).toBe('SPAN')
+    expect(screen.queryByRole('link', { name: 'aldov' })).not.toBeInTheDocument()
+  })
 })

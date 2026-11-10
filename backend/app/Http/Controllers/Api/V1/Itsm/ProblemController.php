@@ -7,6 +7,7 @@ use App\Enums\ProblemStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Itsm\ItsmResource;
 use App\Models\Change;
+use App\Models\KbArticle;
 use App\Models\Organization;
 use App\Models\Problem;
 use App\Models\Ticket;
@@ -173,6 +174,10 @@ class ProblemController extends Controller
     {
         $fresh = Problem::query()->withoutGlobalScopes()->with([...self::RELATIONS, 'creator', 'article', 'tickets.organization', 'histories.user'])
             ->withCount('tickets')->findOrFail($problem->id);
+        // The known-error article is named only to readers who may open it.
+        if ($fresh->kb_article_id !== null && ! KbArticle::query()->visibleTo($user)->whereKey($fresh->kb_article_id)->exists()) {
+            $fresh->setRelation('article', null);
+        }
         $changes = Change::query()->visibleTo($user)->where('problem_id', $fresh->id)->orderByDesc('id')->get()
             ->map(fn (Change $c) => ItsmResource::changeRef($c))->values()->all();
         $manage = $user->can('problems.manage');

@@ -6,8 +6,11 @@ import type { ReactNode } from 'react'
  * block code, links. It builds React elements only (never raw HTML), and links work only for http(s), mailto and
  * paths inside the app.
  */
-const SAFE_LINK = /^(https?:\/\/|mailto:|\/(?!\/))/i
-const INLINE = /(\*\*[^*\n]+\*\*|`[^`\n]+`|\[[^\]\n]+\]\([^)\s]+\)|\*[^*\n]+\*|_[^_\n]+_)/g
+// App paths only: "/x", never "//host" or "/\\host" (browsers read both as another site).
+const SAFE_LINK = /^(https?:\/\/|mailto:|\/(?![/\\]))/i
+// _italic_ only at word boundaries, so file and variable names (config_backup_2024.txt) stay as written.
+const INLINE =
+  /(\*\*[^*\n]+\*\*|`[^`\n]+`|\[[^\]\n]+\]\([^)\s]+\)|\*[^*\n]+\*|(?<![\p{L}\p{N}_])_[^_\n]+_(?![\p{L}\p{N}_]))/gu
 
 function inline(text: string, key: string): ReactNode[] {
   return text.split(INLINE).map((part, i) => {

@@ -67,7 +67,7 @@ class ChangeService
                 throw new InvalidTransitionException(__('messages.change_locked'));
             }
             $c->fill($this->planFields($data));
-            if (array_key_exists('implementer_id', $data)) {
+            if (array_key_exists('implementer_id', $data) && $this->changed($c->implementer_id, $data['implementer_id'])) {
                 $c->implementer_id = $this->implementer($c->organization_id, $data['implementer_id']);
             }
             $fields = array_values(array_diff(array_keys($c->getDirty()), ['updated_by']));
@@ -91,6 +91,7 @@ class ChangeService
             $this->assertReady($c);
             $now = CarbonImmutable::now();
             $c->submitted_at = $now;
+            $c->submitted_by = $by->id;
             $c->status = $c->type === ChangeType::Normal ? ChangeStatus::PendingApproval : ChangeStatus::Approved;
             $c->save();
             $this->record($c, ChangeEvent::Submitted, $by, ['type' => $c->type->value]);
@@ -108,7 +109,7 @@ class ChangeService
     {
         $change = $this->locked($change, function (Change $c) use ($approve, $comment, $by): void {
             $this->expect($c, [ChangeStatus::PendingApproval]);
-            if ($c->created_by === $by->id) {
+            if (! $this->mayDecide($c, $by)) {
                 throw new InvalidTransitionException(__('messages.change_self_approval'));
             }
             if (! $approve && blank($comment)) {
@@ -163,7 +164,8 @@ class ChangeService
     {
         return $this->locked($change, function (Change $c) use ($by): void {
             $this->expect($c, [ChangeStatus::Rejected]);
-            $c->forceFill(['status' => ChangeStatus::Draft, 'submitted_at' => null])->save();
+            $c->forceFill(['status' => ChangeStatus::Draft, 'submitted_at' => null, 'submitted_by' => null,
+                'decided_by' => null, 'decided_at' => null, 'decision_comment' => null])->save();
             $this->record($c, ChangeEvent::Revised, $by);
         });
     }
@@ -213,10 +215,22 @@ class ChangeService
         return $user->can('changes.manage') || ($user->can('changes.create') && $change->created_by === $user->id);
     }
 
-    /** The implementer or changes.manage. */
+    /** changes.manage, or the implementer while they still work on changes. */
     public function canRun(Change $change, User $user): bool
     {
-        return $user->can('changes.manage') || $change->implementer_id === $user->id;
+        return $user->can('changes.manage') || ($change->implementer_id === $user->id && $user->can('changes.create'));
+    }
+
+    /** Neither the requester nor whoever submitted the change decides on it (design C3). */
+    public function mayDecide(Change $change, User $user): bool
+    {
+        return $change->created_by !== $user->id && $change->submitted_by !== $user->id;
+    }
+
+    /** A form re-sends the current person; only a different one is checked again. */
+    private function changed(?int $current, mixed $new): bool
+    {
+        return ($new === null || $new === '' ? null : (int) $new) !== $current;
     }
 
     /** A problem the change fixes must be one the user can see. */

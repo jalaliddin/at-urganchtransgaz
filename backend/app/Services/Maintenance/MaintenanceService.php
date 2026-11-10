@@ -41,8 +41,10 @@ class MaintenanceService
             if (array_key_exists('checklist', $data)) {
                 $plan->checklist = array_values(array_filter(array_map(fn ($s) => trim((string) $s), (array) $data['checklist']), fn ($s) => $s !== ''));
             }
-            if (array_key_exists('assignee_id', $data) || ! $plan->exists) {
-                $plan->assignee_id = $this->assignee($plan->organization_id, $data['assignee_id'] ?? null);
+            $requested = $data['assignee_id'] ?? null;
+            $requested = $requested === null || $requested === '' ? null : (int) $requested;
+            if (! $plan->exists || (array_key_exists('assignee_id', $data) && $requested !== $plan->assignee_id)) {
+                $plan->assignee_id = $this->assignee($plan->organization_id, $requested);
             }
             $plan->save();
             $plan->refresh();

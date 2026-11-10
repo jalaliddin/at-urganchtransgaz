@@ -39,6 +39,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $implementer_id
  * @property int|null $problem_id
  * @property CarbonImmutable|null $submitted_at
+ * @property int|null $submitted_by
  * @property int|null $decided_by
  * @property CarbonImmutable|null $decided_at
  * @property string|null $decision_comment

@@ -149,6 +149,10 @@ class ArticleController extends Controller
     private function detail(KbArticle $article, User $user, int $status = 200): JsonResponse
     {
         $fresh = $this->counted(KbArticle::query()->with(['category', 'author', 'attachments.file', 'sourceTicket']))->findOrFail($article->id);
+        // The source ticket is named only to readers who may open it.
+        if ($fresh->source_ticket_id !== null && ! Ticket::query()->visibleTo($user)->whereKey($fresh->source_ticket_id)->exists()) {
+            $fresh->setRelation('sourceTicket', null);
+        }
         $vote = KbArticleVote::query()->where('article_id', $article->id)->where('user_id', $user->id)->value('helpful');
         $canEdit = $this->articles->canEdit($fresh, $user);
 

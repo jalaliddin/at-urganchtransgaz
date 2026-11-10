@@ -117,6 +117,7 @@ return new class extends Migration
             $table->foreignId('implementer_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('problem_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamp('submitted_at')->nullable();
+            $table->foreignId('submitted_by')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('decided_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamp('decided_at')->nullable();
             $table->text('decision_comment')->nullable();

@@ -62,8 +62,9 @@ class ProblemService
             }
             $fields = array_intersect_key($data, array_flip(['title', 'description', 'category_id', 'priority', 'root_cause', 'workaround', 'resolution', 'kb_article_id']));
             $p->fill($fields);
-            if (array_key_exists('assignee_id', $data)) {
-                $p->assignee_id = $this->eligible($p->organization_id, $data['assignee_id']);
+            $requested = $data['assignee_id'] ?? null;
+            if (array_key_exists('assignee_id', $data) && ($requested === null || $requested === '' ? null : (int) $requested) !== $p->assignee_id) {
+                $p->assignee_id = $this->eligible($p->organization_id, $requested);
             }
             $changed = array_keys($p->getDirty());
             $p->save();

@@ -189,7 +189,7 @@ class ChangeController extends Controller
             ->withCount('assets')->findOrFail($change->id);
         $edit = $this->changes->canEdit($c, $user);
         $run = $this->changes->canRun($c, $user);
-        $approve = $user->can('changes.approve') && $c->created_by !== $user->id;
+        $approve = $user->can('changes.approve') && $this->changes->mayDecide($c, $user);
 
         return ApiResponse::data([
             ...$this->row($c),
