@@ -93,6 +93,21 @@
       "commented": "{{number}}: {{actor}} izoh qoldirdi",
       "due_soon": "{{number}}: muddat ertaga ({{date}})",
       "overdue": "{{number}}: muddat o'tdi ({{date}})"
+    },
+    "problem": {
+      "assigned": "{{number}}: «{{title}}» muammosi sizga biriktirildi",
+      "resolved": "{{number}}: «{{title}}» muammosi hal qilindi"
+    },
+    "change": {
+      "approval": "{{number}}: «{{title}}» tasdiqni kutmoqda",
+      "emergency": "{{number}}: shoshilinch o'zgarish «{{title}}»",
+      "approved": "{{number}}: o'zgarish tasdiqlandi",
+      "rejected": "{{number}}: o'zgarish rad etildi",
+      "assigned": "{{number}}: «{{title}}» ijrosi sizga topshirildi"
+    },
+    "maintenance": {
+      "due_soon": "Rejali xizmat: {{title}}, {{asset}} ({{date}})",
+      "overdue": "Muddati o'tdi: {{title}}, {{asset}} ({{date}})"
     }
   },
   "languages": {

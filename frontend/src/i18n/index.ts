@@ -24,6 +24,10 @@ import ruSim from './locales/ru/sim.json'
 import ruSoftware from './locales/ru/software.json'
 import ruTasks from './locales/ru/tasks.json'
 import ruPrinters from './locales/ru/printers.json'
+import ruMaintenance from './locales/ru/maintenance.json'
+import ruChanges from './locales/ru/changes.json'
+import ruProblems from './locales/ru/problems.json'
+import ruKnowledge from './locales/ru/knowledge.json'
 import ruExports from './locales/ru/exports.json'
 import ruDocuments from './locales/ru/documents.json'
 import ruHelpdesk from './locales/ru/helpdesk.json'
@@ -51,6 +55,10 @@ import uzSim from './locales/uz/sim.json'
 import uzSoftware from './locales/uz/software.json'
 import uzTasks from './locales/uz/tasks.json'
 import uzPrinters from './locales/uz/printers.json'
+import uzMaintenance from './locales/uz/maintenance.json'
+import uzChanges from './locales/uz/changes.json'
+import uzProblems from './locales/uz/problems.json'
+import uzKnowledge from './locales/uz/knowledge.json'
 import uzExports from './locales/uz/exports.json'
 import uzDocuments from './locales/uz/documents.json'
 import uzHelpdesk from './locales/uz/helpdesk.json'
@@ -86,6 +94,10 @@ export const resources = {
     services: uzServices,
     tasks: uzTasks,
     printers: uzPrinters,
+    maintenance: uzMaintenance,
+    changes: uzChanges,
+    problems: uzProblems,
+    knowledge: uzKnowledge,
     exports: uzExports,
     documents: uzDocuments,
     helpdesk: uzHelpdesk,
@@ -115,6 +127,10 @@ export const resources = {
     services: ruServices,
     tasks: ruTasks,
     printers: ruPrinters,
+    maintenance: ruMaintenance,
+    changes: ruChanges,
+    problems: ruProblems,
+    knowledge: ruKnowledge,
     exports: ruExports,
     documents: ruDocuments,
     helpdesk: ruHelpdesk,

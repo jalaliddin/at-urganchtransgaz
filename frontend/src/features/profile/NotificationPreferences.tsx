@@ -30,6 +30,11 @@ export const MAIL_TYPES = [
   'task_assigned',
   'task_commented',
   'task_due',
+  'problem_assigned',
+  'problem_resolved',
+  'change_approval',
+  'change_update',
+  'maintenance_due',
 ] as const
 
 /** In-app notifications always arrive; here the user chooses which ones also come by e-mail. */

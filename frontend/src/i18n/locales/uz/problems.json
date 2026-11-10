@@ -1,0 +1,86 @@
+{
+  "title": "Muammolar",
+  "description": "Takrorlanuvchi nosozliklar, ularning asosiy sababi va yechimi",
+  "empty": "Muammo yo'q",
+  "search": "Raqam yoki nomi",
+  "openOnly": "Faqat ochiqlari",
+  "changes": "Bog'langan o'zgarishlar",
+  "ticketPanel": "Muammolar",
+  "fields": {
+    "problem": "Muammo",
+    "title": "Nomi",
+    "description": "Tavsif",
+    "organization": "Tashkilot",
+    "category": "Kategoriya",
+    "category_id": "Kategoriya",
+    "priority": "Ustuvorlik",
+    "status": "Holati",
+    "assignee": "Mas'ul",
+    "tickets": "Arizalar",
+    "createdAt": "Yaratilgan",
+    "resolvedAt": "Hal qilingan",
+    "creator": "Yaratgan",
+    "workaround": "Vaqtinchalik yechim",
+    "root_cause": "Asosiy sabab",
+    "resolution": "Yechim",
+    "closeReason": "Yopish sababi",
+    "article": "Bilimlar bazasi maqolasi"
+  },
+  "status": {
+    "new": "Yangi",
+    "investigating": "O'rganilmoqda",
+    "known_error": "Ma'lum xato",
+    "resolved": "Hal qilingan",
+    "closed": "Yopilgan"
+  },
+  "priority": {
+    "low": "Past",
+    "normal": "O'rtacha",
+    "high": "Yuqori",
+    "critical": "Kritik"
+  },
+  "form": {
+    "new": "Yangi muammo",
+    "edit": "Muammoni tahrirlash",
+    "ticketsLinked": "{{count}} ta ariza bog'lanadi"
+  },
+  "transition": {
+    "investigating": "O'rganishga olish",
+    "known_error": "Ma'lum xato deb belgilash",
+    "resolved": "Hal qilindi",
+    "closed": "Yopish",
+    "done": "Holat o'zgardi",
+    "reasonHint": "Muammo hal qilinmasdan yopilmoqda: sababini yozing (masalan, takror yoki muammo emas)",
+    "reopenHint": "Muammo qayta o'rganishga olinadi. Hal qilingan sana tozalanadi."
+  },
+  "candidates": {
+    "title": "Takrorlanuvchi arizalar",
+    "hint": "Oxirgi 30 kunda bir xil kategoriyada ko'p ariza tushgan, lekin hali muammo ochilmagan.",
+    "row": "{{organization}}: «{{category}}» — {{count}} ta ariza",
+    "create": "Muammo ochish",
+    "defaultTitle": "Takrorlanuvchi nosozlik: {{category}}"
+  },
+  "tickets": {
+    "title": "Bog'langan arizalar ({{count}})",
+    "empty": "Ariza bog'lanmagan",
+    "link": "Ariza bog'lash",
+    "search": "Ariza raqami yoki nomi",
+    "linkSelected": "Bog'lash ({{count}})",
+    "unlink": "Arizani ajratish"
+  },
+  "history": {
+    "title": "Tarix",
+    "comment": "Izoh yozing",
+    "add": "Izoh qo'shish"
+  },
+  "event": {
+    "created": "Yaratildi",
+    "updated": "O'zgartirildi",
+    "status_changed": "Holat o'zgardi",
+    "assigned": "Mas'ul tayinlandi",
+    "tickets_linked": "Arizalar bog'landi",
+    "ticket_unlinked": "Ariza ajratildi",
+    "commented": "Izoh"
+  },
+  "createChange": "O'zgarish yaratish"
+}

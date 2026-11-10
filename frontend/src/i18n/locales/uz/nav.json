@@ -9,7 +9,8 @@
     "software": "Dasturlar va antivirus",
     "telecom": "Aloqa va xizmatlar",
     "tasks": "Topshiriqlar",
-    "printers": "Printerlar"
+    "printers": "Printerlar",
+    "itsm": "Xizmat boshqaruvi"
   },
   "items": {
     "dashboard": "Boshqaruv paneli",
@@ -61,7 +62,12 @@
     "printers": "Printerlar",
     "cartridgeReplacements": "Kartrij almashtirish",
     "cartridges": "Kartrij katalogi",
-    "printerReport": "Kartrij sarfi"
+    "printerReport": "Kartrij sarfi",
+    "knowledge": "Bilimlar bazasi",
+    "problems": "Muammolar",
+    "changes": "O'zgarishlar",
+    "maintenance": "Rejali xizmat",
+    "maintenancePlans": "Xizmat rejalari"
   },
   "header": {
     "search": "Qidirish",

@@ -36,5 +36,13 @@
     "roles": "Rollar",
     "changePassword": "Parolni almashtirish",
     "open": "Profilni ochish"
+  },
+  "itsm": {
+    "problems": "Ochiq muammolar",
+    "problemsDetail": "Menga: {{mine}}, takrorlanuvchi arizalar: {{candidates}}",
+    "changes": "Tasdiq kutayotgan o'zgarishlar",
+    "changesDetail": "Shu hafta: {{week}}, bajarilmoqda: {{running}}",
+    "maintenance": "Rejali xizmat (7 kun)",
+    "maintenanceDetail": "Muddati o'tgan: {{overdue}}"
   }
 }

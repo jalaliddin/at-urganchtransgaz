@@ -157,7 +157,9 @@
     "attachment_added": "Добавлен файл",
     "attachment_removed": "Файл удалён",
     "inventory_found": "Найден при инвентаризации",
-    "system": "Система"
+    "system": "Система",
+    "change_implemented": "Выполнено изменение",
+    "preventive_done": "Выполнено плановое обслуживание"
   },
   "assign": {
     "employee": "Сотрудник",

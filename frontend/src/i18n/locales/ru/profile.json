@@ -48,7 +48,12 @@
       "contract_expiring": "Окончание договора",
       "task_assigned": "Назначение задачи",
       "task_commented": "Комментарий к задаче",
-      "task_due": "Срок задачи"
+      "task_due": "Срок задачи",
+      "problem_assigned": "Назначение проблемы",
+      "problem_resolved": "Решение проблемы по моей заявке",
+      "change_approval": "Изменение ждёт согласования",
+      "change_update": "Решение и назначение по изменению",
+      "maintenance_due": "Срок планового обслуживания"
     }
   }
 }

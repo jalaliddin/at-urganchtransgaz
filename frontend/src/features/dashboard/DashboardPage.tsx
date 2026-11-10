@@ -23,6 +23,7 @@ export function DashboardPage() {
   const { t: tsim } = useTranslation('sim')
   const { t: ttask } = useTranslation('tasks')
   const { t: tprn } = useTranslation('printers')
+  const { t: titsm } = useTranslation('dashboard')
   const { t: tsv } = useTranslation('services')
   const me = useCurrentUser()
   const { organizationId: orgContextId } = useOrgContext()
@@ -158,6 +159,43 @@ export function DashboardPage() {
         value={data.tasks.my_open}
         detail={ttask('dashboard.overdue', { mine: data.tasks.my_overdue, all: data.tasks.overdue })}
         href="/tasks/my"
+      />
+    ),
+    data.problems && (data.problems.open > 0 || data.problems.candidates > 0) && (
+      <StatTile
+        key="problems"
+        label={titsm('itsm.problems')}
+        value={data.problems.open}
+        detail={titsm('itsm.problemsDetail', {
+          mine: data.problems.mine,
+          candidates: data.problems.candidates,
+        })}
+        href="/problems?filter[open]=1"
+      />
+    ),
+    data.changes && (data.changes.pending_approval > 0 || data.changes.this_week > 0) && (
+      <StatTile
+        key="changes"
+        label={titsm('itsm.changes')}
+        value={data.changes.pending_approval}
+        detail={titsm('itsm.changesDetail', {
+          week: data.changes.this_week,
+          running: data.changes.in_progress,
+        })}
+        href="/changes?filter[status]=pending_approval"
+      />
+    ),
+    data.maintenance && (data.maintenance.due_week > 0 || data.maintenance.overdue > 0) && (
+      <StatTile
+        key="maintenance"
+        label={titsm('itsm.maintenance')}
+        value={data.maintenance.due_week}
+        detail={titsm('itsm.maintenanceDetail', { overdue: data.maintenance.overdue })}
+        href={
+          data.maintenance.overdue > 0
+            ? '/maintenance?filter[overdue]=1'
+            : '/maintenance?filter[status]=planned'
+        }
       />
     ),
     data.printers && data.printers.printers > 0 && (

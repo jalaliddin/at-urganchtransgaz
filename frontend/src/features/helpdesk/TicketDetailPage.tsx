@@ -14,6 +14,8 @@ import { PriorityBadge, SlaBadge, TicketStatusBadge } from './TicketBadges'
 import { TicketConversation } from './TicketConversation'
 import { TicketHistory } from './TicketHistory'
 import { AttachmentsPanel, DocumentsPanel, LinksPanel } from './TicketSidePanels'
+import { TicketKnowledgePanel } from '@/features/knowledge/TicketKnowledgePanel'
+import { TicketProblemsPanel } from '@/features/problems/TicketProblemsPanel'
 import { TicketTasksPanel } from '@/features/tasks/TicketTasksPanel'
 
 function Fact({ label, children }: { label: string; children: ReactNode }) {
@@ -138,6 +140,8 @@ export function TicketDetailPage() {
               <LinksPanel ticket={ticket} />
               <DocumentsPanel ticket={ticket} />
               <TicketTasksPanel ticketId={ticket.id} />
+              <TicketProblemsPanel ticketId={ticket.id} />
+              <TicketKnowledgePanel ticketId={ticket.id} status={ticket.status} />
             </Stack>
           </Grid.Col>
         </Grid>

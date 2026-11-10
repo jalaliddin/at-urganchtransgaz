@@ -43,7 +43,16 @@ import { SimCardsPage } from '@/features/sim/SimCardsPage'
 import { SimDetailPage } from '@/features/sim/SimDetailPage'
 import { SimReportPage } from '@/features/sim/SimReportPage'
 import { AgentsPage } from '@/features/software/AgentsPage'
+import { ChangePage } from '@/features/changes/ChangePage'
+import { ChangesPage } from '@/features/changes/ChangesPage'
+import { ArticleEditorPage } from '@/features/knowledge/ArticleEditorPage'
+import { ArticlePage } from '@/features/knowledge/ArticlePage'
+import { KnowledgePage } from '@/features/knowledge/KnowledgePage'
+import { MaintenancePage } from '@/features/maintenance/MaintenancePage'
+import { PlansPage } from '@/features/maintenance/PlansPage'
 import { CartridgesPage } from '@/features/printers/CartridgesPage'
+import { ProblemPage } from '@/features/problems/ProblemPage'
+import { ProblemsPage } from '@/features/problems/ProblemsPage'
 import { ConsumptionPage } from '@/features/printers/ConsumptionPage'
 import { PrinterPage } from '@/features/printers/PrinterPage'
 import { PrintersPage } from '@/features/printers/PrintersPage'
@@ -217,6 +226,53 @@ export const routes: RouteObject[] = [
                   },
                   { path: 'boards/:id', element: <BoardPage />, handle: { crumb: 'tasks:crumbs.board' } },
                   { path: ':id', element: <TaskPage />, handle: { crumb: 'tasks:crumbs.task' } },
+                ],
+              },
+              {
+                path: 'kb',
+                element: <RequirePermission permission="kb.view" />,
+                handle: { crumb: 'nav:items.knowledge' },
+                children: [
+                  { index: true, element: <KnowledgePage /> },
+                  {
+                    path: 'new',
+                    element: <RequirePermission permission={['kb.write', 'kb.manage']} />,
+                    handle: { crumb: 'knowledge:new' },
+                    children: [{ index: true, element: <ArticleEditorPage /> }],
+                  },
+                  { path: ':id', element: <ArticlePage />, handle: { crumb: 'knowledge:fields.article' } },
+                  {
+                    path: ':id/edit',
+                    element: <ArticleEditorPage />,
+                    handle: { crumb: 'knowledge:editor.editTitle' },
+                  },
+                ],
+              },
+              {
+                path: 'problems',
+                element: <RequirePermission permission="problems.view" />,
+                handle: { crumb: 'nav:items.problems' },
+                children: [
+                  { index: true, element: <ProblemsPage /> },
+                  { path: ':id', element: <ProblemPage />, handle: { crumb: 'problems:fields.problem' } },
+                ],
+              },
+              {
+                path: 'changes',
+                element: <RequirePermission permission="changes.view" />,
+                handle: { crumb: 'nav:items.changes' },
+                children: [
+                  { index: true, element: <ChangesPage /> },
+                  { path: ':id', element: <ChangePage />, handle: { crumb: 'changes:fields.change' } },
+                ],
+              },
+              {
+                path: 'maintenance',
+                element: <RequirePermission permission="maintenance.view" />,
+                handle: { crumb: 'nav:items.maintenance' },
+                children: [
+                  { index: true, element: <MaintenancePage /> },
+                  { path: 'plans', element: <PlansPage />, handle: { crumb: 'nav:items.maintenancePlans' } },
                 ],
               },
               {

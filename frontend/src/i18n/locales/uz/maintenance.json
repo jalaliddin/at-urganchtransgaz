@@ -1,0 +1,76 @@
+{
+  "title": "Rejali texnik xizmat",
+  "description": "Server, UPS, printer va tarmoq qurilmalarining navbatdagi xizmatlari",
+  "empty": "Xizmat ishlari yo'q",
+  "search": "Qurilma inventar raqami yoki nomi",
+  "overdue": "muddati o'tgan",
+  "overdueOnly": "Muddati o'tganlar",
+  "mine": "Menga biriktirilgan",
+  "fields": {
+    "due": "Muddat",
+    "asset": "Qurilma",
+    "assets": "Qurilmalar",
+    "plan": "Reja",
+    "assignee": "Mas'ul",
+    "status": "Holati",
+    "result": "Natija",
+    "note": "Izoh",
+    "completedOn": "Bajarilgan sana",
+    "organization": "Tashkilot",
+    "title": "Nomi",
+    "description": "Tavsif",
+    "every": "Har",
+    "unit": "Davr birligi",
+    "startOn": "Boshlanish sanasi",
+    "leadDays": "Necha kun oldin eslatish",
+    "checklist": "Bajariladigan ishlar (checklist)",
+    "active": "Faol",
+    "interval": "Davriyligi",
+    "nextDue": "Navbatdagi muddat"
+  },
+  "unit": {
+    "week": "hafta",
+    "month": "oy"
+  },
+  "status": {
+    "planned": "Rejada",
+    "done": "Bajarildi",
+    "skipped": "O'tkazib yuborildi",
+    "cancelled": "Bekor qilingan"
+  },
+  "result": {
+    "ok": "Nosozlik yo'q",
+    "issues": "Kamchilik topildi"
+  },
+  "complete": {
+    "action": "Bajarish",
+    "due": "{{number}}, muddat {{date}}",
+    "stepNote": "{{step}}: izoh",
+    "stepNotePlaceholder": "Izoh (ixtiyoriy)",
+    "issuesHint": "Nima topilganini yozing; zarur bo'lsa aktivni ta'mirga bering",
+    "submit": "Bajarildi deb saqlash",
+    "done": "Xizmat qayd etildi"
+  },
+  "skip": {
+    "action": "O'tkazib yuborish",
+    "title": "Xizmatni o'tkazib yuborish",
+    "hint": "Bu safargi xizmat bajarilmaydi, navbatdagisi rejalashtiriladi.",
+    "reason": "Sababi",
+    "submit": "O'tkazib yuborish"
+  },
+  "plans": {
+    "title": "Xizmat rejalari",
+    "description": "Qaysi qurilmalarga qancha vaqtda bir xizmat ko'rsatiladi",
+    "new": "Yangi reja",
+    "edit": "Rejani tahrirlash",
+    "empty": "Reja yo'q",
+    "inactive": "faol emas",
+    "every": "har {{count}} {{unit}}",
+    "overdue": "{{count}} ta muddati o'tgan",
+    "deleteConfirm": "\"{{title}}\" rejasi o'chirilsinmi?",
+    "step": "{{n}}-bosqich",
+    "stepPlaceholder": "Masalan: akkumulyator kuchlanishini o'lchash",
+    "addStep": "Bosqich qo'shish",
+    "removeStep": "Bosqichni olib tashlash"
+  }
+}

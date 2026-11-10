@@ -25,6 +25,7 @@ import { PageHeader } from '@/components/PageHeader'
 import { useMe } from '@/features/auth/queries'
 import { useCan } from '@/hooks/usePermissions'
 import { applyApiErrors, fieldError } from '@/lib/forms'
+import { KbSuggestions } from '@/features/knowledge/KbSuggestions'
 import { AttachmentDropzone } from './AttachmentDropzone'
 import { useCategories, useCreateTicket } from './queries'
 import { ticketSchema, toTicketInput, type TicketFormValues } from './schemas'
@@ -65,6 +66,8 @@ export function NewTicketPage() {
     },
   })
   const organizationId = useWatch({ control, name: 'organization_id' })
+  const title = useWatch({ control, name: 'title' })
+  const categoryId = useWatch({ control, name: 'category_id' })
 
   const onSubmit = handleSubmit(async (values) => {
     setGeneralError(null)
@@ -168,6 +171,7 @@ export function NewTicketPage() {
               {...register('title')}
               error={fieldError(t, errors.title)}
             />
+            <KbSuggestions title={title ?? ''} categoryId={categoryId ?? null} />
             <Textarea
               label={t('fields.description')}
               required

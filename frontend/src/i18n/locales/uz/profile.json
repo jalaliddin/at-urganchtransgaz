@@ -48,7 +48,12 @@
       "contract_expiring": "Shartnoma tugashi",
       "task_assigned": "Topshiriq biriktirilganda",
       "task_commented": "Topshiriqqa izoh",
-      "task_due": "Topshiriq muddati"
+      "task_due": "Topshiriq muddati",
+      "problem_assigned": "Muammo biriktirilganda",
+      "problem_resolved": "Arizam bilan bog'liq muammo hal qilinganda",
+      "change_approval": "O'zgarish tasdiq kutganda",
+      "change_update": "O'zgarish bo'yicha qaror va topshiriq",
+      "maintenance_due": "Rejali xizmat muddati"
     }
   }
 }

@@ -25,7 +25,10 @@
     "helpdesk_tickets": "Заявки Helpdesk",
     "printers": "Реестр принтеров",
     "cartridge_replacements": "Журнал замены картриджей",
-    "printer_consumption": "Расход картриджей и принтеров"
+    "printer_consumption": "Расход картриджей и принтеров",
+    "problems": "Проблемы",
+    "changes": "Изменения",
+    "maintenance_tasks": "Плановое ТО"
   },
   "download": "Скачать"
 }

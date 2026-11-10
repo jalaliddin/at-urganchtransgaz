@@ -17,7 +17,11 @@
     "sim": "SIM-kartalar",
     "services": "Aloqa xizmatlari va to'lovlar",
     "tasks": "Topshiriqlar (Kanban)",
-    "printers": "Printerlar va kartrijlar"
+    "printers": "Printerlar va kartrijlar",
+    "kb": "Bilimlar bazasi",
+    "problems": "Muammolar",
+    "changes": "O'zgarishlar",
+    "maintenance": "Rejali texnik xizmat"
   },
   "actions": {
     "view": "Ko'rish",
@@ -47,7 +51,10 @@
     "invoice": "Hisob-fakturalarni kiritish",
     "pay": "To'lovlarni kiritish",
     "workload": "Yuklamani ko'rish",
-    "service": "Kartrij almashtirish va hisoblagich"
+    "service": "Kartrij almashtirish va hisoblagich",
+    "internal": "Ichki (AT) maqolalarni o'qish",
+    "write": "Maqola yozish",
+    "perform": "Xizmatni bajarish"
   },
   "selectAll": "Barchasi"
 }

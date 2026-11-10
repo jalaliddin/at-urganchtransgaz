@@ -1,0 +1,118 @@
+{
+  "title": "O'zgarishlar",
+  "description": "Tarmoq, server va muhim konfiguratsiya o'zgarishlarini rejalashtirish, tasdiqlash va qayd etish",
+  "empty": "O'zgarish yo'q",
+  "search": "Raqam yoki nomi",
+  "assetsEmpty": "Qurilma tanlanmagan",
+  "riskLabel": "Xavf: {{risk}}",
+  "fields": {
+    "change": "O'zgarish",
+    "title": "Nomi",
+    "organization": "Tashkilot",
+    "type": "Turi",
+    "category": "Yo'nalish",
+    "risk": "Xavf darajasi",
+    "status": "Holati",
+    "window": "Rejadagi vaqt",
+    "plannedStart": "Boshlanishi (reja)",
+    "plannedEnd": "Tugashi (reja)",
+    "actualStart": "Boshlangan",
+    "actualEnd": "Tugagan",
+    "implementer": "Ijrochi",
+    "assets": "Qurilmalar",
+    "description": "Tavsif",
+    "impact": "Ta'siri (kim/nima to'xtaydi)",
+    "plan": "Bajarish rejasi",
+    "backout_plan": "Orqaga qaytarish rejasi",
+    "result": "Natija",
+    "decision": "Qaror izohi",
+    "decidedBy": "Qaror qilgan",
+    "creator": "Yaratgan",
+    "problem": "Muammo",
+    "comment": "Izoh",
+    "reason": "Sababi",
+    "outcome": "Natija"
+  },
+  "type": {
+    "standard": "Standart",
+    "normal": "Oddiy",
+    "emergency": "Shoshilinch"
+  },
+  "typeHint": {
+    "standard": "Oldindan tasdiqlangan, xavfi past takroriy ish",
+    "normal": "AT rahbari tasdiqlashi kerak",
+    "emergency": "Darhol bajariladi, rahbarga xabar boradi"
+  },
+  "category": {
+    "network": "Tarmoq",
+    "server": "Server",
+    "configuration": "Konfiguratsiya",
+    "software": "Dasturiy ta'minot",
+    "other": "Boshqa"
+  },
+  "risk": {
+    "low": "past",
+    "medium": "o'rtacha",
+    "high": "yuqori"
+  },
+  "status": {
+    "draft": "Qoralama",
+    "pending_approval": "Tasdiq kutilmoqda",
+    "approved": "Tasdiqlangan",
+    "rejected": "Rad etilgan",
+    "in_progress": "Bajarilmoqda",
+    "implemented": "Amalga oshirildi",
+    "failed": "Muvaffaqiyatsiz",
+    "cancelled": "Bekor qilingan"
+  },
+  "form": {
+    "new": "Yangi o'zgarish",
+    "edit": "O'zgarishni tahrirlash",
+    "assetsHint": "Ish bajariladigan qurilmalar (tashkilot doirasida)"
+  },
+  "actions": {
+    "submit": "Tasdiqqa yuborish",
+    "approve": "Tasdiqlash",
+    "reject": "Rad etish",
+    "start": "Boshlash",
+    "complete": "Yakunlash",
+    "cancel": "Bekor qilish",
+    "revise": "Qayta ishlash"
+  },
+  "confirm": {
+    "submit": "Reja tasdiqqa yuboriladi. Shundan keyin uni tahrirlab bo'lmaydi.",
+    "start": "Ish boshlandi deb belgilanadi.",
+    "revise": "O'zgarish qoralamaga qaytariladi, uni tahrirlab qayta yuborish mumkin."
+  },
+  "done": {
+    "submit": "Yuborildi",
+    "approve": "Tasdiqlandi",
+    "reject": "Rad etildi",
+    "start": "Boshlandi",
+    "complete": "Yakunlandi",
+    "cancel": "Bekor qilindi",
+    "revise": "Qoralamaga qaytarildi"
+  },
+  "conflicts": {
+    "title": "Shu vaqtda shu qurilmada boshqa ish rejalashtirilgan",
+    "atApproval": "Diqqat: {{count}} ta boshqa o'zgarish shu qurilmalarda shu vaqtga to'g'ri keladi."
+  },
+  "history": {
+    "title": "Tarix",
+    "comment": "Izoh yozing",
+    "add": "Izoh qo'shish"
+  },
+  "event": {
+    "created": "Yaratildi",
+    "updated": "O'zgartirildi",
+    "submitted": "Tasdiqqa yuborildi",
+    "approved": "Tasdiqlandi",
+    "rejected": "Rad etildi",
+    "started": "Boshlandi",
+    "implemented": "Amalga oshirildi",
+    "failed": "Muvaffaqiyatsiz yakunlandi",
+    "cancelled": "Bekor qilindi",
+    "revised": "Qayta ishlashga qaytarildi",
+    "commented": "Izoh"
+  }
+}

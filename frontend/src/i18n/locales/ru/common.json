@@ -93,6 +93,21 @@
       "commented": "{{number}}: комментарий от {{actor}}",
       "due_soon": "{{number}}: срок завтра ({{date}})",
       "overdue": "{{number}}: срок прошёл ({{date}})"
+    },
+    "problem": {
+      "assigned": "{{number}}: вам назначена проблема «{{title}}»",
+      "resolved": "{{number}}: проблема «{{title}}» решена"
+    },
+    "change": {
+      "approval": "{{number}}: «{{title}}» ждёт согласования",
+      "emergency": "{{number}}: экстренное изменение «{{title}}»",
+      "approved": "{{number}}: изменение согласовано",
+      "rejected": "{{number}}: изменение отклонено",
+      "assigned": "{{number}}: вы исполнитель «{{title}}»"
+    },
+    "maintenance": {
+      "due_soon": "Плановое ТО: {{title}}, {{asset}} ({{date}})",
+      "overdue": "Просрочено ТО: {{title}}, {{asset}} ({{date}})"
     }
   },
   "languages": {

@@ -58,6 +58,9 @@ export interface DashboardData {
   }
   tasks?: { my_open: number; my_overdue: number; overdue: number }
   printers?: { printers: number; replacements_month: number; cartridges_in_stock: string; low_stock: number }
+  problems?: { open: number; mine: number; known_errors: number; candidates: number }
+  changes?: { pending_approval: number; this_week: number; in_progress: number }
+  maintenance?: { due_week: number; overdue: number }
   sim?: {
     total: number
     by_status: { in_stock: number; active: number; blocked: number; returned: number }

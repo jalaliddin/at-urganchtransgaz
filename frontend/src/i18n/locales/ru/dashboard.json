@@ -38,5 +38,13 @@
     "roles": "Роли",
     "changePassword": "Сменить пароль",
     "open": "Открыть профиль"
+  },
+  "itsm": {
+    "problems": "Открытые проблемы",
+    "problemsDetail": "Мои: {{mine}}, повторяющиеся заявки: {{candidates}}",
+    "changes": "Изменения на согласовании",
+    "changesDetail": "На этой неделе: {{week}}, выполняются: {{running}}",
+    "maintenance": "Плановое ТО (7 дней)",
+    "maintenanceDetail": "Просрочено: {{overdue}}"
   }
 }

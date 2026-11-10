@@ -25,7 +25,10 @@
     "helpdesk_tickets": "Helpdesk arizalari",
     "printers": "Printerlar reyestri",
     "cartridge_replacements": "Kartrij almashtirish jurnali",
-    "printer_consumption": "Kartrij va printer sarfi"
+    "printer_consumption": "Kartrij va printer sarfi",
+    "problems": "Muammolar",
+    "changes": "O'zgarishlar",
+    "maintenance_tasks": "Rejali texnik xizmat"
   },
   "download": "Yuklab olish"
 }

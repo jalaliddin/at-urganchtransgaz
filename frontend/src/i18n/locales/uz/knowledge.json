@@ -1,0 +1,67 @@
+{
+  "title": "Bilimlar bazasi",
+  "description": "Ko'p beriladigan savollar, yo'riqnomalar va sinalgan yechimlar",
+  "new": "Yangi maqola",
+  "empty": "Maqola topilmadi",
+  "search": "Savol yoki kalit so'z",
+  "mine": "Mening maqolalarim",
+  "files": "Ilova fayllar",
+  "views": "{{formatted}} marta o'qilgan",
+  "fromTicket": "Manba ariza:",
+  "deleteConfirm": "Qoralama butunlay o'chirilsinmi?",
+  "fields": {
+    "article": "Maqola",
+    "title": "Sarlavha",
+    "type": "Turi",
+    "category": "Mavzu",
+    "status": "Holati",
+    "audience": "Kimlar ko'radi",
+    "summary": "Qisqa mazmun",
+    "body": "Matn",
+    "helpful": "Foydali",
+    "updated": "Sana"
+  },
+  "type": {
+    "faq": "Ko'p beriladigan savol",
+    "guide": "Yo'riqnoma",
+    "solution": "Yechim"
+  },
+  "audience": {
+    "all": "Barcha xodimlar",
+    "it": "Faqat AT xodimlari"
+  },
+  "status": {
+    "draft": "Qoralama",
+    "published": "E'lon qilingan",
+    "archived": "Arxivda"
+  },
+  "actions": {
+    "publish": "E'lon qilish",
+    "archive": "Arxivga olish"
+  },
+  "vote": {
+    "question": "Maqola foydali bo'ldimi?",
+    "yes": "Ha",
+    "no": "Yo'q"
+  },
+  "editor": {
+    "newTitle": "Yangi maqola",
+    "editTitle": "Maqolani tahrirlash",
+    "description": "Muammo va uning yechimini qisqa, qadamma-qadam yozing",
+    "write": "Yozish",
+    "preview": "Ko'rinishi",
+    "empty": "Matn hali yo'q",
+    "markdownHint": "## sarlavha, 1. raqamli qadam, - ro'yxat, **qalin**, `buyruq`, [havola](https://...)",
+    "attach": "Fayl biriktirish",
+    "saveDraft": "Qoralama sifatida saqlash",
+    "resolutionHeading": "Yechim"
+  },
+  "suggest": {
+    "title": "Bu maqolalar yordam berishi mumkin"
+  },
+  "fromTicketPanel": {
+    "title": "Bilimlar bazasi",
+    "hint": "Bu arizaning yechimini maqola qilib saqlang",
+    "action": "Maqola yozish"
+  }
+}

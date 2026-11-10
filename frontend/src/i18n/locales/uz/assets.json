@@ -157,7 +157,9 @@
     "attachment_added": "Fayl qo'shildi",
     "attachment_removed": "Fayl o'chirildi",
     "inventory_found": "Inventarizatsiyada topildi",
-    "system": "Tizim"
+    "system": "Tizim",
+    "change_implemented": "O'zgarish bajarildi",
+    "preventive_done": "Rejali xizmat bajarildi"
   },
   "assign": {
     "employee": "Xodim",
