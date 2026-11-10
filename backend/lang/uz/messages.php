@@ -181,4 +181,13 @@ return [
     'problem_assignee_invalid' => "Mas'ul muammolar bilan ishlay oladigan va shu tashkilotga kira oladigan faol foydalanuvchi bo'lishi kerak.",
     'problem_ticket_invalid' => "Faqat sizga ko'rinadigan va muammo tashkiloti doirasidagi arizalarni bog'lash mumkin.",
     'kb_article_not_accessible' => "Bilimlar bazasi maqolasi topilmadi yoki sizga ko'rinmaydi.",
+    'change_locked' => "O'zgarish tasdiqqa yuborilgan — rejani faqat qoralamada tahrirlash mumkin.",
+    'change_self_approval' => "O'zingiz yaratgan o'zgarishni o'zingiz tasdiqlay olmaysiz.",
+    'change_reject_reason' => 'Rad etish sababini yozing.',
+    'change_field_required' => "Tasdiqqa yuborishdan oldin bu maydonni to'ldiring.",
+    'change_window_invalid' => "Tugash vaqti boshlanish vaqtidan keyin bo'lishi kerak.",
+    'change_wrong_status' => "Bu amal \":status\" holatidagi o'zgarish uchun mumkin emas.",
+    'change_implementer_invalid' => "Ijrochi o'zgarishlar bilan ishlay oladigan va shu tashkilotga kira oladigan faol foydalanuvchi bo'lishi kerak.",
+    'change_asset_invalid' => "Faqat sizga ko'rinadigan va o'zgarish tashkiloti doirasidagi qurilmalarni tanlash mumkin.",
+    'problem_not_accessible' => "Muammo topilmadi yoki sizga ko'rinmaydi.",
 ];

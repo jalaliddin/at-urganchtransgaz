@@ -35,6 +35,7 @@ use App\Http\Controllers\Api\V1\Helpdesk\TicketController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketDocumentController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketHistoryController;
 use App\Http\Controllers\Api\V1\Helpdesk\TicketLinkController;
+use App\Http\Controllers\Api\V1\Itsm\ChangeController;
 use App\Http\Controllers\Api\V1\Itsm\ProblemController;
 use App\Http\Controllers\Api\V1\Knowledge\ArticleController;
 use App\Http\Controllers\Api\V1\Notifications\NotificationController;
@@ -299,6 +300,13 @@ Route::middleware(['auth:sanctum', 'active', 'password.changed'])->group(functio
         Route::post('comments', [ProblemController::class, 'comment'])->name('comments.store');
     });
     Route::get('tickets/{ticket}/problems', [ProblemController::class, 'forTicket'])->whereNumber('ticket')->name('tickets.problems');
+    Route::apiResource('changes', ChangeController::class)->except('destroy')->whereNumber('change');
+    Route::prefix('changes/{change}')->whereNumber('change')->name('changes.')->group(function (): void {
+        foreach (['submit', 'approve', 'reject', 'start', 'complete', 'cancel', 'revise'] as $action) {
+            Route::post($action, [ChangeController::class, $action])->name($action);
+        }
+        Route::post('comments', [ChangeController::class, 'comment'])->name('comments.store');
+    });
     Route::get('cartridge-replacements', [ReplacementController::class, 'index'])->name('cartridge-replacements.index');
     Route::post('cartridge-replacements/{cartridgeReplacement}/cancel', [ReplacementController::class, 'cancel'])->whereNumber('cartridgeReplacement')->name('cartridge-replacements.cancel');
     Route::delete('printer-counters/{printerCounter}', [PrinterController::class, 'destroyCounter'])->whereNumber('printerCounter')->name('printer-counters.destroy');
