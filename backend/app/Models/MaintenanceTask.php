@@ -6,6 +6,7 @@ use App\Enums\MaintenanceResult;
 use App\Enums\MaintenanceTaskStatus;
 use App\Models\Concerns\BelongsToOrganization;
 use App\Models\Concerns\ScopedToUserOrganizations;
+use App\Models\Scopes\OrganizationScope;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property list<array{step: string, done: bool, note: string|null}>|null $checklist
  * @property string|null $note
  * @property CarbonImmutable $created_at
+ * @property-read Organization $organization
  * @property-read MaintenancePlan $plan
  * @property-read Asset $asset
  * @property-read User|null $completer
@@ -47,6 +49,12 @@ class MaintenanceTask extends Model
             'created_at' => 'immutable_datetime',
             'updated_at' => 'immutable_datetime',
         ];
+    }
+
+    /** @return BelongsTo<Organization, $this> */
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class)->withoutGlobalScope(OrganizationScope::class);
     }
 
     /** @return BelongsTo<MaintenancePlan, $this> */

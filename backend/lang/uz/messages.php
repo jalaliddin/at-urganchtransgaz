@@ -190,4 +190,9 @@ return [
     'change_implementer_invalid' => "Ijrochi o'zgarishlar bilan ishlay oladigan va shu tashkilotga kira oladigan faol foydalanuvchi bo'lishi kerak.",
     'change_asset_invalid' => "Faqat sizga ko'rinadigan va o'zgarish tashkiloti doirasidagi qurilmalarni tanlash mumkin.",
     'problem_not_accessible' => "Muammo topilmadi yoki sizga ko'rinmaydi.",
+    'maintenance_plan_has_history' => "Rejada bajarilgan ishlar bor — uni o'chirib bo'lmaydi, faolsizlantiring.",
+    'maintenance_checklist_mismatch' => "Har bir bosqich bo'yicha javob bering.",
+    'maintenance_task_closed' => 'Bu ish allaqachon yakunlangan yoki bekor qilingan.',
+    'maintenance_assignee_invalid' => "Mas'ul rejali xizmatni bajara oladigan va shu tashkilotga kira oladigan faol foydalanuvchi bo'lishi kerak.",
+    'maintenance_asset_invalid' => "Faqat sizga ko'rinadigan va reja tashkiloti doirasidagi qurilmalarni tanlash mumkin.",
 ];
